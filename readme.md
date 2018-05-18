@@ -33,14 +33,14 @@ The `Private API` can be exposed to HTTP requests by client-side JavaScript and 
 
     process.env.ALLOW_PUBLIC_API = true
 
-The `Private API` is accessible to your and module code, remapped to a NodeJS global object that recives a HTTP request or similar and returns data or performs operations.
+The `Private API` is accessible to your and module code, remapped to a NodeJS global object that recieves a HTTP request or similar and returns data or performs operations.
 
     const req = {
       body: { 
         planid: 'a-plan'
       }
     }
-    const subscription = await global.api.user.CreateSubscription(req)
+    const subscription = await global.api.user.CreateSubscription.post(req)
 
 ## Unit tests
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html navbar="/account/subscriptions/navbar-subscription-options.html">
+  <head>
+    <title>Start subscription</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </heads>
+  <body>
+    <h1>Start subscription</h1>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Start subscription</button>
+      </div>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message" error="success">The subscription has been started.</div>
+  </template>
+  <template id="invalid-source">
+    <div class="error message" error="invalid-source">Error!  You must update your payment information first.</div>
+  </template>
+  <template id="duplicate-subscription">
+    <div class="error message" error="duplicate-subscription">Error!  You have already subscribed to this plan.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">An error ocurred starting the subscription.</div>
+  </template>
+</html>

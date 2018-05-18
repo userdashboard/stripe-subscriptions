@@ -1,0 +1,57 @@
+<!doctype html>
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Create product</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+    <style>
+      .pure-form select { display: inline-block; margin: 0 1rem 0 0 }
+      .pure-button-group { padding: 0; margin: 0 0 2rem 0 }
+      .pure-g input[type="text"],
+      .pure-g input[type="email"] { display: block; width: 90% }
+      .count { color: #999; display: inline-block; margin: 0 1rem 0 0 }
+    </style>
+  </head>
+  <body>
+    <h1>Create product</h1>
+    <p>Products hold descriptive information for plans.</p>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <div class="pure-control-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" maxlength="50" />
+      </div>
+      <div class="pure-control-group">
+        <label for="unit_label">Unit label (eg person, team, seat)</label>
+        <input type="text" id="unit_label" name="unit_label" maxlength="50" />
+      </div>
+      <div class="pure-control-group">
+        <label for="name">Charge description in bank statements</label>
+        <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50" />
+      </div>
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Create coupon</button>
+      </div>
+    </form>
+  </body>
+  <template id="invalid-name">
+    <div class="error message" error="invalid-name">Error!  Invalid product name.</div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" error="invalid-product-name-length">Error!  Product name is too short or too long.</div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" error="invalid-statement_descriptor">Error!  Invalid charge description.</div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" error="invalid-unit_label">Error!  Invalid or missing unit label.</div>
+  </template>
+  <template id="success">
+    <div class="success message" error="success">The product has been created.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">An error occurred submitting the product.</div>
+  </template>
+</html>

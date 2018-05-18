@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html navbar="/administrator/subscriptions/navbar-plan-data.html">
+  <head>
+    <title>Edit plan</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+    <style>
+      .pure-form select { display: inline-block; margin: 0 1rem 0 0 }
+      .count { color: #999; display: inline-block; margin: 0 1rem 0 0 }
+      table.pure-table { width: auto }
+      table.pure-table td label { text-transform: none }
+      table.pure-table td { padding: 0.5rem }
+    </style>
+  </head>
+  <body>
+    <h1>Edit plan</h1>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <input type="submit" tabindex="-1" />
+      <div class="pure-control-group">
+        <label for="productid">Product</label>
+        <select name="productid" id="productid"></select>
+      </div>
+      <div class="pure-control-group">
+        <label for="trial_period_days">Free trial days (maximum 720)</label>
+        <input require id="trial_period_days" name="trial_period_days" type="text" maxlength="3" size="3" />
+      </div>
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Update plan</button>
+      </div>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message" error="success">The plan has been updated.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">An error occurred updating the plan information.</div>
+  </template>
+  <template id="product-option-template">
+    <option value="${productid}">${name}</option>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" error="unknown-error">Error!  Invalid name value</div>
+  </template>
+  <template id="invalid-productid">
+    <div class="error message" error="invalid-productid">Error!  Invalid product ID value</div>
+  </template>
+  <template id="invalid-product">
+    <div class="error message" error="invalid-product">Error!  Invalid, unpublished or never published product</div>
+  </template>
+  <template id="invalid-trial_period_days">
+    <div class="error message" error="invalid-trial_period_days">Error!  Invalid trial period value</div>
+  </template>
+</html>

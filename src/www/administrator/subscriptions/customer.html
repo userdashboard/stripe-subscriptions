@@ -1,0 +1,44 @@
+<!doctype html>
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Customer</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Customer</h1>
+    <table id="customers-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Discount</th>
+          <th>Account credit</th>
+          <th>Delinquent</th>
+          <th>Subscriptions</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="customer-row-template">
+    <tr id="${id}">
+      <td><a href="customer?customerid=${id}">${id}</a></td>
+      <td>${email}</td>
+      <td>${discount}</td>
+      <td>${accountBalanceFormatted}</td>
+      <td>${delinquentFormatted}</td>
+      <td>${numSubscriptions}</td>
+      <td title="${created}">${createdRelative}</td>
+      <td class="pure-button-group" role="group">
+        <a class="pure-button" href="subscriptions?customerid=${id}">Subscriptions</a>
+        <a class="pure-button" href="invoices?customerid=${id}">Invoices</a>
+        <a class="pure-button" href="charges?customerid=${id}">Charges</a>
+        <a class="pure-button" href="refunds?customerid=${id}">Refunds</a>
+      </td>
+    </tr>
+  </template>
+</html>

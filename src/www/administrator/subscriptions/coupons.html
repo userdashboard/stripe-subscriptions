@@ -1,0 +1,40 @@
+<!doctype html>
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Coupons</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Coupons</h1>
+    <div id="messageContainer"></div>
+    <p><a href="create-coupon" class="pure-button pure-button-primary">Create new coupon</a></p>
+    <table id="coupons-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Discount</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="coupon-row-template">
+    <tr id="${id}">
+      <td><a href="coupon?couponid=${id}">${id}</a></td>
+      <td>${discount}</td>
+      <td id="draft-coupon-${id}">Draft</td>
+      <td id="published-coupon-${id}" title="${published}">Published</td>
+      <td id="unpublished-coupon-${id}" title="${published}">Unpublished</td>
+      <td title="${created}">${createdRelative}</td>
+      <td class="pure-button-group" role="group">
+        <a id="publish-coupon-${id}" class="pure-button" href="publish-coupon?couponid=${id}">Publish</a>
+        <a id="unpublish-coupon-${id}" class="pure-button" href="unpublish-coupon?couponid=${id}">Unpublish</a>
+      </td>
+    </tr>
+  </template>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Plans</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Plans</h1>
+    <p><a href="create-plan" class="pure-button pure-button-primary">Create new plan</a></p>
+    <table id="plans-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Trial</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="plan-row-template">
+    <tr id="${id}">
+        <td><a href="plan?planid=${id}">${id}</a></td>
+        <td><a href="product?productid=${product}">${product}</a></td>
+        <td>${priceFormatted}</td>
+        <td>${trialFormatted}</td>
+        <td id="draft-plan-${id}">Draft</td>
+        <td id="published-plan-${id}" title="${published}">Published</td>
+        <td id="unpublished-plan-${id}" title="${published}">Unpublished</td>
+        <td title="${created}">${createdRelative}</td>
+        <td class="pure-button-group" role="group">
+          <a id="publish-plan-${id}" class="pure-button" href="publish-plan?planid=${id}">Publish</a>
+          <a id="unpublish-plan-${id}" class="pure-button" href="unpublish-plan?planid=${id}">Unpublish</a>
+        </td>
+      </tr>
+  </template> 
+</html>

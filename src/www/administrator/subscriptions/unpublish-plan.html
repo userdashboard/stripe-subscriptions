@@ -1,0 +1,25 @@
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Unpublish plan</title>
+    <link href="/public/pure-min.css" rel="stylesheet" />
+    <link href="/public/content.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>Unpublish plan</h1>
+    <p>The plan will be unavailable to customers.</p>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <button id="submitButton" class="pure-button pure-button-primary" type="button">Unpublish plan</button>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message" error="success">
+      <p>The plan has been unpublished.</p>
+    </div>
+  </template>  
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">
+      <p>An error occurred unpublishing the plan.</p>
+    </div>
+  </template>    
+</html>

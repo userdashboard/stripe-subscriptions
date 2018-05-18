@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - "8.1.4"
+
+branches:
+  only:
+   - release
+
+before_script:
+   - npm install standard
+
+script: 
+   - node node_modules/standard/bin/cmd.js backend core || exit 1
+
+cache:
+  directories:
+    - node_modules

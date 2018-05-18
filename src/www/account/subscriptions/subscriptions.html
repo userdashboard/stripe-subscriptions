@@ -1,0 +1,46 @@
+<!doctype html>
+<html navbar="/account/subscriptions/navbar.html">
+  <head>
+    <title>Subscriptions</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Subscriptions</h1>
+    <div id="messageContainer"></div>
+    <table id="subscriptions-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Price</th>
+          <th>Started</th>
+          <th>Next charge</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="subscription-row-template">
+    <tr id="${id}">
+      <td>${plan_name}</td>
+      <td>${priceFormatted} ${currency}</td>
+      <td title="${created}">${createdRelative}</td>
+      <td title="${nextCharge}">${nextChargeRelative}</td>
+      <td id='active-subscription-${id}'>Active</td>
+      <td id='canceling-subscription-${id}'>Active (canceling)</td>
+      <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEndRelative})</td>
+      <td id='past_due-subscription-${id}'>Past due</td>
+      <td id='canceled-subscription-${id}'>Canceled</td>
+      <td id='unpaid-subscription-${id}'>Unpaid</td>
+      <td class="pure-button-group" role="group">
+        <a class="pure-button" href="subscription?subscriptionid=${id}">View subscription</a>
+        <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
+        <a id="change-plan-link-${id}" class="pure-button" href="change-plan?subscriptionid=${id}">Change plan</a>
+        <a id="cancel-subscription-link-${id}" class="pure-button" href="cancel-subscription?subscriptionid=${id}">Cancel</a>
+      </td>
+    </tr>
+  </template>
+</html>

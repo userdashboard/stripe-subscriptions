@@ -1,0 +1,102 @@
+<!doctype html>
+<html navbar="/account/subscriptions/navbar-invoice-options.html">
+  <head>
+    <title>Invoice</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+    <style>
+      .display-table { width: auto }
+    </style>
+  </head>
+  <body>
+    <h1>Invoice</h1>
+    <div id="messageContainer"></div>
+    <table id="invoices-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>          
+          <th>Invoice number</th>
+          <th>Total</th>
+          <th>Date</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+    <div id="chargeContainer">
+      <h2>Charge</h2>
+      <table id="charges-table" class="pure-table pure-table-striped">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Statement description</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div id="refundContainer">
+      <h2>Refund</h2>
+      <table id="refunds-table" class="pure-table pure-table-striped">
+        <thead>
+          <tr>
+            <th>Destination</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <h2>Line items</h2>
+    <table id="lineitems-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Plan</th>
+          <th>Period</th>
+          <th>Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="invoice-row-template">
+    <tr id="${id}">
+      <td>${number}</td>
+      <td>${dateFormatted}</td>
+      <td>${totalFormatted}</td>
+      <td></td>
+    </tr>
+  </template>
+  <template id="lineitem-row-template">
+    <tr id="${id}">
+      <td>${quantity}</td>
+      <td>${description}</td>
+      <td>${startFormatted} - ${endFormatted}</td>
+      <td>${totalFormatted}</td>
+      <td></td>
+    </tr>
+  </template>
+  <template id="charge-row-template">
+    <tr id="${id}">
+      <td>${brand} ${last4}</td>
+      <td>${statement_descriptor}</td>
+      <td>${totalFormatted}</td>
+      <td title="${date}">${dateFormatted}</td>
+      <td></td>
+    </tr>
+  </template>
+  <template id="refund-row-template">
+    <tr id="${id}">
+      <td>${brand} ${last4}</td>
+      <td>${status}</td>
+      <td>${totalFormatted}</td>
+      <td title="${date}">${dateFormatted}</td>
+      <td></td>
+    </tr>
+  </template>
+</html>

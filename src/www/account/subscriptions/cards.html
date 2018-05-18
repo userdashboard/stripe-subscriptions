@@ -1,0 +1,36 @@
+<!doctype html>
+<html navbar="/account/subscriptions/navbar.html">
+  <head>
+    <title>Saved cards</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Saved cards</h1>
+    <table id="cards-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>Card</th>
+          <th>Last 4</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="card-row-template">
+    <tr id="${id}">
+      <td>${brand}</td>
+      <td>${last4}</td>
+      <td>${exp_month} / ${exp_year}</td>
+      <td id='default-source-${id}'>Canceled</td>
+      <td id='unused-source-${id}'></td>
+      <td class="pure-button-group" role="group">
+        <a id="delete-card-link-${id}" class="pure-button" href="delete-card?cardid=${id}">Delete</a>
+      </td>
+    </tr>
+  </template>
+</html>

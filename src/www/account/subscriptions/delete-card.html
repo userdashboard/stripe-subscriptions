@@ -1,0 +1,29 @@
+<!doctype html>
+<html navbar="/account/subscriptions/navbar.html">
+  <head>
+    <title>Delete unused card</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+  </head>
+  <body>
+    <h1>Delete unused card</h1>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <button id="submitButton" class="pure-button pure-button-primary" type="button">Delete</button>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message" error="success">The unused card has been deleted.</div>
+  </template>
+  <template id="invalid-cardid">
+    <div class="error message" error="invalid-cardid">Error!  An invalid card or your default payment source was provided.</div>
+  </template>
+  <template id="invalid-card">
+    <div class="error message" error="invalid-card">Error!  An invalid card or your default payment source was provided.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">An error ocurred deleting the unused card.</div>
+  </template>
+</html>

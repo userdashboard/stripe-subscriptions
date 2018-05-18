@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Edit product</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+    <style>
+      .pure-form select { display: inline-block; margin: 0 1rem 0 0 }
+      .count { color: #999; display: inline-block; margin: 0 1rem 0 0 }
+      table.pure-table { width: auto }
+      table.pure-table td label { text-transform: none }
+      table.pure-table td { padding: 0.5rem }
+    </style>
+  </head>
+  <body>
+    <h1>Edit product</h1>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="POST" class="pure-form pure-form-stacked">
+      <input type="submit" tabindex="-1" />
+      <div class="pure-control-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" maxlength="50" />
+      </div>
+      <div class="pure-control-group">
+        <label for="unit_label">Unit label (eg person, team, seat)</label>
+        <input type="text" id="unit_label" name="unit_label" maxlength="50" />
+      </div>
+      <div class="pure-control-group">
+        <label for="name">Charge description in bank statements</label>
+        <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50" />
+      </div>
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Create coupon</button>
+      </div>
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Update plan</button>
+      </div>
+    </form>
+  </body>
+  <template id="success">
+    <div class="success message" error="success">The product has been updated.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">An error occurred updating the product information.</div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" error="invalid-name">Error!  Invalid product name.</div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" error="invalid-product-name-length">Error!  Product name is too short or too long.</div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" error="invalid-statement_descriptor">Error!  Invalid charge description.</div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" error="invalid-unit_label">Error!  Invalid or missing unit label.</div>
+  </template>
+</html>

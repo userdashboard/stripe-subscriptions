@@ -1,0 +1,60 @@
+<!doctype html>
+ <html navbar="/account/subscriptions/navbar.html">
+  <head>
+    <title>Change subscription plan</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+		<base href="/" target="_top" />
+    <style>
+      .pure-form select { display: inline-block; margin: 0 1rem 0 0 }
+      .count { color: #999; display: inline-block; margin: 0 1rem 0 0 }
+      table.pure-table { width: auto }
+      table.pure-table td label { text-transform: none }
+      table.pure-table td { padding: 0.5rem }
+      .next-charge { font-size: 1.2rem }
+    </style>
+  </head>
+  <body>
+    <h1>Change subscription plan</h1>
+    <div id="messageContainer"></div>
+    <form id="submitForm" method="GET" action="confirm-change-plan" class="pure-form pure-form-stacked">
+      <input type="submit" tabindex="-1" />
+      <input id="subscriptionid" name="subscriptionid" type="hidden" />
+      <div class="pure-control-group">
+        <label for="name">Current plan</label>
+        <span id="plan-name" class="next-charge"></span>
+      </div>
+      <div class="pure-control-group">
+        <label for="source">New plan</label>
+        <select id="plans-select" name="planid">
+          <option>Select plan</option>
+        </select>
+      </div>
+      <div class="pure-controls spaced-buttons">
+        <button id="submitButton" class="pure-button pure-button-primary" type="button">Change plan</button>
+      </div>
+    </form>
+  </body>
+  <template id="plan-option-template">
+    <option value="${id}">${text}</option>
+  </template>
+  <template id="plan-name-template">
+    <span>${text}</span>
+  </template>
+  <template id="success">
+    <div class="success message" error="success">Your subscription has been updated.</div>
+  </template>  
+  <template id="invalid-payment_source">
+    <div class="error message" error="invalid-payment_source">Error!  You must update your payment information first.</div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" error="invalid-planid">Error!  An invalid plan was selected.</div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" error="invalid-plan">Error!  An invalid plan was selected.</div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" error="unknown-error">Error!  An error occurred updating your subscription.</div>
+  </template>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "@userappstore/stripe-subscriptions",
+  "version": "1.0.24",
+  "main": "index.js",
+  "deprecated": false,
+  "engine": {
+    "node": "8.1.14",
+    "npm": "5.0.3"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "mocha src --recursive --timeout 60000"
+  },
+  "dependencies": {
+    "@userappstore/dashboard": "^1.0.1019",
+    "@userappstore/maxmind-geoip": "^1.0.18",
+    "stripe": "^4.25.0"
+  },
+  "dashboard-menus": {
+    "administrator": [
+      {
+        "href": "/administrator/subscriptions",
+        "text": "Stripe Subscriptions"
+      }
+    ],
+    "account": [
+      {
+        "href": "/account/subscriptions",
+        "text": "My subscriptions"
+      }
+    ]
+  },
+  "dashboard-modules": [
+    "@userappstore/dashboard",
+    "@userappstore/maxmind-geoip"
+  ],
+  "dashboard-server": [
+    "/src/server/bind-stripekey.js",
+    "/src/server/bind-customer.js",
+    "/src/server/require-subscription.js",
+    "/src/server/require-payment.js"
+  ]
+}

@@ -14,7 +14,7 @@ module.exports = {
     if (!subscription) {
       throw new Error('invalid-subscriptionid')
     }
-    if (subscription.status === 'deleted' || subscription.delete_at_period_end) {
+    if (subscription.status === 'deleted' || subscription.cancel_at_period_end) {
       throw new Error('invalid-subscription')
     }
     req.body = req.body || {}

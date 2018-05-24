@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar-subscription-options.js')
 
 module.exports = {
@@ -18,7 +19,7 @@ async function beforeRequest (req) {
   const currentPlan = await global.api.user.subscriptions.Plan.get(req)
   currentPlan.text = currentPlan.metadata.display.change_plan || currentPlan.metadata.display.register || currentPlan.name
   currentPlan.currency = subscription.plan.currency.toUpperCase()
-  currentPlan.priceFormatted = global.dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
+  currentPlan.priceFormatted = dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
   const plans = await global.api.user.subscriptions.Plans.get(req)
   const activePlans = []
   for (const plan of plans) {
@@ -27,11 +28,11 @@ async function beforeRequest (req) {
     }
     plan.text = plan.metadata.display.change_plan || plan.metadata.display.register || plan.name
     plan.currency = plan.currency.toUpperCase()
-    plan.priceFormatted = global.dashboard.Format.money(plan.amount || 0, plan.currency)
+    plan.priceFormatted = dashboard.Format.money(plan.amount || 0, plan.currency)
     activePlans.push(plan)
   }
   req.data = {plans: activePlans, subscription, plan: currentPlan}
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.user.subscriptions.UpdateSubscriptionPlan.patch(req)
   }
 }
@@ -40,20 +41,20 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
     if (messageTemplate === 'success') {
       doc.removeElementById('submitForm')
-      return global.dashboard.Response.end(req, res, doc)
+      return dashboard.Response.end(req, res, doc)
     }
   }
   doc.renderList(req.data.plans, 'plan-option-template', 'plans-select')
   doc.renderTemplate(req.data.plan, 'plan-name-template', 'plan-name')
   const subscriptionidField = doc.getElementById('subscriptionid')
   subscriptionidField.setAttribute('value', req.query.subscriptionid)
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -89,7 +90,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
   }

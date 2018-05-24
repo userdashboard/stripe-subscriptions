@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -21,7 +22,7 @@ module.exports = {
   patch: async (req) => {
     const updateInfo = {
       metadata: {
-        published: global.dashboard.Timestamp.now
+        published: dashboard.Timestamp.now
       }
     }
     try {

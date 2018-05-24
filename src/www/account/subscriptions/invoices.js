@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar.js')
 
 module.exports = {
@@ -10,13 +11,13 @@ async function beforeRequest (req) {
   if (invoices && invoices.length) {
     for (const invoice of invoices) {
       if (invoice.total) {
-        invoice.totalFormatted = global.dashboard.Format.money(invoice.total, invoice.currency)
-        invoice.date = global.dashboard.Timestamp.date(invoice.date)
-        invoice.dateRelative = global.dashboard.Format.date(invoice.date)
-        invoice.period_start = global.dashboard.Timestamp.date(invoice.lines.data[0].period.start)
-        invoice.periodStartRelative = global.dashboard.Format.date(invoice.lines.data[0].period.start)
-        invoice.period_end = global.dashboard.Timestamp.date(invoice.lines.data[0].period.end)
-        invoice.periodEndRelative = global.dashboard.Format.date(invoice.lines.data[0].period.end)
+        invoice.totalFormatted = dashboard.Format.money(invoice.total, invoice.currency)
+        invoice.date = dashboard.Timestamp.date(invoice.date)
+        invoice.dateRelative = dashboard.Format.date(invoice.date)
+        invoice.period_start = dashboard.Timestamp.date(invoice.lines.data[0].period.start)
+        invoice.periodStartRelative = dashboard.Format.date(invoice.lines.data[0].period.start)
+        invoice.period_end = dashboard.Timestamp.date(invoice.lines.data[0].period.end)
+        invoice.periodEndRelative = dashboard.Format.date(invoice.lines.data[0].period.end)
         invoice.plan_name = invoice.lines.data[0].plan.name
       }
     }
@@ -25,12 +26,12 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (req.data.invoices && req.data.invoices.length) {
     doc.renderTable(req.data.invoices, 'invoice-row-template', 'invoices-table')
   } else {
     doc.removeElementById('invoices-table')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

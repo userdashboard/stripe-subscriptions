@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/forgive-invoice`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/forgive-invoice?invoiceid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoiceid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoiceid')
     })
 
     it('should reject paid invoice', async () => {
@@ -24,11 +26,13 @@ describe(`/api/administrator/subscriptions/forgive-invoice`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoice')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoice')
     })
 
     it('should reject forgiven invoice', async () => {
@@ -44,14 +48,16 @@ describe(`/api/administrator/subscriptions/forgive-invoice`, () => {
       await req.route.api.patch(req)
       await TestHelper.completeAuthorization(req)
       await req.route.api.patch(req)
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoice')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoice')
     })
 
-    it.only('should forgive invoice', async () => {
+    it('should forgive invoice', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator, { published: true })
       const plan1 = await TestHelper.createPlan(administrator, { published: true }, {}, 10000, 0)

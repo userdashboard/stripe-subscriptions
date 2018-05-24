@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   before: beforeRequest,
@@ -8,7 +9,7 @@ module.exports = {
 async function beforeRequest (req) {
   const products = await global.api.administrator.subscriptions.Products.get(req)
   req.data = { products }
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.administrator.subscriptions.CreatePlan.post(req)
   }
 }
@@ -17,12 +18,12 @@ function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
     if (messageTemplate === 'success') {
       doc.removeElementById('submitForm')
-      return global.dashboard.Response.end(req, res, doc)
+      return dashboard.Response.end(req, res, doc)
     }
   }
   req.body = req.body || {}
@@ -39,7 +40,7 @@ function renderPage (req, res, messageTemplate) {
   doc.setSelectedOptionByValue('interval', req.body.interval || '')
   const trialPeriodDaysField = doc.getElementById('trial_period_days')
   trialPeriodDaysField.setAttribute('value', req.body.trial_period_days || '0')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -96,7 +97,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     switch (error.message) {
       case 'invalid-amount':

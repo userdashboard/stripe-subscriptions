@@ -10,11 +10,13 @@ describe('/administrator/subscriptions/subscription', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should bind subscription to req', async () => {

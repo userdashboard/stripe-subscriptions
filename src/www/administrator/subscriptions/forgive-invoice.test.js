@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoiceid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoiceid')
     })
 
     it('should reject paid invoice', async () => {
@@ -26,11 +28,13 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoice')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoice')
     })
 
     it('should reject forgiven invoice', async () => {
@@ -48,11 +52,13 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       res.end = async (str) => {
         await TestHelper.completeAuthorization(req)
         await req.route.api.before(req)
+        let errorMessage
         try {
           await req.route.api.before(req)
         } catch (error) {
-          assert.equal(error.message, 'invalid-invoice')
+          errorMessage = error.message
         }
+        assert.equal(errorMessage, 'invalid-invoice')
       }
       return req.route.api.post(req, res)
     })

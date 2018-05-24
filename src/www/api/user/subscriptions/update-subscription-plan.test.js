@@ -12,11 +12,13 @@ describe(`/api/user/subscriptions/update-subscription-plan`, () => {
       req.body = {
         planid: 'also_invalid'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should reject other account\'s subscription', async () => {
@@ -36,11 +38,13 @@ describe(`/api/user/subscriptions/update-subscription-plan`, () => {
       req.body = {
         planid: plan1.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should reject same planid', async () => {
@@ -56,11 +60,13 @@ describe(`/api/user/subscriptions/update-subscription-plan`, () => {
       req.body = {
         planid: plan1.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should require user add card', async () => {
@@ -80,11 +86,13 @@ describe(`/api/user/subscriptions/update-subscription-plan`, () => {
       }
       await req.route.api.patch(req)
       await TestHelper.completeAuthorization(req)
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-payment-source')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-payment-source')
     })
 
     it('should change plan', async () => {

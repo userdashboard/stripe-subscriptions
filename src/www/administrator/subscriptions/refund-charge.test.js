@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/refund-charge`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should reject refunded charge', async () => {
@@ -33,11 +35,13 @@ describe(`/administrator/subscriptions/refund-charge`, async () => {
       res.end = async (str) => {
         await TestHelper.completeAuthorization(req)
         await req.route.api.before(req)
+        let errorMessage
         try {
           await req.route.api.before(req)
         } catch (error) {
-          assert.equal(error.message, 'invalid-charge')
+          errorMessage = error.message
         }
+        assert.equal(errorMessage, 'invalid-charge')
       }
       return req.route.api.post(req, res)
     })

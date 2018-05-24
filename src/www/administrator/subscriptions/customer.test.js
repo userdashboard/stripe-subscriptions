@@ -12,11 +12,13 @@ describe('/administrator/subscriptions/customer', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customerid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customerid')
     })
 
     it('should bind customer to req', async () => {

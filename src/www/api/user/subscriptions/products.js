@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
         if (!product.metadata.published || product.metadata.unpublished) {
           continue
         }
-        product.created = global.dashboard.Timestamp.date(product.created)
+        product.created = dashboard.Timestamp.date(product.created)
         activeProducts.push(product)
       }
     }

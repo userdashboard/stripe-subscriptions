@@ -11,11 +11,13 @@ describe('/api/user/subscriptions/refund', () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-refundid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-refundid')
     })
 
     it('should reject other account\'s refund', async () => {
@@ -30,11 +32,13 @@ describe('/api/user/subscriptions/refund', () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should return refund data', async () => {

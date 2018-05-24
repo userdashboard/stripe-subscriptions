@@ -16,11 +16,13 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         statement_descriptor: 'description',
         unit_label: 'thing'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should reject invalid name', async () => {
@@ -36,11 +38,13 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         statement_descriptor: 'new-description',
         unit_label: 'new-thing'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-name')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-name')
     })
 
     it('should reject invalid name length', async () => {
@@ -57,11 +61,13 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         unit_label: 'new-thing'
       }
       global.MAXIMUM_PRODUCT_NAME_LENGTH = 3
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product-name-length')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product-name-length')
     })
 
     it('should reject invalid statement_descriptor', async () => {
@@ -77,11 +83,13 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         statement_descriptor: null,
         unit_label: 'new-thing'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-statement_descriptor')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-statement_descriptor')
     })
 
     it('should reject invalid unit_label', async () => {
@@ -97,11 +105,13 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         statement_descriptor: 'new-thing descriptor',
         unit_label: null
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-unit_label')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-unit_label')
     })
 
     it('should update product', async () => {

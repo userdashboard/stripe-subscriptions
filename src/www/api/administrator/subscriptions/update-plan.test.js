@@ -15,11 +15,13 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       req.body = {
         productid: newProduct.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject invalid productid', async () => {
@@ -31,11 +33,13 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       req.body = {
         productid: 'invalid'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should reject unpublished plan', async () => {
@@ -49,11 +53,13 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       req.body = {
         productid: newProduct.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject unpublished product', async () => {
@@ -67,11 +73,13 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       req.body = {
         productid: newProduct.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should reject never published product', async () => {
@@ -85,11 +93,13 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       req.body = {
         productid: newProduct.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should reject invalid trial', async () => {
@@ -103,29 +113,35 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
         productid: administrator.product.id,
         trial_period_days: -1
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-trial_period_days')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-trial_period_days')
       req.body = {
         productid: administrator.product.id,
         trial_period_days: 10000
       }
+      errorMessage = null
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-trial_period_days')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-trial_period_days')
       req.body = {
         productid: administrator.product.id,
         trial_period_days: 'invalid'
       }
+      errorMessage = null
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-trial_period_days')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-trial_period_days')
     })
 
     it('should update plan', async () => {

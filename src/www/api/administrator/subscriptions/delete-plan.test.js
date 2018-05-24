@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/delete-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-plan?planid=invalid`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should delete plan', async () => {

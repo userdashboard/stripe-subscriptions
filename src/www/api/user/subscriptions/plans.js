@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -10,7 +11,7 @@ module.exports = {
         if (!plan.metadata.published || plan.metadata.unpublished) {
           continue
         }
-        plan.created = global.dashboard.Timestamp.date(plan.created)
+        plan.created = dashboard.Timestamp.date(plan.created)
         plan.text = plan.metadata.display.register
         activePlans.push(plan)
       }

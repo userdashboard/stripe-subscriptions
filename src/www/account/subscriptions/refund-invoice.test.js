@@ -11,11 +11,13 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoiceid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoiceid')
     })
 
     it('should reject other account\'s invoice', async () => {
@@ -29,11 +31,13 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should bind invoice to req', async () => {

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -93,8 +94,8 @@ module.exports = {
       if (!expires) {
         throw new Error('invalid-expire')
       }
-      req.body.expires = global.dashboard.Timestamp.create(expires)
-      if (req.body.expires < global.dashboard.Timestamp.now) {
+      req.body.expires = dashboard.Timestamp.create(expires)
+      if (req.body.expires < dashboard.Timestamp.now) {
         throw new Error('invalid-expire')
       }
     }

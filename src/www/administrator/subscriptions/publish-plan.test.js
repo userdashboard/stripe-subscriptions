@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/publish-plan`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject published plan', async () => {
@@ -24,11 +26,13 @@ describe(`/administrator/subscriptions/publish-plan`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should bind plan to req', async () => {

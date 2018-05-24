@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar-invoice-options.js')
 
 module.exports = {
@@ -10,21 +11,21 @@ async function beforeRequest (req) {
     throw new Error('invalid-invoiceid')
   }
   const invoice = await global.api.user.subscriptions.Invoice.get(req)
-  invoice.totalFormatted = global.dashboard.Format.money(invoice.total || 0, invoice.currency)
-  invoice.date = global.dashboard.Timestamp.date(invoice.date)
-  invoice.dateFormatted = global.dashboard.Format.date(invoice.date)
-  invoice.discountFormatted = global.dashboard.Format.money(invoice.discount || 0, invoice.currency)
+  invoice.totalFormatted = dashboard.Format.money(invoice.total || 0, invoice.currency)
+  invoice.date = dashboard.Timestamp.date(invoice.date)
+  invoice.dateFormatted = dashboard.Format.date(invoice.date)
+  invoice.discountFormatted = dashboard.Format.money(invoice.discount || 0, invoice.currency)
   for (const line of invoice.lines.data) {
-    line.totalFormatted = global.dashboard.Format.money(line.amount, line.currency)
-    line.startFormatted = global.dashboard.Format.date(global.dashboard.Timestamp.date(line.period.start))
-    line.endFormatted = global.dashboard.Format.date(global.dashboard.Timestamp.date(line.period.end))
+    line.totalFormatted = dashboard.Format.money(line.amount, line.currency)
+    line.startFormatted = dashboard.Format.date(dashboard.Timestamp.date(line.period.start))
+    line.endFormatted = dashboard.Format.date(dashboard.Timestamp.date(line.period.end))
     line.description = line.description || line.plan.name
   }
   req.data = {invoice}
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   doc.renderTemplate(req.data.invoice, 'invoice-row-template', 'invoices-table')
   doc.renderTable(req.data.invoice.lines.data, 'lineitem-row-template', 'lineitems-table')
@@ -35,5 +36,5 @@ async function renderPage (req, res) {
     doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')
     doc.removeElementById('refundContainer')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

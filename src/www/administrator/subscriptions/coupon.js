@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar-coupon-options.js')
 
 module.exports = {
@@ -14,8 +15,8 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   doc.renderTemplate(req.data.coupon, 'coupon-row-template', 'coupons-table')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

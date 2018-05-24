@@ -10,11 +10,13 @@ describe(`/api/user/subscriptions/create-customer`, () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user2.account.accountid}`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should reject existing customer', async () => {
@@ -26,11 +28,13 @@ describe(`/api/user/subscriptions/create-customer`, () => {
       req.account = user.account
       req.session = user.session
       await req.route.api.post(req)
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should create customer', async () => {

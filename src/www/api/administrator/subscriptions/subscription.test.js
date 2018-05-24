@@ -9,11 +9,13 @@ describe('/api/administrator/subscriptions/subscription', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscription?subscriptionid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should return subscription data', async () => {

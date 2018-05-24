@@ -14,11 +14,13 @@ describe(`/api/administrator/subscriptions/update-customer-coupon`, () => {
       req.body = {
         couponid: newCoupon.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customerid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customerid')
     })
 
     it('should reject invalid couponid', async () => {
@@ -32,11 +34,13 @@ describe(`/api/administrator/subscriptions/update-customer-coupon`, () => {
       req.body = {
         couponid: 'invalid'
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should reject unpublished coupon', async () => {
@@ -51,11 +55,13 @@ describe(`/api/administrator/subscriptions/update-customer-coupon`, () => {
       req.body = {
         couponid: newCoupon.id
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-coupon')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-coupon')
     })
 
     it('should update customer coupon', async () => {

@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/unpublish-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-coupon?couponid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should reject never published coupon', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/unpublish-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-coupon?couponid=${administrator.coupon.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-coupon')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-coupon')
     })
 
     it('should reject unpublished coupon', async () => {
@@ -36,11 +40,13 @@ describe(`/api/administrator/subscriptions/unpublish-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-coupon?couponid=${administrator.coupon.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-coupon')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-coupon')
     })
 
     it('should unpublish coupon', async () => {

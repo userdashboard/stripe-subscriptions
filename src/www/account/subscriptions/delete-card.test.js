@@ -13,11 +13,13 @@ describe(`/account/subscriptions/delete-card`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should reject other account\'s card', async () => {
@@ -31,11 +33,13 @@ describe(`/account/subscriptions/delete-card`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should reject default payment source', async () => {
@@ -47,11 +51,13 @@ describe(`/account/subscriptions/delete-card`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-card')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-card')
     })
 
     it('should bind card to req', async () => {

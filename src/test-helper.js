@@ -10,7 +10,7 @@ module.exports = dashboard.loadTestHelper()
 
 global.rootPath = path.join(__dirname, 'www')
 dashboard.setup()
-global.dashboard.subscriptions = require('../index.js')
+global.redisClient.select(4)
 
 const createRequestWas = module.exports.createRequest
 module.exports.createRequest = (rawURL, method) => {
@@ -39,6 +39,8 @@ beforeEach(() => {
   global.MAXIMUM_PRODUCT_NAME_LENGTH = 100
   global.MINIMUM_PRODUCT_ATTRIBUTE_LENGTH = 1
   global.MAXIMUM_PRODUCT_ATTRIBUTE_LENGTH = 100
+  global.ORGANIZATION_FIELDS = [ 'name', 'email' ]
+  global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
 })
 
 before(async () => {
@@ -177,7 +179,7 @@ async function createCustomer (existingUser, withCard) {
   if (withCard) {
     await createCard(user)
   }
-  await global.dashboard.Account.setProperty(user.account.accountid, 'customerid', user.customer.id)
+  await dashboard.Account.setProperty(user.account.accountid, 'customerid', user.customer.id)
   return user
 }
 
@@ -239,14 +241,3 @@ async function changeSubscription (existingUser, planid) {
   existingUser.invoice = invoice
   return existingUser
 }
-
-beforeEach(async () => {
-  global.MINIMUM_ORGANIZATION_NAME_LENGTH = 1
-  global.MAXIMUM_ORGANIZATION_NAME_LENGTH = 100
-  global.MINIMUM_INVITATION_CODE_LENGTH = 1
-  global.MAXIMUM_INVITATION_CODE_LENGTH = 100
-  global.ORGANIZATION_FIELDS = [ 'name', 'email' ]
-  global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
-  global.MAXIMUM_ORGANIZATION_FIELD_LENGTH = 100
-  global.MAXIMUM_MEMBERSHIP_FIELD_LENGTH = 100
-})

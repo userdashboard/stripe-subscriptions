@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/flag-charge`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should reject flagged charge', async () => {
@@ -26,11 +28,13 @@ describe(`/api/administrator/subscriptions/flag-charge`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-charge')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-charge')
     })
 
     it('should require refunded charge', async () => {
@@ -42,11 +46,13 @@ describe(`/api/administrator/subscriptions/flag-charge`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-charge')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-charge')
     })
 
     it('should update charge flagged as fraud', async () => {

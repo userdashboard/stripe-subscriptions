@@ -1,3 +1,5 @@
+const dashboard = require('@userappstore/dashboard')
+
 module.exports = {
   after: afterAuthentication
 }
@@ -12,7 +14,7 @@ async function afterAuthentication (req, res) {
   const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
   if (!subscriptions || !subscriptions.length) {
     req.redirect = true
-    return global.dashboard.Response.redirect(req, res, `/account/subscriptions/plans`)
+    return dashboard.Response.redirect(req, res, `/account/subscriptions/plans`)
   }
   for (const subscription of subscriptions) {
     if (subscription.status === 'active') {
@@ -20,5 +22,5 @@ async function afterAuthentication (req, res) {
     }
   }
   req.redirect = true
-  return global.dashboard.Response.redirect(req, res, `/account/subscriptions/plans`)
+  return dashboard.Response.redirect(req, res, `/account/subscriptions/plans`)
 }

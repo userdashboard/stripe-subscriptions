@@ -1,3 +1,5 @@
+const dashboard = require('@userappstore/dashboard')
+
 module.exports = {
   before: beforeRequest,
   get: renderPage
@@ -7,8 +9,8 @@ async function beforeRequest (req) {
   const plans = await global.api.administrator.subscriptions.Plans.get(req)
   if (plans && plans.length) {
     for (const plan of plans) {
-      plan.created = plan.created.getTime ? plan.created : global.dashboard.Timestamp.date(plan.created)
-      plan.createdRelative = global.dashboard.Format.relativePastDate(plan.created)
+      plan.created = plan.created.getTime ? plan.created : dashboard.Timestamp.date(plan.created)
+      plan.createdRelative = dashboard.Format.date(plan.created)
       plan.trialFormatted = plan.trial_period_days || 0
       plan.priceFormatted = plan.currency === 'usd' ? '$' + (plan.amount / 100) : plan.amount
     }
@@ -17,7 +19,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.plans && req.data.plans.length) {
     doc.renderTable(req.data.plans, 'plan-row-template', 'plans-table')
     for (const plan of req.data.plans) {
@@ -32,5 +34,5 @@ async function renderPage (req, res) {
   } else {
     doc.removeElementById('plans-table')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

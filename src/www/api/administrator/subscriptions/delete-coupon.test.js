@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/delete-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-coupon?couponid=invalid`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should delete coupon', async () => {

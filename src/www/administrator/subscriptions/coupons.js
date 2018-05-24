@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar.js')
 
 module.exports = {
@@ -9,7 +10,7 @@ async function beforeRequest (req) {
   const coupons = await global.api.administrator.subscriptions.Coupons.get(req)
   if (coupons && coupons.length) {
     for (const coupon of coupons) {
-      coupon.createdRelative = global.dashboard.Format.relativePastDate(global.dashboard.Timestamp.date(coupon.created))
+      coupon.createdRelative = dashboard.Format.date(dashboard.Timestamp.date(coupon.created))
       if (coupon.percent_off) {
         coupon.discount = `${coupon.percent_off}%`
       } else {
@@ -27,7 +28,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (req.data.coupons && req.data.coupons.length) {
     doc.renderTable(req.data.coupons, 'coupon-row-template', 'coupons-table')
@@ -43,5 +44,5 @@ async function renderPage (req, res) {
   } else {
     doc.removeElementById('coupons-table')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

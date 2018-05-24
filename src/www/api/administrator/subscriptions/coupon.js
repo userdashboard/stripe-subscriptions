@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
     if (!coupon) {
       throw new Error('invalid-couponid')
     }
-    coupon.date = global.dashboard.Timestamp.date(coupon.created)
+    coupon.date = dashboard.Timestamp.date(coupon.created)
     return coupon
   }
 }

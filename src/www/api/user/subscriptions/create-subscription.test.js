@@ -9,11 +9,13 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=invalid`, 'POST')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject never-published planid', async () => {
@@ -25,11 +27,13 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject unpublished planid', async () => {
@@ -41,11 +45,13 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject customer without card', async () => {
@@ -57,14 +63,16 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-source')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-source')
     })
 
-    it('should create subscription', async () => {
+    it('should create authorized subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()

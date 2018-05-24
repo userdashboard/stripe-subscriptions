@@ -17,18 +17,16 @@ module.exports = {
     if (!charge) {
       throw new Error('invalid-chargeid')
     }
-    if (charge.refunded || !charge.paid || charge.amount_paid === 0 || charge.amount_paid - charge.amount_refunded === 0) {
+    const balance = charge.amount - (charge.amount_refunded || 0)
+    if (charge.refunded || !charge.paid || charge.amount === 0 || balance === 0) {
       throw new Error('invalid-charge')
     }
     try {
       req.body.amount = parseInt(req.body.amount, 10)
-      if (!req.body.amount || req.body.amount < 0) {
+      if (!req.body.amount || req.body.amount < 0 || req.body.amount > balance) {
         throw new Error('invalid-amount')
       }
     } catch (error) {
-      throw new Error('invalid-amount')
-    }
-    if (req.body.amount < charge.amount_paid - charge.amount_refunded) {
       throw new Error('invalid-amount')
     }
   },

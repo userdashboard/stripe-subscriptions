@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/publish-product`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should reject published product', async () => {
@@ -24,11 +26,13 @@ describe(`/administrator/subscriptions/publish-product`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should bind product to req', async () => {

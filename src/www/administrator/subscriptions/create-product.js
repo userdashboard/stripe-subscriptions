@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   before: beforeRequest,
@@ -6,7 +7,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.administrator.subscriptions.CreateProduct.post(req)
   }
 }
@@ -15,12 +16,12 @@ function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
     if (messageTemplate === 'success') {
       doc.removeElementById('submitForm')
-      return global.dashboard.Response.end(req, res, doc)
+      return dashboard.Response.end(req, res, doc)
     }
   }
   req.body = req.body || {}
@@ -30,7 +31,7 @@ function renderPage (req, res, messageTemplate) {
   statementDescriptorField.setAttribute('value', req.body.statement_descriptor || '0')
   const unitLabelField = doc.getElementById('unit_label')
   unitLabelField.setAttribute('value', req.body.unit_label || '')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -55,7 +56,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
   }

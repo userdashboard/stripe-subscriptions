@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar.js')
 
 module.exports = {
@@ -7,7 +8,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.administrator.subscriptions.CreateCoupon.post(req)
   }
 }
@@ -16,13 +17,13 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
     if (messageTemplate === 'success') {
       doc.removeElementById('submitForm')
-      return global.dashboard.Response.end(req, res, doc)
+      return dashboard.Response.end(req, res, doc)
     }
   }
   const days = []
@@ -65,7 +66,7 @@ async function renderPage (req, res, messageTemplate) {
   amountOffField.setAttribute('value', req.body.amount_off || '')
   const percentOffField = doc.getElementById('percent_off')
   percentOffField.setAttribute('value', req.body.percent_off || '')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -129,25 +130,27 @@ async function submitForm (req, res) {
       return renderPage(req, res, 'invalid-max_redemptions')
     }
   }
-  let expires
   if (req.body.expire_day || req.body.expire_month || req.body.expire_year ||
     req.body.expire_hour || req.body.expire_minute || req.body.expire_meridien) {
     if (req.body.expire_meridien !== 'AM' && req.body.expire_meridien !== 'PM') {
       return renderPage(req, res, 'invalid-expires')
     }
     try {
-      expires = new Date(
+      const expires = new Date(
         req.body.expires_year,
         req.body.expires_month - 1,
         req.body.expires_day,
         req.body.expires_meridien === 'PM' ? (req.body.expires_hour || 0) + 12 : req.body.expires_hour || 0,
         req.body.expires_day || 0,
         req.body.expires_minute || 0)
+      if (!expires) {
+        return renderPage(req, res, 'invalid-expires')
+      }
     } catch (s) {
       return renderPage(req, res, 'invalid-expires')
     }
   }
-  try { 
+  try {
     req.query = { couponid: req.body.couponid }
     const coupon = await global.api.administrator.subscriptions.Coupon.get(req)
     if (coupon) {
@@ -160,7 +163,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
   }

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const statuses = ['active', 'trialing', 'past_due', 'canceled', 'unpaid']
 const intervals = ['day', 'week', 'month', 'year']
 
@@ -18,32 +19,32 @@ async function beforeRequest (req) {
       subscription.currency = subscription.plan.currency.toUpperCase()
       subscription.interval = subscription.plan.interval
       subscription.interval_count = subscription.plan.interval_count
-      subscription.created = global.dashboard.Timestamp.date(subscription.start)
-      subscription.createdRelative = global.dashboard.Format.relativePastDate(subscription.created)
-      subscription.priceFormatted = global.dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
+      subscription.created = dashboard.Timestamp.date(subscription.start)
+      subscription.createdRelative = dashboard.Format.date(subscription.created)
+      subscription.priceFormatted = dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
       if (subscription.status === 'trial') {
-        subscription.trial_end = global.dashboard.Timestamp.date(subscription.trial_end)
-        subscription.trialEndRelative = global.dashboard.Format.relativeFutureDate(subscription.trial_end)
+        subscription.trial_end = dashboard.Timestamp.date(subscription.trial_end)
+        subscription.trialEndRelative = dashboard.Format.date(subscription.trial_end)
       }
       if (!subscription.plan.amount || subscription.status !== 'active' || subscription.cancel_at_period_end) {
         subscription.nextChargeRelative = '-'
         subscription.nextCharge = '-'
       } else {
-        subscription.nextCharge = global.dashboard.Timestamp.date(subscription.current_period_end)
-        subscription.nextChargeRelative = global.dashboard.Format.relativeFutureDate(subscription.nextCharge)
+        subscription.nextCharge = dashboard.Timestamp.date(subscription.current_period_end)
+        subscription.nextChargeRelative = dashboard.Format.date(subscription.nextCharge)
       }
     }
   }
   const invoices = await global.api.user.subscriptions.Invoices.get(req)
   if (invoices && invoices.length) {
     for (const invoice of invoices) {
-      invoice.totalFormatted = global.dashboard.Format.money(invoice.total || 0, invoice.currency)
-      invoice.date = global.dashboard.Timestamp.date(invoice.date)
-      invoice.dateRelative = global.dashboard.Format.date(invoice.date)
-      invoice.period_start = global.dashboard.Timestamp.date(invoice.lines.data[0].period_start)
-      invoice.periodStartRelative = global.dashboard.Format.date(invoice.lines.data[0].period_start)
-      invoice.period_end = global.dashboard.Timestamp.date(invoice.lines.data[0].period_end)
-      invoice.periodEndRelative = global.dashboard.Format.date(invoice.lines.data[0].period_end)
+      invoice.totalFormatted = dashboard.Format.money(invoice.total || 0, invoice.currency)
+      invoice.date = dashboard.Timestamp.date(invoice.date)
+      invoice.dateRelative = dashboard.Format.date(invoice.date)
+      invoice.period_start = dashboard.Timestamp.date(invoice.lines.data[0].period_start)
+      invoice.periodStartRelative = dashboard.Format.date(invoice.lines.data[0].period_start)
+      invoice.period_end = dashboard.Timestamp.date(invoice.lines.data[0].period_end)
+      invoice.periodEndRelative = dashboard.Format.date(invoice.lines.data[0].period_end)
       invoice.plan_name = invoice.lines.data[0].plan.name
     }
   }
@@ -51,7 +52,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   let allFree = true
   if (req.data.subscriptions && req.data.subscriptions.length) {
     doc.renderTable(req.data.subscriptions, 'subscription-row-template', 'subscriptions-table')
@@ -105,9 +106,9 @@ async function renderPage (req, res) {
   }
   if (req.customer.account_balance < 0) {
     const balanceField = doc.getElementById('balance')
-    balanceField.setInnerText(global.dashboard.Format.money(-req.customer.account_balance, req.customer.currency))
+    balanceField.setInnerText(dashboard.Format.money(-req.customer.account_balance, req.customer.currency))
   } else {
     doc.removeElementById('balance-informationContainer')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

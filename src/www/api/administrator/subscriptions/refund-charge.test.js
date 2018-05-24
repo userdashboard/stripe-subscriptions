@@ -13,11 +13,13 @@ describe(`/api/administrator/subscriptions/refund-charge`, () => {
       req.body = {
         amount: 1000
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should require amount', async () => {
@@ -32,11 +34,13 @@ describe(`/api/administrator/subscriptions/refund-charge`, () => {
       req.body = {
         amount: null
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-amount')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-amount')
     })
 
     it('should reject negative amount', async () => {
@@ -51,11 +55,13 @@ describe(`/api/administrator/subscriptions/refund-charge`, () => {
       req.body = {
         amount: -100
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-amount')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-amount')
     })
 
     it('should reject amount higher than charge', async () => {
@@ -70,11 +76,13 @@ describe(`/api/administrator/subscriptions/refund-charge`, () => {
       req.body = {
         amount: 10000 * 2
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-amount')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-amount')
     })
 
     it('should create authorized refund', async () => {

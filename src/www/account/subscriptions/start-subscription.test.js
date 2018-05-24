@@ -10,11 +10,13 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject never published plan', async () => {
@@ -26,11 +28,13 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject unpublished plan', async () => {
@@ -42,11 +46,13 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should bind plan to req', async () => {

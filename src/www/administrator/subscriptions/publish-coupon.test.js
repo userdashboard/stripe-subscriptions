@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should reject published coupon', async () => {
@@ -24,11 +26,13 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-coupon')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-coupon')
     })
 
     it('should bind coupon to req', async () => {

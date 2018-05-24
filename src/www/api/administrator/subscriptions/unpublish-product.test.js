@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should reject never published product', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should reject unpublished product', async () => {
@@ -36,11 +40,13 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should unpublish product', async () => {

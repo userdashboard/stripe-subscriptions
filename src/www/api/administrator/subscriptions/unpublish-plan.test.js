@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject never published plan', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject unpublished plan', async () => {
@@ -36,11 +40,13 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should unpublish plan', async () => {

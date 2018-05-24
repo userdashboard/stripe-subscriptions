@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/publish-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/publish-plan?planid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject published plan', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/publish-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/publish-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should publish plan', async () => {

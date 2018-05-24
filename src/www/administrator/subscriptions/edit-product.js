@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar.js')
 
 module.exports = {
@@ -11,8 +12,11 @@ async function beforeRequest (req) {
     throw new Error('invalid-productid')
   }
   const product = await global.api.administrator.subscriptions.Product.get(req)
+  if (product.metadata.unpublished) {
+    throw new Error('invalid-product')
+  }
   req.data = {product}
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.administrator.subscriptions.UpdateProduct.patch(req)
   }
 }
@@ -21,7 +25,7 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
@@ -32,7 +36,7 @@ async function renderPage (req, res, messageTemplate) {
   statementDescriptorField.setAttribute('value', req.body ? req.body.statement_descriptor || '' : req.data.product.statement_descriptor)
   const unitLabelField = doc.getElementById('unit_label')
   unitLabelField.setAttribute('value', req.body ? req.body.unit_label || '' : req.data.product.unit_label)
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -57,7 +61,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
   }

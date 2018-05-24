@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar.js')
 
 module.exports = {
@@ -10,16 +11,16 @@ async function beforeRequest (req) {
     throw new Error('invalid-chargeid')
   }
   const charge = await global.api.administrator.subscriptions.Charge.get(req)
-  charge.amountFormatted = global.dashboard.Format.money(charge.amount || 0, charge.currency)
-  charge.amountRefundedFormatted = global.dashboard.Format.money(charge.amount_refunded || 0, charge.currency)
-  charge.date = global.dashboard.Timestamp.date(charge.created)
-  charge.dateRelative = global.dashboard.Format.relativePastDate(charge.date)
+  charge.amountFormatted = dashboard.Format.money(charge.amount || 0, charge.currency)
+  charge.amountRefundedFormatted = dashboard.Format.money(charge.amount_refunded || 0, charge.currency)
+  charge.date = dashboard.Timestamp.date(charge.created)
+  charge.dateRelative = dashboard.Format.date(charge.date)
   req.data = {charge}
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

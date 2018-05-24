@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
     if (subscription.customer !== req.customer.id) {
       throw new Error('invalid-account')
     }
-    subscription.created = global.dashboard.Timestamp.date(subscription.start)
+    subscription.created = dashboard.Timestamp.date(subscription.start)
     return subscription
   }
 }

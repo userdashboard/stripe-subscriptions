@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const fs = require('fs')
 const path = require('path')
 const Navigation = require('./navbar.js')
@@ -11,7 +12,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.user.subscriptions.CreateCard.post(req)
   }
 }
@@ -20,7 +21,7 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   doc.renderList(countries, 'country-template', 'address_country')
   if (messageTemplate) {
@@ -65,7 +66,7 @@ async function renderPage (req, res, messageTemplate) {
     doc.setSelectedOptionByValue('address_country', req.body.address_country || req.country.country.iso_code)
   }
   res.statusCode = res.statusCode || 200
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -82,7 +83,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, 'unknown-error')
   }

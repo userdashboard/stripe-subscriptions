@@ -11,11 +11,13 @@ describe('/api/user/subscriptions/card', () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should reject other account\'s card', async () => {
@@ -29,11 +31,13 @@ describe('/api/user/subscriptions/card', () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should return card data', async () => {

@@ -6,18 +6,20 @@ describe(`/api/user/subscriptions/refund-charge`, () => {
   describe('RefundCharge#PATCH', () => {
     it('should reject invalid charge', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund-charge?chargeid=invalid`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/refund-charge?chargeid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
       req.body = {
         amount: 100
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should reject other account\'s refund', async () => {
@@ -35,11 +37,13 @@ describe(`/api/user/subscriptions/refund-charge`, () => {
       req.body = {
         amount: user2.charge.amount
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should create refund', async () => {
@@ -47,10 +51,10 @@ describe(`/api/user/subscriptions/refund-charge`, () => {
       await TestHelper.createPlan(administrator, {published: true}, {}, 10000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund-charge?chargeid=${user.charge.id}`, 'PATCH')
-      req.account = administrator.account
-      req.session = administrator.session
-      req.customer = administrator.customer
+      const req = TestHelper.createRequest(`/api/user/subscriptions/refund-charge?chargeid=${user.charge.id}`, 'PATCH')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
       req.body = {
         amount: user.charge.amount
       }

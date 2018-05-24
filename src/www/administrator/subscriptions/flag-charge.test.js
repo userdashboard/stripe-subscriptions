@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should reject unrefunded charge', async () => {
@@ -26,11 +28,13 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-charge')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-charge')
     })
 
     it('should bind charge to req', async () => {

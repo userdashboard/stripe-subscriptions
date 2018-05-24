@@ -18,16 +18,20 @@ module.exports = {
     if (invoice.customer !== req.customer.id) {
       throw new Error('invalid-account')
     }
+    req.charge = charge
   },
   patch: async (req) => {
-    const charge = await stripe.charges.retrieve(req.query.chargeid, req.stripeKey)
     const refundInfo = {
-      charge: charge.id,
-      amount: charge.amount - (charge.amount_refunded || 0),
+      charge: req.charge.id,
+      amount: req.charge.amount - (req.charge.amount_refunded || 0),
       reason: 'requested_by_customer'
     }
-    const refund = await stripe.refunds.create(refundInfo, req.stripeKey)
-    req.success = true
-    return refund
+    try {
+      const refund = await stripe.refunds.create(refundInfo, req.stripeKey)
+      req.success = true
+      return refund
+    } catch (error) {
+      throw new Error('unknown-error')
+    }
   }
 }

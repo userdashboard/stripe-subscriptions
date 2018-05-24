@@ -1,3 +1,5 @@
+const dashboard = require('@userappstore/dashboard')
+
 module.exports = {
   after: afterAuthentication
 }
@@ -18,6 +20,6 @@ async function afterAuthentication (req, res) {
       continue
     }
     req.redirect = true
-    return global.dashboard.Response.redirect(req, res, `/account/subscriptions/pay-invoice?invoiceid=${invoice.id}`)
+    return dashboard.Response.redirect(req, res, `/account/subscriptions/pay-invoice?invoiceid=${invoice.id}`)
   }
 }

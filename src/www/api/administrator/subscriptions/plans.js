@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -5,7 +6,7 @@ module.exports = {
     const plans = await stripe.plans.list(req.stripeKey)
     if (plans && plans.data && plans.data.length) {
       for (const plan of plans.data) {
-        plan.created = global.dashboard.Timestamp.date(plan.created)
+        plan.created = dashboard.Timestamp.date(plan.created)
         plan.text = plan.metadata.display.register
       }
     }

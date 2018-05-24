@@ -12,11 +12,13 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       req.body = {
         refund: 'at_period_end'
       }
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should reject other account\'s subscription', async () => {
@@ -33,11 +35,13 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       req.body = {
         refund: 'at_period_end'
       }
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should require active subscription', async () => {
@@ -59,11 +63,13 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       req2.account = req.account
       req2.session = req.session
       req2.customer = req.customer
+      let errorMessage
       try {
         await req2.route.api.delete(req2)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscription')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscription')
     })
 
     it('should delete subscription at period end', async () => {

@@ -10,11 +10,13 @@ describe('/api/administrator/subscriptions/coupon', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should return coupon data', async () => {

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar-plan-data.js')
 
 module.exports = {
@@ -11,9 +12,12 @@ async function beforeRequest (req) {
     throw new Error('invalid-planid')
   }
   const plan = await global.api.administrator.subscriptions.Plan.get(req)
+  if (plan.metadata.unpublished) {
+    throw new Error('invalid-plan')
+  }
   const products = await global.api.administrator.subscriptions.Products.get(req)
   req.data = {plan, products}
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.administrator.subscriptions.UpdatePlan.patch(req)
   }
 }
@@ -22,7 +26,7 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
@@ -33,7 +37,7 @@ async function renderPage (req, res, messageTemplate) {
     doc.renderList(req.data.products, 'product-option-template', 'productid')
   }
   doc.setSelectedOptionByValue('productid', req.body ? req.body.productid : req.data.plan.productid)
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -58,7 +62,7 @@ async function submitForm (req, res) {
     if (req.success) {
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     switch (error.message) {
       case 'invalid-product':

@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=invalid`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customerid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customerid')
     })
 
     it('should reject undiscounted customer', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=${user.customer.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customer')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customer')
     })
 
     it('should delete customer discount', async () => {

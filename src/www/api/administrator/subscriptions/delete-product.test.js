@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/delete-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-product?productid=invalid`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should delete product', async () => {

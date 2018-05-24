@@ -15,11 +15,13 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
         statement_descriptor: 'description',
         unit_label: 'thing'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-name')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-name')
     })
 
     it('should require statement_descriptor', async () => {
@@ -33,11 +35,13 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
         statement_descriptor: null,
         unit_label: 'thing'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-statement_descriptor')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-statement_descriptor')
     })
 
     it('should create product', async () => {

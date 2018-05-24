@@ -1,3 +1,5 @@
+const dashboard = require('@userappstore/dashboard')
+
 module.exports = {
   before: beforeRequest,
   get: renderPage
@@ -8,10 +10,10 @@ async function beforeRequest (req) {
     throw new Error('invalid-customerid')
   }
   const customer = await global.api.administrator.subscriptions.Customer.get(req)
-  customer.created = global.dashboard.Timestamp.date(customer.created)
-  customer.createdRelative = global.dashboard.Format.relativePastDate(customer.created)
+  customer.created = dashboard.Timestamp.date(customer.created)
+  customer.createdRelative = dashboard.Format.date(customer.created)
   customer.account_balance = customer.account_balance || 0
-  customer.accountBalanceFormatted = customer.account_balance < 0 ? global.dashboard.Format.money(-customer.account_balance, customer.currency) : ''
+  customer.accountBalanceFormatted = customer.account_balance < 0 ? dashboard.Format.money(-customer.account_balance, customer.currency) : ''
   customer.numSubscriptions = customer.subscriptions.data.length
   customer.email = customer.email || ''
   customer.discount = customer.discount || ''
@@ -20,7 +22,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   doc.renderTemplate(req.data.customer, 'customer-row-template', 'customers-table')
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

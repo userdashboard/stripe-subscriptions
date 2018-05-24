@@ -20,11 +20,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should require product', async () => {
@@ -43,11 +45,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: null
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should require valid product', async () => {
@@ -65,11 +69,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: 'invalid'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should require amount', async () => {
@@ -88,11 +94,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-amount')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-amount')
     })
 
     it('should require currency', async () => {
@@ -111,11 +119,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-currency')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-currency')
     })
 
     it('should require valid interval', async () => {
@@ -134,11 +144,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-interval')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-interval')
     })
 
     it('should require valid interval count', async () => {
@@ -157,11 +169,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: 0,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-interval_count')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-interval_count')
     })
 
     it('should require valid trial period', async () => {
@@ -180,11 +194,13 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
         trial_period_days: -1,
         productid: administrator.product.id
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-trial_period_days')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-trial_period_days')
     })
 
     it('should create plan', async () => {

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
     if (!invoice) {
       throw new Error('invalid-invoiceid')
     }
-    invoice.date = global.dashboard.Timestamp.date(invoice.date)
+    invoice.date = dashboard.Timestamp.date(invoice.date)
     return invoice
   }
 }

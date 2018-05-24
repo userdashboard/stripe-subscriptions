@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
       return null
     }
     for (const charge of charges.data) {
-      charge.date = global.dashboard.Timestamp.date(charge.created)
+      charge.date = dashboard.Timestamp.date(charge.created)
     }
     return charges.data
   }

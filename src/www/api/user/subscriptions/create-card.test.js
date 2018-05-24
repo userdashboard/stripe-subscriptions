@@ -19,11 +19,13 @@ describe(`/api/user/subscriptions/create-card`, () => {
       for (const field of ['name', 'cvc', 'number', 'exp_month', 'exp_year']) {
         const value = req.body[field]
         req.body[field] = null
+        let errorMessage
         try {
           await req.route.api.post(req)
         } catch (error) {
-          assert.equal(error.message, `invalid-${field}`)
+          errorMessage = error.message
         }
+        assert.equal(errorMessage, `invalid-${field}`)
         req.body[field] = value
       }
     })

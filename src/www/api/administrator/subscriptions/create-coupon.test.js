@@ -15,11 +15,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         amount_off: null,
         percent_off: null
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-couponid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-couponid')
     })
 
     it('should require percent or amount off', async () => {
@@ -33,11 +35,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         amount_off: null,
         percent_off: null
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-amount_off')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-amount_off')
     })
 
     it('should require currency with amount off', async () => {
@@ -51,11 +55,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         amount_off: 1,
         currency: ''
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-currency')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-currency')
     })
 
     it('should require valid percent off', async () => {
@@ -68,20 +74,24 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         percent_off: -1
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-percent_off')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-percent_off')
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         percent_off: 101
       }
+      errorMessage = null
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-percent_off')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-percent_off')
     })
 
     it('should require valid duration', async () => {
@@ -96,11 +106,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         currency: 'usd',
         duration: 'randomly'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-duration')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-duration')
     })
 
     it('should require valid repeating duration', async () => {
@@ -116,11 +128,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         duration: 'repeating',
         duration_in_months: 'b'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-duration_in_months')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-duration_in_months')
     })
 
     it('should require valid expire_meridien', async () => {
@@ -137,11 +151,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         duration_in_months: '1',
         expire_meridien: 'ZM'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-expire_meridien')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-expire_meridien')
     })
 
     it('should require valid expire', async () => {
@@ -163,11 +179,13 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         expire_year: (new Date().getFullYear() - 10).toString(),
         expire_meridien: 'AM'
       }
+      let errorMessage
       try {
         await req.route.api.post(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-expire')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-expire')
     })
 
     it('should create coupon', async () => {

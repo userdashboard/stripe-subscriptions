@@ -9,11 +9,13 @@ describe('/api/user/subscriptions/charge', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/charge?chargeid=invalid`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-chargeid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-chargeid')
     })
 
     it('should reject other account\'s charge', async () => {
@@ -27,11 +29,13 @@ describe('/api/user/subscriptions/charge', () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should return charge data', async () => {

@@ -23,6 +23,9 @@ module.exports = {
     if (subscription.plan === req.body.planid) {
       throw new Error('invalid-plan')
     }
+    if (subscription.plan && subscription.plan.id && subscription.plan.id === req.body.planid) {
+      throw new Error('invalid-plan')
+    }
     const newPlan = await stripe.plans.retrieve(req.body.planid, req.stripeKey)
     if (!newPlan.metadata.published || newPlan.metadata.unpublished) {
       throw new Error('invalid-plan')

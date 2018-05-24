@@ -19,11 +19,13 @@ describe('/api/user/subscriptions/plan', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should reject unpublished plan', async () => {
@@ -33,11 +35,13 @@ describe('/api/user/subscriptions/plan', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should return plan data', async () => {

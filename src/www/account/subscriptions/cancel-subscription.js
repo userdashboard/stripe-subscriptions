@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const Navigation = require('./navbar-subscription-options.js')
 
 module.exports = {
@@ -20,7 +21,7 @@ async function beforeRequest (req) {
   const invoice = global.api.user.subscriptions.UpcomingInvoice.get(req)
   const card = req.customer.default_source || { last4: '', brand: '' }
   req.data = {subscription, card, invoice}
-  if (req.session.lockURL === req.url && req.session.unlocked >= global.dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
     await global.api.user.subscriptions.DeleteSubscription.delete(req)
   }
 }
@@ -29,13 +30,13 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'messageContainer')
     if (messageTemplate === 'success') {
       doc.removeElementById('submitForm')
-      return global.dashboard.Response.end(req, res, doc)
+      return dashboard.Response.end(req, res, doc)
     }
   }
   if (req.data.invoice.total < 0) {
@@ -43,7 +44,7 @@ async function renderPage (req, res, messageTemplate) {
   } else {
     doc.removeElementById('refundContainer')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }
 
 async function submitForm (req, res) {
@@ -51,11 +52,11 @@ async function submitForm (req, res) {
     await global.api.user.subscriptions.DeleteSubscription.delete(req)
     if (req.success) {
       if (req.body.refund === 'refund') {
-        return global.dashboard.Response.redirect(req, res, `/account/refund-invoice?invoiceid=${req.data.invoice.id}`)
+        return dashboard.Response.redirect(req, res, `/account/refund-invoice?invoiceid=${req.data.invoice.id}`)
       }
       return renderPage(req, res, 'success')
     }
-    return global.dashboard.Response.redirect(req, res, '/account/authorize')
+    return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
     return renderPage(req, res, error.message)
   }

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
     if (req.account.customerid || req.query.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
-    const profile = await global.dashboard.Profile.load(req.account.accountid)
+    const profile = await dashboard.Profile.load(req.account.accountid)
     const customerInfo = {
       email: profile.email,
       description: `${profile.firstName} ${profile.lastName}`,
@@ -20,8 +21,8 @@ module.exports = {
       }
     }
     const customer = await stripe.customers.create(customerInfo, req.stripeKey)
-    await global.dashboard.Account.setProperty(req.account.accountid, `customerid`, customer.id)
-    req.account = await global.dashboard.Account.load(req.account.accountid)
+    await dashboard.Account.setProperty(req.account.accountid, `customerid`, customer.id)
+    req.account = await dashboard.Account.load(req.account.accountid)
     req.success = true
     return customer
   }

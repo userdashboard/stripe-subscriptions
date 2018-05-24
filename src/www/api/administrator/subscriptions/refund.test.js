@@ -10,11 +10,13 @@ describe('/api/administrator/subscriptions/refund', () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-refundid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-refundid')
     })
 
     it('should return refund data', async () => {

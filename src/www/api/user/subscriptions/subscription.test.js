@@ -9,11 +9,13 @@ describe('/api/user/subscriptions/subscription', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription?subscriptionid=invalid`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should reject other account\'s subscription', async () => {
@@ -27,11 +29,13 @@ describe('/api/user/subscriptions/subscription', () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should return subscription data', async () => {

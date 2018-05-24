@@ -10,11 +10,13 @@ describe('server/require-payment', async () => {
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await RequirePayment.after(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customerid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customerid')
     })
 
     it('should allow non-owing customer through', async () => {

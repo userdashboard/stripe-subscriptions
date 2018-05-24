@@ -10,11 +10,13 @@ describe(`/api/administrator/subscriptions/publish-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/publish-product?productid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-productid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-productid')
     })
 
     it('should reject published product', async () => {
@@ -23,11 +25,13 @@ describe(`/api/administrator/subscriptions/publish-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/publish-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should publish product', async () => {

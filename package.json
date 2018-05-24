@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.0.25",
+  "version": "1.0.1021",
   "main": "index.js",
   "deprecated": false,
   "engine": {
@@ -9,11 +9,11 @@
   },
   "scripts": {
     "start": "node main.js",
-    "test": "mocha src --recursive --timeout 60000"
+    "test": "mocha src --recursive --timeout 90000"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1019",
-    "@userappstore/maxmind-geoip": "^1.0.18",
+    "@userappstore/dashboard": "^1.0.1021",
+    "@userappstore/maxmind-geoip": "^1.0.1021",
     "stripe": "^4.25.0"
   },
   "dashboard-menus": {

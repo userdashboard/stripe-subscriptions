@@ -10,11 +10,13 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-planid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-planid')
     })
 
     it('should reject unpublished plan', async () => {
@@ -24,11 +26,13 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       req.account = administrator.account
       req.session = administrator.session
       req.customer = administrator.customer
+      let errorMessage
       try {
         await req.route.api.before(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-plan')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-plan')
     })
 
     it('should bind plan to req', async () => {
@@ -48,7 +52,7 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
   describe('EditPlan#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true, unpublished: true}, {}, 1000, 0)
+      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=${administrator.plan.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
@@ -66,7 +70,7 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
   describe('EditPlan#POST', () => {
     it('should reject missing productid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true, unpublished: true}, {}, 1000, 0)
+      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=${administrator.plan.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session

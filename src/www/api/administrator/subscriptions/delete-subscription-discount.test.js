@@ -9,11 +9,13 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription-discount?subscriptionid=invalid`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscriptionid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should reject undiscounted subscription', async () => {
@@ -24,11 +26,13 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-subscription')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-subscription')
     })
 
     it('should delete subscription discount', async () => {

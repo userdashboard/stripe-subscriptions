@@ -10,11 +10,13 @@ describe('server/require-subscription', async () => {
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await RequireSubscription.after(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-customerid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-customerid')
     })
 
     it('should allow customer without subscription access to /account/*', async () => {

@@ -19,11 +19,13 @@ describe('/api/user/subscriptions/product', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/product?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should reject unpublished product', async () => {
@@ -33,11 +35,13 @@ describe('/api/user/subscriptions/product', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/product?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.get(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-product')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-product')
     })
 
     it('should return product data', async () => {

@@ -1,3 +1,5 @@
+const dashboard = require('@userappstore/dashboard')
+
 module.exports = {
   before: beforeRequest,
   get: renderPage
@@ -7,8 +9,8 @@ async function beforeRequest (req) {
   const plans = await global.api.administrator.subscriptions.Plans.get(req)
   if (plans && plans.length) {
     for (const plan of plans) {
-      plan.created = plan.created.getTime ? plan.created : global.dashboard.Timestamp.date(plan.created)
-      plan.createdRelative = global.dashboard.Format.relativePastDate(plan.created)
+      plan.created = plan.created.getTime ? plan.created : dashboard.Timestamp.date(plan.created)
+      plan.createdRelative = dashboard.Format.date(plan.created)
       plan.trialFormatted = plan.trial_period_days || 0
       plan.priceFormatted = plan.currency === 'usd' ? '$' + (plan.amount / 100) : plan.amount
     }
@@ -16,8 +18,8 @@ async function beforeRequest (req) {
   const coupons = await global.api.administrator.subscriptions.Coupons.get(req)
   if (coupons && coupons.length) {
     for (const coupon of coupons) {
-      coupon.created = coupon.created.getTime ? coupon.created : global.dashboard.Timestamp.date(coupon.created)
-      coupon.createdRelative = global.dashboard.Format.relativePastDate(global.dashboard.Timestamp.date(coupon.created))
+      coupon.created = coupon.created.getTime ? coupon.created : dashboard.Timestamp.date(coupon.created)
+      coupon.createdRelative = dashboard.Format.date(dashboard.Timestamp.date(coupon.created))
       if (coupon.percent_off) {
         coupon.discount = `${coupon.percent_off}%`
       } else {
@@ -34,12 +36,12 @@ async function beforeRequest (req) {
   const subscriptions = await global.api.administrator.subscriptions.Subscriptions.get(req)
   if (subscriptions && subscriptions.length) {
     for (const subscription of subscriptions) {
-      subscription.created = subscription.created.getTime ? subscription.created : global.dashboard.Timestamp.date(subscription.created)
-      subscription.createdRelative = global.dashboard.Format.relativePastDate(subscription.created)
-      subscription.currentPeriodStart = global.dashboard.Timestamp.date(subscription.current_period_start)
-      subscription.currentPeriodStartFormatted = global.dashboard.Format.date(subscription.currentPeriodStart)
-      subscription.currentPeriodEnd = global.dashboard.Timestamp.date(subscription.current_period_end)
-      subscription.currentPeriodEndFormatted = global.dashboard.Format.date(subscription.currentPeriodEnd)
+      subscription.created = subscription.created.getTime ? subscription.created : dashboard.Timestamp.date(subscription.created)
+      subscription.createdRelative = dashboard.Format.date(subscription.created)
+      subscription.currentPeriodStart = dashboard.Timestamp.date(subscription.current_period_start)
+      subscription.currentPeriodStartFormatted = dashboard.Format.date(subscription.currentPeriodStart)
+      subscription.currentPeriodEnd = dashboard.Timestamp.date(subscription.current_period_end)
+      subscription.currentPeriodEndFormatted = dashboard.Format.date(subscription.currentPeriodEnd)
       subscription.plan = subscription.plan && subscription.plan.id ? subscription.plan.id : subscription.plan
     }
   }
@@ -47,7 +49,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = global.dashboard.HTML.parse(req.route.html)
+  const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.plans && req.data.plans.length) {
     doc.renderTable(req.data.plans, 'plan-row-template', 'plans-table')
     for (const plan of req.data.plans) {
@@ -83,5 +85,5 @@ async function renderPage (req, res) {
   } else {
     doc.removeElementById('subscriptions-table')
   }
-  return global.dashboard.Response.end(req, res, doc)
+  return dashboard.Response.end(req, res, doc)
 }

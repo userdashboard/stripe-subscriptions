@@ -14,11 +14,13 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       req.body = {
         sourceid: user.customer.default_source
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoiceid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoiceid')
     })
 
     it('should reject other account\'s invoice', async () => {
@@ -35,11 +37,13 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       req.body = {
         sourceid: user2.customer.default_source
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-account')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should reject paid invoice', async () => {
@@ -54,11 +58,13 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       req.body = {
         sourceid: user.customer.default_source
       }
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoice')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoice')
     })
 
     it('should reject forgiven invoice', async () => {
@@ -82,11 +88,13 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       req2.body = {
         sourceid: user.customer.default_source
       }
+      let errorMessage
       try {
         await req2.route.api.patch(req2)
       } catch (error) {
-        assert.equal(error.message, 'invalid-invoice')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-invoice')
     })
 
     it('should require valid source', async () => {
@@ -105,11 +113,13 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       }
       await req.route.api.patch(req)
       await TestHelper.completeAuthorization(req)
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-sourceid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-sourceid')
     })
 
     it('should reject other account\'s source', async () => {
@@ -128,11 +138,15 @@ describe(`/api/user/subscriptions/pay-invoice`, () => {
       req.body = {
         sourceid: user.customer.default_source
       }
+      await req.route.api.patch(req)
+      await TestHelper.completeAuthorization(req)
+      let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-source')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-sourceid')
     })
 
     it('should pay invoice', async () => {

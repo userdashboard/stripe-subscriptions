@@ -9,11 +9,13 @@ describe(`/api/user/subscriptions/delete-card`, () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-card?cardid=invalid`, 'DELETE')
       req.account = user.account
       req.session = user.session
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should reject other account\'s card', async () => {
@@ -27,11 +29,13 @@ describe(`/api/user/subscriptions/delete-card`, () => {
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
+      let errorMessage
       try {
         await req.route.api.delete(req)
       } catch (error) {
-        assert.equal(error.message, 'invalid-cardid')
+        errorMessage = error.message
       }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should delete card', async () => {

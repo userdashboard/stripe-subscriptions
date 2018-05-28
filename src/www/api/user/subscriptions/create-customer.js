@@ -17,7 +17,7 @@ module.exports = {
         accountid: req.account.accountid,
         created: req.account.created,
         ip: req.ip,
-        userAgent: req.headers['user-agent']
+        userAgent: req.userAgent
       }
     }
     const customer = await stripe.customers.create(customerInfo, req.stripeKey)

@@ -1,0 +1,81 @@
+<html navbar="/administrator/subscriptions/navbar.html">
+  <head>
+    <title>Platform payouts</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <link rel="stylesheet" href="/public/pure-min.css" />
+    <link rel="stylesheet" href="/public/content.css" />
+    <style>
+      .pure-button-group { padding: 0; margin: 0 0 2rem 0 }
+      .pure-g input[type="text"],
+      .pure-g input[type="email"] { display: block; width: 90% }
+      .pure-control-group a { margin-left: 0.5rem; font-size: 0.9rem; line-height: 0.9rem }
+      ol { margin: 0 0 2rem 0 }
+    </style>
+  </head>
+  <body>
+    <h1>Platform payouts</h1>
+    <div id="messageContainer"></div>
+    <table id="payouts-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Amount</th>
+          <th>Stripe account</th>
+          <th>Status</th>
+          <th>Description</th>
+          <th></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <template id="payout-row-template">
+    <tr id="${id}">
+      <td><a href="payout?payoutid=${id}">${id}</a></td>
+      <td>${amount}</td>
+      <td><a href="stripe-account?stripeid=${stripeid}">${stripeid}</a></td>
+      <td id="status-${id}"></td>
+      <td>${description}</td>
+      <td class="pure-button-group" role="group">
+      </td>
+    </tr>
+  </template>
+  <template id="unsupported_card">
+    <span>Card unsupported by bank.</span>
+  </template>
+  <template id="no_account">
+    <span>No bank account found</span>
+  </template>
+  <template id="invalid_currency">
+    <span>Invalid currency</span>
+  </template>
+  <template id="incorrect_account_holder_name">
+    <span>Incorrect account holder name.</span>
+  </template>
+  <template id="invalid_account_number">
+    <span>Invalid account number</span>
+  </template>
+  <template id="insufficient_funds">
+    <span>Insufficient funds</span>
+  </template>
+  <template id="declined">
+    <span>Bank declined transfer</span>
+  </template>
+  <template id="debit_not_authorized">
+    <span>No bank account debit</span>
+  </template>
+  <template id="could_not_process">
+    <span>Could not process</span>
+  </template>
+  <template id="bank_ownership_changed">
+    <span>Bank ownership changed</span>
+  </template>
+  <template id="bank_account_restricted">
+    <span>Bank account restricted</span>
+  </template>
+  <template id="account_frozen">
+    <span>Bank account frozen</span>
+  </template>
+  <template id="account_closed">
+    <span>Bank account closed</span>
+  </template>
+</html>

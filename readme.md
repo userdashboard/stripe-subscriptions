@@ -1,4 +1,4 @@
-# Dashboard Subscriptions
+# Stripe Subscriptions for Dashboard
 
 This module adds subscription billing functionality to [userappstore/dashboard](https://github.com/userappstore/dashboard).  It adds an account menu for your users to manage their billing information and subscriptions, and an administrator menu to manage your plans, coupons, customers etc.
 
@@ -40,7 +40,7 @@ The `Private API` is accessible to your and module code, remapped to a NodeJS gl
         planid: 'a-plan'
       }
     }
-    const subscription = await global.api.user.CreateSubscription.post(req)
+    const subscription = await global.api.user.subscriptions.CreateSubscription.post(req)
 
 ## Unit tests
 
@@ -51,7 +51,7 @@ Each NodeJS file for the APIs and Browser Interface have an accompanying .test.j
 
 ## Privacy
 
-This module includes no client-side JavaScript so establishing a connection is not shared with any other company including Stripe.
+This module includes no client-side JavaScript so browsing the application shares no data with any third parties.
 
 On the server-side a Stripe customer object is created and the dashboard  stores the IP and User Agent whenever data is created.
 

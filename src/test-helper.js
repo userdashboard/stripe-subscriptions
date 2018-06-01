@@ -2,14 +2,12 @@
 const dashboard = require('@userappstore/dashboard')
 const path = require('path')
 const stripe = require('stripe')()
-process.env.STRIPE_KEY = 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
+
+process.env.STRIPE_KEY = process.env.STRIPE_KEY || 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
 const stripeKey = {api_key: process.env.STRIPE_KEY}
 
-/* eslint-env mocha */
 module.exports = dashboard.loadTestHelper()
-
-global.rootPath = path.join(__dirname, 'www')
-dashboard.setup()
+dashboard.setup(path.join(__dirname, '..'))
 global.redisClient.select(4)
 
 const createRequestWas = module.exports.createRequest
@@ -240,4 +238,20 @@ async function changeSubscription (existingUser, planid) {
   const invoice = await stripe.invoices.create({ customer: existingUser.customer.id }, stripeKey)
   existingUser.invoice = invoice
   return existingUser
+}
+
+module.exports.createPayout = async () => {
+  const chargeInfo = {
+    amount: 2000,
+    currency: 'usd',
+    source: 'tok_bypassPending',
+    description: 'Test charge'
+  }
+  await stripe.charges.create(chargeInfo, stripeKey)
+  const payoutInfo = {
+    amount: 400,
+    currency: 'usd'
+  }
+  const payout = await stripe.payouts.create(payoutInfo, stripeKey)
+  return payout
 }

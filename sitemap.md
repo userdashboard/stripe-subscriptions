@@ -71,6 +71,8 @@ This site map is generated automatically each time the dashboard starts.
 |/administrator/subscriptions/forgive-invoice|         |        |              |GET POST       |/src/www                       |/src/www                   
 |/administrator/subscriptions/invoice|         |        |              |GET            |/src/www                       |/src/www                   
 |/administrator/subscriptions/invoices|         |        |              |GET            |/src/www                       |/src/www                   
+|/administrator/subscriptions/payout|         |        |              |GET            |/src/www                       |/src/www                   
+|/administrator/subscriptions/payouts|         |        |              |GET            |/src/www                       |/src/www                   
 |/administrator/subscriptions/plan|         |        |              |GET            |/src/www                       |/src/www                   
 |/administrator/subscriptions/plans|         |        |              |GET            |/src/www                       |/src/www                   
 |/administrator/subscriptions/product|         |        |              |GET            |/src/www                       |/src/www                   
@@ -121,6 +123,8 @@ This site map is generated automatically each time the dashboard starts.
 |/api/administrator/subscriptions/forgive-invoice|         |LOCK    |              |PATCH          |/src/www                       |                           
 |/api/administrator/subscriptions/invoice|         |        |              |GET            |/src/www                       |                           
 |/api/administrator/subscriptions/invoices|         |        |              |GET            |/src/www                       |                           
+|/api/administrator/subscriptions/payout|         |        |              |GET            |/src/www                       |                           
+|/api/administrator/subscriptions/payouts|         |        |              |GET            |/src/www                       |                           
 |/api/administrator/subscriptions/plan|         |        |              |GET            |/src/www                       |                           
 |/api/administrator/subscriptions/plans|         |        |              |GET            |/src/www                       |                           
 |/api/administrator/subscriptions/product|         |        |              |GET            |/src/www                       |                           

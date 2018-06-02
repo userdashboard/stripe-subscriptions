@@ -26,9 +26,9 @@ async function renderPage (req, res, messageTemplate) {
   }
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'messageContainer')
+    doc.renderTemplate(null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submitForm')
+      doc.removeElementById('submit-form')
     }
   }
   doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')

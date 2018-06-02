@@ -29,7 +29,7 @@ async function renderPage (req, res, messageTemplate) {
   const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'messageContainer')
+    doc.renderTemplate(null, messageTemplate, 'message-container')
   }
   const trialPeriodDaysField = doc.getElementById('trial_period_days')
   trialPeriodDaysField.setAttribute('value', req.body ? req.body.trial_period_days : req.data.plan.trial_period_days || 0)

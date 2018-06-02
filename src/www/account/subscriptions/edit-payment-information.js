@@ -25,7 +25,7 @@ async function renderPage (req, res, messageTemplate) {
   await Navigation.render(req, doc)
   doc.renderList(countries, 'country-template', 'address_country')
   if (messageTemplate) {
-    doc.renderTemplate({}, messageTemplate, 'messageContainer')
+    doc.renderTemplate({}, messageTemplate, 'message-container')
   }
   let country
   if ((req.body && req.body.address_country) || req.country) {

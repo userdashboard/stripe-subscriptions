@@ -28,10 +28,10 @@ async function renderPage (req, res, messageTemplate) {
   const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'messageContainer')
+    doc.renderTemplate(null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.renderTemplate(null, 'success', 'messageContainer')
-      doc.removeElementById('submitForm')
+      doc.renderTemplate(null, 'success', 'message-container')
+      doc.removeElementById('submit-form')
     }
   }
   return dashboard.Response.end(req, res, doc)

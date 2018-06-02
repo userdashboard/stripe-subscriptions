@@ -90,8 +90,8 @@ describe(`/account/subscriptions/delete-card`, async () => {
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        assert.notEqual(null, doc.getElementById('submitForm'))
-        assert.notEqual(null, doc.getElementById('submitButton'))
+        assert.notEqual(null, doc.getElementById('submit-form'))
+        assert.notEqual(null, doc.getElementById('submit-button'))
       }
       return req.route.api.get(req, res)
     })
@@ -115,7 +115,7 @@ describe(`/account/subscriptions/delete-card`, async () => {
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)
-          const messageContainer = doc.getElementById('messageContainer')
+          const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)
           assert.notEqual(null, messageContainer.child)
           const message = messageContainer.child[0]

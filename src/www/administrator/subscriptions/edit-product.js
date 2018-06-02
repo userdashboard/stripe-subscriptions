@@ -28,7 +28,7 @@ async function renderPage (req, res, messageTemplate) {
   const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'messageContainer')
+    doc.renderTemplate(null, messageTemplate, 'message-container')
   }
   const nameField = doc.getElementById('name')
   nameField.setAttribute('value', req.body ? req.body.name || '' : req.data.product.name)

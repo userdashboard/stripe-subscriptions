@@ -14,8 +14,8 @@ describe('/administrator/subscriptions/create-coupon', () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         assert.notEqual(null, doc.getElementById('couponid'))
-        assert.notEqual(null, doc.getElementById('submitForm'))
-        assert.notEqual(null, doc.getElementById('submitButton'))
+        assert.notEqual(null, doc.getElementById('submit-form'))
+        assert.notEqual(null, doc.getElementById('submit-button'))
       }
       return req.route.api.get(req, res)
     })
@@ -38,7 +38,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -63,7 +63,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -90,7 +90,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -115,7 +115,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -140,7 +140,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -165,7 +165,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -190,7 +190,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -215,7 +215,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -239,7 +239,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -265,7 +265,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -295,7 +295,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const messageContainer = doc.getElementById('messageContainer')
+        const messageContainer = doc.getElementById('message-container')
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
@@ -323,7 +323,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         const res3 = TestHelper.createResponse()
         res3.end = async (str) => {
           const doc = TestHelper.extractDoc(str)
-          const messageContainer = doc.getElementById('messageContainer')
+          const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)
           assert.notEqual(null, messageContainer.child)
           const message = messageContainer.child[0]

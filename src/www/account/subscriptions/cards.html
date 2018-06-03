@@ -12,6 +12,7 @@
     <table id="cards-table" class="pure-table pure-table-striped">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Card</th>
           <th>Last 4</th>
           <th>Expires</th>
@@ -23,6 +24,7 @@
   </body>
   <template id="card-row-template">
     <tr id="${id}">
+      <td>${id}</td>
       <td>${brand}</td>
       <td>${last4}</td>
       <td>${exp_month} / ${exp_year}</td>

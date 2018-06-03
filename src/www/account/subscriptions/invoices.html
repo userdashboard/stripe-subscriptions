@@ -13,6 +13,7 @@
     <table id="invoices-table" class="pure-table pure-table-striped">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Invoice number</th>
           <th>Subscription</th>
           <th>Statement description</th>
@@ -26,6 +27,7 @@
   </body>
   <template id="invoice-row-template">
     <tr id="${id}">
+      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
       <td>${number}</td>
       <td>${plan_name}</td>
       <td>${statement_descriptor}</td>
@@ -33,8 +35,6 @@
       <td title="${date}">${dateRelative}</td>
       <td>${totalFormatted}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="set_default?cardid=${id}">View invoice</a>
-        <a class="pure-button" href="delete_card?cardid=${id}">Download</a>
       </td>
     </tr>
   </template>

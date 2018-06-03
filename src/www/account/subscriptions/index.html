@@ -23,6 +23,7 @@
       <table id="subscriptions-table" class="pure-table pure-table-striped">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Status</th>
             <th>Plan</th>
             <th>Price</th>
@@ -38,6 +39,7 @@
       <table id="invoices-table" class="pure-table pure-table-striped">
         <thead>
           <tr>
+              <th>ID</th>
             <th>Invoice number</th>
             <th>Total</th>
             <th>Plan</th>
@@ -53,6 +55,7 @@
       <table id="cards-table" class="pure-table pure-table-striped">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Card</th>
             <th>Last 4</th>
             <th>Expires</th>
@@ -68,6 +71,7 @@
   </template>
   <template id="card-row-template">
     <tr id="${id}">
+      <td>${id}</td>
       <td>${brand}</td>
       <td>${last4}</td>
       <td>${exp_month} / ${exp_year}</td>
@@ -80,6 +84,7 @@
   </template>
   <template id="subscription-row-template">
     <tr id="${id}">
+      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
       <td id='active-subscription-${id}'>Active</td>
       <td id='canceling-subscription-${id}'>Active (canceling)</td>
       <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEndRelative})</td>
@@ -98,7 +103,6 @@
       <td title="${created}">${createdRelative}</td>
       <td title="${nextCharge}">${nextChargeRelative}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="subscription?subscriptionid=${id}">View subscription</a>
         <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
         <a id="change-plan-link-${id}" class="pure-button" href="change-plan?subscriptionid=${id}">Change plan</a>
         <a id="cancel-subscription-link-${id}" class="pure-button" href="cancel-subscription?subscriptionid=${id}">Cancel</a>
@@ -107,14 +111,13 @@
   </template>
   <template id="invoice-row-template">
     <tr id="${id}">
+      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
       <td>${number}</td>
       <td>${totalFormatted}</td>
       <td>${plan_name}</td>
       <td>${statement_descriptor}</td>
       <td title="${date}">${dateRelative}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="invoice?invoiceid=${id}">View invoice</a>
-        <a class="pure-button" href="invoice.pdf?invoiceid=${id}">Download PDF</a>
       </td>
     </tr>
   </template>

@@ -12,7 +12,8 @@
     <div id="message-container"></div>
     <table id="invoices-table" class="pure-table pure-table-striped">
       <thead>
-        <tr>          
+        <tr>
+          <th>ID</th>     
           <th>Invoice number</th>
           <th>Total</th>
           <th>Date</th>
@@ -25,6 +26,7 @@
       <table id="charges-table" class="pure-table pure-table-striped">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Source</th>
             <th>Statement description</th>
             <th>Amount</th>
@@ -39,6 +41,7 @@
       <table id="refunds-table" class="pure-table pure-table-striped">
         <thead>
           <tr>
+            <th>ID</th>
             <th>Destination</th>
             <th>Status</th>
             <th>Amount</th>
@@ -52,6 +55,7 @@
     <table id="lineitems-table" class="pure-table pure-table-striped">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Quantity</th>
           <th>Plan</th>
           <th>Period</th>
@@ -63,6 +67,7 @@
   </body>
   <template id="invoice-row-template">
     <tr id="${id}">
+      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
       <td>${number}</td>
       <td>${dateFormatted}</td>
       <td>${totalFormatted}</td>
@@ -71,6 +76,7 @@
   </template>
   <template id="lineitem-row-template">
     <tr id="${id}">
+      <td>${id}</td>
       <td>${quantity}</td>
       <td>${description}</td>
       <td>${startFormatted} - ${endFormatted}</td>
@@ -80,6 +86,7 @@
   </template>
   <template id="charge-row-template">
     <tr id="${id}">
+      <td>${id}</td>
       <td>${brand} ${last4}</td>
       <td>${statement_descriptor}</td>
       <td>${totalFormatted}</td>
@@ -89,6 +96,7 @@
   </template>
   <template id="refund-row-template">
     <tr id="${id}">
+      <td>${id}</td>
       <td>${brand} ${last4}</td>
       <td>${status}</td>
       <td>${totalFormatted}</td>

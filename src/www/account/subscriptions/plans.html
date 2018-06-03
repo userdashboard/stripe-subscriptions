@@ -23,12 +23,11 @@
   </body>
   <template id="plan-row-template">
     <tr id="${id}">
-      <td>${id}</td>
+      <td><a href="plan?planid=${id}">${id}</a></td>
       <td>${name}</td>
       <td>${price}</td>
       <td>${trial_period_days}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="/account/subscriptions/plan?planid=${id}">View plan</a>
         <a id="start-subscription-${id}" class="pure-button" href="/account/subscriptions/start-subscription?planid=${id}">Start subscription</a>
         <a id="cancel-subscription-${id}" class="pure-button" href="/account/subscriptions/cancel-subscription?planid=${id}">Cancel subscription</a>
       </td>

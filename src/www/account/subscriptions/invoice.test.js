@@ -39,21 +39,6 @@ describe('/account/subscriptions/invoice', () => {
       }
       assert.equal(errorMessage, 'invalid-account')
     })
-    it('should reject invalid invoice', async () => {
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
-      const req = TestHelper.createRequest('/account/subscriptions/invoice?invoiceid=invalid', 'POST')
-      req.account = user.account
-      req.session = user.session
-      req.customer = user.customer
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.equal(errorMessage, 'invalid-invoiceid')
-    })
 
     it('should reject other account\'s invoice', async () => {
       const administrator = await TestHelper.createAdministrator()

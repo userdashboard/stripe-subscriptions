@@ -12,8 +12,8 @@
     <div id="message-container"></div>
     <table id="invoices-table" class="pure-table pure-table-striped">
       <thead>
-        <tr>
-          <th>ID</th>     
+        <tr> 
+          <th>ID</th>         
           <th>Invoice number</th>
           <th>Total</th>
           <th>Date</th>
@@ -86,7 +86,7 @@
   </template>
   <template id="charge-row-template">
     <tr id="${id}">
-      <td>${id}</td>
+      <td><a href="charge?chargeid=${id}">${id}</a></td>
       <td>${brand} ${last4}</td>
       <td>${statement_descriptor}</td>
       <td>${totalFormatted}</td>

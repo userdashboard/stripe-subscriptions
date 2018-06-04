@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.0.1027",
+  "version": "1.0.1029",
   "main": "index.js",
   "deprecated": false,
   "engine": {
@@ -12,32 +12,34 @@
     "test": "NODE_ENV=testing mocha src --recursive --timeout 90000"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1027",
-    "@userappstore/maxmind-geoip": "^1.0.1027",
+    "@userappstore/dashboard": "^1.0.1029",
+    "@userappstore/maxmind-geoip": "^1.0.1029",
     "stripe": "^4.25.0"
   },
-  "dashboard-menus": {
-    "administrator": [
-      {
-        "href": "/administrator/subscriptions",
-        "text": "Stripe Subscriptions"
-      }
+  "dashboard": {
+    "menus": {
+      "administrator": [
+        {
+          "href": "/administrator/subscriptions",
+          "text": "Stripe Subscriptions"
+        }
+      ],
+      "account": [
+        {
+          "href": "/account/subscriptions",
+          "text": "My subscriptions"
+        }
+      ]
+    },
+    "modules": [
+      "@userappstore/dashboard",
+      "@userappstore/maxmind-geoip"
     ],
-    "account": [
-      {
-        "href": "/account/subscriptions",
-        "text": "My subscriptions"
-      }
+    "server": [
+      "/src/server/bind-stripekey.js",
+      "/src/server/bind-customer.js",
+      "/src/server/require-subscription.js",
+      "/src/server/require-payment.js"
     ]
-  },
-  "dashboard-modules": [
-    "@userappstore/dashboard",
-    "@userappstore/maxmind-geoip"
-  ],
-  "dashboard-server": [
-    "/src/server/bind-stripekey.js",
-    "/src/server/bind-customer.js",
-    "/src/server/require-subscription.js",
-    "/src/server/require-payment.js"
-  ]
+  }
 }

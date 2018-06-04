@@ -9,7 +9,7 @@ module.exports = {
     if (req.account.customerid || req.query.accountid !== req.account.accountid) {
       throw new Error('invalid-account')
     }
-    const profile = await dashboard.Profile.load(req.account.accountid)
+    const profile = await dashboard.Profile.load(req.account.profileid)
     const customerInfo = {
       email: profile.email,
       description: `${profile.firstName} ${profile.lastName}`,

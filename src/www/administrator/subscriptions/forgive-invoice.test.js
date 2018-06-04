@@ -102,6 +102,26 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the invoice table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const user = await TestHelper.createUser()
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.changeSubscription(user, plan2.id)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(user.invoice.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('ForgiveInvoice#POST', () => {

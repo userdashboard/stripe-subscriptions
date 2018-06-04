@@ -90,6 +90,24 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the plan table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user, false)
+      const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(administrator.plan.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('StartSubscription#POST', () => {

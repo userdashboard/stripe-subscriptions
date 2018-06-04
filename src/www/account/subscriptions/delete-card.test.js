@@ -95,6 +95,24 @@ describe(`/account/subscriptions/delete-card`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the card table', async () => {
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user, true)
+      const card1 = user.card
+      await TestHelper.createCard(user)
+      const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${card1.id}`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(card1.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('DeleteCard#POST', () => {

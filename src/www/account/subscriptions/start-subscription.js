@@ -28,6 +28,7 @@ async function renderPage (req, res, messageTemplate) {
   }
   const doc = dashboard.HTML.parse(req.route.html)
   await Navigation.render(req, doc)
+  doc.renderTemplate(req.data.plan, 'plan-row-template', 'plans-table')
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {

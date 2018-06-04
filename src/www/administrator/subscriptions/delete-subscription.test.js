@@ -54,6 +54,24 @@ describe(`/administrator/subscriptions/delete-subscription`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the subscription table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const user = await TestHelper.createUser()
+      await TestHelper.createSubscription(user, administrator.plan.id)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(user.subscription.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('DeleteSubscription#POST', () => {

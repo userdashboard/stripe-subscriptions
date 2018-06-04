@@ -66,6 +66,22 @@ describe(`/administrator/subscriptions/publish-plan`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the plan table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createPlan(administrator, {})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-plan?planid=${administrator.plan.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(administrator.plan.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('PublishPlan#POST', () => {

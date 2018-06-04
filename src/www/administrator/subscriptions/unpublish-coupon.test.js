@@ -82,6 +82,22 @@ describe(`/administrator/subscriptions/unpublish-coupon`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the coupon table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createCoupon(administrator, {published: true})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-coupon?couponid=${administrator.coupon.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(administrator.coupon.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('UnpublishCoupon#POST', () => {

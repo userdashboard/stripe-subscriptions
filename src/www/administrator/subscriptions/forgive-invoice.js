@@ -25,6 +25,7 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
+  doc.renderTemplate(req.data.invoice, 'invoice-row-template', 'invoices-table')
   if (messageTemplate) {
     doc.renderTemplate(null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {

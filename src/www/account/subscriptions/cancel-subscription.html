@@ -6,15 +6,18 @@
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
 		<base href="/" target="_top" />
-    <style>
-      .refund-note { color: #666; display: block; font-size: 0.8rem; margin: 0.5rem 0 0 0 }
-      .next-charge { font-size: 1.2rem }
-      .pure-control-group ul { padding: 0 }
-    </style> 
   </head>
   <body>
     <h1>Cancel subscription</h1>
     <div id="message-container"></div>
+    <table id="subscriptions-table" class="pure-table pure-table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Plan</th>
+        </tr>
+      </thead>
+    </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <div id="refundContainer">
         <div class="pure-control-group">
@@ -33,12 +36,18 @@
     </form>
   </body>
   <template id="refund-template">
-      <span>${amountFormatted} ${currency}</span>
-    </template>
+    <span>${amountFormatted} ${currency}</span>
+  </template>
   <template id="success">
     <div class="success message" error="success">The subscription has been canceled.</div>
   </template>
   <template id="unknown-error">
     <div class="error message" error="unknown-error">An error ocurred canceling the subscription.</div>
+  </template>
+  <template id="subscription-row-template">
+    <tr id="${id}">
+      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
+      <td>${plan_name}</td>
+    </tr>
   </template>
 </html>

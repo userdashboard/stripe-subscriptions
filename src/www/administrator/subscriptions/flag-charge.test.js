@@ -74,6 +74,25 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the charge table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const user = await TestHelper.createUser()
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.createRefund(user, user.subscription.id)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(user.charge.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('FlagCharge#POST', () => {

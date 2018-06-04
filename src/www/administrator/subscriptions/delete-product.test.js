@@ -50,6 +50,22 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       }
       return req.route.api.get(req, res)
     })
+
+    it('should present the product table', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
+      req.account = administrator.account
+      req.session = administrator.session
+      req.customer = administrator.customer
+      const res = TestHelper.createResponse()
+      res.end = async (str) => {
+        const doc = TestHelper.extractDoc(str)
+        const tr = doc.getElementById(administrator.product.id)
+        assert.notEqual(null, tr)
+      }
+      return req.route.api.get(req, res)
+    })
   })
 
   describe('DeleteProduct#POST', () => {

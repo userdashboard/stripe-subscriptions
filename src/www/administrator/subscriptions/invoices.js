@@ -11,11 +11,8 @@ async function beforeRequest (req) {
     for (const invoice of invoices) {
       invoice.totalFormatted = dashboard.Format.money(invoice.total, invoice.currency)
       invoice.date = dashboard.Timestamp.date(invoice.date)
-      invoice.dateRelative = dashboard.Format.date(invoice.date)
       invoice.periodStart = dashboard.Timestamp.date(invoice.lines.data[0].period.start)
-      invoice.periodStartRelative = dashboard.Format.date(invoice.periodStart)
       invoice.periodEnd = dashboard.Timestamp.date(invoice.lines.data[0].period.end)
-      invoice.periodEndRelative = dashboard.Format.date(invoice.periodEnd)
       invoice.planName = invoice.lines.data[0].plan.name
       invoice.planid = invoice.lines.data[0].plan.id
     }

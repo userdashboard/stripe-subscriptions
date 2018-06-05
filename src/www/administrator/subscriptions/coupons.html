@@ -28,9 +28,9 @@
       <td><a href="coupon?couponid=${id}">${id}</a></td>
       <td>${discount}</td>
       <td id="draft-coupon-${id}">Draft</td>
-      <td id="published-coupon-${id}" title="${published}">Published</td>
-      <td id="unpublished-coupon-${id}" title="${published}">Unpublished</td>
-      <td title="${created}">${createdRelative}</td>
+      <td id="published-coupon-${id}">Published</td>
+      <td id="unpublished-coupon-${id}">Unpublished</td>
+      <td>${created(}</td>
       <td class="pure-button-group" role="group">
         <a id="publish-coupon-${id}" class="pure-button" href="publish-coupon?couponid=${id}">Publish</a>
         <a id="unpublish-coupon-${id}" class="pure-button" href="unpublish-coupon?couponid=${id}">Unpublish</a>

@@ -10,7 +10,6 @@ async function beforeRequest (req) {
   const coupons = await global.api.administrator.subscriptions.Coupons.get(req)
   if (coupons && coupons.length) {
     for (const coupon of coupons) {
-      coupon.createdRelative = dashboard.Format.date(dashboard.Timestamp.date(coupon.created))
       if (coupon.percent_off) {
         coupon.discount = `${coupon.percent_off}%`
       } else {

@@ -10,7 +10,6 @@ async function beforeRequest (req) {
   if (plans && plans.length) {
     for (const plan of plans) {
       plan.created = plan.created.getTime ? plan.created : dashboard.Timestamp.date(plan.created)
-      plan.createdRelative = dashboard.Format.date(plan.created)
       plan.trialFormatted = plan.trial_period_days || 0
       plan.priceFormatted = plan.currency === 'usd' ? '$' + (plan.amount / 100) : plan.amount
     }

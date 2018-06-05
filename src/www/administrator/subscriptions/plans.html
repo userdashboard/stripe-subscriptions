@@ -31,9 +31,9 @@
         <td>${priceFormatted}</td>
         <td>${trialFormatted}</td>
         <td id="draft-plan-${id}">Draft</td>
-        <td id="published-plan-${id}" title="${published}">Published</td>
-        <td id="unpublished-plan-${id}" title="${published}">Unpublished</td>
-        <td title="${created}">${createdRelative}</td>
+        <td id="published-plan-${id}">Published</td>
+        <td id="unpublished-plan-${id}">Unpublished</td>
+        <td>${created(}</td>
         <td class="pure-button-group" role="group">
           <a id="publish-plan-${id}" class="pure-button" href="publish-plan?planid=${id}">Publish</a>
           <a id="unpublish-plan-${id}" class="pure-button" href="unpublish-plan?planid=${id}">Unpublish</a>

@@ -13,11 +13,8 @@ async function beforeRequest (req) {
       if (invoice.total) {
         invoice.totalFormatted = dashboard.Format.money(invoice.total, invoice.currency)
         invoice.date = dashboard.Timestamp.date(invoice.date)
-        invoice.dateRelative = dashboard.Format.date(invoice.date)
         invoice.period_start = dashboard.Timestamp.date(invoice.lines.data[0].period.start)
-        invoice.periodStartRelative = dashboard.Format.date(invoice.lines.data[0].period.start)
         invoice.period_end = dashboard.Timestamp.date(invoice.lines.data[0].period.end)
-        invoice.periodEndRelative = dashboard.Format.date(invoice.lines.data[0].period.end)
         invoice.plan_name = invoice.lines.data[0].plan.name
       }
     }

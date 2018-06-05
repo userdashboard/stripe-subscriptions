@@ -21,18 +21,14 @@ async function beforeRequest (req) {
   subscription.interval = subscription.plan.interval
   subscription.interval_count = subscription.plan.interval_count
   subscription.created = dashboard.Timestamp.date(subscription.start)
-  subscription.createdRelative = dashboard.Format.date(subscription.created)
   subscription.priceFormatted = dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
   if (subscription.status === 'trial') {
     subscription.trial_end = dashboard.Timestamp.date(subscription.trial_end)
-    subscription.trialEndRelative = dashboard.Format.date(subscription.trial_end)
   }
   if (!subscription.plan.amount || subscription.status !== 'active' || subscription.cancel_at_period_end) {
-    subscription.nextChargeRelative = '-'
     subscription.nextCharge = '-'
   } else {
     subscription.nextCharge = dashboard.Timestamp.date(subscription.current_period_end)
-    subscription.nextChargeRelative = dashboard.Format.date(subscription.nextCharge)
   }
   const invoiceList = await global.api.user.subscriptions.Invoices.get(req)
   const invoices = invoiceList.data
@@ -40,11 +36,8 @@ async function beforeRequest (req) {
     for (const invoice of invoices) {
       invoice.totalFormatted = dashboard.Format.money(invoice.total || 0, invoice.currency)
       invoice.date = dashboard.Timestamp.date(invoice.date)
-      invoice.dateRelative = dashboard.Format.date(invoice.date)
       invoice.period_start = dashboard.Timestamp.date(invoice.lines.data[0].period_start)
-      invoice.periodStartRelative = dashboard.Format.date(invoice.lines.data[0].period_start)
       invoice.period_end = dashboard.Timestamp.date(invoice.lines.data[0].period_end)
-      invoice.periodEndRelative = dashboard.Format.date(invoice.lines.data[0].period_end)
       invoice.plan_name = invoice.lines.data[0].plan.name
     }
   }

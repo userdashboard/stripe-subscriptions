@@ -13,7 +13,6 @@ async function beforeRequest (req) {
       charge.amountFormatted = dashboard.Format.money(charge.amount || 0, charge.currency)
       charge.amountRefundedFormatted = dashboard.Format.money(charge.amount_refunded || 0, charge.currency)
       charge.date = dashboard.Timestamp.date(charge.created)
-      charge.dateRelative = dashboard.Format.date(charge.date)
     }
   }
   req.data = {charges}

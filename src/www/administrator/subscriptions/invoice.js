@@ -11,7 +11,6 @@ async function beforeRequest (req) {
   }
   const invoice = await global.api.administrator.subscriptions.Invoice.get(req)
   invoice.created = dashboard.Timestamp.date(invoice.created)
-  invoice.createdRelative = dashboard.Format.date(invoice.created)
   invoice.account_balance = invoice.account_balance || 0
   invoice.accountBalanceFormatted = invoice.account_balance < 0 ? dashboard.Format.money(-invoice.account_balance, invoice.currency) : ''
   invoice.email = invoice.email || ''

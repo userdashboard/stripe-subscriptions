@@ -30,9 +30,9 @@
       <td><a href="customer?customerid=${customer}">${customer}</a></td>
       <td><a href="subscription?subscriptionid=${subscription}">${subscription}</a></td>
       <td>${number}</td>
-      <td>${periodStartRelative} - ${periodEndRelative}</td>
+      <td>${periodStart(} - ${periodEnd(}</td>
       <td>${totalFormatted}</td>
-      <td title="${date}">${dateRelative}</td>
+      <td>${date(}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

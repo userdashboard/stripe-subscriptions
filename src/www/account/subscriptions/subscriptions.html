@@ -29,11 +29,11 @@
       <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
       <td>${plan_name}</td>
       <td>${priceFormatted} ${currency}</td>
-      <td title="${created}">${createdRelative}</td>
-      <td title="${nextCharge}">${nextChargeRelative}</td>
+      <td>${created(}</td>
+      <td>${nextCharge(}</td>
       <td id='active-subscription-${id}'>Active</td>
       <td id='canceling-subscription-${id}'>Active (canceling)</td>
-      <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEndRelative})</td>
+      <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEnd(})</td>
       <td id='past_due-subscription-${id}'>Past due</td>
       <td id='canceled-subscription-${id}'>Canceled</td>
       <td id='unpaid-subscription-${id}'>Unpaid</td>

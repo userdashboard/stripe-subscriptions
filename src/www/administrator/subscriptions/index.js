@@ -10,7 +10,6 @@ async function beforeRequest (req) {
   if (plans && plans.length) {
     for (const plan of plans) {
       plan.created = plan.created.getTime ? plan.created : dashboard.Timestamp.date(plan.created)
-      plan.createdRelative = dashboard.Format.date(plan.created)
       plan.trialFormatted = plan.trial_period_days || 0
       plan.priceFormatted = plan.currency === 'usd' ? '$' + (plan.amount / 100) : plan.amount
     }
@@ -19,7 +18,6 @@ async function beforeRequest (req) {
   if (coupons && coupons.length) {
     for (const coupon of coupons) {
       coupon.created = coupon.created.getTime ? coupon.created : dashboard.Timestamp.date(coupon.created)
-      coupon.createdRelative = dashboard.Format.date(dashboard.Timestamp.date(coupon.created))
       if (coupon.percent_off) {
         coupon.discount = `${coupon.percent_off}%`
       } else {
@@ -37,7 +35,6 @@ async function beforeRequest (req) {
   if (subscriptions && subscriptions.length) {
     for (const subscription of subscriptions) {
       subscription.created = subscription.created.getTime ? subscription.created : dashboard.Timestamp.date(subscription.created)
-      subscription.createdRelative = dashboard.Format.date(subscription.created)
       subscription.currentPeriodStart = dashboard.Timestamp.date(subscription.current_period_start)
       subscription.currentPeriodStartFormatted = dashboard.Format.date(subscription.currentPeriodStart)
       subscription.currentPeriodEnd = dashboard.Timestamp.date(subscription.current_period_end)

@@ -13,7 +13,6 @@ async function beforeRequest (req) {
         subscription.plan = subscription.plan.id
       }
       subscription.created = subscription.created.getTime ? subscription.created : dashboard.Timestamp.date(subscription.created)
-      subscription.createdRelative = dashboard.Format.date(subscription.created)
       subscription.currentPeriodStart = dashboard.Timestamp.date(subscription.current_period_start)
       subscription.currentPeriodStartFormatted = dashboard.Format.date(subscription.currentPeriodStart)
       subscription.currentPeriodEnd = dashboard.Timestamp.date(subscription.current_period_end)

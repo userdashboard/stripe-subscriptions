@@ -62,9 +62,9 @@
       <td>${priceFormatted}</td>
       <td>${trialFormatted}</td>
       <td id="draft-plan-${id}">Draft</td>
-      <td id="published-plan-${id}" title="${published}">Published</td>
-      <td id="unpublished-plan-${id}" title="${published}">Unpublished</td>
-      <td title="${created}">${createdRelative}</td>
+      <td id="published-plan-${id}">Published</td>
+      <td id="unpublished-plan-${id}">Unpublished</td>
+      <td>${created(}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>
@@ -74,9 +74,9 @@
       <td><a href="coupon?couponid=${id}">${id}</a></td>
       <td>${discount}</td>
       <td id="draft-coupon-${id}">Draft</td>
-      <td id="published-coupon-${id}" title="${published}">Published</td>
-      <td id="unpublished-coupon-${id}" title="${published}">Unpublished</td>
-      <td title="${created}">${createdRelative}</td>
+      <td id="published-coupon-${id}">Published</td>
+      <td id="unpublished-coupon-${id}">Unpublished</td>
+      <td>${created(}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>
@@ -89,7 +89,7 @@
       <td>${discount}</td>
       <td><a href="plan?planid=${plan}">${plan}</a></td>
       <td>${status}</td>
-      <td title="${created}">${createdRelative}</td>
+      <td>${created(}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

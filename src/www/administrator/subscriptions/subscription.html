@@ -10,20 +10,7 @@
   <body>
     <h1>Subscription</h1>
     <div id="message-container"></div>
-    <table id="subscriptions-table" class="pure-table pure-table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Customer</th>
-          <th>Current period</th>
-          <th>Discount</th>
-          <th>Plan</th>
-          <th>Status</th>
-          <th>Created</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
+    <table id="subscriptions-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="subscription-row-template">
     <tr id="${id}">
@@ -35,12 +22,12 @@
       <td>${status}</td>
       <td title="${created}">${createdRelative}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="customer?subscriptionid=${id}">Invoices</a>
-        <a class="pure-button" href="customer?subscriptionid=${id}">Charges</a>
-        <a class="pure-button" href="customer?subscriptionid=${id}">Discounts</a>
-        <a class="pure-button" href="customer?subscriptionid=${id}">Refunds</a>
-        <a class="pure-button" href="customer?subscriptionid=${id}">Disputes</a>
-        <a class="pure-button" href="customer?subscriptionid=${id}">Cancel</a>
+        <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
+        <a class="pure-button" href="charges?subscriptionid=${id}">Charges</a>
+        <a class="pure-button" href="discounts?subscriptionid=${id}">Discounts</a>
+        <a class="pure-button" href="refunds?subscriptionid=${id}">Refunds</a>
+        <a class="pure-button" href="disputes?subscriptionid=${id}">Disputes</a>
+        <a class="pure-button" href="cancel-subscrpition ?subscriptionid=${id}">Cancel</a>
       </td>
     </tr>
   </template>

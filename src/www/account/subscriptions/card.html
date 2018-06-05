@@ -9,30 +9,37 @@
   </head>
   <body>
     <h1>Card</h1>
-    <table id="cards-table" class="pure-table pure-table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Card</th>
-          <th>Last 4</th>
-          <th>Expires</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-    </table>
+    <table id="cards-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="card-row-template">
-    <tr id="${id}">
-      <td>${id}</td>
-      <td>${brand}</td>
-      <td>${last4}</td>
-      <td>${exp_month} / ${exp_year}</td>
-      <td id='default-source-${id}'>Canceled</td>
-      <td id='unused-source-${id}'></td>
-      <td class="pure-button-group" role="group">
-        <a id="delete-card-link-${id}" class="pure-button" href="delete-card?cardid=${id}">Delete</a>
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td>${id}</td>
+      </tr>
+      <tr>
+        <th>Brand</th>
+        <td>${brand}</td>
+      </tr>
+      <tr>
+        <th>Last 4</th>
+        <td>${last4}</td>
+      </tr>
+      <tr>
+        <th>Expiration</th>
+        <td>${exp_month} / ${exp_year}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td id='default-source-${id}'>Canceled</td>
+        <td id='unused-source-${id}'></td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group">
+          <a id="delete-card-link-${id}" class="pure-button" href="delete-card?cardid=${id}">Delete</a>
+        </td>
+      </tr>
+    </tbody>
   </template>
 </html>

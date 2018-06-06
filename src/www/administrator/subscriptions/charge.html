@@ -14,12 +14,39 @@
   </body>
   <template id="charge-row-template">
     <tr id="${id}">
+      <th>ID</th>
       <td><a href="charge?chargeid=${id}">${id}</a></td>
+    </tr>
+    <tr>
+      <th>Customer</th>
       <td><a href="customer?customerid=${customer}">${customer}</a></td>
+    </tr>
+    <tr>
+      <th>Paid</th>
       <td>${paid}</td>
+    </tr>
+    <tr>
+      <th>Amount</th>
       <td>${amountFormatted}</td>
+    </tr>
+    <tr>
+      <th>Amount refunded</th>
       <td>${amountRefundedFormatted}</td>
-      <td>${date(}</td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td>${date}</td>
+    </tr>
+    <tr>
+      <th>IP</th>
+      <td>${ip}</td>
+    </tr>
+    <tr>
+      <th>User agent</th>
+      <td>${userAgent}</td>
+    </tr>
+    <tr>
+      <th></th>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

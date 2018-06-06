@@ -12,16 +12,41 @@
     <table id="plans-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="plan-row-template">
-    <tr id="${id}">
-      <td><a href="plan?planid=${id}">${id}</a></td>
-      <td><a href="product?productid=${product}">${product}</a></td>
-      <td>${priceFormatted}</td>
-      <td>${trialFormatted} day(s)</td>
-      <td>${interval_count} ${interval}(s)</td>
-      <td class="pure-button-group" role="group">
-        <a class="pure-button" href="edit-plan?planid=${id}">Edit</a>
-        <a class="pure-button" href="delete-plan?planid=${id}">Delete</a>
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td><a href="plan?planid=${id}">${id}</a></td>
+      </tr>
+      <tr>
+        <th>Product</th>
+        <td><a href="product?productid=${product}">${product}</a></td>
+      </tr>
+      <tr>
+        <th>Price</th>
+        <td>${priceFormatted}</td>
+      </tr>
+      <tr>
+        <th>Trial period</th>
+        <td>${trialFormatted} day(s)</td>
+        </tr>
+      <tr>
+        <th>Billing interval</th>
+        <td>${interval_count} ${interval}(s)</td>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td>${ip}</td>
+      </tr>
+      <tr>
+        <th>User agent</th>
+        <td>${userAgent}</td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group">
+          <a class="pure-button" href="edit-plan?planid=${id}">Edit</a>
+          <a class="pure-button" href="delete-plan?planid=${id}">Delete</a>
+        </td>
+    </tbody>
   </template>
 </html>

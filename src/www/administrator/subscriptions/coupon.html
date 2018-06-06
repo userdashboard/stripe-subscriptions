@@ -12,17 +12,26 @@
     <table id="coupons-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="coupon-row-template">
-    <tr id="${id}">
-      <td><a href="coupon?couponid=${id}">${id}</a></td>
-      <td>
-        ${amount_off}
-        ${currency}
-      </td>
-      <td>${percent_off}%</td>
-      <td class="pure-button-group" role="group">
-        <a class="pure-button" href="edit-coupon?couponid=${couponid}">Edit</a>
-        <a class="pure-button" href="delete-coupon?couponid=${couponid}">Delete</a>
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td><a href="coupon?couponid=${id}">${id}</a></td>
+      </tr>
+      <tr>
+        <th>Amount off</th>
+        <td>${amount_off} ${currency}</td>
+      </tr>
+      <tr>
+        <th>Percent off</th>
+        <td>${percent_off}%</td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group">
+          <a class="pure-button" href="edit-coupon?couponid=${couponid}">Edit</a>
+          <a class="pure-button" href="delete-coupon?couponid=${couponid}">Delete</a>
+        </td>
+      </tr>
+    </tbody>
   </template> 
 </html>

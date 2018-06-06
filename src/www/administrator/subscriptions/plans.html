@@ -26,18 +26,18 @@
   </body>
   <template id="plan-row-template">
     <tr id="${id}">
-        <td><a href="plan?planid=${id}">${id}</a></td>
-        <td><a href="product?productid=${product}">${product}</a></td>
-        <td>${priceFormatted}</td>
-        <td>${trialFormatted}</td>
-        <td id="draft-plan-${id}">Draft</td>
-        <td id="published-plan-${id}">Published</td>
-        <td id="unpublished-plan-${id}">Unpublished</td>
-        <td>${created(}</td>
-        <td class="pure-button-group" role="group">
-          <a id="publish-plan-${id}" class="pure-button" href="publish-plan?planid=${id}">Publish</a>
-          <a id="unpublish-plan-${id}" class="pure-button" href="unpublish-plan?planid=${id}">Unpublish</a>
-        </td>
-      </tr>
+      <td><a href="plan?planid=${id}">${id}</a></td>
+      <td><a href="product?productid=${product}">${product}</a></td>
+      <td>${priceFormatted}</td>
+      <td>${trialFormatted}</td>
+      <td id="draft-plan-${id}">Draft</td>
+      <td id="published-plan-${id}">Published</td>
+      <td id="unpublished-plan-${id}">Unpublished</td>
+      <td>${created}</td>
+      <td class="pure-button-group" role="group">
+        <a id="publish-plan-${id}" class="pure-button" href="publish-plan?planid=${id}">Publish</a>
+        <a id="unpublish-plan-${id}" class="pure-button" href="unpublish-plan?planid=${id}">Unpublish</a>
+      </td>
+    </tr>
   </template> 
 </html>

@@ -12,12 +12,31 @@
     <table id="refunds-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="refund-row-template">
-    <tr id="${id}">
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
         <td><a href="refund?refundid=${id}">${id}</a></td>
+      </tr>
+      <tr>
+        <th>Amount</th>
         <td>${amountFormatted} ${currency}</td>
+      </tr>
+      <tr>
+        <th>Charge</th>
         <td><a href="charge?chargeid=${charge}">${charge}</a></td>
-        <td class="pure-button-group" role="group">
-        </td>
-    </tr>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td>${ip}</td>
+      </tr>
+      <tr>
+        <th>User agent</th>
+        <td>${userAgent}</td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group"></td>
+      </tr>
+    </body>
   </template>
 </html>

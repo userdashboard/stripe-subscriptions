@@ -10,7 +10,6 @@
   <body>
     <h1>Subscription</h1>
     <table id="subscriptions-table" class="pure-table pure-table-striped"></table>
-    </div>
     <div id="invoicesContainer"></div>
       <h2>Invoices</h2>
       <table id="invoices-table" class="pure-table pure-table-striped">
@@ -29,31 +28,62 @@
     </div>
   </body>
   <template id="subscription-row-template">
-    <tr id="${id}">
-      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
-      <td id='active-subscription-${id}'>Active</td>
-      <td id='canceling-subscription-${id}'>Active (canceling)</td>
-      <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEnd(})</td>
-      <td id='past_due-subscription-${id}'>Past due</td>
-      <td id='canceled-subscription-${id}'>Canceled</td>
-      <td id='unpaid-subscription-${id}'>Unpaid</td>
-      <td>${plan_name}</td>
-      <td id="day-singular-interval-${id}">${priceFormatted} ${currency} / day</td>
-      <td id="day-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} days</td>
-      <td id="week-singular-interval-${id}">${priceFormatted} ${currency} / week</td>
-      <td id="week-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} weeks</td>
-      <td id="month-singular-interval-${id}">${priceFormatted} ${currency} / month</td>
-      <td id="month-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} months</td>
-      <td id="year-singular-interval-${id}">${priceFormatted} ${currency} / year</td>
-      <td id="year-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} years</td>
-      <td>${created(}</td>
-      <td>${nextCharge(}</td>
-      <td class="pure-button-group" role="group">
-        <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
-        <a id="change-plan-link-${id}" class="pure-button" href="change-plan?subscriptionid=${id}">Change plan</a>
-        <a id="cancel-subscription-link-${id}" class="pure-button" href="cancel-subscription?subscriptionid=${id}">Cancel</a>
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
+      </tr>
+      <tr>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td id='active-subscription-${id}'>Active</td>
+        <td id='canceling-subscription-${id}'>Active (canceling)</td>
+        <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEnd})</td>
+        <td id='past_due-subscription-${id}'>Past due</td>
+        <td id='canceled-subscription-${id}'>Canceled</td>
+        <td id='unpaid-subscription-${id}'>Unpaid</td>
+      </tr>
+      <tr>
+        <th>Plan</th>
+        <td>${plan_name}</td>
+      </tr>
+      <tr>
+        <th>Billing</th>
+        <td id="day-singular-interval-${id}">${priceFormatted} ${currency} / day</td>
+        <td id="day-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} days</td>
+        <td id="week-singular-interval-${id}">${priceFormatted} ${currency} / week</td>
+        <td id="week-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} weeks</td>
+        <td id="month-singular-interval-${id}">${priceFormatted} ${currency} / month</td>
+        <td id="month-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} months</td>
+        <td id="year-singular-interval-${id}">${priceFormatted} ${currency} / year</td>
+        <td id="year-multiple-interval-${id}">${priceFormatted} ${currency} / ${interval_count} years</td>
+      </tr>
+      <tr>
+        <th>Created</th>
+        <td>${created}</td>
+      </tr>
+      <tr>
+        <th>Next charge</th>
+        <td>${nextCharge}</td>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td>${ip}</td>
+      </tr>
+      <tr>
+        <th>User agent</th>
+        <td>${userAgent}</td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group">
+          <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
+          <a id="change-plan-link-${id}" class="pure-button" href="change-plan?subscriptionid=${id}">Change plan</a>
+          <a id="cancel-subscription-link-${id}" class="pure-button" href="cancel-subscription?subscriptionid=${id}">Cancel</a>
+        </td>
+      </tr>
+    </tbody>
   </template>
   <template id="invoice-row-template">
     <tr id="${id}"></tr>
@@ -62,7 +92,7 @@
       <td>${totalFormatted}</td>
       <td>${plan_name}</td>
       <td>${statement_descriptor}</td>
-      <td>${date(}</td>
+      <td>${date}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

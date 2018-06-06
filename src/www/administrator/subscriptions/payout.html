@@ -11,15 +11,36 @@
     <table id="payouts-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="payout-row-template">
-    <tr id="${id}">
-      <td><a href="payout?payoutid=${id}">${id}</a></td>
-      <td>${amount}</td>
-      <td><a href="stripe-account?stripeid=${stripeid}">${stripeid}</a></td>
-      <td id="status-${id}"></td>
-      <td>${description}</td>
-      <td class="pure-button-group" role="group">
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td><a href="payout?payoutid=${id}">${id}</a></td>
+      </tr>
+      <tr>
+        <th>Amount</th>
+        <td>${amount}</td>
+      </tr>
+      <tr>
+        <th>Stripe account</th>
+        <td><a href="stripe-account?stripeid=${stripeid}">${stripeid}</a></td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td id="status-${id}"></td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td>${description}</td>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td>${ip}</td>
+      </tr>
+      <tr>
+        <th>User agent</th>
+        <td>${userAgent}</td>
+      </tr>
+    </tbody>
   </template>
   <template id="unsupported_card">
     <span>Card unsupported by bank.</span>

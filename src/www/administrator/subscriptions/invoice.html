@@ -12,16 +12,47 @@
     <table id="invoices-table" class="pure-table pure-table-striped"></table>
   </body>
   <template id="invoice-row-template">
-    <tr id="${id}">
-      <td>${id}</td>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      <td><a href="subscription?subscriptionid=${subscription}">${subscription}</a></td>
-      <td>${number}</td>
-      <td>${periodStart(} - ${periodEnd(}</td>
-      <td>${totalFormatted}</td>
-      <td>${date(}</td>
-      <td class="pure-button-group" role="group">
-      </td>
-    </tr>
+    <tbody id="${id}">
+      <tr>
+        <th>ID</th>
+        <td>${id}</td>
+      </tr>
+      <tr>
+        <th>Customer</th>
+        <td><a href="customer?customerid=${customer}">${customer}</a></td>
+      </tr>
+      <tr>
+        <th>Subscription</th>
+        <td><a href="subscription?subscriptionid=${subscription}">${subscription}</a></td>
+      </tr>
+      <tr>
+          <th>Number</th>
+        <td>${number}</td>
+      </tr>
+      <tr>
+          <th>Period</th>
+        <td>${periodStart} - ${periodEnd}</td>
+      </tr>
+      <tr>
+          <th>Total</th>
+        <td>${totalFormatted}</td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td>${date}</td>
+      </tr>
+      <tr>
+        <th>IP</th>
+        <td>${ip}</td>
+      </tr>
+      <tr>
+        <th>User agent</th>
+        <td>${userAgent}</td>
+      </tr>
+      <tr>
+        <th></th>
+        <td class="pure-button-group" role="group"></td>
+      </tr>
+    </tbody>
   </template>
 </html>

@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1029
+Version: 1.0.1035
 Address:
 http://127.0.0.1:8000
 Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
@@ -47,6 +47,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /account/edit-profile                                                                           GET POST        @userappstore/dashboard         @userappstore/dashboard    
 /account/end-all-sessions                                                                       GET POST        @userappstore/dashboard         @userappstore/dashboard    
 /account/end-session                                                                            GET POST        @userappstore/dashboard         @userappstore/dashboard    
+/account/lock-session                                                                           GET             @userappstore/dashboard         @userappstore/dashboard    
 /account/profile                                                                                GET             @userappstore/dashboard         @userappstore/dashboard    
 /account/profiles                                                                               GET             @userappstore/dashboard         @userappstore/dashboard    
 /account/register                                             GUEST              FULLSCREEN     GET POST        @userappstore/dashboard         @userappstore/dashboard    
@@ -62,6 +63,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /account/signout-complete                                     GUEST              FULLSCREEN                     static-page                     @userappstore/dashboard    
 /account/subscriptions                                                                          GET             /src/www                        /src/www                   
 /account/subscriptions/cancel-subscription                                                      GET POST        /src/www                        /src/www                   
+/account/subscriptions/card                                                                     GET             /src/www                        /src/www                   
 /account/subscriptions/cards                                                                    GET             /src/www                        /src/www                   
 /account/subscriptions/change-plan                                                              GET POST        /src/www                        /src/www                   
 /account/subscriptions/delete-card                                                              GET POST        /src/www                        /src/www                   
@@ -198,6 +200,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/delete-profile                                                LOCK                    DELETE          @userappstore/dashboard                                    
 /api/user/delete-reset-code                                             LOCK                    DELETE          @userappstore/dashboard                                    
 /api/user/end-session                                                                           PATCH           @userappstore/dashboard                                    
+/api/user/lock-session                                                                          PATCH           @userappstore/dashboard                                    
 /api/user/maxmind/country                                     GUEST                             GET             @userappstore/maxmind-geoip                                
 /api/user/profile                                                                               GET             @userappstore/dashboard                                    
 /api/user/profiles                                                                              GET             @userappstore/dashboard                                    

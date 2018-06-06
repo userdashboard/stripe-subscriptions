@@ -131,7 +131,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
           assert.notEqual(null, messageContainer)
           assert.notEqual(null, messageContainer.child)
           const message = messageContainer.child[0]
-          assert.equal('success', message.attr.error)
+          assert.equal('success', message.attr.template)
         }
         return req.route.api.get(req, res2)
       }

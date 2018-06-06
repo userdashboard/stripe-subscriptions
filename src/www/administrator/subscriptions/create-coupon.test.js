@@ -42,7 +42,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-couponid', message.attr.error)
+        assert.equal('invalid-couponid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -67,7 +67,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-couponid-length', message.attr.error)
+        assert.equal('invalid-couponid-length', message.attr.template)
       }
       global.MAXIMUM_COUPON_LENGTH = 3
       return req.route.api.post(req, res)
@@ -94,7 +94,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('duplicate-couponid', message.attr.error)
+        assert.equal('duplicate-couponid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -119,7 +119,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-duration', message.attr.error)
+        assert.equal('invalid-duration', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -144,7 +144,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-duration', message.attr.error)
+        assert.equal('invalid-duration', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -169,7 +169,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-amount_off', message.attr.error)
+        assert.equal('invalid-amount_off', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -194,7 +194,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-percent_off', message.attr.error)
+        assert.equal('invalid-percent_off', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -219,7 +219,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-max_redemptions', message.attr.error)
+        assert.equal('invalid-max_redemptions', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -243,7 +243,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-discount', message.attr.error)
+        assert.equal('invalid-discount', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -269,7 +269,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-duration_in_months', message.attr.error)
+        assert.equal('invalid-duration_in_months', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -299,7 +299,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-expires', message.attr.error)
+        assert.equal('invalid-expires', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -327,7 +327,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
           assert.notEqual(null, messageContainer)
           assert.notEqual(null, messageContainer.child)
           const message = messageContainer.child[0]
-          assert.equal('success', message.attr.error)
+          assert.equal('success', message.attr.template)
         }
         return req.route.api.get(req, res3)
       }

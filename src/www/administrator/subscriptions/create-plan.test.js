@@ -40,7 +40,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-planid', message.attr.error)
+        assert.equal('invalid-planid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -66,7 +66,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-planid-length', message.attr.error)
+        assert.equal('invalid-planid-length', message.attr.template)
       }
       global.MAXIMUM_PLAN_LENGTH = 3
       return req.route.api.post(req, res)
@@ -92,7 +92,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-productid', message.attr.error)
+        assert.equal('invalid-productid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -118,7 +118,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-product', message.attr.error)
+        assert.equal('invalid-product', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -144,7 +144,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-product', message.attr.error)
+        assert.equal('invalid-product', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -170,7 +170,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-currency', message.attr.error)
+        assert.equal('invalid-currency', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -196,7 +196,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-currency', message.attr.error)
+        assert.equal('invalid-currency', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -222,7 +222,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-amount', message.attr.error)
+        assert.equal('invalid-amount', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -248,7 +248,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-amount', message.attr.error)
+        assert.equal('invalid-amount', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -274,7 +274,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-interval', message.attr.error)
+        assert.equal('invalid-interval', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -300,7 +300,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-interval', message.attr.error)
+        assert.equal('invalid-interval', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -326,7 +326,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-interval', message.attr.error)
+        assert.equal('invalid-interval', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -353,7 +353,7 @@ describe('/administrator/subscriptions/create-plan', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-trial_period_days', message.attr.error)
+        assert.equal('invalid-trial_period_days', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -382,7 +382,7 @@ describe('/administrator/subscriptions/create-plan', () => {
           assert.notEqual(null, messageContainer)
           assert.notEqual(null, messageContainer.child)
           const message = messageContainer.child[0]
-          assert.equal('success', message.attr.error)
+          assert.equal('success', message.attr.template)
         }
         return req.route.api.get(req, res3)
       }

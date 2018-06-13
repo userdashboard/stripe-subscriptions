@@ -9,7 +9,6 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -25,7 +24,6 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.product, null)
@@ -40,7 +38,6 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -57,7 +54,6 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -75,7 +71,6 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

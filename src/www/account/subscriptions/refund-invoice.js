@@ -15,7 +15,7 @@ async function beforeRequest (req) {
   const amount = charge.amount - (charge.amount_refunded || 0)
   req.data = {invoice, charge, amount}
   if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.RefundCharge.patch(req)
+    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
   }
 }
 
@@ -43,7 +43,7 @@ async function submitForm (req, res) {
   req.query.chargeid = req.data.charge.id
   req.body.amount = req.data.amount
   try {
-    await global.api.user.subscriptions.RefundCharge.patch(req)
+    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

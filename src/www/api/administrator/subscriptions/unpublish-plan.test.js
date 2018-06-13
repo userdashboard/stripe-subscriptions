@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
-  describe('UnpublishPlan#PATCH', () => {
+describe(`/api/administrator/subscriptions/set-plan-unpublished`, () => {
+  describe('SetPlanUnpublished#PATCH', () => {
     it('should reject invalid planid', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=invalid`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -22,7 +22,7 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
     it('should reject never published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator, { })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=${administrator.plan.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -37,7 +37,7 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
     it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator, { published: true, unpublished: true })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=${administrator.plan.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -52,10 +52,9 @@ describe(`/api/administrator/subscriptions/unpublish-plan`, () => {
     it('should unpublish plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator, { published: true })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-plan?planid=${administrator.plan.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.patch(req)
       await TestHelper.completeAuthorization(req)
       await req.route.api.patch(req)

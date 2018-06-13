@@ -26,7 +26,6 @@ describe('/api/administrator/subscriptions/subscription', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const subscription = await req.route.api.get(req)
       assert.equal(subscription.id, user.subscription.id)
     })

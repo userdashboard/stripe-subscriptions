@@ -29,7 +29,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         refund: 'at_period_end'
       }
@@ -39,7 +38,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req2.account = administrator.account
       req2.session = administrator.session
-      req2.customer = administrator.customer
       req2.body = {
         refund: 'at_period_end'
       }
@@ -60,7 +58,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         refund: 'at_period_end'
       }
@@ -78,7 +75,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         refund: ''
       }

@@ -2,14 +2,13 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/subscriptions/flag-charge`, async () => {
-  describe('FlagCharge#BEFORE', () => {
+describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
+  describe('SetChargeFlagged#BEFORE', () => {
     it('should reject invalid chargeid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -24,10 +23,9 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -43,10 +41,9 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.charge, null)
@@ -54,17 +51,16 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
     })
   })
 
-  describe('FlagCharge#GET', () => {
+  describe('SetChargeFlagged#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -81,10 +77,9 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -95,17 +90,16 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
     })
   })
 
-  describe('FlagCharge#POST', () => {
+  describe('SetChargeFlagged#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'POST')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         amount: 1000
       }

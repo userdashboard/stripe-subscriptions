@@ -10,7 +10,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `123123!@#!@#!`,
         currency: 'usd',
@@ -35,7 +34,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -59,7 +57,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -84,7 +81,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -109,7 +105,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'invalid',
@@ -134,7 +129,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -159,7 +153,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -184,7 +177,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',
@@ -209,7 +201,6 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-plan`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         planid: `plan` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         currency: 'usd',

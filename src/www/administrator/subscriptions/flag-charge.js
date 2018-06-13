@@ -16,7 +16,7 @@ async function beforeRequest (req) {
   }
   req.data = {charge}
   if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.administrator.subscriptions.FlagCharge.patch(req)
+    await global.api.administrator.subscriptions.SetChargeFlagged.patch(req)
   }
 }
 
@@ -38,7 +38,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.subscriptions.FlagCharge.patch(req)
+    await global.api.administrator.subscriptions.SetChargeFlagged.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

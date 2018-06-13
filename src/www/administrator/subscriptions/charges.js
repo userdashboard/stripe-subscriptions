@@ -7,7 +7,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.administrator.subscriptions.CardsCount.get(req)
   const charges = await global.api.administrator.subscriptions.Charges.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (charges && charges.length) {
     for (const charge of charges) {
       charge.amountFormatted = dashboard.Format.money(charge.amount || 0, charge.currency)
@@ -15,7 +17,7 @@ async function beforeRequest (req) {
       charge.date = dashboard.Timestamp.date(charge.created)
     }
   }
-  req.data = {charges}
+  req.data = {charges, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -23,6 +25,11 @@ async function renderPage (req, res) {
   await Navigation.render(req, doc)
   if (req.data.charges && req.data.charges.length) {
     doc.renderTable(req.data.charges, 'charge-row-template', 'charges-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   }
   return dashboard.Response.end(req, res, doc)
 }

@@ -152,7 +152,6 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         productid: newProduct.id
       }

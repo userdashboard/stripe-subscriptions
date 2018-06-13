@@ -1,4 +1,5 @@
 const dashboard = require('@userappstore/dashboard')
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -120,6 +121,7 @@ module.exports = {
     }
     const coupon = await stripe.coupons.create(couponInfo, req.stripeKey)
     req.success = true
+    await RedisListIndex.add('coupons', coupon.id)
     return coupon
   }
 }

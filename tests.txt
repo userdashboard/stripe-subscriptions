@@ -126,15 +126,15 @@
       ✓ should have row for each invoice (12786ms)
 
   /account/subscriptions/pay-invoice
-    PayInvoice#BEFORE
+    SetInvoicePaid#BEFORE
       ✓ should reject invalid invoice (1739ms)
       ✓ should reject other account's invoice (10574ms)
       ✓ should reject paid invoice (8768ms)
       ✓ should bind invoice to req (11756ms)
-    PayInvoice#GET
+    SetInvoicePaid#GET
       ✓ should present the form (11416ms)
       ✓ should present the invoice table (11648ms)
-    PayInvoice#POST
+    SetInvoicePaid#POST
       ✓ should apply after authorization (15419ms)
 
   /account/subscriptions/plan
@@ -344,27 +344,27 @@
       ✓ should reject invalid unit_label (1735ms)
       ✓ should update after authorization (3881ms)
 
-  /administrator/subscriptions/flag-charge
-    FlagCharge#BEFORE
+  /administrator/subscriptions/set-charge-flagged
+    SetChargeFlagged#BEFORE
       ✓ should reject invalid chargeid (1177ms)
       ✓ should reject unrefunded charge (8875ms)
       ✓ should bind charge to req (11589ms)
-    FlagCharge#GET
+    SetChargeFlagged#GET
       ✓ should present the form (12016ms)
       ✓ should present the charge table (12781ms)
-    FlagCharge#POST
+    SetChargeFlagged#POST
       ✓ should apply after authorization (14900ms)
 
-  /administrator/subscriptions/forgive-invoice
-    ForgiveInvoice#BEFORE
+  /administrator/subscriptions/set-invoice-forgiven
+    SetInvoiceForgiven#BEFORE
       ✓ should reject invalid invoiceid (1357ms)
       ✓ should reject paid invoice (9616ms)
       ✓ should reject forgiven invoice (15146ms)
       ✓ should bind invoice to req (12596ms)
-    ForgiveInvoice#GET
+    SetInvoiceForgiven#GET
       ✓ should present the form (14325ms)
       ✓ should present the invoice table (13712ms)
-    ForgiveInvoice#POST
+    SetInvoiceForgiven#POST
       ✓ should apply after authorization (16260ms)
 
   /administrator/subscriptions
@@ -429,48 +429,48 @@
     Products#GET
       ✓ should present the products table (1738ms)
 
-  /administrator/subscriptions/publish-coupon
-    PublishCoupon#BEFORE
+  /administrator/subscriptions/set-coupon-published
+    SetCouponPublished#BEFORE
       ✓ should reject invalid couponid (1100ms)
       ✓ should reject published coupon (1719ms)
       ✓ should bind coupon to req (1666ms)
-    PublishCoupon#GET
+    SetCouponPublished#GET
       ✓ should present the form (1687ms)
       ✓ should present the coupon table (1667ms)
-    PublishCoupon#POST
+    SetCouponPublished#POST
       ✓ should apply after authorization (5223ms)
 
-  /administrator/subscriptions/publish-plan
-    PublishPlan#BEFORE
+  /administrator/subscriptions/set-plan-published
+    SetPlanPublished#BEFORE
       ✓ should reject invalid planid (1102ms)
       ✓ should reject published plan (2299ms)
       ✓ should bind plan to req (2358ms)
-    PublishPlan#GET
+    SetPlanPublished#GET
       ✓ should present the form (2310ms)
       ✓ should present the plan table (2285ms)
-    PublishPlan#POST
+    SetPlanPublished#POST
       ✓ should apply after authorization (5509ms)
 
-  /administrator/subscriptions/publish-product
-    PublishProduct#BEFORE
+  /administrator/subscriptions/set-product-published
+    SetProductPublished#BEFORE
       ✓ should reject invalid productid (1120ms)
       ✓ should reject published product (1683ms)
       ✓ should bind product to req (1659ms)
-    PublishProduct#GET
+    SetProductPublished#GET
       ✓ should present the form (1775ms)
       ✓ should present the product table (1710ms)
-    PublishProduct#POST
+    SetProductPublished#POST
       ✓ should apply after authorization (4215ms)
 
-  /administrator/subscriptions/refund-charge
-    RefundCharge#BEFORE
+  /administrator/subscriptions/set-charge-refunded
+    SetChargeRefunded#BEFORE
       ✓ should reject invalid chargeid (1105ms)
       ✓ should reject refunded charge (12151ms)
       ✓ should bind charge to req (9774ms)
-    RefundCharge#GET
+    SetChargeRefunded#GET
       ✓ should present the form (8579ms)
       ✓ should present the charge table (8677ms)
-    RefundCharge#POST
+    SetChargeRefunded#POST
       ✓ should apply after authorization (12538ms)
 
   /administrator/subscriptions/refund
@@ -499,40 +499,40 @@
     Subscriptions#GET
       ✓ should present the subscriptions table (9459ms)
 
-  /administrator/subscriptions/unpublish-coupon
-    UnpublishCoupon#BEFORE
+  /administrator/subscriptions/set-coupon-unpublished
+    SetCouponUnpublished#BEFORE
       ✓ should reject invalid couponid (1140ms)
       ✓ should never published coupon (1733ms)
       ✓ should reject unpublished coupon (1723ms)
       ✓ should bind coupon to req (1749ms)
-    UnpublishCoupon#GET
+    SetCouponUnpublished#GET
       ✓ should present the form (1734ms)
       ✓ should present the coupon table (1901ms)
-    UnpublishCoupon#POST
+    SetCouponUnpublished#POST
       ✓ should apply after authorization (4275ms)
 
-  /administrator/subscriptions/unpublish-plan
-    UnpublishPlan#BEFORE
+  /administrator/subscriptions/set-plan-unpublished
+    SetPlanUnpublished#BEFORE
       ✓ should reject invalid planid (1106ms)
       ✓ should never published plan (2236ms)
       ✓ should reject unpublished plan (2345ms)
       ✓ should bind plan to req (2283ms)
-    UnpublishPlan#GET
+    SetPlanUnpublished#GET
       ✓ should present the form (2279ms)
       ✓ should present the plan table (2321ms)
-    UnpublishPlan#POST
+    SetPlanUnpublished#POST
       ✓ should apply after authorization (5159ms)
 
-  /administrator/subscriptions/unpublish-product
-    UnpublishProduct#BEFORE
+  /administrator/subscriptions/set-product-unpublished
+    SetProductUnpublished#BEFORE
       ✓ should reject invalid productid (1429ms)
       ✓ should never published product (1618ms)
       ✓ should reject unpublished product (1665ms)
       ✓ should bind product to req (1664ms)
-    UnpublishProduct#GET
+    SetProductUnpublished#GET
       ✓ should present the form (1922ms)
       ✓ should present the product table (1710ms)
-    UnpublishProduct#POST
+    SetProductUnpublished#POST
       ✓ should apply after authorization (4463ms)
 
   /api/administrator/subscriptions/charge
@@ -627,15 +627,15 @@
       ✓ should delete subscription at period end (9800ms)
       ✓ should delete subscription immediately (14724ms)
 
-  /api/administrator/subscriptions/flag-charge
-    RefundCharge#PATCH
+  /api/administrator/subscriptions/set-charge-flagged
+    SetChargeRefunded#PATCH
       ✓ should reject invalid charge (1151ms)
       ✓ should reject flagged charge (9148ms)
       ✓ should require refunded charge (8986ms)
       ✓ should update charge flagged as fraud (12803ms)
 
-  /api/administrator/subscriptions/forgive-invoice
-    ForgiveInvoice#PATCH
+  /api/administrator/subscriptions/set-invoice-forgiven
+    SetInvoiceForgiven#PATCH
       ✓ should reject invalid invoiceid (1158ms)
       ✓ should reject paid invoice (8997ms)
       ✓ should reject forgiven invoice (14800ms)
@@ -675,26 +675,26 @@
     Products#GET
       ✓ should return product list (2876ms)
 
-  /api/administrator/subscriptions/publish-coupon
-    PublishCoupon#PATCH
+  /api/administrator/subscriptions/set-coupon-published
+    SetCouponPublished#PATCH
       ✓ should reject invalid couponid (1708ms)
       ✓ should reject published coupon (1711ms)
       ✓ should publish coupon (2761ms)
 
-  /api/administrator/subscriptions/publish-plan
-    PublishPlan#PATCH
+  /api/administrator/subscriptions/set-plan-published
+    SetPlanPublished#PATCH
       ✓ should reject invalid planid (2361ms)
       ✓ should reject published plan (2310ms)
       ✓ should publish plan (3504ms)
 
-  /api/administrator/subscriptions/publish-product
-    PublishProduct#PATCH
+  /api/administrator/subscriptions/set-product-published
+    SetProductPublished#PATCH
       ✓ should reject invalid productid (1694ms)
       ✓ should reject published product (1665ms)
       ✓ should publish product (2735ms)
 
-  /api/administrator/subscriptions/refund-charge
-    RefundCharge#PATCH
+  /api/administrator/subscriptions/set-charge-refunded
+    SetChargeRefunded#PATCH
       ✓ should reject invalid charge (1129ms)
       ✓ should require amount (8446ms)
       ✓ should reject negative amount (9032ms)
@@ -719,22 +719,22 @@
     Subscriptions#GET
       ✓ should return subscription list (15226ms)
 
-  /api/administrator/subscriptions/unpublish-coupon
-    UnpublishCoupon#PATCH
+  /api/administrator/subscriptions/set-coupon-unpublished
+    SetCouponUnpublished#PATCH
       ✓ should reject invalid couponid (1918ms)
       ✓ should reject never published coupon (1873ms)
       ✓ should reject unpublished coupon (1840ms)
       ✓ should unpublish coupon (3306ms)
 
-  /api/administrator/subscriptions/unpublish-plan
-    UnpublishPlan#PATCH
+  /api/administrator/subscriptions/set-plan-unpublished
+    SetPlanUnpublished#PATCH
       ✓ should reject invalid planid (2468ms)
       ✓ should reject never published plan (2680ms)
       ✓ should reject unpublished plan (2354ms)
       ✓ should unpublish plan (3507ms)
 
-  /api/administrator/subscriptions/unpublish-product
-    UnpublishProduct#PATCH
+  /api/administrator/subscriptions/set-product-unpublished
+    SetProductUnpublished#PATCH
       ✓ should reject invalid productid (1769ms)
       ✓ should reject never published product (1724ms)
       ✓ should reject unpublished product (1700ms)
@@ -842,8 +842,8 @@
     Invoices#GET
       ✓ should return invoice list (13115ms)
 
-  /api/user/subscriptions/pay-invoice
-    PayInvoice#PATCH
+  /api/user/subscriptions/set-invoice-paid
+    SetInvoicePaid#PATCH
       ✓ should reject invalid invoiceid (3863ms)
       ✓ should reject other account's invoice (15347ms)
       ✓ should reject paid invoice (8949ms)
@@ -880,8 +880,8 @@
       ✓ should exclude unpublished product (2816ms)
       ✓ should return product list (3428ms)
 
-  /api/user/subscriptions/refund-charge
-    RefundCharge#PATCH
+  /api/user/subscriptions/set-charge-refunded
+    SetChargeRefunded#PATCH
       ✓ should reject invalid charge (1112ms)
       ✓ should reject other account's refund (18213ms)
       ✓ should create refund (12602ms)

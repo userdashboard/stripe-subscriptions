@@ -1,11 +1,12 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
     const invoices = []
-    const subscriptions = await stripe.subscriptions.list({ customer: req.customer.id }, req.stripeKey)
-    for (const subscription of subscriptions.data) {
-      const invoice = await stripe.invoices.retrieveUpcoming(req.customer.id, subscription.id, req.stripeKey)
+    const subscriptionids = await RedisListIndex.lrange(`customer:subscriptions:${req.customer.id}`)
+    for (const subscriptionid of subscriptionids) {
+      const invoice = await stripe.invoices.retrieveUpcoming(req.customer.id, subscriptionid, req.stripeKey)
       invoices.push(invoice)
     }
     if (!invoices.length) {

@@ -9,7 +9,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.user.subscriptions.SubscriptionsCount.get(req)
   const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (subscriptions && subscriptions.length) {
     for (const subscription of subscriptions) {
       subscription.plan_name = subscription.plan.name
@@ -28,7 +30,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {subscriptions}
+  req.data = {subscriptions, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -63,6 +65,11 @@ async function renderPage (req, res) {
       }
     }
     doc.removeElementsById(removeElements)
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('subscriptions-table')
   }

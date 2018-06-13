@@ -7,8 +7,10 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.user.subscriptions.PlansCount.get(req)
   const plans = await global.api.user.subscriptions.Plans.get(req)
-  req.data = {plans}
+  const offset = req.query ? req.query.offset || 0 : 0
+  req.data = {plans, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -16,6 +18,11 @@ async function renderPage (req, res) {
   await Navigation.render(req, doc)
   if (req.data.plans && req.data.plans.length) {
     doc.renderTable(req.data.plans, 'plan-row-template', 'plans-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('plans-table')
   }

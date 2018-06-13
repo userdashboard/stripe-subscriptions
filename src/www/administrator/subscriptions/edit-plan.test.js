@@ -9,7 +9,6 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -25,7 +24,6 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=${administrator.plan.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -41,7 +39,6 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=${administrator.plan.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.plan, null)

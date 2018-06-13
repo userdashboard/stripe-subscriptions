@@ -1,15 +1,12 @@
-const dashboard = require('@userappstore/dashboard')
-const stripe = require('stripe')()
+const RedisListIndex = require('../../../../redis-list-index.js')
 
 module.exports = {
   get: async (req) => {
-    const customers = await stripe.customers.list(req.stripeKey)
-    if (!customers || !customers.data || !customers.data.length) {
-      return null
+    if (!req.query || !req.query.customerid) {
+      throw new Error('invalid-customerid')
     }
-    for (const customer of customers.data) {
-      customer.date = dashboard.Timestamp.date(customer.created)
-    }
-    return customers.data
+    const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
+    const itemids = await RedisListIndex.page(`customers`, offset)
+    return RedisListIndex.loadMany(itemids)
   }
 }

@@ -19,7 +19,11 @@
         </tr>
       </thead>
     </table>
+    <ul id="page-links" class="pagination"></ul>
   </body>
+  <template id='page-link-template'>
+    <li><a href="/administrator/subscriptions/refunds?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  </template>
   <template id="refund-row-template">
     <tr id="${id}">
       <td><a href="refund?refundid=${id}">${id}</a></td>

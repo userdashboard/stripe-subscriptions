@@ -1,3 +1,4 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -99,6 +100,7 @@ module.exports = {
     try {
       const plan = await stripe.plans.create(planInfo, req.stripeKey)
       req.success = true
+      await RedisListIndex.add('plans', plan.id)
       return plan
     } catch (error) {
       if (error.message.indexOf('invalid-') === 0) {

@@ -1,9 +1,10 @@
 /* eslint-env mocha */
+process.env.STRIPE_KEY = process.env.STRIPE_KEY || 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
+process.env.NODE_ENV = 'testing'
+
 const dashboard = require('@userappstore/dashboard')
 const path = require('path')
 const stripe = require('stripe')()
-
-process.env.STRIPE_KEY = process.env.STRIPE_KEY || 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
 const stripeKey = {api_key: process.env.STRIPE_KEY}
 
 module.exports = dashboard.loadTestHelper()
@@ -28,7 +29,10 @@ module.exports.createProduct = createProduct
 module.exports.createRefund = createRefund
 module.exports.createSubscription = createSubscription
 
-beforeEach(() => {
+before(setup)
+beforeEach(setup)
+
+function setup () {
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1
@@ -39,24 +43,8 @@ beforeEach(() => {
   global.MAXIMUM_PRODUCT_ATTRIBUTE_LENGTH = 100
   global.ORGANIZATION_FIELDS = [ 'name', 'email' ]
   global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
-})
-
-before(async () => {
-  if (process.env.ERASE_OLD_DATA) {
-    const plans = await stripe.plans.list(stripeKey)
-    for (const plan of plans.data) {
-      await stripe.plans.del(plan.id, stripeKey)
-    }
-    const customers = await stripe.customers.list(stripeKey)
-    for (const customer of customers.data) {
-      await stripe.customers.del(customer.id, stripeKey)
-    }
-    const subscriptions = await stripe.subscriptions.list(stripeKey)
-    for (const subscription of subscriptions.data) {
-      await stripe.subscriptions.del(subscription.id, stripeKey)
-    }
-  }
-})
+  global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
+}
 
 let productNumber = 0
 async function createProduct (existingUser, properties) {
@@ -66,9 +54,7 @@ async function createProduct (existingUser, properties) {
     type: 'service',
     name: `product${productNumber}-` + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
     statement_descriptor: `product${productNumber} description`,
-    metadata: {
-      display: {}
-    }
+    metadata: { }
   }
   if (properties) {
     for (const property in properties) {
@@ -93,9 +79,7 @@ async function createPlan (existingUser, properties, displayProperties, amount, 
     interval: 'month',
     interval_count: 1,
     trial_period_days: freePeriod !== null ? freePeriod : 7,
-    metadata: {
-      display: {}
-    }
+    metadata: {}
   }
   if (properties) {
     for (const property in properties) {
@@ -122,9 +106,7 @@ async function createCoupon (existingUser, properties) {
     duration: 'repeating',
     duration_in_months: 3,
     id: `coupon${couponNumber}` + new Date().getTime() + Math.ceil(Math.random() * 1000),
-    metadata: {
-      display: {}
-    }
+    metadata: {}
   }
   if (properties) {
     for (const property in properties) {

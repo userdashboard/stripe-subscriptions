@@ -9,7 +9,6 @@ describe('/administrator/subscriptions/invoice', () => {
       const req = TestHelper.createRequest('/administrator/subscriptions/invoice?invoiceid=invalid', 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -27,7 +26,6 @@ describe('/administrator/subscriptions/invoice', () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoice, null)
@@ -44,7 +42,6 @@ describe('/administrator/subscriptions/invoice', () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

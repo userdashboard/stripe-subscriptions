@@ -2,14 +2,13 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/subscriptions/forgive-invoice`, async () => {
-  describe('ForgiveInvoice#BEFORE', () => {
+describe(`/administrator/subscriptions/set-invoice-forgiven`, async () => {
+  describe('SetInvoiceForgiven#BEFORE', () => {
     it('should reject invalid invoiceid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -24,10 +23,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -44,10 +42,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         await TestHelper.completeAuthorization(req)
@@ -70,10 +67,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoice, null)
@@ -81,7 +77,7 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
     })
   })
 
-  describe('ForgiveInvoice#GET', () => {
+  describe('SetInvoiceForgiven#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
@@ -89,10 +85,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -110,10 +105,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -124,7 +118,7 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
     })
   })
 
-  describe('ForgiveInvoice#POST', () => {
+  describe('SetInvoiceForgiven#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
@@ -132,10 +126,9 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'POST')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

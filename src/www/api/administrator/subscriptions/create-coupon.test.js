@@ -9,7 +9,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon_`,
         amount_off: null,
@@ -29,7 +28,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: null,
@@ -49,7 +47,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 1,
@@ -69,7 +66,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         percent_off: -1
@@ -99,7 +95,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -120,7 +115,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -142,7 +136,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -165,7 +158,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -193,7 +185,6 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: '10',

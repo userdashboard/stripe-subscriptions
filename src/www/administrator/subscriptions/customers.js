@@ -6,7 +6,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.administrator.subscriptions.CustomersCount.get(req)
   const customers = await global.api.administrator.subscriptions.Customers.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (customers && customers.length) {
     for (const customer of customers) {
       customer.created = dashboard.Timestamp.date(customer.created)
@@ -18,13 +20,18 @@ async function beforeRequest (req) {
       customer.delinquentFormatted = customer.delinquent ? 'Yes' : 'No'
     }
   }
-  req.data = {customers}
+  req.data = {customers, count, offset}
 }
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.customers && req.data.customers.length) {
     doc.renderTable(req.data.customers, 'customer-row-template', 'customers-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('customers-table')
   }

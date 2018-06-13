@@ -13,7 +13,6 @@ describe('/api/administrator/subscriptions/customers', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/customers`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const customers = await req.route.api.get(req)
       assert.equal(customers.length >= 2, true)
       assert.equal(customers[0].id, user2.customer.id)

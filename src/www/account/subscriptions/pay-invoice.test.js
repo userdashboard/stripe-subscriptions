@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
 describe(`/account/subscriptions/pay-invoice`, async () => {
-  describe('PayInvoice#BEFORE', () => {
+  describe('SetInvoicePaid#BEFORE', () => {
     it('should reject invalid invoice', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user, false)
@@ -76,7 +76,7 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
     })
   })
 
-  describe('PayInvoice#GET', () => {
+  describe('SetInvoicePaid#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
@@ -119,7 +119,7 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
     })
   })
 
-  describe('PayInvoice#POST', () => {
+  describe('SetInvoicePaid#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)

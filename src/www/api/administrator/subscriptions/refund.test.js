@@ -9,7 +9,6 @@ describe('/api/administrator/subscriptions/refund', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund?refundid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.get(req)
@@ -28,7 +27,6 @@ describe('/api/administrator/subscriptions/refund', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const refund = await req.route.api.get(req)
       assert.equal(refund.id, user.refund.id)
     })

@@ -2,14 +2,13 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/subscriptions/publish-coupon`, async () => {
-  describe('PublishCoupon#BEFORE', () => {
+describe(`/administrator/subscriptions/set-coupon-published`, async () => {
+  describe('SetCouponPublished#BEFORE', () => {
     it('should reject invalid couponid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -22,10 +21,9 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
     it('should reject published coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {published: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -38,10 +36,9 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
     it('should bind coupon to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.coupon, null)
@@ -49,14 +46,13 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
     })
   })
 
-  describe('PublishCoupon#GET', () => {
+  describe('SetCouponPublished#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -70,10 +66,9 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
     it('should present the coupon table', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -84,14 +79,13 @@ describe(`/administrator/subscriptions/publish-coupon`, async () => {
     })
   })
 
-  describe('PublishCoupon#POST', () => {
+  describe('SetCouponPublished#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'POST')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

@@ -9,7 +9,6 @@ describe('/api/administrator/subscriptions/customer', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/customer?customerid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.get(req)
@@ -27,7 +26,6 @@ describe('/api/administrator/subscriptions/customer', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/customer?customerid=${user.customer.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const customer = await req.route.api.get(req)
       assert.equal(customer.id, user.customer.id)
     })

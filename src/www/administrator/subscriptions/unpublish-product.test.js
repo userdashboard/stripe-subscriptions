@@ -2,14 +2,13 @@
 const assert = require('assert')
 const TestHelper = require('../../../test-helper.js')
 
-describe(`/administrator/subscriptions/unpublish-product`, async () => {
-  describe('UnpublishProduct#BEFORE', () => {
+describe(`/administrator/subscriptions/set-product-unpublished`, async () => {
+  describe('SetProductUnpublished#BEFORE', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=invalid`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -22,10 +21,9 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     it('should never published product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -38,10 +36,9 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     it('should reject unpublished product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true, unpublished: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -54,10 +51,9 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     it('should bind product to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.product, null)
@@ -65,14 +61,13 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     })
   })
 
-  describe('UnpublishProduct#GET', () => {
+  describe('SetProductUnpublished#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -86,10 +81,9 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     it('should present the product table', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -100,14 +94,13 @@ describe(`/administrator/subscriptions/unpublish-product`, async () => {
     })
   })
 
-  describe('UnpublishProduct#POST', () => {
+  describe('SetProductUnpublished#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'POST')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

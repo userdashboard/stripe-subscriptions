@@ -1,3 +1,4 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -27,6 +28,8 @@ module.exports = {
     }
     const card = await stripe.customers.createCard(req.customer.id, cardInfo, req.stripeKey)
     await stripe.customers.update(req.customer.id, {default_source: card.id}, req.stripeKey)
+    await RedisListIndex.add('cards', card.id)
+    await RedisListIndex.add(`customer:cards:${req.customer.id}`, card.id)
     req.customer = await stripe.customers.retrieve(req.customer.id, req.stripeKey)
     req.success = true
   }

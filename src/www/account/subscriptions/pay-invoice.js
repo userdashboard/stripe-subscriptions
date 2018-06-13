@@ -15,7 +15,7 @@ async function beforeRequest (req) {
   }
   req.data = {invoice}
   if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.PayInvoice.patch(req)
+    await global.api.user.subscriptions.SetInvoicePaid.patch(req)
   }
 }
 
@@ -43,7 +43,7 @@ async function submitForm (req, res) {
   }
   try {
     req.body.sourceid = req.customer.default_source
-    await global.api.user.subscriptions.PayInvoice.patch(req)
+    await global.api.user.subscriptions.SetInvoicePaid.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

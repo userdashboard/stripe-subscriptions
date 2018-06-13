@@ -1,3 +1,4 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -23,6 +24,7 @@ module.exports = {
     if (subscription.status === 'deleted' || subscription.cancel_at_period_end) {
       throw new Error('invalid-subscription')
     }
+    req.subscription = subscription
     req.body = req.body || {}
   },
   delete: async (req) => {
@@ -31,6 +33,10 @@ module.exports = {
     }
     try {
       await stripe.subscriptions.del(req.query.subscriptionid, deleteOptions, req.stripeKey)
+      await RedisListIndex.remove(`subscriptions`, req.subscription.id)
+      await RedisListIndex.remove(`customer:subscriptions:${req.customer.id}`, req.subscription.id)
+      await RedisListIndex.remove(`plan:subscriptions:${req.query.planid}`, req.subscription.id)
+      await RedisListIndex.remove(`product:subscriptions:${req.plan.product}`, req.subscription.id)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

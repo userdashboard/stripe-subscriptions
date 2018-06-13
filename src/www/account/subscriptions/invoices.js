@@ -7,7 +7,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.user.subscriptions.InvoicesCount.get(req)
   const invoices = await global.api.user.subscriptions.Invoices.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (invoices && invoices.length) {
     for (const invoice of invoices) {
       if (invoice.total) {
@@ -19,7 +21,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {invoices}
+  req.data = {invoices, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -27,6 +29,11 @@ async function renderPage (req, res) {
   await Navigation.render(req, doc)
   if (req.data.invoices && req.data.invoices.length) {
     doc.renderTable(req.data.invoices, 'invoice-row-template', 'invoices-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('invoices-table')
   }

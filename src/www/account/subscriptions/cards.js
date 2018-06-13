@@ -7,8 +7,10 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.user.subscriptions.CardsCount.get(req)
   const cards = await global.api.user.subscriptions.Cards.get(req)
-  req.data = {cards}
+  const offset = req.query ? req.query.offset || 0 : 0
+  req.data = {cards, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -16,6 +18,11 @@ async function renderPage (req, res) {
   await Navigation.render(req, doc)
   if (req.data.cards && req.data.cards.length) {
     doc.renderTable(req.data.cards, 'card-row-template', 'cards-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('cards-table')
   }

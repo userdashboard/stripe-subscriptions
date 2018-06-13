@@ -1,3 +1,4 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -28,6 +29,7 @@ module.exports = {
         }
       }
     }
+    req.plan = plan
   },
   post: async (req) => {
     const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
@@ -46,6 +48,10 @@ module.exports = {
     }
     try {
       const subscription = await stripe.subscriptions.create(subscriptionInfo, req.stripeKey)
+      await RedisListIndex.add(`subscriptions`, subscription.id)
+      await RedisListIndex.add(`customer:subscriptions:${req.customer.id}`, subscription.id)
+      await RedisListIndex.add(`plan:subscriptions:${req.query.planid}`, subscription.id)
+      await RedisListIndex.add(`product:subscriptions:${req.plan.product}`, subscription.id)
       req.success = true
       return subscription
     } catch (error) {

@@ -22,7 +22,11 @@
         </tr>
       </thead>
     </table>
+    <ul id="page-links" class="pagination"></ul>
   </body>
+  <template id='page-link-template'>
+    <li><a href="/administrator/subscriptions/coupons?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  </template>
   <template id="coupon-row-template">
     <tr id="${id}">
       <td><a href="coupon?couponid=${id}">${id}</a></td>
@@ -32,8 +36,8 @@
       <td id="unpublished-coupon-${id}">Unpublished</td>
       <td>${created}</td>
       <td class="pure-button-group" role="group">
-        <a id="publish-coupon-${id}" class="pure-button" href="publish-coupon?couponid=${id}">Publish</a>
-        <a id="unpublish-coupon-${id}" class="pure-button" href="unpublish-coupon?couponid=${id}">Unpublish</a>
+        <a id="set-coupon-published-${id}" class="pure-button" href="set-coupon-published?couponid=${id}">Publish</a>
+        <a id="set-coupon-unpublished-${id}" class="pure-button" href="set-coupon-unpublished?couponid=${id}">Unpublish</a>
       </td>
     </tr>
   </template>

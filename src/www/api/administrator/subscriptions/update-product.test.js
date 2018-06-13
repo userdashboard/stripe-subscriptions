@@ -32,7 +32,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: null,
         statement_descriptor: 'new-description',
@@ -54,7 +53,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: '123456789012345678901234567890',
         statement_descriptor: 'new-description',
@@ -77,7 +75,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: 'new-name',
         statement_descriptor: null,
@@ -99,7 +96,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: 'new-name',
         statement_descriptor: 'new-thing descriptor',
@@ -121,7 +117,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: 'new-name',
         statement_descriptor: 'new-description',

@@ -2,12 +2,12 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/unpublish-product`, () => {
-  describe('UnpublishProduct#PATCH', () => {
+describe(`/api/administrator/subscriptions/set-product-unpublished`, () => {
+  describe('SetProductUnpublished#PATCH', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=invalid`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=invalid`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -22,7 +22,7 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
     it('should reject never published product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, { })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -37,7 +37,7 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
     it('should reject unpublished product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, { published: true, unpublished: true })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
       let errorMessage
@@ -52,10 +52,9 @@ describe(`/api/administrator/subscriptions/unpublish-product`, () => {
     it('should unpublish product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, { published: true })
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublish-product?productid=${administrator.product.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=${administrator.product.id}`, 'PATCH')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.patch(req)
       await TestHelper.completeAuthorization(req)
       await req.route.api.patch(req)

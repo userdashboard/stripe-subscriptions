@@ -1,3 +1,4 @@
+const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -25,6 +26,7 @@ module.exports = {
       unit_label: req.body.unit_label
     }
     const product = await stripe.products.create(productInfo, req.stripeKey)
+    await RedisListIndex.add('products', product.id)
     req.success = true
     return product
   }

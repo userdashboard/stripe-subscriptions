@@ -16,7 +16,7 @@ async function beforeRequest (req) {
   }
   req.data = {coupon}
   if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.administrator.subscriptions.UnpublishCoupon.patch(req)
+    await global.api.administrator.subscriptions.SetCouponUnpublished.patch(req)
   }
 }
 
@@ -37,7 +37,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.subscriptions.UnpublishCoupon.patch(req)
+    await global.api.administrator.subscriptions.SetCouponUnpublished.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

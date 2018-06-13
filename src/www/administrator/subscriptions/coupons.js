@@ -7,7 +7,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.administrator.subscriptions.CouponsCount.get(req)
   const coupons = await global.api.administrator.subscriptions.Coupons.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (coupons && coupons.length) {
     for (const coupon of coupons) {
       if (coupon.percent_off) {
@@ -23,7 +25,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {coupons}
+  req.data = {coupons, count, offset}
 }
 
 async function renderPage (req, res) {
@@ -39,6 +41,11 @@ async function renderPage (req, res) {
       } else {
         doc.removeElementsById([`published-coupon-${coupon.id}`, `unpublished-coupon-${coupon.id}`])
       }
+    }
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
     }
   } else {
     doc.removeElementById('coupons-table')

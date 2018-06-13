@@ -43,7 +43,6 @@ describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=${user.customer.id}`, 'DELETE')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.delete(req)
       await TestHelper.completeAuthorization(req)
       await req.route.api.delete(req)

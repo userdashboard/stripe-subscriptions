@@ -10,7 +10,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.plans, null)
@@ -25,7 +24,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.subscriptions, null)
@@ -38,7 +36,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.coupons, null)
@@ -54,7 +51,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -76,7 +72,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -102,7 +97,6 @@ describe(`/administrator/subscriptions`, async () => {
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

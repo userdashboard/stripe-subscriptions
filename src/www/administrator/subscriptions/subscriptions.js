@@ -6,7 +6,9 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.administrator.subscriptions.SubscriptionsCount.get(req)
   const subscriptions = await global.api.administrator.subscriptions.Subscriptions.get(req)
+  const offset = req.query ? req.query.offset || 0 : 0
   if (subscriptions && subscriptions.length) {
     for (const subscription of subscriptions) {
       if (subscription.plan && subscription.plan.id) {
@@ -19,13 +21,18 @@ async function beforeRequest (req) {
       subscription.currentPeriodEndFormatted = dashboard.Format.date(subscription.currentPeriodEnd)
     }
   }
-  req.data = {subscriptions}
+  req.data = {subscriptions, count, offset}
 }
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.subscriptions && req.data.subscriptions.length) {
     doc.renderTable(req.data.subscriptions, 'subscription-row-template', 'subscriptions-table')
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
+    }
   } else {
     doc.removeElementById('subscriptions-table')
   }

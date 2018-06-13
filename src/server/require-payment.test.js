@@ -58,7 +58,6 @@ describe('server/require-payment', async () => {
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = (str) => {}
       await RequirePayment.after(req, res)

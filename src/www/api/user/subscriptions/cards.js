@@ -1,15 +1,9 @@
-const dashboard = require('@userappstore/dashboard')
-const stripe = require('stripe')()
+const RedisListIndex = require('../../../../redis-list-index.js')
 
 module.exports = {
   get: async (req) => {
-    const cards = await stripe.customers.listCards(req.customer.id, req.stripeKey)
-    if (!cards || !cards.data || !cards.data.length) {
-      return null
-    }
-    for (const card of cards.data) {
-      card.date = dashboard.Timestamp.date(card.created)
-    }
-    return cards.data
+    const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
+    const itemids = await RedisListIndex.page(`customer:cards:${req.customer.id}`, offset)
+    return RedisListIndex.loadMany(itemids)
   }
 }

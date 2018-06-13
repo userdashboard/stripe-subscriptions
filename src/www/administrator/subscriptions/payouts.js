@@ -6,8 +6,10 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  const count = await global.api.administrator.subscriptions.PayoutsCount.get(req)
   const payouts = await global.api.administrator.subscriptions.Payouts.get(req)
-  req.data = {payouts}
+  const offset = req.query ? req.query.offset || 0 : 0
+  req.data = {payouts, count, offset}
 }
 
 async function renderPage (req, res, messageTemplate) {
@@ -18,6 +20,11 @@ async function renderPage (req, res, messageTemplate) {
       if (payout.failure_code) {
         doc.renderTemplate(null, payout.failure_code, `status-${payout.id}`)
       }
+    }
+    if (req.data.count < global.PAGE_SIZE) {
+      doc.removeElementById('page-links')
+    } else {
+      doc.renderPagination(req.data.offset, req.data.count)
     }
   }
   return dashboard.Response.end(req, res, doc)

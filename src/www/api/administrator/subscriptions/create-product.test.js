@@ -9,7 +9,6 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: null,
         statement_descriptor: 'description',
@@ -29,7 +28,6 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: `productName`,
         statement_descriptor: null,
@@ -50,7 +48,6 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
       req.account = administrator.account
       req.session = administrator.session
-      req.customer = administrator.customer
       req.body = {
         name: `product` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         statement_descriptor: 'description',

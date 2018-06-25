@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -22,9 +21,8 @@ module.exports = {
       }
     }
     const customer = await stripe.customers.create(customerInfo, req.stripeKey)
-    await dashboard.Account.setProperty(req.account.accountid, `customerid`, customer.id)
-    await RedisListIndex.add('customers', req.customer.id)
-    req.account = await dashboard.Account.load(req.account.accountid)
+    await dashboard.RedisObject.setProperty(req.account.accountid, `customerid`, customer.id)
+    await dashboard.RedisList.add('customers', customer.id)
     req.success = true
     return customer
   }

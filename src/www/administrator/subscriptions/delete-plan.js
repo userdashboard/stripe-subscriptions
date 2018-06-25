@@ -10,23 +10,23 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.planid) {
     throw new Error('invalid-planid')
   }
-  const plan = await global.api.administrator.subscriptions.Plan.get(req)
-  req.data = {plan}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.DeletePlan.delete(req)
   }
+  const plan = await global.api.administrator.subscriptions.Plan.get(req)
+  req.data = {plan}
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.plan, 'plan-row-template', 'plans-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.plan, 'plan')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
   return dashboard.Response.end(req, res, doc)

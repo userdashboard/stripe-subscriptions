@@ -15,7 +15,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.refund, 'refund-row-template', 'refunds-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.refund, 'refund')
   return dashboard.Response.end(req, res, doc)
 }

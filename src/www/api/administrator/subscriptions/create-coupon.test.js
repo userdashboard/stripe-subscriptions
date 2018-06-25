@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/create-coupon`, () => {
   describe('CreateCoupon#POST', () => {
     it('should require alphanumeric id', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon_`,
         amount_off: null,
@@ -26,8 +26,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require percent or amount off', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: null,
@@ -45,8 +45,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require currency with amount off', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 1,
@@ -64,8 +64,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require valid percent off', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         percent_off: -1
@@ -93,8 +93,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require valid duration', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -113,8 +113,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require valid repeating duration', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -134,8 +134,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require valid expire_meridien', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -156,8 +156,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should require valid expire', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: 10,
@@ -183,8 +183,8 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
     it('should create coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         amount_off: '10',
@@ -199,9 +199,35 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         expire_meridien: 'AM'
       }
       await req.route.api.post(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(administrator)
       const coupon = await req.route.api.post(req)
       assert.notEqual(null, coupon)
+    })
+
+    it('should create published coupon', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
+      req.body = {
+        couponid: `coupon` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
+        amount_off: '10',
+        currency: 'usd',
+        duration: 'repeating',
+        duration_in_months: '1',
+        expire_minute: '1',
+        expire_hour: '1',
+        expire_day: '1',
+        expire_month: '1',
+        expire_year: (new Date().getFullYear() + 1).toString(),
+        expire_meridien: 'AM',
+        published: 'true'
+      }
+      await req.route.api.post(req)
+      req.session = await TestHelper.unlockSession(administrator)
+      const coupon = await req.route.api.post(req)
+      assert.notEqual(null, coupon)
+      assert.notEqual(null, coupon.published)
     })
   })
 })

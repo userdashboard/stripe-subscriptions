@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const RequireSubscription = require('./require-subscription.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe('server/require-subscription', async () => {
   describe('RequireSubscription#AFTER', () => {
@@ -36,8 +36,8 @@ describe('server/require-subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCustomer(administrator)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = (str) => {}
       await RequireSubscription.after(req, res)

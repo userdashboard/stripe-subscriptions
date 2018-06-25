@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/payout', () => {
   describe('Payout#GET', () => {
     it('should reject invalid payoutid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/payout?payoutid=invalid`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.get(req)

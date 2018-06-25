@@ -20,7 +20,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.invoice, 'invoice-row-template', 'invoices-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.invoice, 'invoice')
   return dashboard.Response.end(req, res, doc)
 }

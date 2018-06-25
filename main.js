@@ -7,3 +7,4 @@ global.MAXIMUM_PRODUCT_NAME_LENGTH = parseInt(process.env.MAXIMUM_PRODUCT_NAME_L
 
 const dashboard = require('@userappstore/dashboard')
 dashboard.start(__dirname)
+global.redisClient.select(4)

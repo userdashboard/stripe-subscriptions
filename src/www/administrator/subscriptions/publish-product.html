@@ -1,6 +1,6 @@
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Publish product</title>
+    <title>Publish ${product.id}</title>
     <link href="/public/pure-min.css" rel="stylesheet" />
     <link href="/public/content.css" rel="stylesheet" />
   </head>
@@ -15,6 +15,11 @@
           <th>Statement description</th>
         </tr>
       </thead>
+      <tr id="${product.id}">
+        <td><a href="product?productid=${product.id}">${product.id}</a></td>
+        <td>${product.name}</td>
+        <td>${product.statement_descriptor}</td>
+      </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <button id="submit-button" class="pure-button pure-button-primary" type="button">Publish product</button>
@@ -25,12 +30,5 @@
   </template>  
   <template id="unknown-error">
     <div class="error message">Error!  An error occurred publishing the product.</div>
-  </template>    
-  <template id="product-row-template">
-    <tr id="${id}">
-      <td><a href="product?productid=${id}">${id}</a></td>
-      <td>${name}</td>
-      <td>${statement_descriptor}</td>
-    </tr>
   </template>
 </html>

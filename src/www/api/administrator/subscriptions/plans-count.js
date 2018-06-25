@@ -1,8 +1,8 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
-    const count = await RedisListIndex.count(`plans`)
+    const count = await dashboard.RedisList.count(`plans`)
     return count
   }
 }

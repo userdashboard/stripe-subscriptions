@@ -14,7 +14,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.product, 'product-row-template', 'products-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.product, 'product')
   return dashboard.Response.end(req, res, doc)
 }

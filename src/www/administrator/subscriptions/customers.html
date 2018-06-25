@@ -26,23 +26,23 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/administrator/subscriptions/customers?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/administrator/subscriptions/customers?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="customer-row-template">
-    <tr id="${id}">
-      <td><a href="customer?customerid=${id}">${id}</a></td>
-      <td>${email}</td>
-      <td>${discount}</td>
-      <td>${accountBalanceFormatted}</td>
-      <td>${delinquentFormatted}</td>
-      <td>${numSubscriptions}</td>
-      <td>${created}</td>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td><a href="customer?customerid=${customer.id}">${customer.id}</a></td>
+      <td>${customer.email}</td>
+      <td>${customer.discount}</td>
+      <td>${customer.accountBalanceFormatted}</td>
+      <td>${customer.delinquentFormatted}</td>
+      <td>${customer.numSubscriptions}</td>
+      <td>${customer.created}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="/administrator/subscriptions/subscriptions?customerid=${id}">Subscriptions</a>
-        <a class="pure-button" href="/administrator/subscriptions/invoices?customerid=${id}">Invoices</a>
-        <a class="pure-button" href="/administrator/subscriptions/charges?customerid=${id}">Charges</a>
-        <a class="pure-button" href="/administrator/subscriptions/refunds?customerid=${id}">Refunds</a>
+        <a class="pure-button" href="/administrator/subscriptions/subscriptions?customerid=${customer.id}">Subscriptions</a>
+        <a class="pure-button" href="/administrator/subscriptions/invoices?customerid=${customer.id}">Invoices</a>
+        <a class="pure-button" href="/administrator/subscriptions/charges?customerid=${customer.id}">Charges</a>
+        <a class="pure-button" href="/administrator/subscriptions/refunds?customerid=${customer.id}">Refunds</a>
       </td>
     </tr>
   </template>

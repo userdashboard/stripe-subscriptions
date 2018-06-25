@@ -1,30 +1,21 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/unpublished-coupons', () => {
   describe('UnpublishedCoupons#GET', () => {
     it('should return list of unpublished coupons', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
-      const product1 = administrator.product
-      await TestHelper.createPlan(administrator, {published: true})
-      const product2 = administrator.product
-      const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, product1.id)
-      const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, product2.id)
-      const subscription2 = user.subscription
+      const coupon1 = await TestHelper.createCoupon(administrator, {published: true, unpublished: true})
+      const coupon2 = await TestHelper.createCoupon(administrator, {published: true, unpublished: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublished-coupons`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.product = administrator.product
-      const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length >= 2, true)
-      assert.equal(subscriptions[0].amount, product2.amount)
-      assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, product1.amount)
-      assert.equal(subscriptions[1].subscription, subscription1.id)
+      const coupons = await req.route.api.get(req)
+      assert.equal(coupons.length >= 2, true)
+      assert.equal(coupons[0].id, coupon2.id)
+      assert.equal(coupons[1].id, coupon1.id)
     })
   })
 })

@@ -1,14 +1,16 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/create-card`, () => {
   describe('CreateCard#POST', () => {
     it('should require name, cvc, number, exp_month and exp_year', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/subscriptions/create-card`, 'POST')
+      await TestHelper.createCustomer(user)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-card?customerid=${user.customer.id}`, 'POST')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       req.body = {
         name: 'Tester',
         cvc: '111',
@@ -31,12 +33,9 @@ describe(`/api/user/subscriptions/create-card`, () => {
     })
 
     it('should create card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      const originalSource = user.customer.default_source
-      const req = TestHelper.createRequest(`/api/user/subscriptions/create-card`, 'POST')
+      await TestHelper.createCustomer(user)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-card?customerid=${user.customer.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -53,9 +52,9 @@ describe(`/api/user/subscriptions/create-card`, () => {
         address_country: 'US'
       }
       await req.route.api.post(req)
-      await TestHelper.completeAuthorization(req)
-      await req.route.api.post(req)
-      assert.notEqual(originalSource, req.customer.default_source)
+      req.session = await TestHelper.unlockSession(user)
+      const card = await req.route.api.post(req)
+      assert.equal(card.id, req.customer.default_source)
     })
   })
 })

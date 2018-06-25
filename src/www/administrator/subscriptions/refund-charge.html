@@ -8,7 +8,7 @@
 		<base href="/" target="_top" />
   </head>
   <body>
-    <h1>Refund charge</h1>
+    <h1>Refund ${charge.id}</h1>
     <div id="message-container"></div>
     <table id="charges-table" class="pure-table pure-table-striped">
       <thead>
@@ -21,6 +21,14 @@
           <th>Date</th>
         </tr>
       </thead>
+      <tr id="${charge.id}">
+        <td><a href="charge?chargeid=${charge.id}">${charge.id}</a></td>
+        <td><a href="customer?customerid=${charge.customer}">${charge.customer}</a></td>
+        <td>${charge.paid}</td>
+        <td>${charge.amountFormatted}</td>
+        <td>${charge.amountRefundedFormatted}</td>
+        <td>${charge.date}</td>
+      </tr>
     </table>    
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <div class="pure-control-group">
@@ -30,16 +38,6 @@
       <button id="submit-button" class="pure-button pure-button-primary" type="button">Refund</button>
     </form>
   </body>
-  <template id="charge-row-template">
-    <tr id="${id}">
-      <td><a href="charge?chargeid=${id}">${id}</a></td>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      <td>${paid}</td>
-      <td>${amountFormatted}</td>
-      <td>${amountRefundedFormatted}</td>
-      <td>${date}</td>
-    </tr>
-  </template>
   <template id="success">
     <div class="success message">Success!  The charge has been refunded.</div>
   </template>

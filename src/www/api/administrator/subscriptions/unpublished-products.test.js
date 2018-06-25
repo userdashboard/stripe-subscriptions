@@ -1,30 +1,24 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/unpublished-products', () => {
   describe('UnpublishedProducts#GET', () => {
-    it('should return list of published products', async () => {
+    it('should return list of unpublished products', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
-      const product1 = administrator.product
-      await TestHelper.createPlan(administrator, {published: true})
-      const product2 = administrator.product
+      const product1 = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
+      const product2 = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, product1.id)
-      const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, product2.id)
-      const subscription2 = user.subscription
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublished-products`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.product = administrator.product
-      const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length >= 2, true)
-      assert.equal(subscriptions[0].amount, product2.amount)
-      assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, product1.amount)
-      assert.equal(subscriptions[1].subscription, subscription1.id)
+      const products = await req.route.api.get(req)
+      assert.equal(products.length >= 2, true)
+      assert.equal(products[0].id, product2.id)
+      assert.equal(products[1].id, product1.id)
     })
   })
 })

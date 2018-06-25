@@ -1,12 +1,13 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/account/subscriptions/cancel-subscription`, async () => {
   describe('CancelSubscription#BEFORE', () => {
     it('should bind subscription to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'GET')
@@ -23,7 +24,8 @@ describe(`/account/subscriptions/cancel-subscription`, async () => {
   describe('CancelSubscription#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'GET')
@@ -42,7 +44,8 @@ describe(`/account/subscriptions/cancel-subscription`, async () => {
 
     it('should present the subscription table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'GET')
@@ -62,7 +65,8 @@ describe(`/account/subscriptions/cancel-subscription`, async () => {
   describe('CancelSubscription#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'POST')
@@ -71,7 +75,7 @@ describe(`/account/subscriptions/cancel-subscription`, async () => {
       req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

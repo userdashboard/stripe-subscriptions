@@ -14,7 +14,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.subscription, 'subscription-row-template', 'subscriptions-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   return dashboard.Response.end(req, res, doc)
 }

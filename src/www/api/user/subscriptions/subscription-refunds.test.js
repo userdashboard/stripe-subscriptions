@@ -1,23 +1,26 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/subscription-refunds', () => {
   describe('SubscriptionRefunds#GET', () => {
     it('should return list of refunds on subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const product1 = administrator.product
-      await TestHelper.createPlan(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 2000})
       const product2 = administrator.product
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, product1.id)
       const subscription1 = user.subscription
       await TestHelper.createSubscription(user, product2.id)
       const subscription2 = user.subscription
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-refunds?subscriptionid=${user.subscription.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const subscriptions = await req.route.api.get(req)
       assert.equal(subscriptions.length >= 2, true)
       assert.equal(subscriptions[0].amount, product2.amount)

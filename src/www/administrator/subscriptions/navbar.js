@@ -4,5 +4,5 @@ module.exports = {
 
 async function renderNavigation (req, doc) {
   // const navbarTemplate = doc.getElementById('navbar-template')
-  // doc.renderTemplate(null, 'navbar-html-template', navbarTemplate)
+  // dashboard.HTML.renderTemplate(doc, null, 'navbar-html-template', navbarTemplate)
 }

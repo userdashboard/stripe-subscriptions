@@ -1,7 +1,7 @@
 <!doctype html>
-<html navbar="/administrator/subscriptions/navbar-coupon-options.html">
+<html navbar="/administrator/subscriptions/navbar-coupon.html">
   <head>
-    <title>Coupon</title>
+    <title>View ${coupon.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -9,29 +9,21 @@
   </head>
   <body>
     <h1>Coupon</h1>
-    <table id="coupons-table" class="pure-table pure-table-striped"></table>
+    <table id="coupons-table" class="pure-table pure-table-stacked">
+      <tbody id="${coupon.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="coupon?couponid=${coupon.id}">${coupon.id}</a></td>
+        </tr>
+        <tr>
+          <th>Amount off</th>
+          <td>${coupon.amount_off} ${coupon.currency}</td>
+        </tr>
+        <tr>
+          <th>Percent off</th>
+          <td>${coupon.percent_off}%</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
-  <template id="coupon-row-template">
-    <tbody id="${id}">
-      <tr>
-        <th>ID</th>
-        <td><a href="coupon?couponid=${id}">${id}</a></td>
-      </tr>
-      <tr>
-        <th>Amount off</th>
-        <td>${amount_off} ${currency}</td>
-      </tr>
-      <tr>
-        <th>Percent off</th>
-        <td>${percent_off}%</td>
-      </tr>
-      <tr>
-        <th></th>
-        <td class="pure-button-group" role="group">
-          <a class="pure-button" href="edit-coupon?couponid=${couponid}">Edit</a>
-          <a class="pure-button" href="delete-coupon?couponid=${couponid}">Delete</a>
-        </td>
-      </tr>
-    </tbody>
-  </template> 
 </html>

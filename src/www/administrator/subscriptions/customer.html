@@ -1,7 +1,7 @@
 <!doctype html>
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Customer</title>
+    <title>View ${customer.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -9,55 +9,45 @@
   </head>
   <body>
     <h1>Customer</h1>
-    <table id="customers-table" class="pure-table pure-table-striped"></table>
+    <table id="customers-table" class="pure-table pure-table-stacked">
+      <tbody id="${customer.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="customer?customerid=${customer.id}">${customer.id}</a></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>${customer.email}</td>
+        </tr>
+        <tr>
+          <th>Discount</th>
+          <td>${customer.discount}</td>
+        </tr>
+        <tr>
+          <th>Account balance</th>
+          <td>${customer.accountBalanceFormatted}</td>
+        </tr>
+        <tr>
+          <th>Delinquent amount</th>
+          <td>${customer.delinquentFormatted}</td>
+        </tr>
+        <tr>
+          <th>Subscriptions</th>
+          <td>${customer.numSubscriptions}</td>
+        </tr>
+        <tr>
+          <th>Created</th>
+          <td>${customer.created}</td>
+        </tr>
+        <tr>
+          <th>IP address</th>
+          <td>${customer.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${customer.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
-  <template id="customer-row-template">
-    <tbody id="${id}">
-      <tr>
-        <th>ID</th>
-        <td><a href="customer?customerid=${id}">${id}</a></td>
-      </tr>
-      <tr>
-        <th>Email</th>
-        <td>${email}</td>
-      </tr>
-      <tr>
-        <th>Discount</th>
-        <td>${discount}</td>
-      </tr>
-      <tr>
-        <th>Account balance</th>
-        <td>${accountBalanceFormatted}</td>
-      </tr>
-      <tr>
-        <th>Delinquent amount</th>
-        <td>${delinquentFormatted}</td>
-      </tr>
-      <tr>
-        <th>Subscriptions</th>
-        <td>${numSubscriptions}</td>
-      </tr>
-      <tr>
-        <th>Created</th>
-        <td>${created}</td>
-      </tr>
-      <tr>
-        <th>IP address</th>
-        <td>${ip}</td>
-      </tr>
-      <tr>
-        <th>User agent</th>
-        <td>${userAgent}</td>
-      </tr>
-      <tr>
-        <th></th>
-        <td class="pure-button-group" role="group">
-          <a class="pure-button" href="subscriptions?customerid=${id}">Subscriptions</a>
-          <a class="pure-button" href="invoices?customerid=${id}">Invoices</a>
-          <a class="pure-button" href="charges?customerid=${id}">Charges</a>
-          <a class="pure-button" href="refunds?customerid=${id}">Refunds</a>
-        </td>
-      </tr>
-    </tbody>
-  </template>
 </html>

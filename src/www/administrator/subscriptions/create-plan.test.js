@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/create-plan', () => {
   describe('CreatePlan#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -24,8 +24,8 @@ describe('/administrator/subscriptions/create-plan', () => {
     it('should reject missing planid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: null,
         amount: '100',
@@ -49,8 +49,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: '1234567890123456789012345678901234567890',
         amount: '100',
@@ -75,8 +75,8 @@ describe('/administrator/subscriptions/create-plan', () => {
     it('should reject missing productid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -101,8 +101,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -127,8 +127,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true, unpublished: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -153,8 +153,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -179,8 +179,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -205,8 +205,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: null,
@@ -231,8 +231,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '-1',
@@ -257,8 +257,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -283,8 +283,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -309,8 +309,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -335,8 +335,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '100',
@@ -362,8 +362,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest('/administrator/subscriptions/create-plan', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         planid: 'plan' + new Date().getTime(),
         amount: '1000',

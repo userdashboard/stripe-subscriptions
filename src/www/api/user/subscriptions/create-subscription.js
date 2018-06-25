@@ -1,4 +1,4 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -21,6 +21,7 @@ module.exports = {
     if (!req.customer.default_source) {
       throw new Error('invalid-source')
     }
+    req.query.customerid = req.customer.id
     const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
     if (subscriptions && subscriptions.length) {
       for (const subscription of subscriptions) {
@@ -48,10 +49,10 @@ module.exports = {
     }
     try {
       const subscription = await stripe.subscriptions.create(subscriptionInfo, req.stripeKey)
-      await RedisListIndex.add(`subscriptions`, subscription.id)
-      await RedisListIndex.add(`customer:subscriptions:${req.customer.id}`, subscription.id)
-      await RedisListIndex.add(`plan:subscriptions:${req.query.planid}`, subscription.id)
-      await RedisListIndex.add(`product:subscriptions:${req.plan.product}`, subscription.id)
+      await dashboard.RedisList.add(`subscriptions`, subscription.id)
+      await dashboard.RedisList.add(`customer:subscriptions:${req.customer.id}`, subscription.id)
+      await dashboard.RedisList.add(`plan:subscriptions:${req.query.planid}`, subscription.id)
+      await dashboard.RedisList.add(`product:subscriptions:${req.plan.product}`, subscription.id)
       req.success = true
       return subscription
     } catch (error) {

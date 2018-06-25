@@ -20,14 +20,16 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.refunds && req.data.refunds.length) {
-    doc.renderTable(req.data.refunds, 'refund-row-template', 'refunds-table')
+    dashboard.HTML.renderTable(doc, req.data.refunds, 'refund-row', 'refunds-table')
     if (req.data.count < global.PAGE_SIZE) {
-      doc.removeElementById('page-links')
+      const pageLinks = doc.getElementById('page-links')
+      pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      doc.renderPagination(req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
     }
   } else {
-    doc.removeElementById('refunds-table')
+    const refundsTable = doc.getElementById('refunds-table')
+    refundsTable.parentNode.removeChild(refundsTable)
   }
   return dashboard.Response.end(req, res, doc)
 }

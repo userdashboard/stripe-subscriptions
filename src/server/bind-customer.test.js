@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const BindCustomer = require('./bind-customer.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe('server/bind-customer', async () => {
   describe('BindCustomer#AFTER', () => {

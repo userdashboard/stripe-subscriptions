@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/customer', () => {
   describe('Customer#BEFORE', () => {
@@ -9,8 +9,8 @@ describe('/administrator/subscriptions/customer', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user, false)
       const req = TestHelper.createRequest('/administrator/subscriptions/customer?customerid=invalid', 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -22,12 +22,13 @@ describe('/administrator/subscriptions/customer', () => {
 
     it('should bind customer to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/customer?customerid=${user.customer.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.customer, null)
@@ -38,12 +39,13 @@ describe('/administrator/subscriptions/customer', () => {
   describe('Customer#GET', () => {
     it('should present the customer table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/customer?customerid=${user.customer.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

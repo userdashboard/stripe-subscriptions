@@ -1,15 +1,16 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions`, async () => {
   describe('Index#BEFORE', () => {
     it('should bind plans to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.plans, null)
@@ -18,12 +19,13 @@ describe(`/administrator/subscriptions`, async () => {
 
     it('should bind subscriptions to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.subscriptions, null)
@@ -32,10 +34,10 @@ describe(`/administrator/subscriptions`, async () => {
 
     it('should bind coupons to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.coupons, null)
@@ -46,11 +48,12 @@ describe(`/administrator/subscriptions`, async () => {
   describe('Index#GET', () => {
     it('should have row for each plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -65,13 +68,13 @@ describe(`/administrator/subscriptions`, async () => {
 
     it('should have row for each coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const coupon1 = administrator.coupon
-      await TestHelper.createCoupon(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const coupon2 = administrator.coupon
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -86,8 +89,9 @@ describe(`/administrator/subscriptions`, async () => {
 
     it('should have row for each subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       const subscription1 = user.subscription
@@ -95,8 +99,8 @@ describe(`/administrator/subscriptions`, async () => {
       await TestHelper.createSubscription(user2, plan2.id)
       const subscription2 = user2.subscription
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

@@ -1,4 +1,4 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -25,8 +25,13 @@ module.exports = {
       statement_descriptor: req.body.statement_descriptor,
       unit_label: req.body.unit_label
     }
+    if (req.body.published) {
+      productInfo.metadata = {
+        published: dashboard.Timestamp.now
+      }
+    }
     const product = await stripe.products.create(productInfo, req.stripeKey)
-    await RedisListIndex.add('products', product.id)
+    await dashboard.RedisList.add('products', product.id)
     req.success = true
     return product
   }

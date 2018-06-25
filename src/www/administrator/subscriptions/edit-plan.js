@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar-plan-data.js')
 
 module.exports = {
   before: beforeRequest,
@@ -11,15 +10,15 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.planid) {
     throw new Error('invalid-planid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.administrator.subscriptions.UpdatePlan.patch(req)
+  }
   const plan = await global.api.administrator.subscriptions.Plan.get(req)
   if (plan.metadata.unpublished) {
     throw new Error('invalid-plan')
   }
   const products = await global.api.administrator.subscriptions.Products.get(req)
   req.data = {plan, products}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.administrator.subscriptions.UpdatePlan.patch(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
@@ -27,16 +26,15 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
   const trialPeriodDaysField = doc.getElementById('trial_period_days')
   trialPeriodDaysField.setAttribute('value', req.body ? req.body.trial_period_days : req.data.plan.trial_period_days || 0)
   if (req.data.products && req.data.products.length) {
-    doc.renderList(req.data.products, 'product-option-template', 'productid')
+    dashboard.HTML.renderList(doc, req.data.products, 'product-option-template', 'productid')
   }
-  doc.setSelectedOptionByValue('productid', req.body ? req.body.productid : req.data.plan.productid)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'productid', req.body ? req.body.productid : req.data.plan.productid)
   return dashboard.Response.end(req, res, doc)
 }
 

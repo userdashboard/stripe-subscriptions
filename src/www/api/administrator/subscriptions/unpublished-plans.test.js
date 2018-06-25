@@ -1,29 +1,30 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/unpublished-plans', () => {
   describe('UnpublishedPlans#GET', () => {
     it('should return list of unpublished plans', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
-      const product1 = administrator.product
-      await TestHelper.createPlan(administrator, {published: true})
-      const product2 = administrator.product
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, product1.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
       const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, product2.id)
+      await TestHelper.createSubscription(user, plan2.id)
       const subscription2 = user.subscription
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublished-plans`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.product = administrator.product
       const subscriptions = await req.route.api.get(req)
       assert.equal(subscriptions.length >= 2, true)
-      assert.equal(subscriptions[0].amount, product2.amount)
+      assert.equal(subscriptions[0].amount, plan2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, product1.amount)
+      assert.equal(subscriptions[1].amount, plan1.amount)
       assert.equal(subscriptions[1].subscription, subscription1.id)
     })
   })

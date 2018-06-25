@@ -10,10 +10,10 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.subscriptionid) {
     throw new Error('invalid-subscriptionid')
   }
-  const subscription = await global.api.administrator.subscriptions.Subscription.get(req)
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.DeleteSubscription.delete(req)
   }
+  const subscription = await global.api.administrator.subscriptions.Subscription.get(req)
   req.data = {subscription}
 }
 
@@ -21,12 +21,12 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.subscription, 'subscription-row-template', 'subscriptions-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
   return dashboard.Response.end(req, res, doc)

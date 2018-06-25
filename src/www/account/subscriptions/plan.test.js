@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe('/account/subscriptions/plan', () => {
   describe('Plan#BEFORE', () => {
@@ -22,7 +22,8 @@ describe('/account/subscriptions/plan', () => {
 
     it('should reject never published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'POST')
@@ -40,7 +41,8 @@ describe('/account/subscriptions/plan', () => {
 
     it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {}, {published: true, unpublished: true}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'POST')
@@ -58,7 +60,8 @@ describe('/account/subscriptions/plan', () => {
 
     it('should bind plan to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
@@ -73,14 +76,15 @@ describe('/account/subscriptions/plan', () => {
   })
 
   describe('Plan#GET', () => {
-    it('should present the plan table', async () => {
+    it('should have row for plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {

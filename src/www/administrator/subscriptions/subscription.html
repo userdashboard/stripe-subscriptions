@@ -8,59 +8,48 @@
 		<base href="/" target="_top" />
   </head>
   <body>
-    <h1>Subscription</h1>
+    <h1>View ${subscription.id}</h1>
     <div id="message-container"></div>
-    <table id="subscriptions-table" class="pure-table pure-table-striped"></table>
+    <h1>Subscription</h1>
+    <table id="subscriptions-table" class="pure-table pure-table-stacked">
+      <tbody id="${subscription.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="subscription?subscriptionid=${subscription.id}">${subscription.id}</a></td>
+        </tr>
+        <tr>
+          <th>Customer</th>
+          <td><a href="customer?customerid=${subscription.customer}">${subscription.customer}</a></td>
+        </tr>
+        <tr>
+          <th>Period</th>
+          <td>${subscription.currentPeriodStartFormatted} - ${subscription.currentPeriodEndFormatted}</td>
+        </tr>
+        <tr>
+          <th>Discount</th>
+          <td>${subscription.discount}</td>
+        </tr>
+        <tr>
+          <th>Plan</th>
+          <td>${subscription.planName}</td>
+        </tr>
+        <tr>
+          <th>Status</th>
+          <td>${subscription.status}</td>
+        </tr>
+        <tr>
+          <th>Created</th>
+          <td>${subscription.created}</td>
+        </tr>
+        <tr>
+          <th>IP</th>
+          <td>${subscription.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${subscription.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
-  <template id="subscription-row-template">
-    <tbody id="${id}">
-      <tr>
-        <th>ID</th>
-        <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
-      </tr>
-      <tr>
-        <th>Customer</th>
-        <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      </tr>
-      <tr>
-        <th>Period</th>
-        <td>${currentPeriodStartFormatted} - ${currentPeriodEndFormatted}</td>
-      </tr>
-      <tr>
-        <th>Discount</th>
-        <td>${discount}</td>
-      </tr>
-      <tr>
-        <th>Plan</th>
-        <td>${planName}</td>
-      </tr>
-      <tr>
-        <th>Status</th>
-        <td>${status}</td>
-      </tr>
-      <tr>
-        <th>Created</th>
-        <td>${created}</td>
-      </tr>
-      <tr>
-        <th>IP</th>
-        <td>${ip}</td>
-      </tr>
-      <tr>
-        <th>User agent</th>
-        <td>${userAgent}</td>
-      </tr>
-      <tr>
-        <th></th>
-        <td class="pure-button-group" role="group">
-          <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
-          <a class="pure-button" href="charges?subscriptionid=${id}">Charges</a>
-          <a class="pure-button" href="discounts?subscriptionid=${id}">Discounts</a>
-          <a class="pure-button" href="refunds?subscriptionid=${id}">Refunds</a>
-          <a class="pure-button" href="disputes?subscriptionid=${id}">Disputes</a>
-          <a class="pure-button" href="cancel-subscrpition ?subscriptionid=${id}">Cancel</a>
-        </td>
-      </tr>
-    </tbody>
-  </template>
 </html>

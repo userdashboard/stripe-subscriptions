@@ -1,23 +1,26 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/charges', () => {
   describe('Charges#GET', () => {
     it('should return charge list', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const plan1 = administrator.plan
-      await TestHelper.createPlan(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const plan2 = administrator.plan
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       const invoice1 = user.invoice
       await TestHelper.createSubscription(user, plan2.id)
       const invoice2 = user.invoice
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/charges`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const charges = await req.route.api.get(req)
       assert.equal(charges.length >= 2, true)
       assert.equal(charges[0].amount, plan2.amount)

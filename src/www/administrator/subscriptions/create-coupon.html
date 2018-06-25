@@ -183,7 +183,7 @@
         <label for="max_redemptions">Maximum redemptions</label>
         <input type="number" id="max_redemptions" name="max_redemptions" value="" maxlength="3" size="10" />
       </div>
-      <div id="expiresContainer" class="pure-control-group">
+      <div id="expires-container" class="pure-control-group">
         <label for="expires_day">Date of expiration (UTC)</label>
         <select name="expires_hour" id="expires_hour"><option>HH</option></select>:
         <select name="expires_minute" id="expires_minute"><option>MM</option></select>
@@ -248,6 +248,6 @@
     <div class="error message">Error!  An error occurred submitting the coupon.</div>
   </template>
   <template id="expire-option-template">
-    <option value="${value}">${name}</option>
+    <option value="${option.value}">${option.name}</option>
   </template>
 </html>

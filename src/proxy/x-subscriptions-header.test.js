@@ -1,13 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const SubscriptionHeader = require('./x-subscriptions-header.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe(`proxy/x-subscriptions-header`, () => {
   describe('Subscriptions#AFTER', () => {
     it('should set invoice data in header', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')

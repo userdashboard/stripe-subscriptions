@@ -1,12 +1,13 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/account/subscriptions/change-plan`, async () => {
   describe('ChangePlan#BEFORE', () => {
     it('should bind subscription to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
@@ -23,7 +24,8 @@ describe(`/account/subscriptions/change-plan`, async () => {
   describe('ChangePlan#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
@@ -42,7 +44,8 @@ describe(`/account/subscriptions/change-plan`, async () => {
 
     it('should present the subscription table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
@@ -62,7 +65,8 @@ describe(`/account/subscriptions/change-plan`, async () => {
   describe('ChangePlan#POST', () => {
     it('should reject same plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
@@ -86,8 +90,9 @@ describe(`/account/subscriptions/change-plan`, async () => {
 
     it('should reject never published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
@@ -111,8 +116,9 @@ describe(`/account/subscriptions/change-plan`, async () => {
 
     it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {}, {published: true, unpublished: true}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id}, {published: true, unpublished: true}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
@@ -136,11 +142,12 @@ describe(`/account/subscriptions/change-plan`, async () => {
 
     it('should reject paid plan without payment information', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 0, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user, false)
       await TestHelper.createSubscription(user, plan1.id)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -162,8 +169,9 @@ describe(`/account/subscriptions/change-plan`, async () => {
 
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
@@ -175,7 +183,7 @@ describe(`/account/subscriptions/change-plan`, async () => {
       }
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

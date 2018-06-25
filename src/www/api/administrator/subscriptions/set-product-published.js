@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -28,7 +27,7 @@ module.exports = {
     }
     try {
       await stripe.products.update(req.query.productid, updateInfo, req.stripeKey)
-      await RedisListIndex.add('published:products', req.query.productid)
+      await dashboard.RedisList.add('published:products', req.query.productid)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

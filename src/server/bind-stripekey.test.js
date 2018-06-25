@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const BindStripeKey = require('./bind-stripekey.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe('server/bind-stripekey', async () => {
   describe('BindStripeKey#AFTER', () => {

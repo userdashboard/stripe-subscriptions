@@ -7,7 +7,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.CreateProduct.post(req)
   }
 }
@@ -18,9 +18,10 @@ function renderPage (req, res, messageTemplate) {
   }
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }

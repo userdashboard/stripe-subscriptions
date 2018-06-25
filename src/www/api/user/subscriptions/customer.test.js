@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/customer', () => {
   describe('Customer#GET', () => {
@@ -21,10 +21,9 @@ describe('/api/user/subscriptions/customer', () => {
     })
 
     it('should reject other account\'s customerid', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/customer?customerid=${user.customer.id}`, 'GET')
@@ -41,10 +40,9 @@ describe('/api/user/subscriptions/customer', () => {
     })
 
     it('should return customer data', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/customer?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session

@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/create-customer`, () => {
   describe('CreateCustomer#POST', () => {
@@ -20,8 +20,6 @@ describe(`/api/user/subscriptions/create-customer`, () => {
     })
 
     it('should reject existing customer', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user.account.accountid}`, 'POST')
@@ -38,8 +36,6 @@ describe(`/api/user/subscriptions/create-customer`, () => {
     })
 
     it('should create customer', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user.account.accountid}`, 'POST')
       req.account = user.account

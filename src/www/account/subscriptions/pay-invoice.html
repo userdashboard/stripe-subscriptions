@@ -1,7 +1,7 @@
 <!doctype html>
-<html navbar="/account/subscriptions/navbar-subscription-center-options.html">
+<html navbar="/account/subscriptions/navbar.html">
   <head>
-    <title>Pay invoice</title>
+    <title>Pay ${invoice.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -18,10 +18,16 @@
           <th>Total</th>
           <th>Date</th>
         </tr>
+        <tr id="${invoice.id}">
+          <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
+          <td>${invoice.number}</td>
+          <td>${invoice.totalFormatted}</td>
+          <td>${invoice.date}</td>
+        </tr>
       </thead>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
-      <div id="refundContainer">
+      <div id="refund-container">
         <div class="pure-control-group">
           <label>Amount</label>
           <span id="amount-now" class="next-charge"></span>
@@ -34,7 +40,7 @@
     </form>
   </body>
   <template id="amount-template">
-    <span>${amountFormatted} ${currency}</span>
+    <span>${invoice.amountFormatted} ${invoice.currency}</span>
   </template>
   <template id="success">
     <div class="success message">Success!  The invoice has been paid.</div>
@@ -42,13 +48,7 @@
   <template id="unknown-error">
     <div class="error message">Error!  An error ocurred paying the invoice.</div>
   </template>
-  <template id="invoice-row-template">
-    <tr id="${id}">
-      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
-      <td>${number}</td>
-      <td>${date}</td>
-      <td>${totalFormatted}</td>
-      <td></td>
-    </tr>
+  <template id="invoice-row">
+
   </template>
 </html>

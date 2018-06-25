@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/set-plan-published`, () => {
   describe('SetPlanPublished#PATCH', () => {
@@ -8,8 +8,8 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=invalid`, 'PATCH')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.patch(req)
@@ -21,10 +21,11 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
 
     it('should reject published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, { published: true })
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'PATCH')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.patch(req)
@@ -38,10 +39,10 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'PATCH')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.patch(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.patch(req)
       assert.equal(req.success, true)
     })

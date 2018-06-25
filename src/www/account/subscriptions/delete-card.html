@@ -1,7 +1,7 @@
 <!doctype html>
 <html navbar="/account/subscriptions/navbar.html">
   <head>
-    <title>Delete unused card</title>
+    <title>Delete ${card.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -17,6 +17,12 @@
           <th>Card</th>
           <th>Last 4</th>
           <th>Expires</th>
+        </tr>
+        <tr id="${card.id}">
+          <td>${card.id}</td>
+          <td>${card.brand}</td>
+          <td>${card.last4}</td>
+          <td>${card.exp_month} / ${card.exp_year}</td>
         </tr>
       </thead>
     </table>
@@ -35,13 +41,5 @@
   </template>
   <template id="unknown-error">
     <div class="error message">Error!  An error ocurred deleting the unused card.</div>
-  </template>
-  <template id="card-row-template">
-    <tr id="${id}">
-      <td>${id}</td>
-      <td>${brand}</td>
-      <td>${last4}</td>
-      <td>${exp_month} / ${exp_year}</td>
-    </tr>
   </template>
 </html>

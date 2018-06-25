@@ -1,4 +1,4 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -35,8 +35,8 @@ module.exports = {
       throw new Error('invalid-amount')
     }
     try {
-      req.body.amount = parseInt(req.body.amount, 10)
-      if (!req.body.amount) {
+      const amount = parseInt(req.body.amount, 10)
+      if (req.body.amount !== amount.toString()) {
         throw new Error('invalid-amount')
       }
     } catch (s) {
@@ -65,7 +65,7 @@ module.exports = {
     if (req.body.trial_period_days) {
       try {
         req.body.trial_period_days = parseInt(req.body.trial_period_days, 10)
-        if (!req.body.trial_period_days || req.body.trial_period_days < 0 || req.body.trial_period_days > 90) {
+        if (req.body.trial_period_days !== 0 || (req.body.trial_period_days < 0 || req.body.trial_period_days > 90)) {
           throw new Error('invalid-trial_period_days')
         }
       } catch (s) {
@@ -86,6 +86,11 @@ module.exports = {
       interval_count: req.body.interval_count || 0,
       trial_period_days: req.body.trial_period_days || 0
     }
+    if (req.body.published) {
+      planInfo.metadata = {
+        published: dashboard.Timestamp.now
+      }
+    }
     let product
     try {
       product = await stripe.products.retrieve(req.body.productid, req.stripeKey)
@@ -100,7 +105,7 @@ module.exports = {
     try {
       const plan = await stripe.plans.create(planInfo, req.stripeKey)
       req.success = true
-      await RedisListIndex.add('plans', plan.id)
+      await dashboard.RedisList.add('plans', plan.id)
       return plan
     } catch (error) {
       if (error.message.indexOf('invalid-') === 0) {

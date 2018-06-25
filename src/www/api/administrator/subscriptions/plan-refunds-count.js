@@ -1,11 +1,11 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
     if (!req.query || !req.query.planid) {
       throw new Error('invalid-planid')
     }
-    const count = await RedisListIndex.count(`refunds:plan:${req.query.planid}`)
+    const count = await dashboard.RedisList.count(`refunds:plan:${req.query.planid}`)
     return count
   }
 }

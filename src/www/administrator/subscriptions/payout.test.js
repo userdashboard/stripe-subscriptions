@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions/payout`, () => {
   describe('Payout#BEFORE', () => {
     it('should bind reject invalid payoutid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=invalid`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -22,8 +22,8 @@ describe(`/administrator/subscriptions/payout`, () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.payout, null)
@@ -36,8 +36,8 @@ describe(`/administrator/subscriptions/payout`, () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res2 = TestHelper.createResponse()
       res2.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

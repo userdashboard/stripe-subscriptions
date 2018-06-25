@@ -10,23 +10,23 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.couponid) {
     throw new Error('invalid-couponid')
   }
-  const coupon = await global.api.administrator.subscriptions.Coupon.get(req)
-  req.data = {coupon}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.DeleteCoupon.delete(req)
   }
+  const coupon = await global.api.administrator.subscriptions.Coupon.get(req)
+  req.data = {coupon}
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.coupon, 'coupon-row-template', 'coupons-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.coupon, 'coupon')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
   return dashboard.Response.end(req, res, doc.toString())

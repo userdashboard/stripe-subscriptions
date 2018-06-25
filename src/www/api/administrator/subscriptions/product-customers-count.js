@@ -1,11 +1,11 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
     if (!req.query || !req.query.productid) {
       throw new Error('invalid-productid')
     }
-    const count = await RedisListIndex.count(`customers:product:${req.query.productid}`)
+    const count = await dashboard.RedisList.count(`customers:product:${req.query.productid}`)
     return count
   }
 }

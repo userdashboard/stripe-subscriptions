@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions/set-plan-published`, async () => {
   describe('SetPlanPublished#BEFORE', () => {
     it('should reject invalid planid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=invalid`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -20,10 +20,11 @@ describe(`/administrator/subscriptions/set-plan-published`, async () => {
 
     it('should reject published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -35,10 +36,11 @@ describe(`/administrator/subscriptions/set-plan-published`, async () => {
 
     it('should bind plan to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.plan, null)
@@ -49,10 +51,11 @@ describe(`/administrator/subscriptions/set-plan-published`, async () => {
   describe('SetPlanPublished#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -65,10 +68,11 @@ describe(`/administrator/subscriptions/set-plan-published`, async () => {
 
     it('should present the plan table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -82,10 +86,11 @@ describe(`/administrator/subscriptions/set-plan-published`, async () => {
   describe('SetPlanPublished#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const req = TestHelper.createRequest(`/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

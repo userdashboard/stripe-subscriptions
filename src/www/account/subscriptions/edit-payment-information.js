@@ -1,9 +1,6 @@
 const dashboard = require('@userappstore/dashboard')
-const fs = require('fs')
-const path = require('path')
-const Navigation = require('./navbar.js')
-const countries = JSON.parse(fs.readFileSync(path.join(__dirname, '../../../countries.json')))
-const countryDivisions = JSON.parse(fs.readFileSync(path.join(__dirname, '../../../country-divisions.json')))
+const countries = require('../../../../countries.json')
+const countryDivisions = require('../../../../country-divisions.json')
 
 module.exports = {
   before: beforeRequest,
@@ -12,7 +9,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.CreateCard.post(req)
   }
 }
@@ -22,10 +19,9 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderList(countries, 'country-template', 'address_country')
+  dashboard.HTML.renderList(doc, countries, 'country-template', 'address_country')
   if (messageTemplate) {
-    doc.renderTemplate({}, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, {}, messageTemplate, 'message-container')
   }
   let country
   if ((req.body && req.body.address_country) || req.country) {
@@ -35,9 +31,10 @@ async function renderPage (req, res, messageTemplate) {
       states.push({code, name: country.divisions[code]})
     }
     if (!states || !states.length) {
-      doc.removeElementById('stateContainer')
+      const stateContainer = doc.getElementById('state-container')
+      stateContainer.parentNode.removeChild(stateContainer)
     } else {
-      doc.renderList(states, 'state-template', 'address_state')
+      dashboard.HTML.renderList(doc, states, 'state-template', 'address_state')
     }
   }
   req.body = req.body || {}
@@ -60,10 +57,10 @@ async function renderPage (req, res, messageTemplate) {
   const zipField = doc.getElementById('address_zip')
   zipField.setAttribute('value', req.body.address_zip || '')
   if (req.body.address_state) {
-    doc.setSelectedOptionByValue('address_state', req.body.address_state || '')
+    dashboard.HTML.setSelectedOptionByValue(doc, 'address_state', req.body.address_state || '')
   }
   if (req.body.address_country || req.country) {
-    doc.setSelectedOptionByValue('address_country', req.body.address_country || req.country.country.iso_code)
+    dashboard.HTML.setSelectedOptionByValue(doc, 'address_country', req.body.address_country || req.country.country.iso_code)
   }
   res.statusCode = res.statusCode || 200
   return dashboard.Response.end(req, res, doc)

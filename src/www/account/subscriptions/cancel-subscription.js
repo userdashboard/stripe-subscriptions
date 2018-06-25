@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar-subscription-options.js')
 
 module.exports = {
   before: beforeRequest,
@@ -11,6 +10,9 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.subscriptionid) {
     throw new Error('invalid-subscriptionid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.user.subscriptions.DeleteSubscription.delete(req)
+  }
   const subscription = await global.api.user.subscriptions.Subscription.get(req)
   if (subscription.status === 'canceled' || subscription.cancel_at_period_end) {
     throw new Error('invalid-subscription')
@@ -21,29 +23,26 @@ async function beforeRequest (req) {
   const invoice = global.api.user.subscriptions.UpcomingInvoice.get(req)
   const card = req.customer.default_source || { last4: '', brand: '' }
   req.data = {subscription, card, invoice}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.DeleteSubscription.delete(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.subscription, 'subscription-row-template', 'subscriptions-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }
   if (req.data.invoice.total < 0) {
-    doc.renderTemplate(req.data.charge, 'refund-template', 'refund-now')
+    dashboard.HTML.renderTemplate(doc, req.data.charge, 'refund-template', 'refund-now')
   } else {
-    doc.removeElementById('refundContainer')
+    const refundContainer = doc.getElementById('refund-container')
+    refundContainer.parentNode.removeChild(refundContainer)
   }
   return dashboard.Response.end(req, res, doc)
 }

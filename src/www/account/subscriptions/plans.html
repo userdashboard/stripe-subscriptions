@@ -22,18 +22,18 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/account/subscriptions/plans?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/account/subscriptions/plans?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="plan-row-template">
-    <tr id="${id}">
-      <td><a href="plan?planid=${id}">${id}</a></td>
-      <td>${name}</td>
-      <td>${price}</td>
-      <td>${trial_period_days}</td>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td><a href="plan?planid=${plan.id}">${plan.id}</a></td>
+      <td>${plan.name}</td>
+      <td>${plan.price}</td>
+      <td>${plan.trial_period_days}</td>
       <td class="pure-button-group" role="group">
-        <a id="start-subscription-${id}" class="pure-button" href="/account/subscriptions/start-subscription?planid=${id}">Start subscription</a>
-        <a id="cancel-subscription-${id}" class="pure-button" href="/account/subscriptions/cancel-subscription?planid=${id}">Cancel subscription</a>
+        <a id="start-subscription-${plan.id}" class="pure-button" href="/account/subscriptions/start-subscription?planid=${plan.id}">Start subscription</a>
+        <a id="cancel-subscription-${plan.id}" class="pure-button" href="/account/subscriptions/cancel-subscription?planid=${plan.id}">Cancel subscription</a>
       </td>
     </tr>
   </template> 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Charge</title>
+    <title>View ${charge.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -10,45 +10,41 @@
   <body>
     <h1>Charge</h1>
     <div id="message-container"></div>
-    <table id="charges-table" class="pure-table pure-table-striped"></table>
+    <table id="charges-table" class="pure-table pure-table-stacked">
+      <tbody id="${charge.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="charge?chargeid=${charge.id}">${charge.id}</a></td>
+        </tr>
+        <tr>
+          <th>Customer</th>
+          <td><a href="customer?customerid=${charge.customer}">${charge.customer}</a></td>
+        </tr>
+        <tr>
+          <th>Paid</th>
+          <td>${charge.paid}</td>
+        </tr>
+        <tr>
+          <th>Amount</th>
+          <td>${charge.amountFormatted}</td>
+        </tr>
+        <tr>
+          <th>Amount refunded</th>
+          <td>${charge.amountRefundedFormatted}</td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td>${charge.date}</td>
+        </tr>
+        <tr>
+          <th>IP</th>
+          <td>${charge.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${charge.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
-  <template id="charge-row-template">
-    <tr id="${id}">
-      <th>ID</th>
-      <td><a href="charge?chargeid=${id}">${id}</a></td>
-    </tr>
-    <tr>
-      <th>Customer</th>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-    </tr>
-    <tr>
-      <th>Paid</th>
-      <td>${paid}</td>
-    </tr>
-    <tr>
-      <th>Amount</th>
-      <td>${amountFormatted}</td>
-    </tr>
-    <tr>
-      <th>Amount refunded</th>
-      <td>${amountRefundedFormatted}</td>
-    </tr>
-    <tr>
-      <th>Date</th>
-      <td>${date}</td>
-    </tr>
-    <tr>
-      <th>IP</th>
-      <td>${ip}</td>
-    </tr>
-    <tr>
-      <th>User agent</th>
-      <td>${userAgent}</td>
-    </tr>
-    <tr>
-      <th></th>
-      <td class="pure-button-group" role="group">
-      </td>
-    </tr>
-  </template>
 </html>

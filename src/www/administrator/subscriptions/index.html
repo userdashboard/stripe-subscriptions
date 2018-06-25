@@ -55,41 +55,41 @@
       </thead>
     </table>
   </body>
-  <template id="plan-row-template">
-    <tr id="${id}">
-      <td><a href="plan?planid=${id}">${id}</a></td>
-      <td><a href="product?productid=${product}">${product}</a></td>
-      <td>${priceFormatted}</td>
-      <td>${trialFormatted}</td>
-      <td id="draft-plan-${id}">Draft</td>
-      <td id="published-plan-${id}">Published</td>
-      <td id="unpublished-plan-${id}">Unpublished</td>
-      <td>${created}</td>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td><a href="plan?planid=${plan.id}">${plan.id}</a></td>
+      <td><a href="product?productid=${plan.product}">${plan.product}</a></td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted}</td>
+      <td id="draft-plan-${plan.id}">Draft</td>
+      <td id="published-plan-${plan.id}">Published</td>
+      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td>${plan.created}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>
   </template>
-  <template id="coupon-row-template">
-    <tr id="${id}">
-      <td><a href="coupon?couponid=${id}">${id}</a></td>
-      <td>${discount}</td>
-      <td id="draft-coupon-${id}">Draft</td>
-      <td id="published-coupon-${id}">Published</td>
-      <td id="unpublished-coupon-${id}">Unpublished</td>
-      <td>${created}</td>
+  <template id="coupon-row">
+    <tr id="${coupon.id}">
+      <td><a href="coupon?couponid=${coupon.id}">${coupon.id}</a></td>
+      <td>${coupon.discount}</td>
+      <td id="draft-coupon-${coupon.id}">Draft</td>
+      <td id="published-coupon-${coupon.id}">Published</td>
+      <td id="unpublished-coupon-${coupon.id}">Unpublished</td>
+      <td>${coupon.created}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>
   </template>
-  <template id="subscription-row-template">
-    <tr id="${id}">
-      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      <td>${currentPeriodStartFormatted} - ${currentPeriodEndFormatted}</td>
-      <td>${discount}</td>
-      <td><a href="plan?planid=${plan}">${plan}</a></td>
-      <td>${status}</td>
-      <td>${created}</td>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td><a href="subscription?subscriptionid=${subscription.id}">${subscription.id}</a></td>
+      <td><a href="customer?customerid=${subscription.customer}">${subscription.customer}</a></td>
+      <td>${subscription.currentPeriodStartFormatted} - ${subscription.currentPeriodEndFormatted}</td>
+      <td>${subscription.discount}</td>
+      <td><a href="plan?planid=${subscription.plan}">${subscription.plan}</a></td>
+      <td>${subscription.status}</td>
+      <td>${subscription.created}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

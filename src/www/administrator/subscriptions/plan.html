@@ -1,7 +1,7 @@
 <!doctype html>
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Plan</title>
+    <title>View ${plan.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -9,44 +9,37 @@
   </head>
   <body>
     <h1>Plan</h1>
-    <table id="plans-table" class="pure-table pure-table-striped"></table>
-  </body>
-  <template id="plan-row-template">
-    <tbody id="${id}">
-      <tr>
-        <th>ID</th>
-        <td><a href="plan?planid=${id}">${id}</a></td>
-      </tr>
-      <tr>
-        <th>Product</th>
-        <td><a href="product?productid=${product}">${product}</a></td>
-      </tr>
-      <tr>
-        <th>Price</th>
-        <td>${priceFormatted}</td>
-      </tr>
-      <tr>
-        <th>Trial period</th>
-        <td>${trialFormatted} day(s)</td>
+    <table id="plans-table" class="pure-table pure-table-stacked">
+      <tbody id="${plan.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="plan?planid=${plan.id}">${plan.id}</a></td>
         </tr>
-      <tr>
-        <th>Billing interval</th>
-        <td>${interval_count} ${interval}(s)</td>
-      </tr>
-      <tr>
-        <th>IP</th>
-        <td>${ip}</td>
-      </tr>
-      <tr>
-        <th>User agent</th>
-        <td>${userAgent}</td>
-      </tr>
-      <tr>
-        <th></th>
-        <td class="pure-button-group" role="group">
-          <a class="pure-button" href="edit-plan?planid=${id}">Edit</a>
-          <a class="pure-button" href="delete-plan?planid=${id}">Delete</a>
-        </td>
-    </tbody>
-  </template>
+        <tr>
+          <th>Product</th>
+          <td><a href="product?productid=${plan.product}">${plan.product}</a></td>
+        </tr>
+        <tr>
+          <th>Price</th>
+          <td>${plan.priceFormatted}</td>
+        </tr>
+        <tr>
+          <th>Trial period</th>
+          <td>${plan.trialFormatted} day(s)</td>
+          </tr>
+        <tr>
+          <th>Billing interval</th>
+          <td>${plan.interval_count} ${plan.interval}(s)</td>
+        </tr>
+        <tr>
+          <th>IP</th>
+          <td>${plan.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${plan.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
 </html>

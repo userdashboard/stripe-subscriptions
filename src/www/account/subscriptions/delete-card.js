@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar.js')
 
 module.exports = {
   before: beforeRequest,
@@ -11,28 +10,27 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.cardid) {
     throw new Error('invalid-cardid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.user.subscriptions.DeleteCard.delete(req)
+  }
   const card = await global.api.user.subscriptions.Card.get(req)
   if (card.id === req.customer.default_source) {
     throw new Error('invalid-card')
   }
   req.data = {card}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.DeleteCard.delete(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.card, 'card-row-template', 'cards-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.card, 'card')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.renderTemplate(null, 'success', 'message-container')
-      doc.removeElementById('submit-form')
+      dashboard.HTML.renderTemplate(doc, null, 'success', 'message-container')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
   return dashboard.Response.end(req, res, doc)

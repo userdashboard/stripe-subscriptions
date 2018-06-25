@@ -1,15 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/cards', () => {
   describe('Cards#GET', () => {
     it('should return card list', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/cards`, 'GET')
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/cards?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

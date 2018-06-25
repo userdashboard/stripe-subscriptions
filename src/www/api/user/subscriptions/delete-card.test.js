@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/delete-card`, () => {
   describe('DeleteCard#DELETE', () => {
@@ -19,12 +19,12 @@ describe(`/api/user/subscriptions/delete-card`, () => {
     })
 
     it('should reject other account\'s card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createSubscription(user2, administrator.plan.id)
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-card?cardid=${user.card.id}`, 'DELETE')
       req.account = user2.account
       req.session = user2.session
@@ -39,16 +39,15 @@ describe(`/api/user/subscriptions/delete-card`, () => {
     })
 
     it('should delete card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-card?cardid=${user.card.id}`, 'DELETE')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       await req.route.api.delete(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(user)
       await req.route.api.delete(req)
       assert.equal(req.success, true)
     })

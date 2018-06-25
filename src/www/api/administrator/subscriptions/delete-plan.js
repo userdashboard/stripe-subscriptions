@@ -1,4 +1,4 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -19,9 +19,9 @@ module.exports = {
   delete: async (req) => {
     try {
       await stripe.plans.del(req.query.planid, req.stripeKey)
-      await RedisListIndex.remove(`plans`, req.query.planid)
-      await RedisListIndex.remove(`published:plans`, req.query.planid)
-      await RedisListIndex.remove(`unpublished:plans`, req.query.planid)
+      await dashboard.RedisList.remove(`plans`, req.query.planid)
+      await dashboard.RedisList.remove(`published:plans`, req.query.planid)
+      await dashboard.RedisList.remove(`unpublished:plans`, req.query.planid)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

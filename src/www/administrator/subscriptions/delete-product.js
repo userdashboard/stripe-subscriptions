@@ -10,10 +10,10 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.productid) {
     throw new Error('invalid-productid')
   }
-  const product = await global.api.administrator.subscriptions.Product.get(req)
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.DeleteProduct.delete(req)
   }
+  const product = await global.api.administrator.subscriptions.Product.get(req)
   req.data = {product}
 }
 
@@ -21,12 +21,12 @@ async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.product, 'product-row-template', 'products-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.product, 'product')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
   return dashboard.Response.end(req, res, doc)

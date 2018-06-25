@@ -1,11 +1,18 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
+const subs = require('../../../../../index.js')
 
 module.exports = {
   get: async (req) => {
-    if (!req.query || !req.query.subscriptionid) {
-      throw new Error('invalid-subscriptionid')
+    if (!req.query || !req.query.customerid) {
+      throw new Error('invalid-customerid')
     }
-    const itemids = await RedisListIndex.count(`subscription:invoices:${req.query.subscriptionid}`)
-    return RedisListIndex.loadMany(itemids)
+    if (req.customer.id !== req.query.customerid) {
+      throw new Error('invalid-customer')
+    }
+    const itemids = await dashboard.RedisList.count(`customer:invoices:${req.query.customerid}`)
+    if (!itemids || !itemids.length) {
+      return null
+    }
+    return subs.StripeData.loadMany(itemids, req.stripeKey)
   }
 }

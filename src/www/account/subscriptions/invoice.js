@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar-invoice-options.js')
 
 module.exports = {
   before: beforeRequest,
@@ -25,16 +24,16 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.invoice, 'invoice-row-template', 'invoices-table')
-  doc.renderTable(req.data.invoice.lines.data, 'lineitem-row-template', 'lineitems-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.invoice, 'invoice')
+  dashboard.HTML.renderTable(doc, req.data.invoice.lines.data, 'lineitem-row', 'lineitems-table')
   if (req.data.charge && req.data.invoice.total < 0) {
-    doc.renderTemplate(req.data.charge, 'refund-row-template', 'refunds-table')
-    doc.removeElementById('chargeContainer')
+    dashboard.HTML.renderTemplate(doc, req.data.charge, 'refund-row', 'refunds-table')
+    const chargeContainer = doc.getElementById('charge-container')
+    chargeContainer.parentNode.removeChild(chargeContainer)
   } else {
-    doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')
-    doc.removeElementById('refundContainer')
+    dashboard.HTML.renderTemplate(doc, req.data.charge, 'charge-row', 'charges-table')
+    const refundContainer = doc.getElementById('refund-container')
+    refundContainer.parentNode.removeChild(refundContainer)
   }
   return dashboard.Response.end(req, res, doc)
 }

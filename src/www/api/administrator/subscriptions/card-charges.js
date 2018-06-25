@@ -1,4 +1,5 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
+const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
@@ -6,7 +7,15 @@ module.exports = {
       throw new Error('invalid-cardid')
     }
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await RedisListIndex.page(`charges:card:${req.query.cardid}`, offset)
-    return RedisListIndex.loadMany(itemids)
+    const chargeids = await dashboard.RedisList.list(`charges:card:${req.query.cardid}`, offset)
+    if (!chargeids || !chargeids.length) {
+      return null
+    }
+    const charges = []
+    for (const chargeid of chargeids) {
+      const charge = await stripe.charges.retrieve(chargeid, req.stripeKey)
+      charges.push(charge)
+    }
+    return charges
   }
 }

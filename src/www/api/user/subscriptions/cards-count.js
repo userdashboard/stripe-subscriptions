@@ -1,12 +1,14 @@
-const stripeDataIndex = require('../../../../stripe-data-index.js')
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
-    const filter = {
-      limit: 100,
-      customer: req.customerid
+    if (!req.query || !req.query.customerid) {
+      throw new Error('invalid-customerid')
     }
-    const total = await stripeDataIndex.count(filter, 'cards', req.stripeKey)
+    if (req.customer.id !== req.query.customerid) {
+      throw new Error('invalid-customer')
+    }
+    const total = await dashboard.RedisList.count(`customer:cards:${req.query.customerid}`, req.stripeKey)
     return total
   }
 }

@@ -1,6 +1,6 @@
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Publish plan</title>
+    <title>Publish ${plan.id}</title>
     <link href="/public/pure-min.css" rel="stylesheet" />
     <link href="/public/content.css" rel="stylesheet" />
   </head>
@@ -17,6 +17,13 @@
           <th>Interval</th>
         </tr>
       </thead>
+      <tr id="${plan.id}">
+        <td><a href="plan?planid=${plan.id}">${plan.id}</a></td>
+        <td><a href="product?productid=${plan.product}">${plan.product}</a></td>
+        <td>${plan.priceFormatted}</td>
+        <td>${plan.trialFormatted} day(s)</td>
+        <td>${plan.interval_count} ${plan.interval}(s)</td>
+      </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <button id="submit-button" class="pure-button pure-button-primary" type="button">Publish plan</button>
@@ -27,14 +34,5 @@
   </template>  
   <template id="unknown-error">
     <div class="error message">Error!  An error occurred publishing the plan.</div>
-  </template>    
-  <template id="plan-row-template">
-    <tr id="${id}">
-      <td><a href="plan?planid=${id}">${id}</a></td>
-      <td><a href="product?productid=${product}">${product}</a></td>
-      <td>${priceFormatted}</td>
-      <td>${trialFormatted} day(s)</td>
-      <td>${interval_count} ${interval}(s)</td>
-    </tr>
   </template>
 </html>

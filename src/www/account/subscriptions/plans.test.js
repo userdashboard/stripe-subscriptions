@@ -1,13 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/account/subscriptions/plans`, async () => {
   describe('Plans#BEFORE', () => {
     it('should bind plans to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plans`, 'GET')
@@ -26,8 +27,9 @@ describe(`/account/subscriptions/plans`, async () => {
   describe('Plans#GET', () => {
     it('should have row for each plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
       req.account = user.account
@@ -47,7 +49,7 @@ describe(`/account/subscriptions/plans`, async () => {
 
     it('should limit plans to one page', async () => {
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 20; i < len; i++) {
+      for (let i = 0, len = 10; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
@@ -66,7 +68,7 @@ describe(`/account/subscriptions/plans`, async () => {
 
     it('should enforce page size', async () => {
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 20; i < len; i++) {
+      for (let i = 0, len = 10; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
@@ -79,7 +81,7 @@ describe(`/account/subscriptions/plans`, async () => {
         assert.notEqual(null, doc)
         const table = doc.getElementById('reset-codes-table')
         const rows = table.getElementsByTagName('tr')
-        assert.equal(rows.length, 8 + 1)
+        assert.equal(rows.length, global.PAGE_SIZE + 1)
       }
       return req.route.api.get(req, res)
     })
@@ -87,7 +89,7 @@ describe(`/account/subscriptions/plans`, async () => {
     it('should enforce specified offset', async () => {
       const user = await TestHelper.createUser()
       const codes = [ user.code ]
-      for (let i = 0, len = 30; i < len; i++) {
+      for (let i = 0, len = 10; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.code)
       }
@@ -99,7 +101,7 @@ describe(`/account/subscriptions/plans`, async () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = 10; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[10 + i].codeid))
+          assert.notEqual(null, doc.getElementById(codes[global.PAGE_SIZE + i].codeid))
         }
       }
       return req.route.api.get(req, res)

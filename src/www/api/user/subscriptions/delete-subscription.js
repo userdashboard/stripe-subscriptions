@@ -1,4 +1,4 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
     }
     let subscription
     try {
-      subscription = await stripe.subscriptions.retrieve(req.query.subscriptionid, req.stripeKey)
+      subscription = await global.api.user.subscriptions.Subscription.get(req)
     } catch (error) {
     }
     if (!subscription) {
@@ -24,6 +24,7 @@ module.exports = {
     if (subscription.status === 'deleted' || subscription.cancel_at_period_end) {
       throw new Error('invalid-subscription')
     }
+    req.query.planid = subscription.plan
     req.subscription = subscription
     req.body = req.body || {}
   },
@@ -33,10 +34,10 @@ module.exports = {
     }
     try {
       await stripe.subscriptions.del(req.query.subscriptionid, deleteOptions, req.stripeKey)
-      await RedisListIndex.remove(`subscriptions`, req.subscription.id)
-      await RedisListIndex.remove(`customer:subscriptions:${req.customer.id}`, req.subscription.id)
-      await RedisListIndex.remove(`plan:subscriptions:${req.query.planid}`, req.subscription.id)
-      await RedisListIndex.remove(`product:subscriptions:${req.plan.product}`, req.subscription.id)
+      await dashboard.RedisList.remove(`subscriptions`, req.subscription.id)
+      await dashboard.RedisList.remove(`customer:subscriptions:${req.customer.id}`, req.subscription.id)
+      await dashboard.RedisList.remove(`plan:subscriptions:${req.subscription.plan.id}`, req.subscription.id)
+      await dashboard.RedisList.remove(`product:subscriptions:${req.subscription.plan.product}`, req.subscription.id)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

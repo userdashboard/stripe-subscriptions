@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/account/subscriptions/card`, async () => {
   describe('Card#BEFORE', () => {
@@ -22,7 +22,8 @@ describe(`/account/subscriptions/card`, async () => {
 
     it('should reject other account\'s card', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const user2 = await TestHelper.createUser()
@@ -42,30 +43,30 @@ describe(`/account/subscriptions/card`, async () => {
 
     it('should bind card to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/cards`, 'GET')
+      const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${user.card.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
-      assert.notEqual(req.data.cards, null)
-      assert.equal(req.data.cards.length, 1)
+      assert.notEqual(req.data.card, null)
     })
   })
 
   describe('Card#GET', () => {
     it('should have row for card', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const card1 = user.card
       await TestHelper.createCard(user)
-      const card2 = user.card
-      const req = TestHelper.createRequest('/account/subscriptions/cards', 'GET')
+      const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${card1.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -75,8 +76,6 @@ describe(`/account/subscriptions/card`, async () => {
         assert.notEqual(null, doc)
         const card1Row = doc.getElementById(card1.id)
         assert.notEqual(null, card1Row)
-        const card2Row = doc.getElementById(card2.id)
-        assert.notEqual(null, card2Row)
       }
       return req.route.api.get(req, res)
     })

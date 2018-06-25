@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/create-product`, () => {
   describe('CreateProduct#POST', () => {
     it('should require name', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         name: null,
         statement_descriptor: 'description',
@@ -26,8 +26,8 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
     it('should require statement_descriptor', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         name: `productName`,
         statement_descriptor: null,
@@ -46,18 +46,36 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {
         name: `product` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
         statement_descriptor: 'description',
         unit_label: 'thing'
       }
       await req.route.api.post(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(administrator)
       const product = await req.route.api.post(req)
       assert.notEqual(null, product)
-      assert.notEqual(null, product.id)
+    })
+
+    it('should create published product', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createProduct(administrator, {published: true})
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-product`, 'POST')
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
+      req.body = {
+        name: `product` + new Date().getTime() + 'r' + Math.ceil(Math.random() * 1000),
+        statement_descriptor: 'description',
+        unit_label: 'thing',
+        published: 'true'
+      }
+      await req.route.api.post(req)
+      req.session = await TestHelper.unlockSession(administrator)
+      const product = await req.route.api.post(req)
+      assert.notEqual(null, product)
+      assert.notEqual(null, product.published)
     })
   })
 })

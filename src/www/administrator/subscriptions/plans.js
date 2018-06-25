@@ -22,23 +22,37 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.plans && req.data.plans.length) {
-    doc.renderTable(req.data.plans, 'plan-row-template', 'plans-table')
+    dashboard.HTML.renderTable(doc, req.data.plans, 'plan-row', 'plans-table')
     for (const plan of req.data.plans) {
+      const draftPlan = doc.getElementById(`draft-plan-${plan.id}`)
+      const publishedPlan = doc.getElementById(`published-plan-${plan.id}`)
+      const unpublishedPlan = doc.getElementById(`unpublished-plan-${plan.id}`)
+      const setPlanPublished = doc.getElementById(`set-plan-published-${plan.id}`)
+      const setPlanUnpublished = doc.getElementById(`set-plan-unpublished-${plan.id}`)
       if (plan.metadata.unpublished) {
-        doc.removeElementsById([`draft-plan-${plan.id}`, `published-plan-${plan.id}`, `set-plan-published-${plan.id}`, `set-plan-unpublished-${plan.id}`])
+        draftPlan.parentNode.removeChild(draftPlan)
+        publishedPlan.parentNode.removeChild(publishedPlan)
+        setPlanPublished.parentNode.removeChild(setPlanPublished)
+        setPlanUnpublished.parentNode.removeChild(setPlanUnpublished)
       } else if (plan.metadata.published) {
-        doc.removeElementsById([`draft-plan-${plan.id}`, `unpublished-plan-${plan.id}`, `set-plan-published-${plan.id}`])
+        draftPlan.parentNode.removeChild(draftPlan)
+        unpublishedPlan.parentNode.removeChild(unpublishedPlan)
+        setPlanPublished.parentNode.removeChild(setPlanPublished)
       } else {
-        doc.removeElementsById([`published-plan-${plan.id}`, `unpublished-plan-${plan.id}`, `set-plan-unpublished-${plan.id}`])
+        publishedPlan.parentNode.removeChild(publishedPlan)
+        unpublishedPlan.parentNode.removeChild(unpublishedPlan)
+        setPlanUnpublished.parentNode.removeChild(setPlanUnpublished)
       }
     }
     if (req.data.count < global.PAGE_SIZE) {
-      doc.removeElementById('page-links')
+      const pageLinks = doc.getElementById('page-links')
+      pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      doc.renderPagination(req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
     }
   } else {
-    doc.removeElementById('plans-table')
+    const plansTable = doc.getElementById('plans-table')
+    plansTable.parentNode.removeChild(plansTable)
   }
   return dashboard.Response.end(req, res, doc)
 }

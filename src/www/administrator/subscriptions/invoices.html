@@ -25,18 +25,18 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/administrator/subscriptions/invoices?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/administrator/subscriptions/invoices?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="invoice-row-template">
-    <tr id="${id}">
-      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      <td><a href="subscription?subscriptionid=${subscription}">${subscription}</a></td>
-      <td>${number}</td>
-      <td>${periodStart} - ${periodEnd}</td>
-      <td>${totalFormatted}</td>
-      <td>${date}</td>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
+      <td><a href="customer?customerid=${invoice.customer}">${invoice.customer}</a></td>
+      <td><a href="subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a></td>
+      <td>${invoice.number}</td>
+      <td>${invoice.periodStart} - ${invoice.periodEnd}</td>
+      <td>${invoice.totalFormatted}</td>
+      <td>${invoice.date}</td>
       <td class="pure-button-group" role="group">
       </td>
     </tr>

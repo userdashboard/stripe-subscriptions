@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar.js')
 
 module.exports = {
   before: beforeRequest,
@@ -11,14 +10,14 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.productid) {
     throw new Error('invalid-productid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.administrator.subscriptions.UpdateProduct.patch(req)
+  }
   const product = await global.api.administrator.subscriptions.Product.get(req)
   if (product.metadata.unpublished) {
     throw new Error('invalid-product')
   }
   req.data = {product}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.administrator.subscriptions.UpdateProduct.patch(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
@@ -26,9 +25,8 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
   }
   const nameField = doc.getElementById('name')
   nameField.setAttribute('value', req.body ? req.body.name || '' : req.data.product.name)

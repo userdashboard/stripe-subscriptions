@@ -1,6 +1,6 @@
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Publish coupon</title>
+    <title>Publish ${coupon.id}</title>
     <link href="/public/pure-min.css" rel="stylesheet" />
     <link href="/public/content.css" rel="stylesheet" />
   </head>
@@ -15,6 +15,14 @@
           <th>Percent off</th>
         </tr>
       </thead>
+      <tr id="${coupon.id}">
+        <td><a href="coupon?couponid=${coupon.id}">${coupon.id}</a></td>
+        <td>
+          ${coupon.amount_off}
+          ${coupon.currency}
+        </td>
+        <td>${coupon.percent_off}%</td>
+      </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <button id="submit-button" class="pure-button pure-button-primary" type="button">Publish coupon</button>
@@ -26,14 +34,4 @@
   <template id="unknown-error">
     <div class="error message">Error!  An error occurred publishing the coupon.</div>
   </template>
-  <template id="coupon-row-template">
-    <tr id="${id}">
-      <td><a href="coupon?couponid=${id}">${id}</a></td>
-      <td>
-        ${amount_off}
-        ${currency}
-      </td>
-      <td>${percent_off}%</td>
-    </tr>
-  </template> 
 </html>

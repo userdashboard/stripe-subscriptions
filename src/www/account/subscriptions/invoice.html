@@ -1,7 +1,7 @@
 <!doctype html>
-<html navbar="/account/subscriptions/navbar-invoice-options.html">
+<html navbar="/account/subscriptions/navbar-invoice.html">
   <head>
-    <title>Invoice</title>
+    <title>View ${invoice.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -10,8 +10,35 @@
   <body>
     <h1>Invoice</h1>
     <div id="message-container"></div>
-    <table id="invoices-table" class="pure-table pure-table-striped"></table>
-    <div id="chargeContainer">
+    <table id="invoices-table" class="pure-table pure-table-stacked">
+      <tbody id="${invoice.id}">
+        <tr>
+          <th>ID</th>
+          <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
+        </tr>
+        <tr>
+          <th>Quantity</th>
+          <td>${invoice.number}</td>
+        </tr>
+        <tr>
+          <th>Plan</th>
+          <td>${invoice.date}</td>
+        </tr>
+        <tr>
+          <th>Period</th>
+          <td>${invoice.totalFormatted}</td>
+        </tr>
+        <tr>
+          <th>IP</th>
+          <td>${invoice.ip}</td>
+        </tr>
+        <tr>
+          <th>User agent</th>
+          <td>${invoice.userAgent}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="charge-container">
       <h2>Charge</h2>
       <table id="charges-table" class="pure-table pure-table-striped">
         <thead>
@@ -26,7 +53,7 @@
         </thead>
       </table>
     </div>
-    <div id="refundContainer">
+    <div id="refund-container">
       <h2>Refund</h2>
       <table id="refunds-table" class="pure-table pure-table-striped">
         <thead>
@@ -55,61 +82,33 @@
       </thead>
     </table>
   </body>
-  <template id="invoice-row-template">
-    <tbody id="${id}">
-      <tr>
-        <th>ID</th>
-        <td><a href="invoice?invoiceid=${id}">${id}</a></td>
-      </tr>
-      <tr>
-        <th>Quantity</th>
-        <td>${number}</td>
-      </tr>
-      <tr>
-        <th>Plan</th>
-        <td>${date}</td>
-      </tr>
-      <tr>
-        <th>Period</th>
-        <td>${totalFormatted}</td>
-      </tr>
-      <tr>
-        <th>IP</th>
-        <td>${ip}</td>
-      </tr>
-      <tr>
-        <th>User agent</th>
-        <td>${userAgent}</td>
-      </tr>
-    </tbody>
-  </template>
-  <template id="lineitem-row-template">
-    <tr id="${id}">
-      <td>${id}</td>
-      <td>${quantity}</td>
-      <td>${description}</td>
-      <td>${startFormatted} - ${endFormatted}</td>
-      <td>${totalFormatted}</td>
+  <template id="lineitem-row">
+    <tr id="${lineitem.id}">
+      <td>${lineitem.id}</td>
+      <td>${lineitem.quantity}</td>
+      <td>${lineitem.description}</td>
+      <td>${lineitem.startFormatted} - ${lineitem.endFormatted}</td>
+      <td>${lineitem.totalFormatted}</td>
       <td></td>
     </tr>
   </template>
-  <template id="charge-row-template">
-    <tr id="${id}">
-      <td><a href="charge?chargeid=${id}">${id}</a></td>
-      <td>${brand} ${last4}</td>
-      <td>${statement_descriptor}</td>
-      <td>${totalFormatted}</td>
-      <td>${date}</td>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td><a href="charge?chargeid=${charge.id}">${charge.id}</a></td>
+      <td>${charge.brand} ${charge.last4}</td>
+      <td>${charge.statement_descriptor}</td>
+      <td>${charge.totalFormatted}</td>
+      <td>${charge.date}</td>
       <td></td>
     </tr>
   </template>
-  <template id="refund-row-template">
-    <tr id="${id}">
-      <td>${id}</td>
-      <td>${brand} ${last4}</td>
-      <td>${status}</td>
-      <td>${totalFormatted}</td>
-      <td>${date}</td>
+  <template id="refund-row">
+    <tr id="${refund.id}">
+      <td>${refund.id}</td>
+      <td>${refund.brand} ${refund.last4}</td>
+      <td>${refund.status}</td>
+      <td>${refund.totalFormatted}</td>
+      <td>${refund.date}</td>
       <td></td>
     </tr>
   </template>

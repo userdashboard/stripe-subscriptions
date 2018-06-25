@@ -25,22 +25,22 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/administrator/subscriptions/charges?plans=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/administrator/subscriptions/charges?plans=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="plan-row-template">
-    <tr id="${id}">
-      <td><a href="plan?planid=${id}">${id}</a></td>
-      <td><a href="product?productid=${product}">${product}</a></td>
-      <td>${priceFormatted}</td>
-      <td>${trialFormatted}</td>
-      <td id="draft-plan-${id}">Draft</td>
-      <td id="published-plan-${id}">Published</td>
-      <td id="unpublished-plan-${id}">Unpublished</td>
-      <td>${created}</td>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td><a href="plan?planid=${plan.id}">${plan.id}</a></td>
+      <td><a href="product?productid=${plan.product}">${plan.product}</a></td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted}</td>
+      <td id="draft-plan-${plan.id}">Draft</td>
+      <td id="published-plan-${plan.id}">Published</td>
+      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td>${plan.created}</td>
       <td class="pure-button-group" role="group">
-        <a id="set-plan-published-${id}" class="pure-button" href="set-plan-published?planid=${id}">Publish</a>
-        <a id="set-plan-unpublished-${id}" class="pure-button" href="set-plan-unpublished?planid=${id}">Unpublish</a>
+        <a id="set-plan-published-${plan.id}" class="pure-button" href="set-plan-published?planid=${plan.id}">Publish</a>
+        <a id="set-plan-unpublished-${plan.id}" class="pure-button" href="set-plan-unpublished?planid=${plan.id}">Unpublish</a>
       </td>
     </tr>
   </template> 

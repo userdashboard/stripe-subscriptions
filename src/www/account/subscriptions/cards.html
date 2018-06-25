@@ -23,19 +23,19 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/account/subscriptions/cards?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/account/subscriptions/cards?offset=${card.page.offset}" id="page-link-${card.page.pageNumber}">${card.page.pageNumber}</a></li>
   </template>
-  <template id="card-row-template">
-    <tr id="${id}">
-      <td><a href="card?cardid=${id}">${id}</a></td>
-      <td>${brand}</td>
-      <td>${last4}</td>
-      <td>${exp_month} / ${exp_year}</td>
-      <td id='default-source-${id}'>Canceled</td>
-      <td id='unused-source-${id}'></td>
+  <template id="card-row">
+    <tr id="${card.id}">
+      <td><a href="card?cardid=${card.id}">${card.id}</a></td>
+      <td>${card.brand}</td>
+      <td>${card.last4}</td>
+      <td>${card.exp_month} / ${card.exp_year}</td>
+      <td id='default-source-${card.id}'>Canceled</td>
+      <td id='unused-source-${card.id}'></td>
       <td class="pure-button-group" role="group">
-        <a id="delete-card-link-${id}" class="pure-button" href="delete-card?cardid=${id}">Delete</a>
+        <a id="delete-card-link-${card.id}" class="pure-button" href="delete-card?cardid=${card.id}">Delete</a>
       </td>
     </tr>
   </template>

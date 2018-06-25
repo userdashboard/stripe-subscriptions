@@ -26,23 +26,23 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/administrator/subscriptions/subscriptions?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/administrator/subscriptions/subscriptions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="subscription-row-template">
-    <tr id="${id}">
-      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
-      <td><a href="customer?customerid=${customer}">${customer}</a></td>
-      <td>${currentPeriodStartFormatted} - ${currentPeriodEndFormatted}</td>
-      <td>${discount}</td>
-      <td><a href="plan?planid=${plan}">${plan}</a></td>
-      <td>${status}</td>
-      <td>${created}</td>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td><a href="subscription?subscriptionid=${subscription.id}">${subscription.id}</a></td>
+      <td><a href="customer?customerid=${subscription.customer}">${subscription.customer}</a></td>
+      <td>${subscription.currentPeriodStartFormatted} - ${subscription.currentPeriodEndFormatted}</td>
+      <td>${subscription.discount}</td>
+      <td><a href="plan?planid=${subscription.plan}">${subscription.plan}</a></td>
+      <td>${subscription.status}</td>
+      <td>${subscription.created}</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
-        <a class="pure-button" href="charges?subscriptionid=${id}">Charges</a>
-        <a class="pure-button" href="refunds?subscriptionid=${id}">Refunds</a>
-        <a class="pure-button" href="delete-subscription?subscriptionid=${id}">Delete</a>
+        <a class="pure-button" href="invoices?subscriptionid=${subscription.id}">Invoices</a>
+        <a class="pure-button" href="charges?subscriptionid=${subscription.id}">Charges</a>
+        <a class="pure-button" href="refunds?subscriptionid=${subscription.id}">Refunds</a>
+        <a class="pure-button" href="delete-subscription?subscriptionid=${subscription.id}">Delete</a>
       </td>
     </tr>
   </template>

@@ -29,7 +29,7 @@ module.exports = {
   },
   patch: async (req) => {
     try {
-      await stripe.invoices.pay(req.query.invoiceid, { source: req.body.sourceid }, req.stripeKey)
+      await stripe.invoices.pay(req.query.invoiceid, {source: req.body.sourceid}, req.stripeKey)
       req.success = true
     } catch (error) {
       if (error.message.indexOf(`Customer ${req.customer.id} does not have a linked source`) === 0) {

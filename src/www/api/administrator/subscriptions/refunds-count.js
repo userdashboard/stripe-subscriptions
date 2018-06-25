@@ -1,11 +1,8 @@
-const stripeDataIndex = require('../../../../stripe-data-index.js')
+const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
-    const filter = {
-      limit: 100
-    }
-    const total = await stripeDataIndex.count(filter, 'refunds', req.stripeKey)
+    const total = await dashboard.RedisList.count('refunds', req.stripeKey)
     return total
   }
 }

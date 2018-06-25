@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const ProxyAccount = require('./x-customer-header.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe(`proxy/x-customer-header`, () => {
   describe('Customer#AFTER', () => {

@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const RedisListIndex = require('../../../../redis-list-index.js')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -119,9 +118,14 @@ module.exports = {
     if (req.body.max_redemptions) {
       couponInfo.max_redemptions = req.body.max_redemptions
     }
+    if (req.body.published) {
+      couponInfo.metadata = {
+        published: dashboard.Timestamp.now
+      }
+    }
     const coupon = await stripe.coupons.create(couponInfo, req.stripeKey)
     req.success = true
-    await RedisListIndex.add('coupons', coupon.id)
+    await dashboard.RedisList.add('coupons', coupon.id)
     return coupon
   }
 }

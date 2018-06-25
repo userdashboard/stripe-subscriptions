@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/delete-subscription`, () => {
   describe('DeleteSubscription#DELETE', () => {
@@ -23,8 +23,11 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
 
     it('should reject other account\'s subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const user2 = await TestHelper.createUser()
       await TestHelper.createSubscription(user2, administrator.plan.id)
@@ -46,8 +49,11 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
 
     it('should require active subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 10000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
@@ -57,7 +63,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
         refund: 'at_period_end'
       }
       await req.route.api.delete(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(user)
       await req.route.api.delete(req)
       const req2 = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req2.account = req.account
@@ -74,8 +80,11 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
 
     it('should delete subscription at period end', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 10000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
@@ -85,7 +94,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
         refund: 'at_period_end'
       }
       await req.route.api.delete(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(user)
       await req.route.api.delete(req)
       // now check the subscription is deleted and on-going
       const req2 = TestHelper.createRequest(`/api/user/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
@@ -98,8 +107,11 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
 
     it('should delete subscription immediately', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 10000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
@@ -109,7 +121,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
         refund: 'refund'
       }
       await req.route.api.delete(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(user)
       await req.route.api.delete(req)
       assert.equal(req.success, true)
     })

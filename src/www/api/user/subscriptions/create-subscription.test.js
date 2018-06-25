@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/create-subscription`, () => {
   describe('CreateSubscription#POST', () => {
@@ -20,9 +20,11 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
 
     it('should reject never-published planid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -38,9 +40,11 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
 
     it('should reject unpublished planid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true, unpublished: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -56,7 +60,8 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
 
     it('should reject customer without card', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
@@ -74,15 +79,17 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
 
     it('should create authorized subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator, {published: true})
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       await req.route.api.post(req)
-      await TestHelper.completeAuthorization(req)
+      req.session = await TestHelper.unlockSession(user)
       await req.route.api.post(req)
       assert.equal(req.success, true)
     })

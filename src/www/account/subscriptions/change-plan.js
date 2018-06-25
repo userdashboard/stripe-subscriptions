@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar-subscription-options.js')
 
 module.exports = {
   before: beforeRequest,
@@ -10,6 +9,9 @@ module.exports = {
 async function beforeRequest (req) {
   if (!req.query || !req.query.subscriptionid) {
     throw new Error('invalid-subscriptionid')
+  }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.user.subscriptions.UpdateSubscriptionPlan.patch(req)
   }
   let subscription = await global.api.user.subscriptions.Subscription.get(req)
   if (subscription.status === 'canceled' || subscription.customer !== req.customer.id || subscription.cancel_at_period_end) {
@@ -32,27 +34,23 @@ async function beforeRequest (req) {
     activePlans.push(plan)
   }
   req.data = {plans: activePlans, subscription, plan: currentPlan}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.UpdateSubscriptionPlan.patch(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.subscription, 'subscription-row-template', 'subscriptions-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }
-  doc.renderList(req.data.plans, 'plan-option-template', 'plans-select')
-  doc.renderTemplate(req.data.plan, 'plan-name-template', 'plan-name')
+  dashboard.HTML.renderList(doc, req.data.plans, 'plan-option-template', 'plans-select')
+  dashboard.HTML.renderTemplate(doc, req.data.plan, 'plan-name-template', 'plan-name')
   const subscriptionidField = doc.getElementById('subscriptionid')
   subscriptionidField.setAttribute('value', req.query.subscriptionid)
   return dashboard.Response.end(req, res, doc)

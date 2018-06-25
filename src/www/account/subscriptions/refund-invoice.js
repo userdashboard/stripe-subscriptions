@@ -9,30 +9,30 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.invoiceid) {
     throw new Error('invalid-invoiceid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
+  }
   const invoice = await global.api.user.subscriptions.Invoice.get(req)
   req.query.chargeid = invoice.charge.id || invoice.charge
   const charge = await global.api.user.subscriptions.Charge.get(req)
   const amount = charge.amount - (charge.amount_refunded || 0)
   req.data = {invoice, charge, amount}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.invoice, 'invoice-row-template', 'invoices-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.invoice, 'invoice')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }
-  doc.renderTemplate(req.data.charge, 'refund-template', 'refund-now')
+  dashboard.HTML.renderTemplate(doc, req.data.charge, 'refund-template', 'refund-now')
   return dashboard.Response.end(req, res, doc)
 }
 

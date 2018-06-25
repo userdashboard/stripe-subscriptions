@@ -1,7 +1,7 @@
 <!doctype html>
 <html navbar="/administrator/subscriptions/navbar.html">
   <head>
-    <title>Forgive invoice</title>
+    <title>Forgive ${invoice.id}</title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <link rel="stylesheet" href="/public/pure-min.css" />
     <link rel="stylesheet" href="/public/content.css" />
@@ -19,6 +19,13 @@
           <th>Date</th>
         </tr>
       </thead>
+      <tr id="${invoice.id}">
+        <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
+        <td>${invoice.number}</td>
+        <td>${invoice.date}</td>
+        <td>${invoice.totalFormatted}</td>
+        <td></td>
+      </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <button id="submit-button" class="pure-button pure-button-primary" type="button">Forgive</button>
@@ -29,14 +36,5 @@
   </template>
   <template id="unknown-error">
     <div class="error message">Error!  An error ocurred forgiving the invoice.</div>
-  </template>
-  <template id="invoice-row-template">
-    <tr id="${id}">
-      <td><a href="invoice?invoiceid=${id}">${id}</a></td>
-      <td>${number}</td>
-      <td>${date}</td>
-      <td>${totalFormatted}</td>
-      <td></td>
-    </tr>
   </template>
 </html>

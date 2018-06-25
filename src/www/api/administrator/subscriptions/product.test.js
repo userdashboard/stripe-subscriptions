@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper.js')
+const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/product', () => {
   describe('Product#GET', () => {
@@ -8,8 +8,8 @@ describe('/api/administrator/subscriptions/product', () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product?productid=${administrator.product.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const product = await req.route.api.get(req)
       assert.equal(product.id, administrator.product.id)
     })

@@ -25,26 +25,26 @@
     </table>
     <ul id="page-links" class="pagination"></ul>
   </body>
-  <template id='page-link-template'>
-    <li><a href="/account/subscriptions/subscriptions?offset=${offset}" id="page-link-${pageNumber}">${pageNumber}</a></li>
+  <template id='page-link'>
+    <li><a href="/account/subscriptions/subscriptions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a></li>
   </template>
-  <template id="subscription-row-template">
-    <tr id="${id}">
-      <td><a href="subscription?subscriptionid=${id}">${id}</a></td>
-      <td>${plan_name}</td>
-      <td>${priceFormatted} ${currency}</td>
-      <td>${created}</td>
-      <td>${nextCharge}</td>
-      <td id='active-subscription-${id}'>Active</td>
-      <td id='canceling-subscription-${id}'>Active (canceling)</td>
-      <td id='trialing-subscription-${id}' title="Trial ending ${trial_end}">Trial (ending in ${trialEnd})</td>
-      <td id='past_due-subscription-${id}'>Past due</td>
-      <td id='canceled-subscription-${id}'>Canceled</td>
-      <td id='unpaid-subscription-${id}'>Unpaid</td>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td><a href="subscription?subscriptionid=${subscription.id}">${subscription.id}</a></td>
+      <td>${subscription.plan_name}</td>
+      <td>${subscription.priceFormatted} ${subscription.currency}</td>
+      <td>${subscription.created}</td>
+      <td>${subscription.nextCharge}</td>
+      <td id='active-subscription-${subscription.id}'>Active</td>
+      <td id='canceling-subscription-${subscription.id}'>Active (canceling)</td>
+      <td id='trialing-subscription-${subscription.id}' title="Trial ending ${subscription.trial_end}">Trial (ending in ${subscription.trialEnd})</td>
+      <td id='past_due-subscription-${subscription.id}'>Past due</td>
+      <td id='canceled-subscription-${subscription.id}'>Canceled</td>
+      <td id='unpaid-subscription-${subscription.id}'>Unpaid</td>
       <td class="pure-button-group" role="group">
-        <a class="pure-button" href="invoices?subscriptionid=${id}">Invoices</a>
-        <a id="change-plan-link-${id}" class="pure-button" href="change-plan?subscriptionid=${id}">Change plan</a>
-        <a id="cancel-subscription-link-${id}" class="pure-button" href="cancel-subscription?subscriptionid=${id}">Cancel</a>
+        <a class="pure-button" href="invoices?subscriptionid=${subscription.id}">Invoices</a>
+        <a id="change-plan-link-${subscription.id}" class="pure-button" href="change-plan?subscriptionid=${subscription.id}">Change plan</a>
+        <a id="cancel-subscription-link-${subscription.id}" class="pure-button" href="cancel-subscription?subscriptionid=${subscription.id}">Cancel</a>
       </td>
     </tr>
   </template>

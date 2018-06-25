@@ -1,9 +1,15 @@
-const RedisListIndex = require('../../../../redis-list-index.js')
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
   lock: true,
   before: async (req) => {
+    if (!req.query || !req.query.customerid) {
+      throw new Error('invalid-customerid')
+    }
+    if (req.customer.id !== req.query.customerid) {
+      throw new Error('invalid-customer')
+    }
     for (const field of ['name', 'cvc', 'number', 'exp_month', 'exp_year']) {
       if (!req.body[field] || !req.body[field].length) {
         throw new Error(`invalid-${field}`)
@@ -27,10 +33,10 @@ module.exports = {
       }
     }
     const card = await stripe.customers.createCard(req.customer.id, cardInfo, req.stripeKey)
-    await stripe.customers.update(req.customer.id, {default_source: card.id}, req.stripeKey)
-    await RedisListIndex.add('cards', card.id)
-    await RedisListIndex.add(`customer:cards:${req.customer.id}`, card.id)
-    req.customer = await stripe.customers.retrieve(req.customer.id, req.stripeKey)
+    req.customer = await stripe.customers.update(req.customer.id, {default_source: card.id}, req.stripeKey)
+    await dashboard.RedisList.add('cards', card.id)
+    await dashboard.RedisList.add(`customer:cards:${req.query.customerid}`, card.id)
     req.success = true
+    return card
   }
 }

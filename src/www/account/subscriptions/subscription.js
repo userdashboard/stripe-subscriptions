@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar.js')
 const statuses = ['active', 'trialing', 'past_due', 'canceled', 'unpaid']
 const intervals = ['day', 'week', 'month', 'year']
 
@@ -45,38 +44,47 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.subscription, 'subscription-row-template', 'subscriptions-table')
-  const removeElements = []
+  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   for (const status of statuses) {
     if (req.data.subscription.status === status) {
       continue
     }
-    removeElements.push(`${status}-subscription-${req.data.subscription.id}`)
+    const element = doc.getElementById(`${status}-subscription-${req.data.subscription.id}`)
+    element.parentNode.removeChild(element)
   }
   if (req.data.subscription.status === 'active') {
     if (req.data.subscription.cancel_at_period_end) {
-      removeElements.push(`active-subscription-${req.data.subscription.id}`, `change-plan-link-${req.data.subscription.id}`, `cancel-subscription-link-${req.data.subscription.id}`)
+      const element1 = doc.getElementById(`active-subscription-${req.data.subscription.id}`)
+      element1.parentNode.removeChild(element1)
+      const element2 = doc.getElementById(`change-plan-link-${req.data.subscription.id}`)
+      element2.parentNode.removeChild(element2)
+      const element3 = doc.getElementById(`cancel-subscription-link-${req.data.subscription.id}`)
+      element3.parentNode.removeChild(element3)
     } else {
-      removeElements.push(`canceling-subscription-${req.data.subscription.id}`)
+      const element = doc.getElementById(`canceling-subscription-${req.data.subscription.id}`)
+      element.parentNode.removeChild(element)
     }
   }
   for (const interval of intervals) {
     if (interval !== req.data.subscription.plan.interval) {
-      removeElements.push(`${interval}-singular-interval-${req.data.subscription.id}`, `${interval}-multiple-${req.data.subscription.id}`)
+      const element1 = doc.getElementById(`${interval}-singular-interval-${req.data.subscription.id}`)
+      element1.parentNode.removeChild(element1)
+      const element2 = doc.getElementById(`${interval}-multiple-${req.data.subscription.id}`)
+      element2.parentNode.removeChild(element2)
     }
     if (req.data.subscription.plan.interval_count === 1) {
-      removeElements.push(`${interval}-multiple-interval-${req.data.subscription.id}`)
+      const element = doc.getElementById(`${interval}-multiple-interval-${req.data.subscription.id}`)
+      element.parentNode.removeChild(element)
     } else {
-      removeElements.push(`${interval}-singular-interval-${req.data.subscription.id}`)
+      const element = doc.getElementById(`${interval}-singular-interval-${req.data.subscription.id}`)
+      element.parentNode.removeChild(element)
     }
   }
-  doc.removeElementsById(removeElements)
   if (req.data.invoices && req.data.invoices.length) {
-    doc.renderTable(req.data.invoices, 'invoice-row-template', 'invoices-table')
+    dashboard.HTML.renderTable(doc, req.data.invoices, 'invoice-row', 'invoices-table')
   } else {
-    doc.removeElementById('invoicesContainer')
+    const invoicesContainer = doc.getElementById('invoices-container')
+    invoicesContainer.parentNode.removeChild(invoicesContainer)
   }
   return dashboard.Response.end(req, res, doc)
 }

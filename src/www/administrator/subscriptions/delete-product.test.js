@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../test-helper.js')
+const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions/delete-product`, async () => {
   describe('DeleteProduct#BEFORE', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=invalid`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -22,8 +22,8 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.product, null)
@@ -36,8 +36,8 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -52,8 +52,8 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -69,8 +69,8 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'POST')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {

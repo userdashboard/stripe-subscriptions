@@ -10,29 +10,28 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.chargeid) {
     throw new Error('invalid-chargeid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.administrator.subscriptions.SetChargeFlagged.patch(req)
+  }
   const charge = await global.api.administrator.subscriptions.Charge.get(req)
   if (!charge.paid || !charge.refunded || (charge.fraud_details && charge.fraud_details.user_report === 'fraudulent')) {
     throw new Error('invalid-charge')
   }
   req.data = {charge}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.administrator.subscriptions.SetChargeFlagged.patch(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.charge, 'charge')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
     }
   }
-  doc.renderTemplate(req.data.charge, 'charge-row-template', 'charges-table')
   return dashboard.Response.end(req, res, doc.toString())
 }
 

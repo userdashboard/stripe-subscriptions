@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 const assert = require('assert')
 const RequirePayment = require('./require-payment.js')
-const TestHelper = require('../test-helper.js')
+const TestHelper = require('../../test-helper.js')
 
 describe('server/require-payment', async () => {
   describe('RequirePayment#AFTER', () => {
@@ -34,8 +34,9 @@ describe('server/require-payment', async () => {
 
     it('should allow owing customer access to /account/*', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
@@ -51,13 +52,14 @@ describe('server/require-payment', async () => {
 
     it('should allow owing administrator access to /administrator/', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       await TestHelper.createSubscription(administrator, plan1.id)
       await TestHelper.changeSubscription(administrator, plan2.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
-      req.account = administrator.account
-      req.session = administrator.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = (str) => {}
       await RequirePayment.after(req, res)
@@ -66,8 +68,9 @@ describe('server/require-payment', async () => {
 
     it('should redirect owing customer to the payment form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const plan1 = await TestHelper.createPlan(administrator, {published: true}, {}, 1000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {published: true}, {}, 2000, 0)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)

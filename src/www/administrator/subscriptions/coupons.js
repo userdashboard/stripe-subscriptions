@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar.js')
 
 module.exports = {
   before: beforeRequest,
@@ -30,25 +29,32 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
   if (req.data.coupons && req.data.coupons.length) {
-    doc.renderTable(req.data.coupons, 'coupon-row-template', 'coupons-table')
+    dashboard.HTML.renderTable(doc, req.data.coupons, 'coupon-row', 'coupons-table')
     for (const coupon of req.data.coupons) {
+      const draftCoupon = doc.getElementById(`draft-coupon-${coupon.id}`)
+      const publishedCoupon = doc.getElementById(`published-coupon-${coupon.id}`)
+      const unpublishedCoupon = doc.getElementById(`unpublished-coupon-${coupon.id}`)
       if (coupon.metadata.unpublished) {
-        doc.removeElementsById([`draft-coupon-${coupon.id}`, `published-coupon-${coupon.id}`])
+        draftCoupon.parentNode.removeChild(draftCoupon)
+        publishedCoupon.parentNode.removeChild(publishedCoupon)
       } else if (coupon.metadata.published) {
-        doc.removeElementsById([`draft-coupon-${coupon.id}`, `unpublished-coupon-${coupon.id}`])
+        draftCoupon.parentNode.removeChild(draftCoupon)
+        unpublishedCoupon.parentNode.removeChild(unpublishedCoupon)
       } else {
-        doc.removeElementsById([`published-coupon-${coupon.id}`, `unpublished-coupon-${coupon.id}`])
+        publishedCoupon.parentNode.removeChild(publishedCoupon)
+        unpublishedCoupon.parentNode.removeChild(unpublishedCoupon)
       }
     }
     if (req.data.count < global.PAGE_SIZE) {
-      doc.removeElementById('page-links')
+      const pageLinks = doc.getElementById('page-links')
+      pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      doc.renderPagination(req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
     }
   } else {
-    doc.removeElementById('coupons-table')
+    const couponsTable = doc.getElementById('coupons-table')
+    couponsTable.parentNode.removeChild(couponsTable)
   }
   return dashboard.Response.end(req, res, doc)
 }

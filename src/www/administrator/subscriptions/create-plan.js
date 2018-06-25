@@ -7,11 +7,11 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const products = await global.api.administrator.subscriptions.Products.get(req)
-  req.data = { products }
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.CreatePlan.post(req)
   }
+  const products = await global.api.administrator.subscriptions.Products.get(req)
+  req.data = { products }
 }
 
 function renderPage (req, res, messageTemplate) {
@@ -20,24 +20,25 @@ function renderPage (req, res, messageTemplate) {
   }
   const doc = dashboard.HTML.parse(req.route.html)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }
   req.body = req.body || {}
   if (req.data.products && req.data.products.length) {
-    doc.renderList(req.data.products, 'product-option-template', 'productid')
+    dashboard.HTML.renderList(doc, req.data.products, 'product-option-template', 'productid')
   }
-  doc.setSelectedOptionByValue('productid', req.body.productid || '0')
-  doc.setSelectedOptionByValue('currency-select', req.body.currency || 'usd')
+  dashboard.HTML.setSelectedOptionByValue(doc, 'productid', req.body.productid || '0')
+  dashboard.HTML.setSelectedOptionByValue(doc, 'currency-select', req.body.currency || 'usd')
   const idField = doc.getElementById('planid')
   idField.setAttribute('value', req.body.planid || '')
   const amountField = doc.getElementById('amount')
   amountField.setAttribute('value', req.body.amount || '0')
-  doc.setSelectedOptionByValue('interval_count', req.body.interval_count || '')
-  doc.setSelectedOptionByValue('interval', req.body.interval || '')
+  dashboard.HTML.setSelectedOptionByValue(doc, 'interval_count', req.body.interval_count || '')
+  dashboard.HTML.setSelectedOptionByValue(doc, 'interval', req.body.interval || '')
   const trialPeriodDaysField = doc.getElementById('trial_period_days')
   trialPeriodDaysField.setAttribute('value', req.body.trial_period_days || '0')
   return dashboard.Response.end(req, res, doc)

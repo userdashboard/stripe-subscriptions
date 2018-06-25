@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar.js')
 
 module.exports = {
   before: beforeRequest,
@@ -8,7 +7,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
+  if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.CreateCoupon.post(req)
   }
 }
@@ -18,11 +17,11 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }
@@ -45,17 +44,17 @@ async function renderPage (req, res, messageTemplate) {
     const padded = i < 10 ? `0${i}` : i
     minutes.push({value: i, name: `${padded}`})
   }
-  doc.renderList(minutes, 'expire-option-template', 'expires_minute')
-  doc.renderList(hours, 'expire-option-template', 'expires_hour')
-  doc.renderList(days, 'expire-option-template', 'expires_day')
-  doc.renderList(years, 'expire-option-template', 'expires_year')
+  dashboard.HTML.renderList(doc, minutes, 'expire-option-template', 'expires_minute')
+  dashboard.HTML.renderList(doc, hours, 'expire-option-template', 'expires_hour')
+  dashboard.HTML.renderList(doc, days, 'expire-option-template', 'expires_day')
+  dashboard.HTML.renderList(doc, years, 'expire-option-template', 'expires_year')
   req.body = req.body || {}
-  doc.setSelectedOptionByValue('expires_minute', req.body.expires_day || 0)
-  doc.setSelectedOptionByValue('expires_hour', req.body.expires_month || 0)
-  doc.setSelectedOptionByValue('expires_day', req.body.expires_year || 0)
-  doc.setSelectedOptionByValue('expires_month', req.body.expires_month || 0)
-  doc.setSelectedOptionByValue('expires_year', req.body.expires_year || 0)
-  doc.setSelectedOptionByValue('duration', req.body.duration || '')
+  dashboard.HTML.setSelectedOptionByValue(doc, 'expires_minute', req.body.expires_day || 0)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'expires_hour', req.body.expires_month || 0)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'expires_day', req.body.expires_year || 0)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'expires_month', req.body.expires_month || 0)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'expires_year', req.body.expires_year || 0)
+  dashboard.HTML.setSelectedOptionByValue(doc, 'duration', req.body.duration || '')
   const idField = doc.getElementById('couponid')
   idField.setAttribute('value', req.body.couponid || generateRandomCoupon())
   const durationInMonthsField = doc.getElementById('duration_in_months')

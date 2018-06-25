@@ -48,39 +48,50 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.plans && req.data.plans.length) {
-    doc.renderTable(req.data.plans, 'plan-row-template', 'plans-table')
+    dashboard.HTML.renderTable(doc, req.data.plans, 'plan-row', 'plans-table')
     for (const plan of req.data.plans) {
+      const draftPlan = doc.getElementById(`draft-plan-${plan.id}`)
+      const publishedPlan = doc.getElementById(`published-plan-${plan.id}`)
+      const unpublishedPlan = doc.getElementById(`unpublished-plan-${plan.id}`)
       if (plan.metadata.published) {
-        doc.removeElementById(`draft-plan-${plan.id}`)
+        draftPlan.parentNode.removeChild(draftPlan)
         if (plan.metadata.unpublished) {
-          doc.removeElementById(`published-plan-${plan.id}`)
+          publishedPlan.parentNode.removeChild(publishedPlan)
         } else {
-          doc.removeElementById(`unpublished-plan-${plan.id}`)
+          unpublishedPlan.parentNode.removeChild(unpublishedPlan)
         }
       } else {
-        doc.removeElementById(`unpublished-plan-${plan.id}`)
-        doc.removeElementById(`published-plan-${plan.id}`)
+        publishedPlan.parentNode.removeChild(publishedPlan)
+        unpublishedPlan.parentNode.removeChild(unpublishedPlan)
       }
     }
   }
   if (req.data.coupons && req.data.coupons.length) {
-    doc.renderTable(req.data.coupons, 'coupon-row-template', 'coupons-table')
+    dashboard.HTML.renderTable(doc, req.data.coupons, 'coupon-row', 'coupons-table')
     for (const coupon of req.data.coupons) {
+      const draftCoupon = doc.getElementById(`draft-coupon-${coupon.id}`)
+      const publishedCoupon = doc.getElementById(`published-coupon-${coupon.id}`)
+      const unpublishedCoupon = doc.getElementById(`unpublished-coupon-${coupon.id}`)
       if (coupon.metadata.unpublished) {
-        doc.removeElementsById([`draft-coupon-${coupon.id}`, `published-coupon-${coupon.id}`])
+        draftCoupon.parentNode.removeChild(draftCoupon)
+        publishedCoupon.parentNode.removeChild(publishedCoupon)
       } else if (coupon.metadata.published) {
-        doc.removeElementsById([`draft-coupon-${coupon.id}`, `unpublished-coupon-${coupon.id}`])
+        draftCoupon.parentNode.removeChild(draftCoupon)
+        unpublishedCoupon.parentNode.removeChild(unpublishedCoupon)
       } else {
-        doc.removeElementsById([`published-coupon-${coupon.id}`, `unpublished-coupon-${coupon.id}`])
+        publishedCoupon.parentNode.removeChild(publishedCoupon)
+        unpublishedCoupon.parentNode.removeChild(unpublishedCoupon)
       }
     }
   } else {
-    doc.removeElementById('coupons-table')
+    const couponsTable = doc.getElementById('coupons-table')
+    couponsTable.parentNode.removeChild(couponsTable)
   }
   if (req.data.subscriptions && req.data.subscriptions.length) {
-    doc.renderTable(req.data.subscriptions, 'subscription-row-template', 'subscriptions-table')
+    dashboard.HTML.renderTable(doc, req.data.subscriptions, 'subscription-row', 'subscriptions-table')
   } else {
-    doc.removeElementById('subscriptions-table')
+    const subscriptionsTable = doc.getElementById('subscriptions-table')
+    subscriptionsTable.parentNode.removeChild(subscriptionsTable)
   }
   return dashboard.Response.end(req, res, doc)
 }

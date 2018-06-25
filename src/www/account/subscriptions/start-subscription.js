@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const Navigation = require('./navbar-subscription-options.js')
 
 module.exports = {
   before: beforeRequest,
@@ -11,28 +10,27 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.planid) {
     throw new Error('invalid-planid')
   }
+  if (req.session.lockURL === req.url && req.session.unlocked) {
+    await global.api.user.subscriptions.CreateSubscription.post(req)
+  }
   const plan = await global.api.user.subscriptions.Plan.get(req)
   if (!plan.metadata.published || plan.metadata.unpublished) {
     throw new Error('invalid-plan')
   }
   const card = req.customer.default_source || { last4: '', brand: '' }
   req.data = {card, plan}
-  if (req.session.lockURL === req.url && req.session.unlocked >= dashboard.Timestamp.now) {
-    await global.api.user.subscriptions.CreateSubscription.post(req)
-  }
 }
 
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
   }
-  const doc = dashboard.HTML.parse(req.route.html)
-  await Navigation.render(req, doc)
-  doc.renderTemplate(req.data.plan, 'plan-row-template', 'plans-table')
+  const doc = dashboard.HTML.parse(req.route.html, req.data.plan, 'plan')
   if (messageTemplate) {
-    doc.renderTemplate(null, messageTemplate, 'message-container')
+    dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success') {
-      doc.removeElementById('submit-form')
+      const submitForm = doc.getElementById('submit-form')
+      submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
     }
   }

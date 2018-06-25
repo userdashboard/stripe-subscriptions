@@ -12,7 +12,7 @@ async function afterAuthentication (req) {
     return
   }
   const queryWas = req.query
-  const customerid = await dashboard.Account.getProperty(req.account.accountid, 'customerid')
+  const customerid = await dashboard.RedisObject.getProperty(req.account.accountid, 'customerid')
   if (customerid) {
     req.query = { customerid }
     req.customer = await global.api.user.subscriptions.Customer.get(req)

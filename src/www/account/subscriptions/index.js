@@ -48,60 +48,75 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   let allFree = true
   if (req.data.subscriptions && req.data.subscriptions.length) {
-    doc.renderTable(req.data.subscriptions, 'subscription-row-template', 'subscriptions-table')
-    const removeElements = []
+    dashboard.HTML.renderTable(doc, req.data.subscriptions, 'subscription-row', 'subscriptions-table')
     for (const subscription of req.data.subscriptions) {
       allFree = allFree || subscription.plan.amount > 0
       for (const status of statuses) {
         if (subscription.status === status) {
           continue
         }
-        removeElements.push(`${status}-subscription-${subscription.id}`)
+        const element = document.getElementById(`${status}-subscription-${subscription.id}`)
+        element.parentNode.removeChild(element)
       }
       if (subscription.status === 'active') {
         if (subscription.cancel_at_period_end) {
-          removeElements.push(`active-subscription-${subscription.id}`, `change-plan-link-${subscription.id}`, `cancel-subscription-link-${subscription.id}`)
+          const element = document.getElementById(`active-subscription-${subscription.id}`)
+          element.parentNode.removeChild(element)
+          const element2 = document.getElementById(`change-plan-link-${subscription.id}`)
+          element2.parentNode.removeChild(element2)
+          const element3 = document.getElementById(`cancel-subscription-link-${subscription.id}`)
+          element3.parentNode.removeChild(element3)
         } else {
-          removeElements.push(`canceling-subscription-${subscription.id}`)
+          const element = document.getElementById(`canceling-subscription-${subscription.id}`)
+          element.parentNode.removeChild(element)
         }
       }
       for (const interval of intervals) {
         if (interval !== subscription.plan.interval) {
-          removeElements.push(`${interval}-singular-interval-${subscription.id}`, `${interval}-multiple-${subscription.id}`)
+          const element = document.getElementById(`${interval}-singular-interval-${subscription.id}`)
+          element.parentNode.removeChild(element)
+          const element2 = document.getElementById(`${interval}-multiple-${subscription.id}`)
+          element2.parentNode.removeChild(element2)
         }
         if (subscription.plan.interval_count === 1) {
-          removeElements.push(`${interval}-multiple-interval-${subscription.id}`)
+          const element = document.getElementById(`${interval}-multiple-interval-${subscription.id}`)
+          element.parentNode.removeChild(element)
         } else {
-          removeElements.push(`${interval}-singular-interval-${subscription.id}`)
+          const element = document.getElementById(`${interval}-singular-interval-${subscription.id}`)
+          element.parentNode.removeChild(element)
         }
       }
     }
-    doc.removeElementsById(removeElements)
   } else {
-    doc.removeElementById('subscriptionsContainer')
+    const element = document.getElementById(`subscriptionsContainer`)
+    element.parentNode.removeChild(element)
   }
   if (req.data.invoices && req.data.invoices.length) {
-    doc.renderTable(req.data.invoices, 'invoice-row-template', 'invoices-table')
+    dashboard.HTML.renderTable(doc, req.data.invoices, 'invoice-row', 'invoices-table')
   } else {
-    doc.removeElementById('invoicesContainer')
+    const element = document.getElementById(`invoicesContainer`)
+    element.parentNode.removeChild(element)
   }
   if (req.data.cards && req.data.cards.length) {
     for (const card of req.data.cards) {
       if (req.customer.default_source === card.id) {
-        doc.renderTemplate(card, 'card-template', 'card')
+        dashboard.HTML.renderTemplate(doc, card, 'card-template', 'card')
         break
       }
     }
-    doc.renderTable(req.data.cards, 'card-row-template', 'cards-table')
+    dashboard.HTML.renderTable(doc, req.data.cards, 'card-row', 'cards-table')
   } else {
-    doc.removeElementById('cardsContainer')
-    doc.removeElementById('payment-informationContainer')
+    const element = document.getElementById(`cardsContainer`)
+    element.parentNode.removeChild(element)
+    const element2 = document.getElementById(`payment-informationContainer`)
+    element2.parentNode.removeChild(element2)
   }
   if (req.customer.account_balance < 0) {
     const balanceField = doc.getElementById('balance')
     balanceField.setInnerText(dashboard.Format.money(-req.customer.account_balance, req.customer.currency))
   } else {
-    doc.removeElementById('balance-informationContainer')
+    const element = document.getElementById(`balance-informationContainer`)
+    element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)
 }

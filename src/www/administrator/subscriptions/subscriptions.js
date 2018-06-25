@@ -27,14 +27,16 @@ async function beforeRequest (req) {
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.subscriptions && req.data.subscriptions.length) {
-    doc.renderTable(req.data.subscriptions, 'subscription-row-template', 'subscriptions-table')
+    dashboard.HTML.renderTable(doc, req.data.subscriptions, 'subscription-row', 'subscriptions-table')
     if (req.data.count < global.PAGE_SIZE) {
-      doc.removeElementById('page-links')
+      const pageLinks = doc.getElementById('page-links')
+      pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      doc.renderPagination(req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
     }
   } else {
-    doc.removeElementById('subscriptions-table')
+    const subscriptionsTable = doc.getElementById('subscriptions-table')
+    subscriptionsTable.parentNode.removeChild(subscriptionsTable)
   }
   return dashboard.Response.end(req, res, doc)
 }

@@ -21,27 +21,9 @@ describe('/administrator/subscriptions/invoices', () => {
   })
 
   describe('Invoices#GET', () => {
-    it('should have row for each invoice', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/invoices`, 'GET')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
-      const res = TestHelper.createResponse()
-      res.end = async (str) => {
-        const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.invoice.id)
-        assert.notEqual(null, tr)
-      }
-      return req.route.api.get(req, res)
-    })
-
     it('should limit invoices to one page', async () => {
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/invoices', 'GET')
@@ -59,14 +41,14 @@ describe('/administrator/subscriptions/invoices', () => {
     })
 
     it('should enforce page size', async () => {
+      global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/invoices', 'GET')
       req.account = user.account
       req.session = user.session
-      global.PAGE_SIZE = 8
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -79,21 +61,22 @@ describe('/administrator/subscriptions/invoices', () => {
     })
 
     it('should enforce specified offset', async () => {
+      const offset = 1
       const user = await TestHelper.createUser()
       const codes = [ user.code ]
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.code)
       }
-      const req = TestHelper.createRequest('/administrator/subscriptions/invoices?offset=10', 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/invoices?offset=${offset}`, 'GET')
       req.account = user.account
       req.session = user.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        for (let i = 0, len = 10; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[global.PAGE_SIZE + i].codeid))
+        for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
+          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
         }
       }
       return req.route.api.get(req, res)

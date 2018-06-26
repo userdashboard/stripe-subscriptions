@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/published-products', () => {
   describe('PublishedProducts#GET', () => {
-    it('should return list of published products', async () => {
+    it('should limit published products to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product1 = await TestHelper.createProduct(administrator, {published: true})
       const product2 = await TestHelper.createProduct(administrator, {published: true})
@@ -20,7 +20,7 @@ describe('/api/administrator/subscriptions/published-products', () => {
       req.administratorSession = req.session = administrator.session
       req.product = administrator.product
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length >= 2, true)
+      assert.equal(subscriptions.length, global.PAGE_SIZE)
       assert.equal(subscriptions[0].amount, product2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
       assert.equal(subscriptions[1].amount, product1.amount)

@@ -25,31 +25,9 @@ describe(`/account/subscriptions/plans`, async () => {
   })
 
   describe('Plans#GET', () => {
-    it('should have row for each plan', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
-      req.account = user.account
-      req.session = user.session
-      req.customer = user.customer
-      const res = TestHelper.createResponse()
-      res.end = async (str) => {
-        const doc = TestHelper.extractDoc(str)
-        assert.notEqual(null, doc)
-        const plan1Row = doc.getElementById(plan1.id)
-        assert.notEqual(null, plan1Row)
-        const plan2Row = doc.getElementById(plan2.id)
-        assert.notEqual(null, plan2Row)
-      }
-      return req.route.api.get(req, res)
-    })
-
     it('should limit plans to one page', async () => {
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
@@ -67,14 +45,15 @@ describe(`/account/subscriptions/plans`, async () => {
     })
 
     it('should enforce page size', async () => {
+      global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/plans', 'GET')
       req.account = user.account
       req.session = user.session
-      global.PAGE_SIZE = 8
+      req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -87,21 +66,23 @@ describe(`/account/subscriptions/plans`, async () => {
     })
 
     it('should enforce specified offset', async () => {
+      const offset = 1
       const user = await TestHelper.createUser()
       const codes = [ user.code ]
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.code)
       }
-      const req = TestHelper.createRequest('/account/subscriptions/plans?offset=10', 'GET')
+      const req = TestHelper.createRequest(`/account/subscriptions/plans?offset=${offset}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        for (let i = 0, len = 10; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[global.PAGE_SIZE + i].codeid))
+        for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
+          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
         }
       }
       return req.route.api.get(req, res)

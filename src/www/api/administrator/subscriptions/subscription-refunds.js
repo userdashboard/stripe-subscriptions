@@ -7,7 +7,7 @@ module.exports = {
       throw new Error('invalid-subscriptionid')
     }
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`refunds:subscription:${req.query.subscriptionid}`, offset)
+    const itemids = await dashboard.RedisList.list(`subscription:refunds:${req.query.subscriptionid}`, offset)
     if (!itemids || !itemids.length) {
       return null
     }

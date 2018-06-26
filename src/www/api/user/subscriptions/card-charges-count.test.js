@@ -13,9 +13,11 @@ describe('/api/user/subscriptions/card-charges-count', async () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks()
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges-count?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const result = await req.route.api.get(req)
       assert.equal(result, 2)
     })

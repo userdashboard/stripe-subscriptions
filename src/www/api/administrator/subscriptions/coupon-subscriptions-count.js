@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.couponid) {
       throw new Error('invalid-couponid')
     }
-    const count = await dashboard.RedisList.count(`subscriptions:coupon:${req.query.couponid}`)
+    const count = await dashboard.RedisList.count(`coupon:subscriptions:${req.query.couponid}`)
     return count
   }
 }

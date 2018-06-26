@@ -11,7 +11,7 @@ describe('/api/user/subscriptions/published-plans', () => {
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans`, 'GET')
       const plans = await req.route.api.get(req)
-      assert.equal(plans.length >= 2, true)
+      assert.equal(plans.length, global.PAGE_SIZE)
     })
 
     it('should exclude never published plans', async () => {

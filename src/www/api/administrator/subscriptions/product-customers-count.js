@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.productid) {
       throw new Error('invalid-productid')
     }
-    const count = await dashboard.RedisList.count(`customers:product:${req.query.productid}`)
+    const count = await dashboard.RedisList.count(`product:customers:${req.query.productid}`)
     return count
   }
 }

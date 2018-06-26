@@ -5,10 +5,10 @@ const TestHelper = require('../../../../../test-helper.js')
 describe(`/api/user/subscriptions/set-charge-refunded`, () => {
   describe('SetChargeRefunded#PATCH', () => {
     it('should reject invalid charge', async () => {
-      const administrator = await TestHelper.createAdministrator()
+      const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-charge-refunded?chargeid=invalid`, 'PATCH')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
+      req.account = user.account
+      req.session = user.session
       req.body = {
         amount: 100
       }

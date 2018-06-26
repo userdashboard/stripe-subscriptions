@@ -87,8 +87,8 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'PATCH')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
+      req.account = user.account
+      req.session = user.session
       req.customer = user.customer
       await req.route.api.patch(req)
       req.session = await TestHelper.unlockSession(user)

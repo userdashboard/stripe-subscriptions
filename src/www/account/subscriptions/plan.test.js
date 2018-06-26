@@ -83,8 +83,8 @@ describe('/account/subscriptions/plan', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
+      req.account = user.account
+      req.session = user.session
       req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {

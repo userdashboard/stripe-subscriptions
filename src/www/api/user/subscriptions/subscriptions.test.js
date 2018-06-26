@@ -16,7 +16,7 @@ describe('/api/user/subscriptions/subscriptions', () => {
       const subscription1 = user.subscription
       await TestHelper.createSubscription(user, plan2.id)
       const subscription2 = user.subscription
-      const req = TestHelper.createRequest(`/api/user/subscriptions/subscriptions`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/subscriptions?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

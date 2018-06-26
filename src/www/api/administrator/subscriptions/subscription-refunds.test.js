@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/subscription-refunds', () => {
   describe('SubscriptionRefunds#GET', () => {
-    it('should return list of refunds on subscription', async () => {
+    it('should limit refunds on subscription to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000})
@@ -21,7 +21,7 @@ describe('/api/administrator/subscriptions/subscription-refunds', () => {
       req.administratorSession = req.session = administrator.session
       req.product = administrator.product
       const refunds = await req.route.api.get(req)
-      assert.equal(refunds.length >= 2, true)
+      assert.equal(refunds.length, global.PAGE_SIZE)
       assert.equal(refunds[0].id, refund2.id)
       assert.equal(refunds[1].id, refund1.id)
     })

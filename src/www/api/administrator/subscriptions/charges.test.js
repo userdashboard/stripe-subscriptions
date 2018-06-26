@@ -22,7 +22,7 @@ describe('/api/administrator/subscriptions/charges', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const charges = await req.route.api.get(req)
-      assert.equal(charges.length >= 2, true)
+      assert.equal(charges.length, global.PAGE_SIZE)
       assert.equal(charges[0].amount, plan2.amount)
       assert.equal(charges[0].invoice, invoice2.id)
       assert.equal(charges[1].amount, plan1.amount)

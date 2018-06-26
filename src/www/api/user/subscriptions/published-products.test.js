@@ -10,7 +10,7 @@ describe('/api/user/subscriptions/published-products', () => {
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-products`, 'GET')
       const products = await req.route.api.get(req)
-      assert.equal(products.length >= 2, true)
+      assert.equal(products.length, global.PAGE_SIZE)
     })
 
     it('should exclude never published products', async () => {

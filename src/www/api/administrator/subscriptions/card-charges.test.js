@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/card-charges', () => {
   describe('CardCharges#GET', () => {
-    it('should return list of charges on card', async () => {
+    it('should limit charges on card to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
@@ -18,11 +18,12 @@ describe('/api/administrator/subscriptions/card-charges', () => {
       const invoice1 = user.invoice
       await TestHelper.createSubscription(user, plan2.id)
       const invoice2 = user.invoice
+      await TestHelper.waitForWebhooks()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const charges = await req.route.api.get(req)
-      assert.equal(charges.length >= 2, true)
+      assert.equal(charges.length, global.PAGE_SIZE)
       assert.equal(charges[0].amount, plan2.amount)
       assert.equal(charges[0].invoice, invoice2.id)
       assert.equal(charges[1].amount, plan1.amount)

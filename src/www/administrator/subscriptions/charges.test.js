@@ -41,7 +41,7 @@ describe('/administrator/subscriptions/charges', () => {
 
     it('should limit charges to one page', async () => {
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/charges', 'GET')
@@ -59,14 +59,14 @@ describe('/administrator/subscriptions/charges', () => {
     })
 
     it('should enforce page size', async () => {
+      global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/charges', 'GET')
       req.account = user.account
       req.session = user.session
-      global.PAGE_SIZE = 8
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -79,21 +79,22 @@ describe('/administrator/subscriptions/charges', () => {
     })
 
     it('should enforce specified offset', async () => {
+      const offset = 1
       const user = await TestHelper.createUser()
       const codes = [ user.code ]
-      for (let i = 0, len = 10; i < len; i++) {
+      for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
         codes.unshift(user.code)
       }
-      const req = TestHelper.createRequest('/administrator/subscriptions/charges?offset=10', 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/charges?offset=${offset}`, 'GET')
       req.account = user.account
       req.session = user.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        for (let i = 0, len = 10; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[global.PAGE_SIZE + i].codeid))
+        for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
+          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
         }
       }
       return req.route.api.get(req, res)

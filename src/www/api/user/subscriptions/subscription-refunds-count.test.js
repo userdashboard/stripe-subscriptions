@@ -13,9 +13,9 @@ describe('/api/user/subscriptions/subscription-refunds-count', async () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-refunds-count`, 'GET')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
+      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-refunds-count?subscriptionid=${user.subscription.id}`, 'GET')
+      req.account = user.account
+      req.session = user.session
       const result = await req.route.api.get(req)
       assert.equal(result, 2)
     })

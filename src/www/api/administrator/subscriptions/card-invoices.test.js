@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/card-invoices', () => {
   describe('CardInvoices#GET', () => {
-    it('should return list of invoices on card', async () => {
+    it('should limit invoices on card to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
@@ -22,7 +22,7 @@ describe('/api/administrator/subscriptions/card-invoices', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const invoices = await req.route.api.get(req)
-      assert.equal(invoices.length >= 2, true)
+      assert.equal(invoices.length, global.PAGE_SIZE)
       assert.equal(invoices[0].amount, plan2.amount)
       assert.equal(invoices[0].invoice, invoice2.id)
       assert.equal(invoices[1].amount, plan1.amount)

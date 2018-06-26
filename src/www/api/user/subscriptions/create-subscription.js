@@ -7,20 +7,10 @@ module.exports = {
     if (!req.query || !req.query.planid) {
       throw new Error('invalid-planid')
     }
-    let plan
-    try {
-      plan = await stripe.plans.retrieve(req.query.planid, req.stripeKey)
-    } catch (error) {
-    }
-    if (!plan) {
-      throw new Error('invalid-planid')
-    }
-    if (!plan || !plan.metadata.published || plan.metadata.unpublished) {
-      throw new Error('invalid-plan')
-    }
     if (!req.customer.default_source) {
       throw new Error('invalid-source')
     }
+    const plan = await global.api.user.subscriptions.PublishedPlan.get(req)
     req.query.customerid = req.customer.id
     const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
     if (subscriptions && subscriptions.length) {

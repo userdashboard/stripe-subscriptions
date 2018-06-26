@@ -14,7 +14,7 @@ describe('/api/administrator/subscriptions/customers', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const customers = await req.route.api.get(req)
-      assert.equal(customers.length >= 2, true)
+      assert.equal(customers.length, global.PAGE_SIZE)
       assert.equal(customers[0].id, user2.customer.id)
       assert.equal(customers[1].id, user1.customer.id)
     })

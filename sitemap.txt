@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1047
+Version: 1.0.1048
 Address: http://127.0.0.1:8000
 Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
 Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
@@ -52,7 +52,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /account/edit-profile                                                                           GET POST        @userappstore/dashboard         @userappstore/dashboard    
 /account/end-all-sessions                                                                       GET POST        @userappstore/dashboard         @userappstore/dashboard    
 /account/end-session                                                                            GET POST        @userappstore/dashboard         @userappstore/dashboard    
-/account/lock-session                                                                           GET             @userappstore/dashboard         @userappstore/dashboard    
+/account/lock-session                                                                           GET             @userappstore/dashboard                                    
 /account/profile                                                                                GET             @userappstore/dashboard         @userappstore/dashboard    
 /account/profiles                                                                               GET             @userappstore/dashboard         @userappstore/dashboard    
 /account/register                                             GUEST              FULLSCREEN     GET POST        @userappstore/dashboard         @userappstore/dashboard    
@@ -143,7 +143,6 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /administrator/subscriptions/unpublish-product                                                  GET POST        /src/www                        /src/www                   
 /administrator/transfer-ownership                                                               GET POST        @userappstore/dashboard         @userappstore/dashboard    
 /api/administrator/account                                                                      GET             @userappstore/dashboard                                    
-/api/administrator/account-count                                                                GET             @userappstore/dashboard                                    
 /api/administrator/account-profiles                                                             GET             @userappstore/dashboard                                    
 /api/administrator/account-profiles-count                                                       GET             @userappstore/dashboard                                    
 /api/administrator/account-reset-codes                                                          GET             @userappstore/dashboard                                    
@@ -154,30 +153,20 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/accounts-count                                                               GET             @userappstore/dashboard                                    
 /api/administrator/administrator-accounts                                                       GET             @userappstore/dashboard                                    
 /api/administrator/administrator-accounts-count                                                 GET             @userappstore/dashboard                                    
-/api/administrator/administrator-count                                                          GET             @userappstore/dashboard                                    
-/api/administrator/administrators                                                               GET             @userappstore/dashboard                                    
-/api/administrator/assign-administrator                                 LOCK                    PATCH           @userappstore/dashboard                                    
 /api/administrator/create-reset-code                                    LOCK                    POST            @userappstore/dashboard                                    
 /api/administrator/delete-account                                       LOCK                    DELETE          @userappstore/dashboard                                    
-/api/administrator/delete-schedule                                                              GET             @userappstore/dashboard                                    
-/api/administrator/delete-schedule-count                                                        GET             @userappstore/dashboard                                    
 /api/administrator/deleted-accounts                                                             GET             @userappstore/dashboard                                    
 /api/administrator/deleted-accounts-count                                                       GET             @userappstore/dashboard                                    
 /api/administrator/profile                                                                      GET             @userappstore/dashboard                                    
-/api/administrator/profile-count                                                                GET             @userappstore/dashboard                                    
 /api/administrator/profiles                                                                     GET             @userappstore/dashboard                                    
 /api/administrator/profiles-count                                                               GET             @userappstore/dashboard                                    
 /api/administrator/reset-account-administrator                          LOCK                    DELETE          @userappstore/dashboard                                    
 /api/administrator/reset-code                                                                   GET             @userappstore/dashboard                                    
-/api/administrator/reset-code-count                                                             GET             @userappstore/dashboard                                    
 /api/administrator/reset-codes                                                                  GET             @userappstore/dashboard                                    
 /api/administrator/reset-codes-count                                                            GET             @userappstore/dashboard                                    
 /api/administrator/reset-session-impersonate                                                    PATCH           @userappstore/dashboard                                    
 /api/administrator/reset-session-key                                    LOCK                    PATCH           @userappstore/dashboard                                    
-/api/administrator/revoke-administrator                                 LOCK                    DELETE          @userappstore/dashboard                                    
-/api/administrator/schedule-account-delete                              LOCK                    DELETE          @userappstore/dashboard                                    
 /api/administrator/session                                                                      GET             @userappstore/dashboard                                    
-/api/administrator/session-count                                                                GET             @userappstore/dashboard                                    
 /api/administrator/sessions                                                                     GET             @userappstore/dashboard                                    
 /api/administrator/sessions-count                                                               GET             @userappstore/dashboard                                    
 /api/administrator/set-account-administrator                            LOCK                    PATCH           @userappstore/dashboard                                    
@@ -218,11 +207,9 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/customers                                                      GET             /src/www                                                   
 /api/administrator/subscriptions/customers-count                                                GET             /src/www                                                   
 /api/administrator/subscriptions/delete-coupon                          LOCK                    DELETE          /src/www                                                   
-/api/administrator/subscriptions/delete-customer-discount               LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/delete-plan                            LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/delete-product                         LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/delete-subscription                    LOCK                    DELETE          /src/www                                                   
-/api/administrator/subscriptions/delete-subscription-discount           LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/invoice                                                        GET             /src/www                                                   
 /api/administrator/subscriptions/invoices                                                       GET             /src/www                                                   
 /api/administrator/subscriptions/invoices-count                                                 GET             /src/www                                                   
@@ -264,6 +251,8 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/refund                                                         GET             /src/www                                                   
 /api/administrator/subscriptions/refunds                                                        GET             /src/www                                                   
 /api/administrator/subscriptions/refunds-count                                                  GET             /src/www                                                   
+/api/administrator/subscriptions/reset-customer-coupon                  LOCK                    DELETE          /src/www                                                   
+/api/administrator/subscriptions/reset-subscription-coupon              LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/set-charge-flagged                     LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-charge-refunded                    LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-coupon-published                   LOCK                    PATCH           /src/www                                                   
@@ -292,55 +281,44 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/update-plan                            LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/update-product                         LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/update-subscription-coupon             LOCK                    PATCH           /src/www                                                   
-/api/administrator/transfer-ownership                                   LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/account                                             GUEST                             GET             @userappstore/dashboard                                    
-/api/user/authenticate                                                                          POST            @userappstore/dashboard                                    
-/api/user/change-password                                               LOCK                    PATCH           @userappstore/dashboard                                    
-/api/user/change-username                                               LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/create-account                                      GUEST                             POST            @userappstore/dashboard                                    
 /api/user/create-profile                                                LOCK                    POST            @userappstore/dashboard                                    
 /api/user/create-reset-code                                             LOCK                    POST            @userappstore/dashboard                                    
 /api/user/create-session                                      GUEST                             POST            @userappstore/dashboard                                    
-/api/user/delete-account                                                LOCK                    DELETE          @userappstore/dashboard                                    
 /api/user/delete-profile                                                LOCK                    DELETE          @userappstore/dashboard                                    
 /api/user/delete-reset-code                                             LOCK                    DELETE          @userappstore/dashboard                                    
-/api/user/end-session                                                                           PATCH           @userappstore/dashboard                                    
-/api/user/lock-session                                                                          PATCH           @userappstore/dashboard                                    
 /api/user/maxmind/country                                     GUEST                             GET             @userappstore/maxmind-geoip                                
 /api/user/profile                                                                               GET             @userappstore/dashboard                                    
-/api/user/profile-count                                                                         GET             @userappstore/dashboard                                    
 /api/user/profiles                                                                              GET             @userappstore/dashboard                                    
 /api/user/profiles-count                                                                        GET             @userappstore/dashboard                                    
-/api/user/reset-account                                       GUEST                             PATCH           @userappstore/dashboard                                    
 /api/user/reset-account-deleted                               GUEST                             PATCH           @userappstore/dashboard                                    
 /api/user/reset-account-password                              GUEST                             PATCH           @userappstore/dashboard                                    
 /api/user/reset-code                                                                            GET             @userappstore/dashboard                                    
-/api/user/reset-code-count                                                                      GET             @userappstore/dashboard                                    
 /api/user/reset-codes                                                                           GET             @userappstore/dashboard                                    
 /api/user/reset-codes-count                                                                     GET             @userappstore/dashboard                                    
 /api/user/reset-session-key                                             LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/reset-session-unlocked                                                                PATCH           @userappstore/dashboard                                    
-/api/user/restore-account                                     GUEST                             PATCH           @userappstore/dashboard                                    
 /api/user/session                                                                               GET             @userappstore/dashboard                                    
-/api/user/session-count                                                                         GET             @userappstore/dashboard                                    
 /api/user/sessions                                                                              GET             @userappstore/dashboard                                    
 /api/user/sessions-count                                                                        GET             @userappstore/dashboard                                    
 /api/user/set-account-deleted                                           LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/set-account-password                                          LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/set-account-profile                                           LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/set-account-username                                          LOCK                    PATCH           @userappstore/dashboard                                    
-/api/user/set-default-profile                                           LOCK                    PATCH           @userappstore/dashboard                                    
 /api/user/set-session-ended                                                                     PATCH           @userappstore/dashboard                                    
 /api/user/set-session-unlocked                                                                  PATCH           @userappstore/dashboard                                    
-/api/user/signin                                              GUEST                             POST            @userappstore/dashboard                                    
-/api/user/signout                                                                               GET             @userappstore/dashboard                                    
 /api/user/subscriptions/card                                                                    GET             /src/www                                                   
 /api/user/subscriptions/card-charges                                                            GET             /src/www                                                   
 /api/user/subscriptions/card-charges-count                                                      GET             /src/www                                                   
+/api/user/subscriptions/card-disputes                                                           GET             /src/www                                                   
+/api/user/subscriptions/card-disputes-count                                                     GET             /src/www                                                   
 /api/user/subscriptions/card-invoices                                                           GET             /src/www                                                   
 /api/user/subscriptions/card-invoices-count                                                     GET             /src/www                                                   
 /api/user/subscriptions/card-refunds                                                            GET             /src/www                                                   
 /api/user/subscriptions/card-refunds-count                                                      GET             /src/www                                                   
+/api/user/subscriptions/card-subscriptions                                                      GET             /src/www                                                   
+/api/user/subscriptions/card-subscriptions-count                                                GET             /src/www                                                   
 /api/user/subscriptions/cards                                                                   GET             /src/www                                                   
 /api/user/subscriptions/cards-count                                                             GET             /src/www                                                   
 /api/user/subscriptions/charge                                                                  GET             /src/www                                                   
@@ -364,6 +342,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/refund                                                                  GET             /src/www                                                   
 /api/user/subscriptions/set-charge-refunded                             LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-invoice-paid                                LOCK                    PATCH           /src/www                                                   
+/api/user/subscriptions/set-subscription-plan                           LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/subscription                                                            GET             /src/www                                                   
 /api/user/subscriptions/subscription-charges                                                    GET             /src/www                                                   
 /api/user/subscriptions/subscription-charges-count                                              GET             /src/www                                                   
@@ -376,7 +355,6 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/upcoming-invoice                                                        GET             /src/www                                                   
 /api/user/subscriptions/upcoming-invoices                                                       GET             /src/www                                                   
 /api/user/subscriptions/upcoming-invoices-count                                                 GET             /src/www                                                   
-/api/user/subscriptions/update-subscription-plan                        LOCK                    PATCH           /src/www                                                   
 /api/user/update-profile                                                LOCK                    PATCH           @userappstore/dashboard                                    
-/api/webhooks/update-stripe-data-index                        GUEST                             POST            /src/www                                                   
+/api/webhooks/index-stripe-data                               GUEST                             POST            /src/www                                                   
 /home                                                                                           GET                                             @userappstore/dashboard    

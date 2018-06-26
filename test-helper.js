@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
+const util = require('util')
 
 process.env.STRIPE_KEY = process.env.STRIPE_KEY || 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
 process.env.NODE_ENV = 'testing'
@@ -23,16 +24,18 @@ module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
 module.exports.createCustomerDiscount = createCustomerDiscount
 module.exports.createNextInvoice = createNextInvoice
-module.exports.createSubscriptionDiscount = createSubscriptionDiscount
+module.exports.createPayout = createPayout
 module.exports.createPlan = createPlan
 module.exports.createProduct = createProduct
 module.exports.createRefund = createRefund
 module.exports.createSubscription = createSubscription
+module.exports.createSubscriptionDiscount = createSubscriptionDiscount
+module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
 before(setup)
 beforeEach(setup)
 
-function setup () {
+async function setup () {
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1
@@ -44,7 +47,7 @@ function setup () {
   global.ORGANIZATION_FIELDS = [ 'name', 'email' ]
   global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
-  global.PAGE_SIZE = 3
+  global.PAGE_SIZE = 2
 }
 
 let productNumber = 0
@@ -71,9 +74,9 @@ async function createProduct (administrator, properties) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?couponid=${product.id}`, 'PATCH')
     req2.administratorSession = req2.session = administrator.session
     req2.administratorAccount = req2.account = administrator.account
-    await req.route.api.patch(req)
+    await req2.route.api.patch(req2)
     req.session = await TestHelper.unlockSession(administrator)
-    product = await req.route.api.patch(req)
+    product = await req2.route.api.patch(req2)
   }
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
   if (administrator.session.lock || administrator.session.unlocked) {
@@ -108,9 +111,9 @@ async function createPlan (administrator, properties) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?couponid=${plan.id}`, 'PATCH')
     req2.administratorSession = req2.session = administrator.session
     req2.administratorAccount = req2.account = administrator.account
-    await req.route.api.patch(req)
+    await req2.route.api.patch(req2)
     req.session = await TestHelper.unlockSession(administrator)
-    plan = await req.route.api.patch(req)
+    plan = await req2.route.api.patch(req2)
   }
   administrator.plan = plan
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
@@ -174,7 +177,7 @@ async function createRefund (administrator, charge) {
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return administrator
+  return administrator.refund
 }
 
 async function createSubscriptionDiscount (administrator, subscription, coupon) {
@@ -192,7 +195,7 @@ async function createSubscriptionDiscount (administrator, subscription, coupon) 
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return administrator
+  return administrator.discount
 }
 
 async function createCustomerDiscount (administrator, customer, coupon) {
@@ -210,7 +213,7 @@ async function createCustomerDiscount (administrator, customer, coupon) {
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return administrator
+  return administrator.discount
 }
 
 async function createCustomer (user) {
@@ -225,7 +228,7 @@ async function createCustomer (user) {
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return user
+  return user.customer
 }
 
 async function createCard (user, properties) {
@@ -260,7 +263,7 @@ async function createCard (user, properties) {
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return user
+  return user.card
 }
 
 async function createSubscription (user, planid) {
@@ -278,7 +281,7 @@ async function createSubscription (user, planid) {
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return user
+  return user.subscription
 }
 
 async function changeSubscription (user, planid) {
@@ -293,8 +296,7 @@ async function changeSubscription (user, planid) {
   const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
   user.invoice = await stripe.invoices.pay(invoice.id, stripeKey)
   user.charge = await stripe.charges.retrieve(user.invoice.charge, stripeKey)
-
-  return user
+  return user.subscription
 }
 
 async function createNextInvoice (user, subscriptionid) {
@@ -303,7 +305,7 @@ async function createNextInvoice (user, subscriptionid) {
   return user
 }
 
-module.exports.createPayout = async () => {
+async function createPayout () {
   // the Stripe API has to be used here directly because this module
   // assumes payouts will be handled automatically so there aren't
   // any API endpoints to create payouts
@@ -320,4 +322,15 @@ module.exports.createPayout = async () => {
   }
   const payout = await stripe.payouts.create(payoutInfo, stripeKey)
   return payout
+}
+
+async function waitForWebhooks (callback) {
+  return setTimeout(callback, 10000)
+  // const webhookNumber = await global.redisClient.getAsync(`webhookNumber`)
+  // if (webhookNumber < waitForNumber) {
+  //   return setTimeout(() => {
+  //     return waitForWebhooks(waitForNumber, callback)
+  //   }, 100)
+  // }
+  // return callback()
 }

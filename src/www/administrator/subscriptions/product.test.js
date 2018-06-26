@@ -32,7 +32,7 @@ describe('/administrator/subscriptions/product', () => {
   })
 
   describe('Product#GET', () => {
-    it('should have row for each product', async () => {
+    it('should have row for product', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
       const req = TestHelper.createRequest(`/administrator/subscriptions/product?productid=${administrator.product.id}`, 'GET')

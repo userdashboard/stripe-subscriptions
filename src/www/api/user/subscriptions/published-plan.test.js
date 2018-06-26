@@ -15,7 +15,8 @@ describe('/api/user/subscriptions/published-plan', () => {
 
     it('should reject never published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id})
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plan?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account

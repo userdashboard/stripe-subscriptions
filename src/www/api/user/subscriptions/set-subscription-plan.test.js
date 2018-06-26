@@ -33,6 +33,7 @@ describe(`/api/user/subscriptions/set-subscription-plan`, () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       const user2 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user2)
       await TestHelper.createSubscription(user2, plan2.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-plan?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.account = user2.account

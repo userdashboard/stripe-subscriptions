@@ -22,7 +22,7 @@ describe('/api/administrator/subscriptions/subscriptions', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length >= 2, true)
+      assert.equal(subscriptions.length, global.PAGE_SIZE)
       assert.equal(subscriptions[0].id, subscription2.id)
       assert.equal(subscriptions[1].id, subscription1.id)
     })

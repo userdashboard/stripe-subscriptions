@@ -5,8 +5,8 @@ module.exports = {
 }
 
 async function afterAuthentication (req, res) {
-  if (!req.customer) {
-    throw new Error('invalid-customerid')
+  if (!req.account || !req.customer) {
+    return
   }
   if (req.url.indexOf('/administrator') === 0 || req.url.indexOf('/account') === 0) {
     return

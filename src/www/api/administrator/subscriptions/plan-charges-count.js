@@ -5,7 +5,7 @@ module.exports = {
     if (!req.query || !req.query.planid) {
       throw new Error('invalid-planid')
     }
-    const count = await dashboard.RedisList.count(`charges:plan:${req.query.planid}`)
+    const count = await dashboard.RedisList.count(`plan:charges:${req.query.planid}`)
     return count
   }
 }

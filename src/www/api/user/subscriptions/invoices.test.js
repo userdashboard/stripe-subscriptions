@@ -7,10 +7,8 @@ describe('/api/user/subscriptions/invoices', () => {
     it('should return invoice list', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan1 = administrator.plan
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan2 = administrator.plan
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -18,7 +16,7 @@ describe('/api/user/subscriptions/invoices', () => {
       const subscription1 = user.subscription
       await TestHelper.createSubscription(user, plan2.id)
       const subscription2 = user.subscription
-      const req = TestHelper.createRequest(`/api/user/subscriptions/invoices`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/invoices?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

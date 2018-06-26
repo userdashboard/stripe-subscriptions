@@ -9,10 +9,10 @@
   },
   "scripts": {
     "start": "node main.js",
-    "test": "NODE_ENV=testing mocha src/www/api/user --recursive --timeout 90000"
+    "test": "NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1047",
+    "@userappstore/dashboard": "^1.0.1049",
     "@userappstore/maxmind-geoip": "^1.0.1039",
     "stripe": "^4.25.0"
   },

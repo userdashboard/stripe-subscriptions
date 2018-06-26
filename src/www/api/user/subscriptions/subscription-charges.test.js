@@ -4,29 +4,30 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/subscription-charges', () => {
   describe('SubscriptionCharges#GET', () => {
-    it('should return list of charges on subscription', async () => {
+    it.only('should limit charges on subscription to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const product1 = administrator.product
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const product2 = administrator.product
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 2000})
+      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 3000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, product1.id)
+      await TestHelper.createSubscription(user, plan1.id)
       const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, product2.id)
+      await TestHelper.createSubscription(user, plan2.id)
       const subscription2 = user.subscription
+      await TestHelper.createSubscription(user, plan3.id)
+      await TestHelper.waitForWebhooks()
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges?subscriptionid=${user.subscription.id}`, 'GET')
-      req.administratorAccount = req.account = administrator.account
-      req.administratorSession = req.session = administrator.session
+      req.account = user.account
+      req.session = user.session
       req.product = administrator.product
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length >= 2, true)
-      assert.equal(subscriptions[0].amount, product2.amount)
+      assert.equal(subscriptions.length, global.PAGE_SIZE)
+      assert.equal(subscriptions[0].amount, plan2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, product1.amount)
+      assert.equal(subscriptions[1].amount, plan1.amount)
       assert.equal(subscriptions[1].subscription, subscription1.id)
     })
   })

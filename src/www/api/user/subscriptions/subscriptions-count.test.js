@@ -16,6 +16,7 @@ describe('/api/user/subscriptions/subscriptions-count', async () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscriptions-count?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const result = await req.route.api.get(req)
       assert.equal(result, 2)
     })

@@ -30,9 +30,9 @@ module.exports.createProduct = createProduct
 module.exports.createRefund = createRefund
 module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
+module.exports.currentWebHookNumber = currentWebHookNumber
 module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
-before(setup)
 beforeEach(setup)
 
 async function setup () {
@@ -48,6 +48,7 @@ async function setup () {
   global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
+  global.redisClient.flushdb()
 }
 
 let productNumber = 0
@@ -271,8 +272,6 @@ async function createSubscription (user, planid) {
   req.session = user.session
   req.account = user.account
   req.customer = user.customer
-  req.body = {
-  }
   await req.route.api.post(req)
   req.session = await TestHelper.unlockSession(user)
   const subscription = await req.route.api.post(req)
@@ -324,13 +323,27 @@ async function createPayout () {
   return payout
 }
 
-async function waitForWebhooks (callback) {
-  return setTimeout(callback, 10000)
-  // const webhookNumber = await global.redisClient.getAsync(`webhookNumber`)
-  // if (webhookNumber < waitForNumber) {
-  //   return setTimeout(() => {
-  //     return waitForWebhooks(waitForNumber, callback)
-  //   }, 100)
-  // }
-  // return callback()
+async function waitForWebhooks (target, callback) {
+  const webhookNumber = await currentWebHookNumber()
+  if (webhookNumber >= target) {
+    return callback()
+  }
+  async function wait () {
+    const webhookNumberNow = await currentWebHookNumber()
+    if (webhookNumberNow >= target) {
+      return callback()
+    }
+    return setTimeout(wait, 1000)
+  }
+  return setTimeout(wait, 100)
+}
+
+async function currentWebHookNumber () {
+  let webhookNumber = await global.redisClient.getAsync('webhookNumber')
+  if (webhookNumber && webhookNumber.length) {
+    webhookNumber = parseInt(webhookNumber, 10)
+  } else {
+    webhookNumber = 0
+  }
+  return webhookNumber
 }

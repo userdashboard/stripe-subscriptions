@@ -117,6 +117,7 @@ module.exports = {
       if (error.message.indexOf('No such product') === 0) {
         throw new Error('invalid-product')
       }
+      console.log(error)
       throw new Error('unknown-error')
     }
   }

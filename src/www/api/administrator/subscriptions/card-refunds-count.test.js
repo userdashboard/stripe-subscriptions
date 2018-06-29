@@ -15,6 +15,7 @@ describe('/api/administrator/subscriptions/card-refunds-count', async () => {
       await TestHelper.createRefund(user, user.subscription.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.createRefund(user, user.subscription.id)
+      await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/card-refunds-count?cardid=${user.card.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

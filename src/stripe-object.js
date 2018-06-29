@@ -36,6 +36,18 @@ module.exports = {
     const suffix = array[0].split('_')[0]
     const items = []
     switch (suffix) {
+      case 're':
+        for (const refundid of array) {
+          const item = await stripe.refunds.retrieve(refundid, stripeKey)
+          items.push(item)
+        }
+        return items
+      case 'in':
+        for (const invoiceid of array) {
+          const item = await stripe.invoices.retrieve(invoiceid, stripeKey)
+          items.push(item)
+        }
+        return items
       case 'ch':
         for (const chargeid of array) {
           const item = await stripe.charges.retrieve(chargeid, stripeKey)
@@ -60,10 +72,9 @@ module.exports = {
           items.push(item)
         }
         return items
+      default:
+        console.log('loadMany', suffix)
+        return null
     }
-    if (!items.length) {
-      return null
-    }
-    return items
   }
 }

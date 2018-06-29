@@ -1,8 +1,8 @@
 @userappstore/dashboard
-Version: 1.0.1048
-Address: http://127.0.0.1:8000
-Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
-Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
+Version: 1.0.1055
+https://stripe-subscriptions-benlowry.c9users.io
+Root path: /home/ubuntu/workspace/src/www
+Application path: /home/ubuntu/workspace
 
 Administrator menu:
 /administrator/subscriptions "Stripe Subscriptions"

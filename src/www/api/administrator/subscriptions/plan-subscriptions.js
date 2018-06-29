@@ -12,6 +12,6 @@ module.exports = {
     if (!itemids || !itemids.length) {
       return null
     }
-    return subs.StripeData.loadMany(itemids, req.stripeKey)
+    return subs.StripeObject.loadMany(itemids, req.stripeKey)
   }
 }

@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/subscription-charges-count', async () => {
   describe('SubscriptionChargesCount#GET', () => {
-    it.only('should count all charges on subscription', async () => {
+    it('should count all charges on subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 10000, trial_period_days: 0})
@@ -14,12 +14,12 @@ describe('/api/user/subscriptions/subscription-charges-count', async () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks()
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges-count?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
-      await req.route.api.get(req)
+      const count = await req.route.api.get(req)
       const req2 = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges?subscriptionid=${user.subscription.id}`, 'GET')
       req2.account = user.account
       req2.session = user.session

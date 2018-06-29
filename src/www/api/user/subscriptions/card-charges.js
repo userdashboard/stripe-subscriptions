@@ -11,7 +11,7 @@ module.exports = {
     if (!itemids || !itemids.length) {
       return null
     }
-    const data = await subs.StripeData.loadMany(itemids, req.stripeKey)
+    const data = await subs.StripeObject.loadMany(itemids, req.stripeKey)
     return data
   }
 }

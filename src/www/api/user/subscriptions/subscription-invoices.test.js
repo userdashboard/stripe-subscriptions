@@ -19,7 +19,7 @@ describe('/api/user/subscriptions/subscription-invoices', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
-      req.product = administrator.product
+      req.customer = user.customer
       const subscriptions = await req.route.api.get(req)
       assert.equal(subscriptions.length, global.PAGE_SIZE)
       assert.equal(subscriptions[0].amount, plan2.amount)

@@ -26,6 +26,7 @@ describe('/api/user/subscriptions/published-plans', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const plans = await req.route.api.get(req)
       assert.equal(true, plans.length >= 1)
       assert.equal(plans[0].id, plan2.id)
@@ -47,6 +48,7 @@ describe('/api/user/subscriptions/published-plans', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const plans = await req.route.api.get(req)
       assert.equal(true, plans.length >= 1)
       assert.equal(plans[0].id, plan1.id)
@@ -69,6 +71,7 @@ describe('/api/user/subscriptions/published-plans', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const plans = await req.route.api.get(req)
       assert.equal(true, plans.length >= 2)
       assert.equal(plans[0].id, plan3.id)

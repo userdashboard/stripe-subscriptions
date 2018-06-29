@@ -12,7 +12,7 @@
     "test": "NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1049",
+    "@userappstore/dashboard": "^1.0.1055",
     "@userappstore/maxmind-geoip": "^1.0.1039",
     "stripe": "^4.25.0"
   },
@@ -21,13 +21,15 @@
       "administrator": [
         {
           "href": "/administrator/subscriptions",
-          "text": "Stripe Subscriptions"
+          "text": "Stripe Subscriptions",
+          "object": "link"
         }
       ],
       "account": [
         {
           "href": "/account/subscriptions",
-          "text": "My subscriptions"
+          "text": "My subscriptions",
+          "object": "link"
         }
       ]
     },

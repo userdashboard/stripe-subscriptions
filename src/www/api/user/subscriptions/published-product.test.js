@@ -19,6 +19,7 @@ describe('/api/user/subscriptions/published-product', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-product?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       let errorMessage
       try {
         await req.route.api.get(req)
@@ -35,6 +36,7 @@ describe('/api/user/subscriptions/published-product', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-product?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       let errorMessage
       try {
         await req.route.api.get(req)
@@ -51,6 +53,7 @@ describe('/api/user/subscriptions/published-product', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-product?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const product = await req.route.api.get(req)
       assert.equal(product.id, administrator.product.id)
     })

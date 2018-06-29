@@ -9,6 +9,7 @@ describe('/api/user/subscriptions/subscription', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription?subscriptionid=invalid`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       let errorMessage
       try {
         await req.route.api.get(req)

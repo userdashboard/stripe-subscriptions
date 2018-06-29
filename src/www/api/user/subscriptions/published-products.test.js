@@ -21,6 +21,7 @@ describe('/api/user/subscriptions/published-products', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-products`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const products = await req.route.api.get(req)
       assert.equal(true, products.length >= 1)
       assert.equal(products[0].id, product2.id)
@@ -41,6 +42,7 @@ describe('/api/user/subscriptions/published-products', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-products`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const products = await req.route.api.get(req)
       assert.equal(true, products.length >= 1)
       assert.equal(products[0].id, product1.id)
@@ -62,6 +64,7 @@ describe('/api/user/subscriptions/published-products', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-products`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const products = await req.route.api.get(req)
       assert.equal(true, products.length >= 2)
       assert.equal(products[0].id, product3.id)

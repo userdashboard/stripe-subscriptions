@@ -19,6 +19,7 @@ describe('/api/user/subscriptions/subscription-refunds', () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-refunds?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const subscriptions = await req.route.api.get(req)
       assert.equal(subscriptions.length, global.PAGE_SIZE)
       assert.equal(subscriptions[0].amount, plan2.amount)

@@ -1,925 +1,125 @@
 
-> @userappstore/stripe-subscriptions@1.0.1035 test /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
-> NODE_ENV=testing mocha src --recursive --timeout 90000
+> @userappstore/stripe-subscriptions@1.0.1036 test /home/ubuntu/workspace
+> NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000
 
 
 
-  proxy/x-customer-header
-    Customer#AFTER
-      ✓ should set customer data in header (1726ms)
+  /api/user/subscriptions/card-charges-count
+    CardChargesCount#GET
+      ✓ should count all charges on card (15988ms)
 
-  proxy/x-invoices-header
-    Invoices#AFTER
-      ✓ should set invoice data in header (12330ms)
+  /api/user/subscriptions/card-charges
+    CardCharges#GET
+      ✓ should limit card's charges to one page (35662ms)
+      ✓ should enforce page size (39875ms)
+      ✓ should enforce specified offset (43612ms)
 
-  proxy/x-subscriptions-header
-    Subscriptions#AFTER
-      ✓ should set invoice data in header (9363ms)
+  /api/user/subscriptions/card-invoices-count
+    CardInvoicesCount#GET
+      ✓ should count all invoices on card (25355ms)
 
-  server/bind-customer
-    BindCustomer#AFTER
-      ✓ should bind existing customer data to req (2118ms)
-      ✓ should bind new customer data to req (1796ms)
+  /api/user/subscriptions/card-invoices
+    CardInvoices#GET
+      ✓ should limit invoices on card to one page (23227ms)
 
-  server/bind-stripekey
-    BindStripeKey#AFTER
-      ✓ should bind stripekey data to req (1058ms)
-      ✓ should bind stripe key with connect account (686ms)
+  /api/user/subscriptions/card-refunds-count
+    CardRefundsCount#GET
+      ✓ should count all refunds on card (27049ms)
 
-  server/require-payment
-    RequirePayment#AFTER
-      ✓ should require customer (789ms)
-      ✓ should allow non-owing customer through (1828ms)
-      ✓ should allow owing customer access to /account/* (11959ms)
-      ✓ should allow owing administrator access to /administrator/ (11036ms)
-      ✓ should redirect owing customer to the payment form (12249ms)
+  /api/user/subscriptions/card-refunds
+    CardRefunds#GET
+      ✓ should limit refunds on card to one page (45432ms)
 
-  server/require-subscription
-    RequireSubscription#AFTER
-      ✓ should require customer (1194ms)
-      ✓ should allow customer without subscription access to /account/* (1438ms)
-      ✓ should allow administrator without subscription access to /administrator/ (1259ms)
-      ✓ should redirect unsubscribed customer to the plans list (1790ms)
+  /api/user/subscriptions/card-subscriptions-count
+    CardSubscriptionsCount#GET
+      ✓ should count all subscriptions on card (27884ms)
 
-  /account/subscriptions/cancel-subscription
-    CancelSubscription#BEFORE
-      ✓ should bind subscription to req (9322ms)
-    CancelSubscription#GET
-      ✓ should present the form (9236ms)
-      ✓ should present the subscription table (9332ms)
-    CancelSubscription#POST
-      ✓ should apply after authorization (11976ms)
-
-  /account/subscriptions/card
-    Card#BEFORE
-      ✓ should reject invalid card (1847ms)
-      ✓ should reject other account's card (10216ms)
-      ✓ should bind card to req (9651ms)
-    Card#GET
-      ✓ should have row for card (13505ms)
-
-  /account/subscriptions/cards
-    Cards#BEFORE
-      ✓ should bind cards to req (9066ms)
-    Cards#GET
-      ✓ should have row for each card (11837ms)
-
-  /account/subscriptions/change-plan
-    ChangePlan#BEFORE
-      ✓ should bind subscription to req (9641ms)
-    ChangePlan#GET
-      ✓ should present the form (10032ms)
-      ✓ should present the subscription table (9924ms)
-    ChangePlan#POST
-      ✓ should reject same plan (10415ms)
-      ✓ should reject never published plan (11809ms)
-      ✓ should reject unpublished plan (11677ms)
-      ✓ should reject paid plan without payment information (7620ms)
-      ✓ should apply after authorization (17276ms)
-
-  /account/subscriptions/delete-card
-    DeleteCard#BEFORE
-      ✓ should reject invalid cardid (8830ms)
-      ✓ should reject other account's card (12291ms)
-      ✓ should reject default payment source (9107ms)
-      ✓ should bind card to req (6133ms)
-    DeleteCard#GET
-      ✓ should present the form (6163ms)
-      ✓ should present the card table (6478ms)
-    DeleteCard#POST
-      ✓ should apply after authorization (11252ms)
-
-  /account/subscriptions/edit-payment-information
-    EditPaymentInformation#GET
-      ✓ should present the form (678ms)
-    EditPaymentInformation#POST
-      ✓ should require name (687ms)
-      ✓ should require CVC (666ms)
-      ✓ should require card number (661ms)
-      ✓ should require expiration month (676ms)
-      ✓ should require expiration year (653ms)
-      ✓ should apply after authorization (3351ms)
-
-  /account/subscriptions
-    Index#BEFORE
-      ✓ should bind cards to req (9838ms)
-      ✓ should bind invoices to req (9765ms)
-      ✓ should bind subscriptions to req (9884ms)
-    Index#GET
-      ✓ should have row for each invoice (13991ms)
-      ✓ should have row for each card (11961ms)
-      ✓ should have row for each subscription (14556ms)
-
-  /account/subscriptions/invoice
-    Invoice#BEFORE
-      ✓ should reject invalid invoice (2052ms)
-      ✓ should reject other account's invoice (12394ms)
-      ✓ should reject other account's invoice (10793ms)
-      ✓ should bind invoice to req (9299ms)
-    Invoice#GET
-      ✓ should present the invoice table (9391ms)
-
-  /account/subscriptions/invoices
-    Invoices#BEFORE
-      ✓ should bind invoices to req (9326ms)
-    Invoices#GET
-      ✓ should have row for each invoice (12786ms)
-
-  /account/subscriptions/pay-invoice
-    SetInvoicePaid#BEFORE
-      ✓ should reject invalid invoice (1739ms)
-      ✓ should reject other account's invoice (10574ms)
-      ✓ should reject paid invoice (8768ms)
-      ✓ should bind invoice to req (11756ms)
-    SetInvoicePaid#GET
-      ✓ should present the form (11416ms)
-      ✓ should present the invoice table (11648ms)
-    SetInvoicePaid#POST
-      ✓ should apply after authorization (15419ms)
-
-  /account/subscriptions/plan
-    Plan#BEFORE
-      ✓ should reject invalid plan (1703ms)
-      ✓ should reject never published plan (8882ms)
-      ✓ should reject unpublished plan (9128ms)
-      ✓ should bind plan to req (8749ms)
-    Plan#GET
-      ✓ should present the plan table (9230ms)
-
-  /account/subscriptions/plans
-    Plans#BEFORE
-      ✓ should bind plans to req (10441ms)
-    Plans#GET
-      ✓ should have row for each plan (4090ms)
-
-  /account/subscriptions/refund-invoice
-    RefundInvoice#BEFORE
-      ✓ should reject invalid invoice (1686ms)
-      ✓ should reject other account's invoice (9954ms)
-      ✓ should bind invoice to req (9036ms)
-      ✓ should bind charge to req (9084ms)
-    RefundInvoice#GET
-      ✓ should present the form (9087ms)
-      ✓ should present the invoice table (9139ms)
-    RefundInvoice#PATCH
-      ✓ should apply after authorization (15594ms)
-
-  /account/subscriptions/start-subscription
-    StartSubscription#BEFORE
-      ✓ should reject invalid plan (1098ms)
-      ✓ should reject never published plan (8616ms)
-      ✓ should reject unpublished plan (8838ms)
-      ✓ should bind plan to req (3719ms)
-    StartSubscription#GET
-      ✓ should present the form (3445ms)
-      ✓ should present the plan table (3518ms)
-    StartSubscription#POST
-      ✓ should reject customer without card (4687ms)
-      ✓ should reject duplicate subscription (9194ms)
-      ✓ should apply after authorization (10441ms)
-
-  /account/subscriptions/subscription
-    Subscription#BEFORE
-      ✓ should reject invalid subscription (1714ms)
-      ✓ should reject other account's subscription (9651ms)
-      ✓ should bind subscription to req (9448ms)
-    Subscription#GET
-      ✓ should present the subscription table (9724ms)
-
-  /account/subscriptions/subscriptions
-    Subscriptions#BEFORE
-      ✓ should bind subscriptions to req (8883ms)
-    Subscriptions#GET
-      ✓ should have row for each subscription (13106ms)
-
-  /administrator/subscriptions/charge
-    Charge#BEFORE
-      ✓ should reject invalid charge (2391ms)
-      ✓ should bind charge to req (10377ms)
-    Charge#GET
-      ✓ should present the charge table (10744ms)
-
-  /administrator/subscriptions/charges
-    Charges#BEFORE
-      ✓ should bind charges to req (9322ms)
-    Charges#GET
-      ✓ should present the charges table (9180ms)
-
-  /administrator/subscriptions/coupon
-    Coupon#BEFORE
-      ✓ should reject invalid coupon (1142ms)
-      ✓ should bind coupon to req (1709ms)
-    Coupon#GET
-      ✓ should present the coupon table (1860ms)
-
-  /administrator/subscriptions/coupons
-    Coupons#BEFORE
-      ✓ should bind coupons to req (1760ms)
-    Coupons#GET
-      ✓ should present the coupons table (1749ms)
-
-  /administrator/subscriptions/create-coupon
-    CreateCoupon#GET
-      ✓ should present the form (699ms)
-    CreateCoupon#POST
-      ✓ should reject missing couponid (684ms)
-      ✓ should enforce couponid length (691ms)
-      ✓ should reject duplicate couponid (2162ms)
-      ✓ should reject missing duration (670ms)
-      ✓ should enforce invalid duration (663ms)
-      ✓ should require valid amount off (695ms)
-      ✓ should require valid percent off (679ms)
-      ✓ should require valid max redemptions (674ms)
-      ✓ should require amount or percent off (684ms)
-      ✓ should require valid duration in months if repeating (660ms)
-      ✓ should require valid expires if provided (676ms)
-      ✓ should create after authorization (2090ms)
-
-  /administrator/subscriptions/create-plan
-    CreatePlan#GET
-      ✓ should present the form (1389ms)
-    CreatePlan#POST
-      ✓ should reject missing planid (1377ms)
-      ✓ should enforce planid length (2184ms)
-      ✓ should reject missing productid (1701ms)
-      ✓ should reject never published product (2413ms)
-      ✓ should reject unpublished product (2870ms)
-      ✓ should reject missing currency (1898ms)
-      ✓ should reject invalid currency (1811ms)
-      ✓ should reject missing amount (1813ms)
-      ✓ should reject invalid amount (1932ms)
-      ✓ should reject missing interval (1885ms)
-      ✓ should reject invalid interval (2093ms)
-      ✓ should reject invalid interval_count (1767ms)
-      ✓ should reject invalid trial_period_days (1942ms)
-      ✓ should create after authorization (4674ms)
-
-  /administrator/subscriptions/create-product
-    CreateProduct#GET
-      ✓ should present the form (654ms)
-    CreateProduct#POST
-      ✓ should reject missing name (620ms)
-      ✓ should enforce name length (615ms)
-      ✓ should reject missing statement_descriptor (618ms)
-      ✓ should create after authorization (1195ms)
-
-  /administrator/subscriptions/customer
-    Customer#BEFORE
-      ✓ should reject invalid customer (2328ms)
-      ✓ should bind customer to req (8907ms)
-    Customer#GET
-      ✓ should present the customer table (9677ms)
-
-  /administrator/subscriptions/customers
-    Customers#BEFORE
-      ✓ should bind customers to req (9180ms)
-    Customers#GET
-      ✓ should present the customers table (10285ms)
-
-  /administrator/subscriptions/delete-coupon
-    DeleteCoupon#BEFORE
-      ✓ should reject invalid couponid (1119ms)
-      ✓ should bind coupon to req (1727ms)
-    DeleteCoupon#GET
-      ✓ should present the form (1845ms)
-      ✓ should present the coupon table (1942ms)
-    DeleteCoupon#POST
-      ✓ should apply after authorization (4998ms)
-
-  /administrator/subscriptions/delete-plan
-    DeletePlan#BEFORE
-      ✓ should reject invalid planid (1128ms)
-      ✓ should bind plan to req (2353ms)
-    DeletePlan#GET
-      ✓ should present the form (2310ms)
-      ✓ should present the plan table (2253ms)
-    DeletePlan#POST
-      ✓ should apply after authorization (4949ms)
-
-  /administrator/subscriptions/delete-product
-    DeleteProduct#BEFORE
-      ✓ should reject invalid productid (1096ms)
-      ✓ should bind product to req (1667ms)
-    DeleteProduct#GET
-      ✓ should present the form (1708ms)
-      ✓ should present the product table (1668ms)
-    DeleteProduct#POST
-      ✓ should apply after authorization (4373ms)
-
-  /administrator/subscriptions/delete-subscription
-    DeleteSubscription#BEFORE
-      ✓ should reject invalid subscriptionid (1137ms)
-      ✓ should bind subscription to req (8980ms)
-    DeleteSubscription#GET
-      ✓ should present the form (9391ms)
-      ✓ should present the subscription table (9111ms)
-    DeleteSubscription#POST
-      ✓ should apply after authorization (13213ms)
-
-  /administrator/subscriptions/edit-plan
-    EditPlan#BEFORE
-      ✓ should reject invalid planid (1096ms)
-      ✓ should reject unpublished plan (2267ms)
-      ✓ should bind plan to req (2890ms)
-    EditPlan#GET
-      ✓ should present the form (2827ms)
-    EditPlan#POST
-      ✓ should reject missing productid (2864ms)
-      ✓ should reject never published product (4485ms)
-      ✓ should reject unpublished product (4373ms)
-      ✓ should reject invalid trial_period_days (3455ms)
-      ✓ should update after authorization (7458ms)
-
-  /administrator/subscriptions/edit-product
-    EditProduct#BEFORE
-      ✓ should reject invalid productid (1236ms)
-      ✓ should reject unpublished product (1955ms)
-      ✓ should bind product to req (1770ms)
-    EditProduct#GET
-      ✓ should present the form (1698ms)
-    EditProduct#POST
-      ✓ should reject missing name (2014ms)
-      ✓ should enforce name length (2038ms)
-      ✓ should reject missing statement_descriptor (1915ms)
-      ✓ should reject invalid unit_label (1735ms)
-      ✓ should update after authorization (3881ms)
-
-  /administrator/subscriptions/set-charge-flagged
-    SetChargeFlagged#BEFORE
-      ✓ should reject invalid chargeid (1177ms)
-      ✓ should reject unrefunded charge (8875ms)
-      ✓ should bind charge to req (11589ms)
-    SetChargeFlagged#GET
-      ✓ should present the form (12016ms)
-      ✓ should present the charge table (12781ms)
-    SetChargeFlagged#POST
-      ✓ should apply after authorization (14900ms)
-
-  /administrator/subscriptions/set-invoice-forgiven
-    SetInvoiceForgiven#BEFORE
-      ✓ should reject invalid invoiceid (1357ms)
-      ✓ should reject paid invoice (9616ms)
-      ✓ should reject forgiven invoice (15146ms)
-      ✓ should bind invoice to req (12596ms)
-    SetInvoiceForgiven#GET
-      ✓ should present the form (14325ms)
-      ✓ should present the invoice table (13712ms)
-    SetInvoiceForgiven#POST
-      ✓ should apply after authorization (16260ms)
-
-  /administrator/subscriptions
-    Index#BEFORE
-      ✓ should bind plans to req (3816ms)
-      ✓ should bind subscriptions to req (10776ms)
-      ✓ should bind coupons to req (3248ms)
-    Index#GET
-      ✓ should have row for each plan (5158ms)
-      ✓ should have row for each coupon (3879ms)
-      ✓ should have row for each subscription (18752ms)
-
-  /administrator/subscriptions/invoice
-    Invoice#BEFORE
-      ✓ should reject invalid invoiceid (1143ms)
-      ✓ should bind invoice to req (9134ms)
-    Invoice#GET
-      ✓ should present the invoice table (9233ms)
-
-  /administrator/subscriptions/invoices
-    Invoices#BEFORE
-      ✓ should bind invoices to req (9580ms)
-    Invoices#GET
-      ✓ should present the invoices table (9748ms)
-
-  /administrator/subscriptions/payout
-    Payout#BEFORE
-      ✓ should bind reject invalid payoutid (1142ms)
-      ✓ should bind payout to req (3296ms)
-    Payout#GET
-      ✓ should have row for payout (3276ms)
-
-  /administrator/subscriptions/payouts
-    Payouts#BEFORE
-      ✓ should bind payouts to req (5443ms)
-    Payouts#GET
-      ✓ should have row for each payout (5443ms)
-
-  /administrator/subscriptions/plan
-    Plan#BEFORE
-      ✓ should reject invalid planid (1187ms)
-      ✓ should bind plan to req (2290ms)
-    Plan#GET
-      ✓ should present the plan table (2301ms)
-
-  /administrator/subscriptions/plans
-    Plans#BEFORE
-      ✓ should bind plans to req (2360ms)
-    Plans#GET
-      ✓ should present the plans table (2315ms)
-
-  /administrator/subscriptions/product
-    Product#BEFORE
-      ✓ should reject invalid productid (1105ms)
-      ✓ should bind product to req (1723ms)
-    Product#GET
-      ✓ should present the product table (1723ms)
-
-  /administrator/subscriptions/products
-    Products#BEFORE
-      ✓ should bind products to req (1716ms)
-    Products#GET
-      ✓ should present the products table (1738ms)
-
-  /administrator/subscriptions/set-coupon-published
-    SetCouponPublished#BEFORE
-      ✓ should reject invalid couponid (1100ms)
-      ✓ should reject published coupon (1719ms)
-      ✓ should bind coupon to req (1666ms)
-    SetCouponPublished#GET
-      ✓ should present the form (1687ms)
-      ✓ should present the coupon table (1667ms)
-    SetCouponPublished#POST
-      ✓ should apply after authorization (5223ms)
-
-  /administrator/subscriptions/set-plan-published
-    SetPlanPublished#BEFORE
-      ✓ should reject invalid planid (1102ms)
-      ✓ should reject published plan (2299ms)
-      ✓ should bind plan to req (2358ms)
-    SetPlanPublished#GET
-      ✓ should present the form (2310ms)
-      ✓ should present the plan table (2285ms)
-    SetPlanPublished#POST
-      ✓ should apply after authorization (5509ms)
-
-  /administrator/subscriptions/set-product-published
-    SetProductPublished#BEFORE
-      ✓ should reject invalid productid (1120ms)
-      ✓ should reject published product (1683ms)
-      ✓ should bind product to req (1659ms)
-    SetProductPublished#GET
-      ✓ should present the form (1775ms)
-      ✓ should present the product table (1710ms)
-    SetProductPublished#POST
-      ✓ should apply after authorization (4215ms)
-
-  /administrator/subscriptions/set-charge-refunded
-    SetChargeRefunded#BEFORE
-      ✓ should reject invalid chargeid (1105ms)
-      ✓ should reject refunded charge (12151ms)
-      ✓ should bind charge to req (9774ms)
-    SetChargeRefunded#GET
-      ✓ should present the form (8579ms)
-      ✓ should present the charge table (8677ms)
-    SetChargeRefunded#POST
-      ✓ should apply after authorization (12538ms)
-
-  /administrator/subscriptions/refund
-    Refund#BEFORE
-      ✓ should reject invalid refundid (1169ms)
-      ✓ should bind refund to req (11038ms)
-    Refund#GET
-      ✓ should present the refund table (10995ms)
-
-  /administrator/subscriptions/refunds
-    Refunds#BEFORE
-      ✓ should bind refunds to req (10834ms)
-    Refunds#GET
-      ✓ should present the refunds table (10677ms)
-
-  /administrator/subscriptions/subscription
-    Subscription#BEFORE
-      ✓ should reject invalid subscriptionid (1211ms)
-      ✓ should bind subscription to req (8803ms)
-    Subscription#GET
-      ✓ should present the subscription table (10100ms)
-
-  /administrator/subscriptions/subscriptions
-    Subscriptions#BEFORE
-      ✓ should bind subscriptions to req (9408ms)
-    Subscriptions#GET
-      ✓ should present the subscriptions table (9459ms)
-
-  /administrator/subscriptions/set-coupon-unpublished
-    SetCouponUnpublished#BEFORE
-      ✓ should reject invalid couponid (1140ms)
-      ✓ should never published coupon (1733ms)
-      ✓ should reject unpublished coupon (1723ms)
-      ✓ should bind coupon to req (1749ms)
-    SetCouponUnpublished#GET
-      ✓ should present the form (1734ms)
-      ✓ should present the coupon table (1901ms)
-    SetCouponUnpublished#POST
-      ✓ should apply after authorization (4275ms)
-
-  /administrator/subscriptions/set-plan-unpublished
-    SetPlanUnpublished#BEFORE
-      ✓ should reject invalid planid (1106ms)
-      ✓ should never published plan (2236ms)
-      ✓ should reject unpublished plan (2345ms)
-      ✓ should bind plan to req (2283ms)
-    SetPlanUnpublished#GET
-      ✓ should present the form (2279ms)
-      ✓ should present the plan table (2321ms)
-    SetPlanUnpublished#POST
-      ✓ should apply after authorization (5159ms)
-
-  /administrator/subscriptions/set-product-unpublished
-    SetProductUnpublished#BEFORE
-      ✓ should reject invalid productid (1429ms)
-      ✓ should never published product (1618ms)
-      ✓ should reject unpublished product (1665ms)
-      ✓ should bind product to req (1664ms)
-    SetProductUnpublished#GET
-      ✓ should present the form (1922ms)
-      ✓ should present the product table (1710ms)
-    SetProductUnpublished#POST
-      ✓ should apply after authorization (4463ms)
-
-  /api/administrator/subscriptions/charge
-    Charge#GET
-      ✓ should reject invalid charge (1105ms)
-      ✓ should return charge data (9228ms)
-
-  /api/administrator/subscriptions/charges
-    Charges#GET
-      ✓ should filter by customerid (17039ms)
-      ✓ should return charge list (13124ms)
-
-  /api/administrator/subscriptions/coupon
-    Coupon#GET
-      ✓ should reject invalid coupon (1108ms)
-      ✓ should return coupon data (1654ms)
-
-  /api/administrator/subscriptions/coupons
-    Coupons#GET
-      ✓ should return coupon list (2270ms)
-
-  /api/administrator/subscriptions/create-coupon
-    CreateCoupon#POST
-      ✓ should require alphanumeric id (594ms)
-      ✓ should require percent or amount off (595ms)
-      ✓ should require currency with amount off (595ms)
-      ✓ should require valid percent off (591ms)
-      ✓ should require valid duration (601ms)
-      ✓ should require valid repeating duration (592ms)
-      ✓ should require valid expire_meridien (594ms)
-      ✓ should require valid expire (598ms)
-      ✓ should create coupon (1160ms)
-
-  /api/administrator/subscriptions/create-plan
-    CreatePlan#POST
-      ✓ should require alphanumeric id (1149ms)
-      ✓ should require product (1118ms)
-      ✓ should require valid product (1107ms)
-      ✓ should require amount (1681ms)
-      ✓ should require currency (1156ms)
-      ✓ should require valid interval (1653ms)
-      ✓ should require valid interval count (1959ms)
-      ✓ should require valid trial period (1940ms)
-      ✓ should create plan (3343ms)
-
-  /api/administrator/subscriptions/create-product
-    CreateProduct#POST
-      ✓ should require name (599ms)
-      ✓ should require statement_descriptor (601ms)
-      ✓ should create product (1725ms)
-
-  /api/administrator/subscriptions/customer
-    Customer#GET
-      ✓ should reject invalid customer (1093ms)
-      ✓ should return customer data (5494ms)
-
-  /api/administrator/subscriptions/customers
-    Customers#GET
-      ✓ should return customer list (3937ms)
-
-  /api/administrator/subscriptions/delete-coupon
-    DeleteCoupon#DELETE
-      ✓ should reject invalid couponid (1100ms)
-      ✓ should delete coupon (3431ms)
-
-  /api/administrator/subscriptions/delete-customer-discount
-    DeleteCustomerDiscount#DELETE
-      ✓ should reject invalid customerid (1324ms)
-      ✓ should reject undiscounted customer (2749ms)
-      ✓ should delete customer discount (5096ms)
-
-  /api/administrator/subscriptions/delete-plan
-    DeletePlan#DELETE
-      ✓ should reject invalid planid (1143ms)
-      ✓ should delete plan (3558ms)
-
-  /api/administrator/subscriptions/delete-product
-    DeleteProduct#DELETE
-      ✓ should reject invalid productid (1135ms)
-      ✓ should delete product (2905ms)
-
-  /api/administrator/subscriptions/delete-subscription-discount
-    DeleteCustomerDiscount#DELETE
-      ✓ should reject invalid subscriptionid (1138ms)
-      ✓ should reject undiscounted subscription (8893ms)
-      ✓ should delete subscription discount (12497ms)
-
-  /api/administrator/subscriptions/delete-subscription
-    DeleteSubscription#DELETE
-      ✓ should reject invalid subscriptionid (1269ms)
-      ✓ should require active subscription (11293ms)
-      ✓ should delete subscription at period end (9800ms)
-      ✓ should delete subscription immediately (14724ms)
-
-  /api/administrator/subscriptions/set-charge-flagged
-    SetChargeRefunded#PATCH
-      ✓ should reject invalid charge (1151ms)
-      ✓ should reject flagged charge (9148ms)
-      ✓ should require refunded charge (8986ms)
-      ✓ should update charge flagged as fraud (12803ms)
-
-  /api/administrator/subscriptions/set-invoice-forgiven
-    SetInvoiceForgiven#PATCH
-      ✓ should reject invalid invoiceid (1158ms)
-      ✓ should reject paid invoice (8997ms)
-      ✓ should reject forgiven invoice (14800ms)
-      ✓ should forgive invoice (14892ms)
-
-  /api/administrator/subscriptions/invoice
-    Invoice#GET
-      ✓ should reject invalid invoice (1149ms)
-      ✓ should return invoice data (8725ms)
-
-  /api/administrator/subscriptions/invoices
-    Invoices#GET
-      ✓ should return invoice list (13405ms)
-
-  /api/administrator/subscriptions/payout
-    Payout#GET
-      ✓ should reject invalid payoutid (1112ms)
-      ✓ should return payout data (3290ms)
-
-  /api/administrator/subscriptions/payouts
-    Payouts#GET
-      ✓ should return all payouts list (5258ms)
-
-  /api/administrator/subscriptions/plan
-    Plan#GET
-      ✓ should return plan data (2286ms)
-
-  /api/administrator/subscriptions/plans
-    Plans#GET
-      ✓ should return plan list (4775ms)
-
-  /api/administrator/subscriptions/product
-    Product#GET
-      ✓ should return product data (1655ms)
-
-  /api/administrator/subscriptions/products
-    Products#GET
-      ✓ should return product list (2876ms)
-
-  /api/administrator/subscriptions/set-coupon-published
-    SetCouponPublished#PATCH
-      ✓ should reject invalid couponid (1708ms)
-      ✓ should reject published coupon (1711ms)
-      ✓ should publish coupon (2761ms)
-
-  /api/administrator/subscriptions/set-plan-published
-    SetPlanPublished#PATCH
-      ✓ should reject invalid planid (2361ms)
-      ✓ should reject published plan (2310ms)
-      ✓ should publish plan (3504ms)
-
-  /api/administrator/subscriptions/set-product-published
-    SetProductPublished#PATCH
-      ✓ should reject invalid productid (1694ms)
-      ✓ should reject published product (1665ms)
-      ✓ should publish product (2735ms)
-
-  /api/administrator/subscriptions/set-charge-refunded
-    SetChargeRefunded#PATCH
-      ✓ should reject invalid charge (1129ms)
-      ✓ should require amount (8446ms)
-      ✓ should reject negative amount (9032ms)
-      ✓ should reject amount higher than charge (8845ms)
-      ✓ should create authorized refund (10690ms)
-
-  /api/administrator/subscriptions/refund
-    Refund#GET
-      ✓ should reject invalid refund (1120ms)
-      ✓ should return refund data (11051ms)
-
-  /api/administrator/subscriptions/refunds
-    Refunds#GET
-      ✓ should return refund list (29296ms)
-
-  /api/administrator/subscriptions/subscription
-    Subscription#GET
-      ✓ should reject invalid subscriptionid (1181ms)
-      ✓ should return subscription data (9384ms)
-
-  /api/administrator/subscriptions/subscriptions
-    Subscriptions#GET
-      ✓ should return subscription list (15226ms)
-
-  /api/administrator/subscriptions/set-coupon-unpublished
-    SetCouponUnpublished#PATCH
-      ✓ should reject invalid couponid (1918ms)
-      ✓ should reject never published coupon (1873ms)
-      ✓ should reject unpublished coupon (1840ms)
-      ✓ should unpublish coupon (3306ms)
-
-  /api/administrator/subscriptions/set-plan-unpublished
-    SetPlanUnpublished#PATCH
-      ✓ should reject invalid planid (2468ms)
-      ✓ should reject never published plan (2680ms)
-      ✓ should reject unpublished plan (2354ms)
-      ✓ should unpublish plan (3507ms)
-
-  /api/administrator/subscriptions/set-product-unpublished
-    SetProductUnpublished#PATCH
-      ✓ should reject invalid productid (1769ms)
-      ✓ should reject never published product (1724ms)
-      ✓ should reject unpublished product (1700ms)
-      ✓ should unpublish product (2776ms)
-
-  /api/administrator/subscriptions/update-customer-coupon
-    UpdateCustomerCoupon#PATCH
-      ✓ should reject invalid customerid (1803ms)
-      ✓ should reject invalid couponid (3432ms)
-      ✓ should reject unpublished coupon (3383ms)
-      ✓ should update customer coupon (5115ms)
-
-  /api/administrator/subscriptions/update-plan
-    UpdatePlan#PATCH
-      ✓ should reject invalid planid (2880ms)
-      ✓ should reject invalid productid (2933ms)
-      ✓ should reject unpublished plan (2898ms)
-      ✓ should reject unpublished product (3404ms)
-      ✓ should reject never published product (3453ms)
-      ✓ should reject invalid trial (5546ms)
-      ✓ should update plan (4987ms)
-
-  /api/administrator/subscriptions/update-product
-    UpdateProduct#PATCH
-      ✓ should reject invalid productid (2922ms)
-      ✓ should reject invalid name (2840ms)
-      ✓ should reject invalid name length (2772ms)
-      ✓ should reject invalid statement_descriptor (2813ms)
-      ✓ should reject invalid unit_label (2909ms)
-      ✓ should update product (4001ms)
-
-  /api/administrator/subscriptions/update-subscription-coupon
-    UpdateSubscriptionCoupon#PATCH
-      ✓ should reject invalid subscriptionid (1696ms)
-      ✓ should reject invalid couponid (9394ms)
-      ✓ should reject unpublished coupon (10650ms)
-      ✓ should update subscription coupon (12140ms)
+  /api/user/subscriptions/card-subscriptions
+    CardSubscriptions#GET
+      ✓ should limit subscriptions on card to one page (33322ms)
 
   /api/user/subscriptions/card
     Card#GET
-      ✓ should reject invalid card (1764ms)
-      ✓ should reject other account's card (6809ms)
-      ✓ should return card data (5863ms)
+      ✓ should reject invalid card (2159ms)
+      ✓ should reject other account's card (5518ms)
+      ✓ should return card data (3560ms)
+
+  /api/user/subscriptions/cards-count
+    CardsCount#GET
+      ✓ should count account's cards (6196ms)
 
   /api/user/subscriptions/cards
     Cards#GET
-      ✓ should return card list (6154ms)
+      ✓ should limit cards to one page (6861ms)
 
   /api/user/subscriptions/charge
     Charge#GET
-      ✓ should reject invalid charge (1173ms)
-      ✓ should reject other account's charge (15489ms)
-      ✓ should return charge data (9230ms)
+      ✓ should reject invalid charge (1855ms)
+      ✓ should reject other account's charge (41089ms)
+      ✓ should return charge data (22071ms)
+
+  /api/user/subscriptions/charges-count
+    Charges#GET
+      ✓ should count charges (49209ms)
 
   /api/user/subscriptions/charges
     Charges#GET
-      ✓ should return charge list (12800ms)
+      ✓ should limit charges to one page (54989ms)
 
   /api/user/subscriptions/create-card
     CreateCard#POST
-      ✓ should require name, cvc, number, exp_month and exp_year (611ms)
-      ✓ should create card (7428ms)
+      ✓ should require name, cvc, number, exp_month and exp_year (1930ms)
+      ✓ should create card (3303ms)
 
   /api/user/subscriptions/create-customer
     CreateCustomer#POST
-      ✓ should reject other accountid (1228ms)
-      ✓ should reject existing customer (3603ms)
-      ✓ should create customer (2944ms)
+      ✓ should reject other accountid (3216ms)
+      ✓ should reject existing customer (2203ms)
+      ✓ should create customer (1911ms)
 
   /api/user/subscriptions/create-subscription
     CreateSubscription#POST
-      ✓ should reject invalid planid (1100ms)
-      ✓ should reject never-published planid (5424ms)
-      ✓ should reject unpublished planid (5553ms)
-      ✓ should reject customer without card (3619ms)
-      ✓ should create authorized subscription (9501ms)
+      ✓ should reject invalid planid (3475ms)
+      ✓ should reject never-published planid (7175ms)
+      ✓ should reject unpublished plan (8130ms)
+      ✓ should reject customer without card (5510ms)
+      ✓ should create authorized subscription (8207ms)
 
   /api/user/subscriptions/customer
     Customer#GET
-      ✓ should reject invalid customerid (1735ms)
-      ✓ should reject other account's customerid (7586ms)
-      ✓ should return customer data (5814ms)
+      ✓ should reject invalid customerid (2188ms)
+      ✓ should reject other account's customerid (5524ms)
+      ✓ should return customer data (3526ms)
 
   /api/user/subscriptions/delete-card
     DeleteCard#DELETE
-      ✓ should reject invalid cardid (634ms)
-      ✓ should reject other account's card (15420ms)
-      ✓ should delete card (7044ms)
+      ✓ should reject invalid cardid (1598ms)
+      ✓ should reject other account's card (7967ms)
+      ✓ should delete card (4317ms)
 
   /api/user/subscriptions/delete-subscription
     DeleteSubscription#DELETE
-      ✓ should reject invalid subscriptionid (1139ms)
-      ✓ should reject other account's subscription (15574ms)
-      ✓ should require active subscription (10772ms)
-      ✓ should delete subscription at period end (11069ms)
-      ✓ should delete subscription immediately (11391ms)
+      ✓ should reject invalid subscriptionid (1832ms)
+      ✓ should reject other account's subscription (14141ms)
+      ✓ should require active subscription (10874ms)
+      ✓ should delete subscription at period end (10010ms)
+      ✓ should delete subscription immediately (10697ms)
 
   /api/user/subscriptions/invoice
     Invoice#GET
-      ✓ should reject invalid invoice (1384ms)
-      ✓ should reject other account's invoice (15153ms)
-      ✓ should return invoice data (8514ms)
+      ✓ should reject invalid invoice (1945ms)
+      1) should reject other account's invoice
+      2) should return invoice data
+
+  /api/user/subscriptions/invoices-count
+    Invoices#GET
+      3) should count invoices
 
   /api/user/subscriptions/invoices
     Invoices#GET
-      ✓ should return invoice list (13115ms)
+      4) should limit invoices to one page
 
-  /api/user/subscriptions/set-invoice-paid
-    SetInvoicePaid#PATCH
-      ✓ should reject invalid invoiceid (3863ms)
-      ✓ should reject other account's invoice (15347ms)
-      ✓ should reject paid invoice (8949ms)
-      ✓ should reject forgiven invoice (13648ms)
-      ✓ should require valid source (14021ms)
-      ✓ should reject other account's source (17307ms)
-      ✓ should pay invoice (15171ms)
-
-  /api/user/subscriptions/plan
-    Plan#GET
-      ✓ should not require account (2266ms)
-      ✓ should reject never published plan (2856ms)
-      ✓ should reject unpublished plan (2854ms)
-      ✓ should return plan data (2899ms)
-
-  /api/user/subscriptions/plans
-    Plans#GET
-      ✓ should not require account (3497ms)
-      ✓ should exclude never published plans (5540ms)
-      ✓ should exclude unpublished plan (4101ms)
-      ✓ should return plan list (5253ms)
-
-  /api/user/subscriptions/product
-    Product#GET
-      ✓ should not require account (1657ms)
-      ✓ should reject never published product (2385ms)
-      ✓ should reject unpublished product (2290ms)
-      ✓ should return product data (2215ms)
-
-  /api/user/subscriptions/products
-    Products#GET
-      ✓ should not require account (2292ms)
-      ✓ should exclude never published products (2844ms)
-      ✓ should exclude unpublished product (2816ms)
-      ✓ should return product list (3428ms)
-
-  /api/user/subscriptions/set-charge-refunded
-    SetChargeRefunded#PATCH
-      ✓ should reject invalid charge (1112ms)
-      ✓ should reject other account's refund (18213ms)
-      ✓ should create refund (12602ms)
-
-  /api/user/subscriptions/refund
-    Refund#GET
-      ✓ should reject invalid refund (1797ms)
-      ✓ should reject other account's refund (17868ms)
-      ✓ should return refund data (2411ms)
-
-  /api/user/subscriptions/subscription
-    Subscription#GET
-      ✓ should reject invalid subscriptionid (1119ms)
-      ✓ should reject other account's subscription (16527ms)
-      ✓ should return subscription data (9634ms)
-
-  /api/user/subscriptions/subscriptions
-    Subscriptions#GET
-      ✓ should return subscription list (13252ms)
-
-  /api/user/subscriptions/upcoming-invoice
-    UpcomingInvoice#GET
-      ✓ should reject invalid subscriptionid (591ms)
-      ✓ should reject other account's subscription (16706ms)
-      ✓ should return upcoming invoice for subscription (9017ms)
-
-  /api/user/subscriptions/upcoming-invoices
-    UpcomingInvoices#GET
-      ✓ should return upcoming invoice for each subscription (14709ms)
-
-  /api/user/subscriptions/update-subscription-plan
-    UpdateSubscriptionPlan#PATCH
-      ✓ should reject invalid subscriptionid (1076ms)
-      ✓ should reject other account's subscription (16070ms)
-      ✓ should reject same planid (8643ms)
-      ✓ should require user add card (8405ms)
-      ✓ should change plan (13127ms)
-
-
-  470 passing (43m)
-
+  /api/user/subscriptions/published-plan
+    PublishedPlan#GET
+      ✓ should not require account (3790ms)
+      ✓ should reject never published plan (5435ms)

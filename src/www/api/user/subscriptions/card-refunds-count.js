@@ -7,7 +7,6 @@ module.exports = {
     }
     const count = await dashboard.RedisList.count(`card:refunds:${req.query.cardid}`)
     const all = await dashboard.RedisList.listAll(`card:refunds:${req.query.cardid}`)
-    console.log(all)
     return count
   }
 }

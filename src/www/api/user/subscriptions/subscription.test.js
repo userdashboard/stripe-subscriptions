@@ -50,6 +50,7 @@ describe('/api/user/subscriptions/subscription', () => {
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account

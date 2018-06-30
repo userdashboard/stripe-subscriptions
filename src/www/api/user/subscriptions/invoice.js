@@ -12,6 +12,10 @@ module.exports = {
     } catch (error) {
     }
     if (!invoice) {
+      const exists = await dashboard.RedisList.exists(`invoices`, req.query.invoiceid)
+      if (exists) {
+        throw new Error('invalid-account')
+      }
       throw new Error('invalid-invoiceid')
     }
     if (invoice.customer !== req.customer.id) {

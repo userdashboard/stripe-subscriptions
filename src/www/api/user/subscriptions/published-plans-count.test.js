@@ -8,7 +8,9 @@ describe('/api/user/subscriptions/published-plans-count', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans-count`, 'GET')
       req.account = user.account
       req.session = user.session

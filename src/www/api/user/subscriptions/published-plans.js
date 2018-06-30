@@ -1,13 +1,19 @@
 const dashboard = require('@userappstore/dashboard')
-const subs = require('../../../../../index.js')
+const stripe = require('stripe')()
 
 module.exports = {
+  auth: false,
   get: async (req) => {
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
     const itemids = await dashboard.RedisList.list(`published:plans`, offset)
     if (!itemids || !itemids.length) {
       return null
     }
-    return subs.StripeObject.loadMany(itemids, req.stripeKey)
+    const items = []
+    for (const planid of itemids) {
+      const item = await stripe.plans.retrieve(planid, req.stripeKey)
+      items.push(item)
+    }
+    return items
   }
 }

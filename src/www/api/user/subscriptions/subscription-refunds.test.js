@@ -20,12 +20,12 @@ describe('/api/user/subscriptions/subscription-refunds', () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
-      const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, global.PAGE_SIZE)
-      assert.equal(subscriptions[0].amount, plan2.amount)
-      assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, plan1.amount)
-      assert.equal(subscriptions[1].subscription, subscription1.id)
+      const refunds = await req.route.api.get(req)
+      assert.equal(refunds.length, global.PAGE_SIZE)
+      assert.equal(refunds[0].amount, plan2.amount)
+      assert.equal(refunds[0].subscription, subscription2.id)
+      assert.equal(refunds[1].amount, plan1.amount)
+      assert.equal(refunds[1].subscription, subscription1.id)
     })
   })
 })

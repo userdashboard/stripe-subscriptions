@@ -26,10 +26,11 @@ module.exports = {
       }
     }
     try {
-      await stripe.plans.update(req.query.planid, updateInfo, req.stripeKey)
+      const plan = await stripe.plans.update(req.query.planid, updateInfo, req.stripeKey)
       await dashboard.RedisList.remove('published:plans', req.query.planid)
       await dashboard.RedisList.add('unpublished:plans', req.query.planid)
       req.success = true
+      return plan
     } catch (error) {
       throw new Error('unknown-error')
     }

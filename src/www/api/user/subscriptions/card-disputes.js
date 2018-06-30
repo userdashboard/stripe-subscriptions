@@ -1,5 +1,5 @@
 const dashboard = require('@userappstore/dashboard')
-const subs = require('../../../../../index.js')
+const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
@@ -11,6 +11,11 @@ module.exports = {
     if (!itemids || !itemids.length) {
       return null
     }
-    return subs.StripeObject.loadMany(itemids, req.stripeKey)
+    const items = []
+    for (const disputeid of itemids) {
+      const dispute = await stripe.disputes.retrieve(disputeid, req.stripeKey)
+      items.push(dispute)
+    }
+    return items
   }
 }

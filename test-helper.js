@@ -109,7 +109,7 @@ async function createPlan (administrator, properties) {
   req.session = await TestHelper.unlockSession(administrator)
   let plan = await req.route.api.post(req)
   if (properties && properties.unpublished) {
-    const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?couponid=${plan.id}`, 'PATCH')
+    const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${plan.id}`, 'PATCH')
     req2.administratorSession = req2.session = administrator.session
     req2.administratorAccount = req2.account = administrator.account
     await req2.route.api.patch(req2)

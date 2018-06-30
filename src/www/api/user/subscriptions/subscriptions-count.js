@@ -1,5 +1,5 @@
 const dashboard = require('@userappstore/dashboard')
-const subs = require('../../../../../index.js')
+const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
@@ -9,10 +9,7 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-customer')
     }
-    const itemids = await dashboard.RedisList.count(`customer:subscriptions:${req.query.customerid}`)
-    if (!itemids || !itemids.length) {
-      return null
-    }
-    return subs.StripeObject.loadMany(itemids, req.stripeKey)
+    const result = await dashboard.RedisList.count(`customer:subscriptions:${req.query.customerid}`)
+    return result
   }
 }

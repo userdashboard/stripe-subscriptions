@@ -29,6 +29,8 @@ describe('/api/user/subscriptions/upcoming-invoice', () => {
       await TestHelper.createSubscription(user, administrator.plan.id)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user2.account

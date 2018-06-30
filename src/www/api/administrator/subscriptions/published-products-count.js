@@ -1,5 +1,5 @@
 const dashboard = require('@userappstore/dashboard')
-const subs = require('../../../../../index.js')
+const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {

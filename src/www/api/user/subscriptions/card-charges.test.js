@@ -5,17 +5,18 @@ const TestHelper = require('../../../../../test-helper.js')
 describe('/api/user/subscriptions/card-charges', () => {
   describe('CardCharges#GET', () => {
     it('should limit card\'s charges to one page', async () => {
-      const webhookCount = await TestHelper.currentWebHookNumber()
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
+      let webhooks = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000 })
+        const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        webhooks += 2
+        await TestHelper.waitForWebhooks(webhooks)
       }
-      await TestHelper.waitForWebhooks(webhookCount + 6)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -31,11 +32,13 @@ describe('/api/user/subscriptions/card-charges', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
+      let webhooks = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        webhooks += 2
+        await TestHelper.waitForWebhooks(webhooks)
       }
-      await TestHelper.waitForWebhooks(8)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -51,11 +54,13 @@ describe('/api/user/subscriptions/card-charges', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
+      let webhooks = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        webhooks += 2
+        await TestHelper.waitForWebhooks(webhooks)
       }
-      await TestHelper.waitForWebhooks((global.PAGE_SIZE + offset + 1) * 2)
       global.PAGE_SIZE = 10
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account

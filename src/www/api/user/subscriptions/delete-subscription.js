@@ -13,13 +13,14 @@ module.exports = {
     } catch (error) {
     }
     if (!subscription) {
+      const exists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+      if (exists) {
+        throw new Error('invalid-account')
+      }
       throw new Error('invalid-subscriptionid')
     }
     if (subscription.customer !== req.customer.id) {
       throw new Error('invalid-account')
-    }
-    if (!subscription) {
-      throw new Error('invalid-subscriptionid')
     }
     if (subscription.status === 'deleted' || subscription.cancel_at_period_end) {
       throw new Error('invalid-subscription')

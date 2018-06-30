@@ -14,6 +14,7 @@ module.exports = {
       global.MAXIMUM_PLAN_LENGTH < req.body.planid.length) {
       throw new Error('invalid-planid-length')
     }
+    console.log(req.body)
     if (!req.body.productid) {
       throw new Error('invalid-productid')
     }
@@ -106,6 +107,9 @@ module.exports = {
       const plan = await stripe.plans.create(planInfo, req.stripeKey)
       req.success = true
       await dashboard.RedisList.add('plans', plan.id)
+      if (plan.metadata.published) {
+        await dashboard.RedisList.add('published:plans', plan.id)
+      }
       return plan
     } catch (error) {
       if (error.message.indexOf('invalid-') === 0) {
@@ -117,7 +121,6 @@ module.exports = {
       if (error.message.indexOf('No such product') === 0) {
         throw new Error('invalid-product')
       }
-      console.log(error)
       throw new Error('unknown-error')
     }
   }

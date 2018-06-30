@@ -32,6 +32,9 @@ module.exports = {
     }
     const product = await stripe.products.create(productInfo, req.stripeKey)
     await dashboard.RedisList.add('products', product.id)
+    if (product.metadata.published) {
+      await dashboard.RedisList.add('published:products', product.id)
+    }
     req.success = true
     return product
   }

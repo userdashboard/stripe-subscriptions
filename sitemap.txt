@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1055
+Version: 1.0.1056
 https://stripe-subscriptions-benlowry.c9users.io
 Root path: /home/ubuntu/workspace/src/www
 Application path: /home/ubuntu/workspace

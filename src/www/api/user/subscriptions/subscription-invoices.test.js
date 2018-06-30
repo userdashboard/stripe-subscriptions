@@ -12,16 +12,16 @@ describe('/api/user/subscriptions/subscription-invoices', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, plan1.id)
-      const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, plan2.id)
-      const subscription2 = user.subscription
+      const subscription1 = await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, global.PAGE_SIZE)
+      assert.equal(subscriptions.length, 2)
       assert.equal(subscriptions[0].amount, plan2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
       assert.equal(subscriptions[1].amount, plan1.amount)

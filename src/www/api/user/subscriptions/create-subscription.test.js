@@ -6,9 +6,12 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
   describe('CreateSubscription#POST', () => {
     it('should reject invalid planid', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=invalid`, 'POST')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       let errorMessage
       try {
         await req.route.api.post(req)
@@ -38,14 +41,16 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       assert.equal(errorMessage, 'invalid-plan')
     })
 
-    it('should reject unpublished planid', async () => {
+    it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
+      const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
+      assert.notEqual(plan, null)
+      assert.notEqual(null, plan.metadata.unpublished)
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

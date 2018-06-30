@@ -22,10 +22,14 @@ module.exports = {
       webhookNumber = parseInt(webhookNumber, 10)
     }
     webhookNumber = 1 + (webhookNumber || 0)
+    console.log(`[webhook ~${webhookNumber}]`, stripeEvent.type, stripeEvent.data.object.id)
     let invoice, charge, customerid, subscriptionid, planid, productid, cardid
     switch (stripeEvent.type) {
       case 'invoice.created':
         invoice = stripeEvent.data.object
+        if (invoice.object !== 'invoice') {
+          throw new Error('invalid-invoice')
+        }
         customerid = invoice.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -38,6 +42,9 @@ module.exports = {
         break
       case 'charge.succeeded':
         charge = stripeEvent.data.object
+        if (charge.object !== 'charge') {
+          throw new Error('invalid-charge')
+        }
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
         customerid = charge.customer
@@ -57,8 +64,10 @@ module.exports = {
         await dashboard.RedisList.add(`card:plans:${cardid}`, planid)
         break
       case 'charge.refunded':
-        console.log(`[webhook ~${webhookNumber}]`, stripeEvent.type, stripeEvent.data.object.id)
         charge = stripeEvent.data.object
+        if (charge.object !== 'charge') {
+          throw new Error('invalid-charge')
+        }
         const refund = charge.refunds.data[0]
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
@@ -72,7 +81,6 @@ module.exports = {
         await dashboard.RedisList.add(`product:refunds:${productid}`, refund.id)
         await dashboard.RedisList.add(`subscription:refunds:${subscriptionid}`, refund.id)
         await dashboard.RedisList.add(`card:refunds:${cardid}`, refund.id)
-        console.log('added refund', JSON.stringify(refund))
         break
     }
     await global.redisClient.incrbyAsync('webhookNumber', 1)

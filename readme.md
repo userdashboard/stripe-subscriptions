@@ -12,6 +12,14 @@ This module adds subscription billing functionality to [userappstore/dashboard](
     "dashboard-modules": [
       "@userappstore/stripe-subscriptions"
     ]
+    
+## Roadmap
+
+This module does not currently support complex subscriptions where you might add or remove items.
+
+This module requires sales taxes applied where appropriate.
+
+This module has WIP or missing APIs and UIs for disputes, transactions, invoice line items.
 
 ## APIs
 

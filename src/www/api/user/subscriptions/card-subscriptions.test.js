@@ -14,7 +14,9 @@ describe('/api/user/subscriptions/card-subscriptions', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       await TestHelper.createSubscription(user, plan3.id)
       await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-subscriptions?cardid=${user.card.id}`, 'GET')
@@ -22,7 +24,7 @@ describe('/api/user/subscriptions/card-subscriptions', () => {
       req.session = user.session
       req.customer = user.customer
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, global.PAGE_SIZE)
+      assert.equal(subscriptions.length, 2)
       assert.equal(subscriptions[0].plan.id, plan3.id)
       assert.equal(subscriptions[1].plan.id, plan2.id)
     })

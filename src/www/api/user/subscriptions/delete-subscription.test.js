@@ -29,8 +29,12 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user2.account
       req.session = user2.session
@@ -55,6 +59,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
       req.session = user.session
@@ -86,6 +91,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
       req.session = user.session
@@ -113,6 +119,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user.account
       req.session = user.session

@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -12,15 +13,19 @@ module.exports = {
     } catch (error) {
     }
     if (!charge) {
+      const exists = await dashboard.RedisList.exists(`charges`, req.query.chargeid)
+      if (exists) {
+        throw new Error('invalid-account')
+      }
       throw new Error('invalid-chargeid')
     }
-    const invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
-    if (invoice.customer !== req.customer.id) {
+    const dispute = await stripe.disputes.retrieve(charge.dispute, req.stripeKey)
+    if (dispute.customer !== req.customer.id) {
       throw new Error('invalid-account')
     }
     req.charge = charge
   },
-  patch: async (req) => {
+  post: async (req) => {
     const refundInfo = {
       charge: req.charge.id,
       amount: req.charge.amount - (req.charge.amount_refunded || 0),

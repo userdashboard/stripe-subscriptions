@@ -30,8 +30,9 @@ module.exports = {
       updateInfo.closed = true
     }
     try {
-      await stripe.invoices.update(req.query.invoiceid, updateInfo, req.stripeKey)
+      const invoice = await stripe.invoices.update(req.query.invoiceid, updateInfo, req.stripeKey)
       req.success = true
+      return invoice
     } catch (error) {
       throw new Error('unknown-error')
     }

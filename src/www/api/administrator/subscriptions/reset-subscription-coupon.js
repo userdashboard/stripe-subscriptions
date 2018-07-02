@@ -23,8 +23,9 @@ module.exports = {
       coupon: null
     }
     try {
-      await stripe.subscriptions.update(req.query.subscriptionid, updateInfo, req.stripeKey)
+      const subscription = await stripe.subscriptions.update(req.query.subscriptionid, updateInfo, req.stripeKey)
       req.success = true
+      return subscription
     } catch (error) {
       throw new Error('unknown-error')
     }

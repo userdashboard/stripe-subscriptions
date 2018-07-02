@@ -2,30 +2,31 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/subscription-invoices', () => {
-  describe('SubscriptionInvoices#GET', () => {
-    it('should limit invoices on subscription to one page', async () => {
+describe('/api/user/subscriptions/subscription-disputes', () => {
+  describe('Subscriptiondisputes#GET', () => {
+    it('should limit disputes on subscription to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 2000})
+      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 3000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const subscription1 = await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${user.subscription.id}`, 'GET')
+      await TestHelper.changeSubscription(user, plan3.id)
+      await TestHelper.waitForWebhooks(6)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-disputes?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
-      const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, 2)
-      assert.equal(subscriptions[0].amount, plan2.amount)
-      assert.equal(subscriptions[0].subscription, subscription2.id)
-      assert.equal(subscriptions[1].amount, plan1.amount)
-      assert.equal(subscriptions[1].subscription, subscription1.id)
+      const disputes = await req.route.api.get(req)
+      assert.equal(disputes.length, 2)
+      assert.equal(disputes[0].lines.data[0].plan.id, plan3.id)
+      assert.equal(disputes[1].lines.data[0].plan.id, plan2.id)
     })
   })
 })

@@ -7,11 +7,11 @@ module.exports = {
     if (!req.query || !req.query.planid) {
       throw new Error('invalid-planid')
     }
-    if (!req.customer.default_source) {
-      throw new Error('invalid-source')
-    }
     const plan = await global.api.user.subscriptions.PublishedPlan.get(req)
     req.query.customerid = req.customer.id
+    if (!req.customer.default_source && plan.amount) {
+      throw new Error('invalid-cardid')
+    }
     const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
     if (subscriptions && subscriptions.length) {
       for (const subscription of subscriptions) {

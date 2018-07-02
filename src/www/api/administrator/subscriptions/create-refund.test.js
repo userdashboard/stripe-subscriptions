@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
-  describe('SetChargeRefunded#PATCH', () => {
+describe(`/api/administrator/subscriptions/create-refund`, () => {
+  describe('CreateRefund#POST', () => {
     it('should reject invalid charge', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=invalid`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=invalid`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -14,7 +14,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -29,7 +29,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=${user.charge.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -37,7 +37,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -52,7 +52,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=${user.charge.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -60,7 +60,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -75,7 +75,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=${user.charge.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -83,7 +83,7 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       }
       let errorMessage
       try {
-        await req.route.api.patch(req)
+        await req.route.api.post(req)
       } catch (error) {
         errorMessage = error.message
       }
@@ -98,15 +98,15 @@ describe(`/api/administrator/subscriptions/set-charge-refunded`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=${user.charge.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
         amount: 10000
       }
-      await req.route.api.patch(req)
+      await req.route.api.post(req)
       req.session = await TestHelper.unlockSession(administrator)
-      const refund = await req.route.api.patch(req)
+      const refund = await req.route.api.post(req)
       assert.notEqual(null, refund)
     })
   })

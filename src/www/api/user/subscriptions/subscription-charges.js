@@ -13,7 +13,7 @@ module.exports = {
     }
     const items = []
     for (const chargeid of itemids) {
-      const charge = await stripe.disputes.retrieve(chargeid, req.stripeKey)
+      const charge = await stripe.charges.retrieve(chargeid, req.stripeKey)
       items.push(charge)
     }
     return items

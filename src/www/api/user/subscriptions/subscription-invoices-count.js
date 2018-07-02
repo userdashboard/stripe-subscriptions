@@ -6,7 +6,7 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    const result = await dashboard.RedisList.count(`subscription:invoices:${req.query.subscriptionid}`)
+    const result = await dashboard.RedisList.count(`subscription:disputes:${req.query.subscriptionid}`)
     return result
   }
 }

@@ -7,7 +7,11 @@ describe('/api/user/subscriptions/published-product', () => {
     it('should not require account', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createProduct(administrator, {published: true})
+      const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-product?productid=${administrator.product.id}`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
       const product = await req.route.api.get(req)
       assert.equal(product.id, administrator.product.id)
     })

@@ -27,9 +27,6 @@ module.exports = {
     switch (stripeEvent.type) {
       case 'invoice.created':
         invoice = stripeEvent.data.object
-        if (invoice.object !== 'invoice') {
-          throw new Error('invalid-invoice')
-        }
         customerid = invoice.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -42,9 +39,6 @@ module.exports = {
         break
       case 'charge.succeeded':
         charge = stripeEvent.data.object
-        if (charge.object !== 'charge') {
-          throw new Error('invalid-charge')
-        }
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
         customerid = charge.customer
@@ -55,8 +49,8 @@ module.exports = {
         await dashboard.RedisList.add(`customer:charges:${customerid}`, charge.id)
         await dashboard.RedisList.add(`plan:charges:${planid}`, charge.id)
         await dashboard.RedisList.add(`product:charges:${productid}`, charge.id)
-        await dashboard.RedisList.add(`customer:charges:${customerid}`, charge.id)
         await dashboard.RedisList.add(`subscription:charges:${subscriptionid}`, charge.id)
+
         await dashboard.RedisList.add(`card:charges:${cardid}`, charge.id)
         await dashboard.RedisList.add(`card:invoices:${cardid}`, invoice.id)
         await dashboard.RedisList.add(`card:subscriptions:${cardid}`, subscriptionid)
@@ -65,9 +59,6 @@ module.exports = {
         break
       case 'charge.refunded':
         charge = stripeEvent.data.object
-        if (charge.object !== 'charge') {
-          throw new Error('invalid-charge')
-        }
         const refund = charge.refunds.data[0]
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
@@ -81,6 +72,21 @@ module.exports = {
         await dashboard.RedisList.add(`product:refunds:${productid}`, refund.id)
         await dashboard.RedisList.add(`subscription:refunds:${subscriptionid}`, refund.id)
         await dashboard.RedisList.add(`card:refunds:${cardid}`, refund.id)
+        break
+      case 'charge.dispute.created':
+        const dispute = stripeEvent.data.object
+        cardid = charge.source.id
+        invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
+        customerid = charge.customer
+        subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
+        planid = invoice.lines.data[0].plan.id
+        productid = invoice.lines.data[0].plan.product
+        await dashboard.RedisList.add('disputes', dispute.id)
+        await dashboard.RedisList.add(`customer:disputes:${customerid}`, dispute.id)
+        await dashboard.RedisList.add(`plan:disputes:${planid}`, dispute.id)
+        await dashboard.RedisList.add(`product:disputes:${productid}`, dispute.id)
+        await dashboard.RedisList.add(`subscription:disputes:${subscriptionid}`, dispute.id)
+        await dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
         break
     }
     await global.redisClient.incrbyAsync('webhookNumber', 1)

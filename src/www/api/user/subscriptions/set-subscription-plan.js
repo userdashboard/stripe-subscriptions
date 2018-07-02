@@ -30,18 +30,19 @@ module.exports = {
     if (!newPlan.metadata.published || newPlan.metadata.unpublished) {
       throw new Error('invalid-plan')
     }
+    if (newPlan.amount && !req.customer.default_source) {
+      throw new Error('invalid-cardid')
+    }
   },
   patch: async (req) => {
     const updateInfo = {
       plan: req.body.planid
     }
     try {
-      await stripe.subscriptions.update(req.query.subscriptionid, updateInfo, req.stripeKey)
+      const subscription = await stripe.subscriptions.update(req.query.subscriptionid, updateInfo, req.stripeKey)
       req.success = true
+      return subscription
     } catch (error) {
-      if (error.message.indexOf('This customer has no attached payment source') === 0) {
-        throw new Error('invalid-payment-source')
-      }
       throw new Error('unknown-error')
     }
   }

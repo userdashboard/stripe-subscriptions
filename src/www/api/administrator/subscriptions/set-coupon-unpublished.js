@@ -26,10 +26,11 @@ module.exports = {
       }
     }
     try {
-      await stripe.coupons.update(req.query.couponid, updateInfo, req.stripeKey)
+      const coupon = await stripe.coupons.update(req.query.couponid, updateInfo, req.stripeKey)
       await dashboard.RedisList.remove('published:coupons', req.query.couponid)
       await dashboard.RedisList.add('unpublished:coupons', req.query.couponid)
       req.success = true
+      return coupon
     } catch (error) {
       throw new Error('unknown-error')
     }

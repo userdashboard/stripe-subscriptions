@@ -6,8 +6,8 @@ describe('/api/user/subscriptions/published-products-count', async () => {
   describe('PublishedProductsCount#GET', () => {
     it('should count published products', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createProduct(administrator, {published: true})
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-products-count`, 'GET')
       req.account = user.account

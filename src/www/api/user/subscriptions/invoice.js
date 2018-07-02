@@ -3,25 +3,25 @@ const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
-    if (!req.query || !req.query.invoiceid) {
-      throw new Error('invalid-invoiceid')
+    if (!req.query || !req.query.disputeid) {
+      throw new Error('invalid-disputeid')
     }
-    let invoice
+    let dispute
     try {
-      invoice = await stripe.invoices.retrieve(req.query.invoiceid, req.stripeKey)
+      dispute = await stripe.disputes.retrieve(req.query.disputeid, req.stripeKey)
     } catch (error) {
     }
-    if (!invoice) {
-      const exists = await dashboard.RedisList.exists(`invoices`, req.query.invoiceid)
+    if (!dispute) {
+      const exists = await dashboard.RedisList.exists(`disputes`, req.query.disputeid)
       if (exists) {
         throw new Error('invalid-account')
       }
-      throw new Error('invalid-invoiceid')
+      throw new Error('invalid-disputeid')
     }
-    if (invoice.customer !== req.customer.id) {
+    if (dispute.customer !== req.customer.id) {
       throw new Error('invalid-account')
     }
-    invoice.date = dashboard.Timestamp.date(invoice.date)
-    return invoice
+    dispute.date = dashboard.Timestamp.date(dispute.date)
+    return dispute
   }
 }

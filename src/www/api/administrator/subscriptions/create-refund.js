@@ -30,7 +30,7 @@ module.exports = {
       throw new Error('invalid-amount')
     }
   },
-  patch: async (req) => {
+  post: async (req) => {
     const refundInfo = {
       charge: req.query.chargeid,
       amount: req.body.amount,

@@ -2,18 +2,18 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe(`/api/user/subscriptions/set-invoice-paid`, () => {
-  describe('SetInvoicePaid#PATCH', () => {
-    it('should reject invalid invoiceid', async () => {
+describe(`/api/user/subscriptions/set-dispute-paid`, () => {
+  describe('SetdisputePaid#PATCH', () => {
+    it('should reject invalid disputeid', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=invalid`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=invalid`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        sourceid: user.customer.default_source
+        cardid: user.customer.default_source
       }
       let errorMessage
       try {
@@ -21,27 +21,30 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-invoiceid')
+      assert.equal(errorMessage, 'invalid-disputeid')
     })
 
-    it('should reject other account\'s invoice', async () => {
+    it('should reject other account\'s dispute', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
-      await TestHelper.createSubscription(user2, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user.dispute.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
       req.body = {
-        sourceid: user2.customer.default_source
+        cardid: user2.customer.default_source
       }
       let errorMessage
       try {
@@ -52,20 +55,24 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       assert.equal(errorMessage, 'invalid-account')
     })
 
-    it('should reject paid invoice', async () => {
+    it('should reject paid dispute', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user.dispute.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        sourceid: user.customer.default_source
+        cardid: user.customer.default_source
       }
       let errorMessage
       try {
@@ -73,75 +80,71 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-invoice')
+      assert.equal(errorMessage, 'invalid-dispute')
     })
 
-    it('should reject forgiven invoice', async () => {
+    it('should reject forgiven dispute', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 10000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 20000, 0)
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'PATCH')
-      req.account = user.account
-      req.session = user.session
-      req.customer = user.customer
-      await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(user)
-      await req.route.api.patch(req)
-      const req2 = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
-      req2.account = user.account
-      req2.session = user.session
-      req2.customer = user.customer
-      req2.body = {
-        sourceid: user.customer.default_source
-      }
-      let errorMessage
-      try {
-        await req2.route.api.patch(req2)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.equal(errorMessage, 'invalid-invoice')
-    })
-
-    it('should require valid source', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 10000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 20000, 0)
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      user.dispute = await TestHelper.forgivedispute(administrator, user.dispute.id)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user.dispute.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        sourceid: 'invalid'
+        cardid: user.customer.default_source
       }
-      await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(user)
       let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-sourceid')
+      assert.equal(errorMessage, 'invalid-dispute')
+    })
+
+    it('should reject invalid source', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user.dispute.id}`, 'PATCH')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      req.body = {
+        cardid: 'invalid'
+      }
+      let errorMessage
+      try {
+        await req.route.api.patch(req)
+      } catch (error) {
+        errorMessage = error.message
+      }
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should reject other account\'s source', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 10000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 20000, 0)
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -149,42 +152,44 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, plan1.id)
-      await TestHelper.changeSubscription(user2, plan2.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user2.invoice.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user2, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user2.dispute.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
       req.body = {
-        sourceid: user.customer.default_source
+        cardid: user.customer.default_source
       }
-      await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(user)
       let errorMessage
       try {
         await req.route.api.patch(req)
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-sourceid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
-    it('should pay invoice', async () => {
+    it('should pay dispute', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 10000, 0)
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true}, {}, 20000, 0)
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-dispute-paid?disputeid=${user.dispute.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        sourceid: user.customer.default_source
+        cardid: user.customer.default_source
       }
       await req.route.api.patch(req)
       req.session = await TestHelper.unlockSession(user)

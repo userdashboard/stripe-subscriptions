@@ -5,14 +5,14 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    let invoice
+    let dispute
     try {
-      invoice = await stripe.invoices.retrieveUpcoming(req.customer.id, req.query.subscriptionid, req.stripeKey)
+      dispute = await stripe.disputes.retrieveUpcoming(req.customer.id, req.query.subscriptionid, req.stripeKey)
     } catch (error) {
     }
-    if (!invoice) {
+    if (!dispute) {
       throw new Error('invalid-subscriptionid')
     }
-    return invoice
+    return dispute
   }
 }

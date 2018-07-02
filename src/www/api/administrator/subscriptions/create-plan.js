@@ -14,7 +14,6 @@ module.exports = {
       global.MAXIMUM_PLAN_LENGTH < req.body.planid.length) {
       throw new Error('invalid-planid-length')
     }
-    console.log(req.body)
     if (!req.body.productid) {
       throw new Error('invalid-productid')
     }
@@ -65,14 +64,14 @@ module.exports = {
     }
     if (req.body.trial_period_days) {
       try {
-        req.body.trial_period_days = parseInt(req.body.trial_period_days, 10)
-        if (req.body.trial_period_days !== 0 || (req.body.trial_period_days < 0 || req.body.trial_period_days > 90)) {
+        const trial_period_days = parseInt(req.body.trial_period_days, 10)
+        if (req.body.trial_period_days !== trial_period_days.toString()) {
+          throw new Error('invalid-trial_period_days')
+        }
+        if (trial_period_days < 0 || trial_period_days > 90) {
           throw new Error('invalid-trial_period_days')
         }
       } catch (s) {
-        throw new Error('invalid-trial_period_days')
-      }
-      if (req.body.trial_period_days < 0 || req.body.trial_period_days > 365) {
         throw new Error('invalid-trial_period_days')
       }
     }

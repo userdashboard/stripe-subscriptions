@@ -1,5 +1,4 @@
 const dashboard = require('@userappstore/dashboard')
-const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
@@ -9,7 +8,7 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-customer')
     }
-    const result = await dashboard.RedisList.count(`customer:invoices:${req.query.customerid}`)
-    return result
+    const total = await dashboard.RedisList.count(`customer:subscriptions:${req.query.customerid}`)
+    return total
   }
 }

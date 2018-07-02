@@ -20,7 +20,7 @@ describe('/administrator/subscriptions/product', () => {
 
     it('should bind product to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/product?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -34,7 +34,7 @@ describe('/administrator/subscriptions/product', () => {
   describe('Product#GET', () => {
     it('should have row for product', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/product?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

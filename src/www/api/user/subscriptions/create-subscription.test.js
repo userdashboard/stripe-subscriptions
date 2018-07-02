@@ -63,10 +63,28 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       assert.equal(errorMessage, 'invalid-plan')
     })
 
+    it('should allow customer without card on free plan', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 0})
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      await req.route.api.post(req)
+      req.session = await TestHelper.unlockSession(user)
+      const subscription = await req.route.api.post(req)
+      assert.notEqual(subscription, null)
+      assert.equal(subscription.object, 'subscription')
+      assert.equal(req.success, true)
+    })
+
     it('should reject customer without card', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${administrator.plan.id}`, 'POST')
@@ -79,7 +97,7 @@ describe(`/api/user/subscriptions/create-subscription`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-source')
+      assert.equal(errorMessage, 'invalid-cardid')
     })
 
     it('should create authorized subscription', async () => {

@@ -6,7 +6,7 @@ describe('/administrator/subscriptions/products', () => {
   describe('Products#BEFORE', () => {
     it('should bind products to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/products`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

@@ -52,11 +52,9 @@ describe('/api/user/subscriptions/published-plans', () => {
     it('should return plan list', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan1 = administrator.plan
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan3 = administrator.plan
+      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/published-plans`, 'GET')
       req.account = user.account

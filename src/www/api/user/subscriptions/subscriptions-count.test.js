@@ -7,12 +7,14 @@ describe('/api/user/subscriptions/subscriptions-count', async () => {
     it('should count published subscriptions', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan2.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscriptions-count?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session

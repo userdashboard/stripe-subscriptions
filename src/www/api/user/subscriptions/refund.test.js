@@ -23,16 +23,19 @@ describe('/api/user/subscriptions/refund', () => {
     it('should reject other account\'s refund', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.createRefund(user, user.subscription.id)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
+      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.waitForWebhooks(5)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      await TestHelper.createSubscription(user2, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
@@ -56,8 +59,11 @@ describe('/api/user/subscriptions/refund', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       await TestHelper.createRefund(administrator, user.charge)
+      await TestHelper.waitForWebhooks(5)
       const req = TestHelper.createRequest(`/api/user/subscriptions/refund?refundid=${administrator.refund.id}`, 'GET')
       req.account = user.account
       req.session = user.session

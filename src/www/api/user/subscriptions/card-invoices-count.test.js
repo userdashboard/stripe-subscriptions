@@ -2,9 +2,9 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/card-invoices-count', async () => {
-  describe('CardInvoicesCount#GET', () => {
-    it('should count all invoices on card', async () => {
+describe('/api/user/subscriptions/card-disputes-count', async () => {
+  describe('CarddisputesCount#GET', () => {
+    it('should count all disputes on card', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
@@ -15,7 +15,7 @@ describe('/api/user/subscriptions/card-invoices-count', async () => {
       await TestHelper.waitForWebhooks(2)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(4)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/card-invoices-count?cardid=${user.card.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/card-disputes-count?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

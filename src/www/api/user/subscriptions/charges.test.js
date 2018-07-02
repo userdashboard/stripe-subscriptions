@@ -18,7 +18,7 @@ describe('/api/user/subscriptions/charges', () => {
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
-      await TestHelper.createSubscription(user, plan3.id)
+      await TestHelper.changeSubscription(user, plan3.id)
       await TestHelper.waitForWebhooks(6)
       await TestHelper.changeSubscription(user, plan4.id)
       await TestHelper.waitForWebhooks(8)

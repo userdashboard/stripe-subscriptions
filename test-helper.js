@@ -18,7 +18,9 @@ module.exports.createRequest = (rawURL, method) => {
   return req
 }
 
+module.exports.cancelSubscription = cancelSubscription
 module.exports.changeSubscription = changeSubscription
+module.exports.changeSubscriptionWithoutPaying = changeSubscriptionWithoutPaying
 module.exports.createCard = createCard
 module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
@@ -31,6 +33,8 @@ module.exports.createRefund = createRefund
 module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
 module.exports.currentWebHookNumber = currentWebHookNumber
+module.exports.forgiveInvoice = forgiveInvoice
+module.exports.loadInvoice = loadInvoice
 module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
 beforeEach(setup)
@@ -60,8 +64,7 @@ async function createProduct (administrator, properties) {
   req.body = {
     name: `product${productNumber}-` + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
     statement_descriptor: `product${productNumber} description`,
-    unit_label: 'thing',
-    published: 'true'
+    unit_label: 'thing'
   }
   if (properties) {
     for (const property in properties) {
@@ -72,7 +75,7 @@ async function createProduct (administrator, properties) {
   req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
   let product = await req.route.api.post(req)
   if (properties && properties.unpublished) {
-    const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?couponid=${product.id}`, 'PATCH')
+    const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=${product.id}`, 'PATCH')
     req2.administratorSession = req2.session = administrator.session
     req2.administratorAccount = req2.account = administrator.account
     await req2.route.api.patch(req2)
@@ -162,7 +165,7 @@ async function createCoupon (administrator, properties) {
 }
 
 async function createRefund (administrator, charge) {
-  const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-refunded?chargeid=${charge.id}`, 'PATCH')
+  const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${charge.id}`, 'POST')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
   req.body = {
@@ -170,9 +173,9 @@ async function createRefund (administrator, charge) {
     amount: charge.amount,
     reason: 'requested_by_customer'
   }
-  await req.route.api.patch(req)
-  req.session = await TestHelper.unlockSession(administrator)
-  const refund = await req.route.api.patch(req)
+  await req.route.api.post(req)
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const refund = await req.route.api.post(req)
   administrator.refund = refund
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
   if (administrator.session.lock || administrator.session.unlocked) {
@@ -283,6 +286,31 @@ async function createSubscription (user, planid) {
   return user.subscription
 }
 
+async function loadInvoice (user, subscriptionid) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${subscriptionid}`, 'POST')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  const invoices = await req.route.api.get(req)
+  if (invoices && invoices.length) {
+    const newest = invoices[0]
+    user.invoice = newest
+  }
+}
+
+async function changeSubscriptionWithoutPaying (user, planid) {
+  // TODO: this needs to go through the API
+  const subscriptionInfo = {
+    items: [{
+      plan: planid
+    }]
+  }
+  const subscription = await stripe.subscriptions.update(user.subscription.id, subscriptionInfo, stripeKey)
+  user.subscription = subscription
+  user.invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
+  return user.subscription
+}
+
 async function changeSubscription (user, planid) {
   // TODO: this needs to go through the API
   const subscriptionInfo = {
@@ -296,6 +324,34 @@ async function changeSubscription (user, planid) {
   user.invoice = await stripe.invoices.pay(invoice.id, stripeKey)
   user.charge = await stripe.charges.retrieve(user.invoice.charge, stripeKey)
   return user.subscription
+}
+
+async function cancelSubscription (user) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'POST')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  req.body = {
+    refund: 'refund'
+  }
+  await req.route.api.patch(req)
+  req.session = await TestHelper.unlockSession(user)
+  const subscription = await req.route.api.patch(req)
+  user.subscription = subscription
+  const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
+  user.invoice = await stripe.invoices.pay(invoice.id, stripeKey)
+  user.charge = await stripe.charges.retrieve(user.invoice.charge, stripeKey)
+  return user.subscription
+}
+
+async function forgiveInvoice (administrator, invoiceid) {
+  const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${invoiceid}`, 'POST')
+  req.administratorSession = req.session = administrator.session
+  req.administratorAccount = req.account = administrator.account
+  await req.route.api.patch(req)
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const invoice = await req.route.api.patch(req)
+  return invoice
 }
 
 async function createNextInvoice (user, subscriptionid) {

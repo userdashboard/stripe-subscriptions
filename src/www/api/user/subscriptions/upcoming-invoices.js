@@ -12,14 +12,14 @@ module.exports = {
 
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
     const itemids = await dashboard.RedisList.list(`customer:subscriptions:${req.query.customerid}`, offset)
-    const invoices = []
-    for (const invoiceid of itemids) {
-      const invoice = await stripe.invoices.retrieveUpcoming(req.query.customerid, invoiceid, req.stripeKey)
-      invoices.push(invoice)
+    const disputes = []
+    for (const subscriptionid of itemids) {
+      const dispute = await stripe.disputes.retrieveUpcoming(req.query.customerid, subscriptionid, req.stripeKey)
+      disputes.push(dispute)
     }
-    if (!invoices.length) {
+    if (!disputes.length) {
       return null
     }
-    return invoices
+    return disputes
   }
 }

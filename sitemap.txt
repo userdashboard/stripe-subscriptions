@@ -193,6 +193,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/create-coupon                          LOCK                    POST            /src/www                                                   
 /api/administrator/subscriptions/create-plan                            LOCK                    POST            /src/www                                                   
 /api/administrator/subscriptions/create-product                         LOCK                    POST            /src/www                                                   
+/api/administrator/subscriptions/create-refund                          LOCK                    POST            /src/www                                                   
 /api/administrator/subscriptions/customer                                                       GET             /src/www                                                   
 /api/administrator/subscriptions/customer-cards                                                 GET             /src/www                                                   
 /api/administrator/subscriptions/customer-cards-count                                           GET             /src/www                                                   
@@ -254,7 +255,6 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/reset-customer-coupon                  LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/reset-subscription-coupon              LOCK                    DELETE          /src/www                                                   
 /api/administrator/subscriptions/set-charge-flagged                     LOCK                    PATCH           /src/www                                                   
-/api/administrator/subscriptions/set-charge-refunded                    LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-coupon-published                   LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-coupon-unpublished                 LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-invoice-forgiven                   LOCK                    PATCH           /src/www                                                   
@@ -326,6 +326,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/charges-count                                                           GET             /src/www                                                   
 /api/user/subscriptions/create-card                                     LOCK                    POST            /src/www                                                   
 /api/user/subscriptions/create-customer                                                         POST            /src/www                                                   
+/api/user/subscriptions/create-refund                                   LOCK                    POST            /src/www                                                   
 /api/user/subscriptions/create-subscription                             LOCK                    POST            /src/www                                                   
 /api/user/subscriptions/customer                                                                GET             /src/www                                                   
 /api/user/subscriptions/delete-card                                     LOCK                    DELETE          /src/www                                                   
@@ -334,13 +335,12 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/invoices                                                                GET             /src/www                                                   
 /api/user/subscriptions/invoices-count                                                          GET             /src/www                                                   
 /api/user/subscriptions/published-plan                        GUEST                             GET             /src/www                                                   
-/api/user/subscriptions/published-plans                                                         GET             /src/www                                                   
+/api/user/subscriptions/published-plans                       GUEST                             GET             /src/www                                                   
 /api/user/subscriptions/published-plans-count                                                   GET             /src/www                                                   
 /api/user/subscriptions/published-product                     GUEST                             GET             /src/www                                                   
 /api/user/subscriptions/published-products                                                      GET             /src/www                                                   
 /api/user/subscriptions/published-products-count                                                GET             /src/www                                                   
 /api/user/subscriptions/refund                                                                  GET             /src/www                                                   
-/api/user/subscriptions/set-charge-refunded                             LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-invoice-paid                                LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-subscription-plan                           LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/subscription                                                            GET             /src/www                                                   

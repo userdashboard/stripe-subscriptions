@@ -20,7 +20,7 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
 
     it('should bind product to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -34,7 +34,7 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
   describe('DeleteProduct#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -50,7 +50,7 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
 
     it('should present the product table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -67,7 +67,7 @@ describe(`/administrator/subscriptions/delete-product`, async () => {
   describe('DeleteProduct#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true}, {}, 1000, 0)
+      await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/administrator/subscriptions/delete-product?productid=${administrator.product.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

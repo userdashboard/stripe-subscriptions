@@ -23,8 +23,9 @@ module.exports = {
       coupon: null
     }
     try {
-      await stripe.customers.update(req.query.customerid, updateInfo, req.stripeKey)
+      const customer = await stripe.customers.update(req.query.customerid, updateInfo, req.stripeKey)
       req.success = true
+      return customer
     } catch (error) {
       throw new Error('unknown-error')
     }

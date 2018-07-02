@@ -7,8 +7,8 @@ describe('/api/administrator/subscriptions/published-coupons', () => {
     it('should limit published coupons to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)

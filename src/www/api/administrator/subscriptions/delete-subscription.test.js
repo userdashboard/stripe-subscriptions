@@ -27,7 +27,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
@@ -59,7 +58,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
@@ -79,7 +77,6 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account

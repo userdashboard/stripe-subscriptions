@@ -7,8 +7,8 @@ describe('/api/administrator/subscriptions/plans-count', async () => {
     it('should count plans', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       await TestHelper.createPlan(administrator, {productid: product.id})
       const req = TestHelper.createRequest('/api/administrator/subscriptions/plans-count', 'GET')
       req.administratorAccount = req.account = administrator.account

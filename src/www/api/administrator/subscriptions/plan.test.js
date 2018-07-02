@@ -7,7 +7,7 @@ describe('/api/administrator/subscriptions/plan', () => {
     it('should return plan data', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

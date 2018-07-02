@@ -7,9 +7,8 @@ describe('/api/administrator/subscriptions/product-subscriptions', () => {
     it('should limit subscriptions on product to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createProduct(administrator)
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

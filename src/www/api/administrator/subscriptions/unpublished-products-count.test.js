@@ -7,7 +7,6 @@ describe('/api/administrator/subscriptions/unpublished-products-count', async ()
     it('should count all unpublished products', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

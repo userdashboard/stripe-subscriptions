@@ -10,7 +10,7 @@ describe('/api/administrator/subscriptions/card-charges-count', async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCardc(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})

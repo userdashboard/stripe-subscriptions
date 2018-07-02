@@ -21,7 +21,7 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
     it('should reject paid invoice', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -69,7 +69,6 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
     it('should forgive invoice', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 10000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 20000, trial_period_days: 0})
       const user = await TestHelper.createUser()

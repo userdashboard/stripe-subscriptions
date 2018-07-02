@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/upcoming-dispute', () => {
-  describe('Upcomingdispute#GET', () => {
+describe('/api/user/subscriptions/upcoming-invoice', () => {
+  describe('Upcominginvoice#GET', () => {
     it('should reject invalid subscriptionid', async () => {
       const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-dispute?subscriptionid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=invalid`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -32,7 +32,7 @@ describe('/api/user/subscriptions/upcoming-dispute', () => {
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-dispute?subscriptionid=${user.subscription.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
@@ -45,7 +45,7 @@ describe('/api/user/subscriptions/upcoming-dispute', () => {
       assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
-    it('should return upcoming dispute for subscription', async () => {
+    it('should return upcoming invoice for subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amounts: 1000})
@@ -53,12 +53,12 @@ describe('/api/user/subscriptions/upcoming-dispute', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-dispute?subscriptionid=${user.subscription.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
-      const dispute = await req.route.api.get(req)
-      assert.equal(dispute.total, administrator.plan.amount)
+      const invoice = await req.route.api.get(req)
+      assert.equal(invoice.total, administrator.plan.amount)
     })
   })
 })

@@ -19,8 +19,7 @@ module.exports = {
       }
       throw new Error('invalid-chargeid')
     }
-    const dispute = await stripe.disputes.retrieve(charge.dispute, req.stripeKey)
-    if (dispute.customer !== req.customer.id) {
+    if (charge.customer !== req.customer.id) {
       throw new Error('invalid-account')
     }
     req.charge = charge

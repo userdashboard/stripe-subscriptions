@@ -10,14 +10,14 @@ module.exports = {
       throw new Error('invalid-customer')
     }
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`customer:disputes:${req.query.customerid}`, offset)
+    const itemids = await dashboard.RedisList.list(`customer:invoices:${req.query.customerid}`, offset)
     if (!itemids || !itemids.length) {
       return null
     }
     const items = []
-    for (const disputeid of itemids) {
-      const dispute = await stripe.disputes.retrieve(disputeid, req.stripeKey)
-      items.push(dispute)
+    for (const invoiceid of itemids) {
+      const invoice = await stripe.invoices.retrieve(invoiceid, req.stripeKey)
+      items.push(invoice)
     }
     return items
   }

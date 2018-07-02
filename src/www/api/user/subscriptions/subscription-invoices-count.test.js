@@ -2,9 +2,9 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/subscription-disputes-count', async () => {
-  describe('SubscriptiondisputesCount#GET', () => {
-    it('should count subscription\'s disputes', async () => {
+describe('/api/user/subscriptions/subscription-invoices-count', async () => {
+  describe('SubscriptioninvoicesCount#GET', () => {
+    it('should count subscription\'s invoices', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
@@ -22,7 +22,7 @@ describe('/api/user/subscriptions/subscription-disputes-count', async () => {
       await TestHelper.waitForWebhooks(6)
       await TestHelper.changeSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(8)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-disputes-count?subscriptionid=${user.subscription.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices-count?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

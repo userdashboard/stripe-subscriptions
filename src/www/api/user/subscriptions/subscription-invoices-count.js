@@ -1,12 +1,11 @@
 const dashboard = require('@userappstore/dashboard')
-const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    const result = await dashboard.RedisList.count(`subscription:disputes:${req.query.subscriptionid}`)
+    const result = await dashboard.RedisList.count(`subscription:invoices:${req.query.subscriptionid}`)
     return result
   }
 }

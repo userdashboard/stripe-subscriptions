@@ -12,10 +12,12 @@ describe('/api/administrator/subscriptions/invoices-count', async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user2, administrator.plan.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest('/api/administrator/subscriptions/invoices-count', 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

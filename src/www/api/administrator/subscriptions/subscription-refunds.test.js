@@ -13,13 +13,16 @@ describe('/api/administrator/subscriptions/subscription-refunds', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const refund1 = await TestHelper.createRefund(administrator, user.charge)
+      await TestHelper.waitForWebhooks(3)
       await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(5)
       const refund2 = await TestHelper.createRefund(administrator, user.charge)
+      await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscription-refunds?subscriptionid=${user.subscription.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      req.product = administrator.product
       const refunds = await req.route.api.get(req)
       assert.equal(refunds.length, global.PAGE_SIZE)
       assert.equal(refunds[0].id, refund2.id)

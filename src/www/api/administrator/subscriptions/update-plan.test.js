@@ -48,8 +48,7 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true})
-      await TestHelper.createProduct(administrator, {published: true})
-      const newProduct = administrator.product
+      const newProduct = await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -69,8 +68,7 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createProduct(administrator, {published: true, unpublished: true})
-      const newProduct = administrator.product
+      const newProduct = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -90,8 +88,7 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createProduct(administrator, {})
-      const newProduct = administrator.product
+      const newProduct = await TestHelper.createProduct(administrator, {})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -153,8 +150,7 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
     it('should update plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPlan(administrator)
-      await TestHelper.createProduct(administrator, {published: true})
-      const newProduct = administrator.product
+      const newProduct = await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

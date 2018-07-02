@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/coupons', () => {
   describe('Coupons#GET', () => {
-    it('should return coupon list', async () => {
+    it('should limit coupons to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const coupon1 = administrator.coupon

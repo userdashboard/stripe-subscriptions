@@ -14,7 +14,6 @@ describe('/api/administrator/subscriptions/unpublished-products', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublished-products`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      req.product = administrator.product
       const products = await req.route.api.get(req)
       assert.equal(products.length, global.PAGE_SIZE)
       assert.equal(products[0].id, product2.id)

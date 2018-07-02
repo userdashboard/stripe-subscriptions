@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/charges', () => {
   describe('Charges#GET', () => {
-    it('should return charge list', async () => {
+    it('should limit charges to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
@@ -15,8 +15,10 @@ describe('/api/administrator/subscriptions/charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const invoice1 = user.invoice
       await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const invoice2 = user.invoice
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account

@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper')
+const TestHelper = require('../../../../../test-helper')
 
 describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
   describe('DeleteCustomerDiscount#DELETE', () => {
     it('should reject invalid customerid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=invalid`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-customer-discount?customerid=invalid`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -22,7 +22,7 @@ describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
       const administrator = await TestHelper.createAdministrator()
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=${user.customer.id}`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-customer-discount?customerid=${user.customer.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -40,7 +40,7 @@ describe(`/api/administrator/subscriptions/delete-customer-discount`, () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCustomerDiscount(user, administrator.coupon.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-customer-discount?customerid=${user.customer.id}`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-customer-discount?customerid=${user.customer.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.delete(req)

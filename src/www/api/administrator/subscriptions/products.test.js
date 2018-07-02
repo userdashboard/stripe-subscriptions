@@ -4,14 +4,11 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/products', () => {
   describe('Products#GET', () => {
-    it('should return product list', async () => {
+    it('should limit products to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createProduct(administrator, {published: true})
-      const product1 = administrator.product
-      await TestHelper.createProduct(administrator, {published: true, unpublished: true})
-      const product2 = administrator.product
-      await TestHelper.createProduct(administrator, {published: true})
-      const product3 = administrator.product
+      const product1 = await TestHelper.createProduct(administrator, {published: true})
+      const product2 = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
+      const product3 = await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/products`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

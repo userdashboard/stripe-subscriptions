@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/payouts`, () => {
   describe('Payouts#GET', () => {
-    it('should return all payouts list', async () => {
+    it('should return limit payouts to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout1 = await TestHelper.createPayout()
       const payout2 = await TestHelper.createPayout()

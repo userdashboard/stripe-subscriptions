@@ -1,12 +1,12 @@
 /* eslint-env mocha */
 const assert = require('assert')
-const TestHelper = require('../../../../test-helper')
+const TestHelper = require('../../../../../test-helper')
 
 describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => {
   describe('DeleteCustomerDiscount#DELETE', () => {
     it('should reject invalid subscriptionid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription-discount?subscriptionid=invalid`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=invalid`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -26,7 +26,8 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
+      await TestHelper.waitForWebhooks(2)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -47,8 +48,10 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.createSubscriptionDiscount(user, administrator.coupon.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
+      await TestHelper.waitForWebhooks(4)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.subscription = administrator.subscription

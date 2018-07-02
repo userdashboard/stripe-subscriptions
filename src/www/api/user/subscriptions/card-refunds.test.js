@@ -30,7 +30,7 @@ describe('/api/user/subscriptions/card-refunds', () => {
       req.session = user.session
       req.customer = user.customer
       const refunds = await req.route.api.get(req)
-      assert.equal(refunds.length, global.PAGE_SIZE)
+      assert.equal(refunds.length, 2)
       assert.equal(refunds[0].id, refund2.id)
       assert.equal(refunds[1].id, refund1.id)
     })

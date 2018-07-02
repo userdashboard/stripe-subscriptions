@@ -22,7 +22,7 @@ describe('/api/user/subscriptions/card-charges', () => {
       req.session = user.session
       req.customer = user.customer
       const chargesNow = await req.route.api.get(req)
-      assert.equal(chargesNow.length, global.PAGE_SIZE)
+      assert.equal(chargesNow.length, 2)
     })
 
     it('should enforce page size', async () => {

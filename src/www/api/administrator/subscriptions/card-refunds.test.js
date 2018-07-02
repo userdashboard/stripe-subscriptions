@@ -15,8 +15,10 @@ describe('/api/administrator/subscriptions/card-refunds', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const refund1 = user.refund
       await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const refund2 = user.refund
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/card-refunds?cardid=${user.card.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account

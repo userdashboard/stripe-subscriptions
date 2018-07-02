@@ -6,13 +6,12 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
   describe('UpdateSubscriptionCoupon#PATCH', () => {
     it('should reject invalid subscriptionid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const newCoupon = administrator.coupon
+      const coupon = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-subscription-coupon?subscriptionid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
-        couponid: newCoupon.id
+        couponid: coupon.id
       }
       let errorMessage
       try {
@@ -31,6 +30,7 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -50,17 +50,17 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const coupon = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const newCoupon = administrator.coupon
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
-        couponid: newCoupon.id
+        couponid: coupon.id
       }
       let errorMessage
       try {
@@ -75,18 +75,18 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const coupon = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const newCoupon = administrator.coupon
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.subscription = administrator.subscription
       req.body = {
-        couponid: newCoupon.id
+        couponid: coupon.id
       }
       await req.route.api.patch(req)
       req.session = await TestHelper.unlockSession(administrator)

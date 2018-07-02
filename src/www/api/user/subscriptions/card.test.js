@@ -36,7 +36,7 @@ describe('/api/user/subscriptions/card', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-cardid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should return card data', async () => {

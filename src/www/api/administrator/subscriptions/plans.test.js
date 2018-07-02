@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/plans', () => {
   describe('Plans#GET', () => {
-    it('should return plan list', async () => {
+    it('should limit plans to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true})

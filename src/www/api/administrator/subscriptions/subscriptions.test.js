@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/subscriptions', () => {
   describe('Subscriptions#GET', () => {
-    it('should return subscription list', async () => {
+    it('should limit subscriptions to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
@@ -14,10 +14,10 @@ describe('/api/administrator/subscriptions/subscriptions', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, plan1.id)
-      const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, plan2.id)
-      const subscription2 = user.subscription
+      const subscription1 = await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscriptions`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

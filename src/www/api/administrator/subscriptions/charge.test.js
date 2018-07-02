@@ -26,6 +26,7 @@ describe('/api/administrator/subscriptions/charge', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/customers', () => {
   describe('Customers#GET', () => {
-    it('should return customer list', async () => {
+    it('should limit customers to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const user1 = await TestHelper.createUser()
       await TestHelper.createCustomer(user1)

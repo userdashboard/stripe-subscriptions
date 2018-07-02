@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/set-invoice-paid`, () => {
-  describe('SetinvoicePaid#PATCH', () => {
+  describe('SetInvoicePaid#PATCH', () => {
     it('should reject invalid invoiceid', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)

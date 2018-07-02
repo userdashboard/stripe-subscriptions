@@ -85,7 +85,6 @@ describe(`/api/user/subscriptions/set-subscription-plan`, () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-plan?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session

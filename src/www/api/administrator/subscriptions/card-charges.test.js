@@ -15,6 +15,7 @@ describe('/api/administrator/subscriptions/card-charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const invoice1 = user.invoice
       await TestHelper.createSubscription(user, plan2.id)
       const invoice2 = user.invoice

@@ -31,12 +31,6 @@ describe('/api/user/subscriptions/charge', () => {
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      await TestHelper.createSubscription(user2, plan2.id)
-      await TestHelper.waitForWebhooks(6)
-      await TestHelper.createSubscription(user2, plan1.id)
-      await TestHelper.waitForWebhooks(8)
       const req = TestHelper.createRequest(`/api/user/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
@@ -59,6 +53,7 @@ describe('/api/user/subscriptions/charge', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')

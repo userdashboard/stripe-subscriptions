@@ -50,12 +50,12 @@ module.exports = {
         await dashboard.RedisList.add(`plan:charges:${planid}`, charge.id)
         await dashboard.RedisList.add(`product:charges:${productid}`, charge.id)
         await dashboard.RedisList.add(`subscription:charges:${subscriptionid}`, charge.id)
-
+        console.log('indexing', productid, planid, cardid)
+        await dashboard.RedisList.add(`product:cards:${productid}`, cardid)
+        await dashboard.RedisList.add(`plan:cards:${planid}`, cardid)
         await dashboard.RedisList.add(`card:charges:${cardid}`, charge.id)
         await dashboard.RedisList.add(`card:invoices:${cardid}`, invoice.id)
         await dashboard.RedisList.add(`card:subscriptions:${cardid}`, subscriptionid)
-        await dashboard.RedisList.add(`card:products:${cardid}`, productid)
-        await dashboard.RedisList.add(`card:plans:${cardid}`, planid)
         break
       case 'charge.refunded':
         charge = stripeEvent.data.object
@@ -89,6 +89,8 @@ module.exports = {
         await dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
         break
     }
-    await global.redisClient.incrbyAsync('webhookNumber', 1)
+    if (process.env.NODE_ENV !== 'production') {
+      await global.redisClient.incrbyAsync('webhookNumber', 1)
+    }
   }
 }

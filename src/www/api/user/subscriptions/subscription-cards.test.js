@@ -70,7 +70,7 @@ describe('/api/user/subscriptions/subscription-cards', () => {
         await TestHelper.createCard(user)
         await TestHelper.changeSubscription(user, newPlan.id)
         await TestHelper.waitForWebhooks(2 * (i + 1))
-        cards.ushift(user.card)
+        cards.unshift(user.card)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-cards?subscriptionid=${user.subscription.id}&offset=${offset}`, 'GET')
       req.account = user.account

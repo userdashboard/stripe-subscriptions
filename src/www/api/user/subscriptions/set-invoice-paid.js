@@ -53,7 +53,6 @@ module.exports = {
       if (error.message.indexOf(`Customer ${req.customer.id} does not have a linked source`) === 0) {
         throw new Error('invalid-cardid')
       }
-      console.log(error)
       throw new Error('unknown-error')
     }
   }

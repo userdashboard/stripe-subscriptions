@@ -311,8 +311,6 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/card                                                                    GET             /src/www                                                   
 /api/user/subscriptions/card-charges                                                            GET             /src/www                                                   
 /api/user/subscriptions/card-charges-count                                                      GET             /src/www                                                   
-/api/user/subscriptions/card-disputes                                                           GET             /src/www                                                   
-/api/user/subscriptions/card-disputes-count                                                     GET             /src/www                                                   
 /api/user/subscriptions/card-invoices                                                           GET             /src/www                                                   
 /api/user/subscriptions/card-invoices-count                                                     GET             /src/www                                                   
 /api/user/subscriptions/card-refunds                                                            GET             /src/www                                                   
@@ -334,6 +332,22 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/invoice                                                                 GET             /src/www                                                   
 /api/user/subscriptions/invoices                                                                GET             /src/www                                                   
 /api/user/subscriptions/invoices-count                                                          GET             /src/www                                                   
+/api/user/subscriptions/plan-cards                                                              GET             /src/www                                                   
+/api/user/subscriptions/plan-cards-count                                                        GET             /src/www                                                   
+/api/user/subscriptions/plan-charges                                                            GET             /src/www                                                   
+/api/user/subscriptions/plan-charges-count                                                      GET             /src/www                                                   
+/api/user/subscriptions/plan-invoices                                                           GET             /src/www                                                   
+/api/user/subscriptions/plan-invoices-count                                                     GET             /src/www                                                   
+/api/user/subscriptions/plan-subscriptions                                                      GET             /src/www                                                   
+/api/user/subscriptions/plan-subscriptions-count                                                GET             /src/www                                                   
+/api/user/subscriptions/product-cards                                                           GET             /src/www                                                   
+/api/user/subscriptions/product-cards-count                                                     GET             /src/www                                                   
+/api/user/subscriptions/product-charges                                                         GET             /src/www                                                   
+/api/user/subscriptions/product-charges-count                                                   GET             /src/www                                                   
+/api/user/subscriptions/product-invoices                                                        GET             /src/www                                                   
+/api/user/subscriptions/product-invoices-count                                                  GET             /src/www                                                   
+/api/user/subscriptions/product-subscriptions                                                   GET             /src/www                                                   
+/api/user/subscriptions/product-subscriptions-count                                             GET             /src/www                                                   
 /api/user/subscriptions/published-plan                        GUEST                             GET             /src/www                                                   
 /api/user/subscriptions/published-plans                       GUEST                             GET             /src/www                                                   
 /api/user/subscriptions/published-plans-count                                                   GET             /src/www                                                   
@@ -341,9 +355,15 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/published-products                                                      GET             /src/www                                                   
 /api/user/subscriptions/published-products-count                                                GET             /src/www                                                   
 /api/user/subscriptions/refund                                                                  GET             /src/www                                                   
+/api/user/subscriptions/refunds                               GUEST                             GET             /src/www                                                   
+/api/user/subscriptions/refunds.count                                                           GET             /src/www                                                   
+/api/user/subscriptions/set-customer-coupon                             LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-invoice-paid                                LOCK                    PATCH           /src/www                                                   
+/api/user/subscriptions/set-subscription-coupon                         LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-subscription-plan                           LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/subscription                                                            GET             /src/www                                                   
+/api/user/subscriptions/subscription-cards                                                      GET             /src/www                                                   
+/api/user/subscriptions/subscription-cards-count                                                GET             /src/www                                                   
 /api/user/subscriptions/subscription-charges                                                    GET             /src/www                                                   
 /api/user/subscriptions/subscription-charges-count                                              GET             /src/www                                                   
 /api/user/subscriptions/subscription-invoices                                                   GET             /src/www                                                   

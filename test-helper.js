@@ -295,6 +295,7 @@ async function loadInvoice (user, subscriptionid) {
   if (invoices && invoices.length) {
     const newest = invoices[0]
     user.invoice = newest
+    return user.invoice
   }
 }
 

@@ -13,7 +13,7 @@ module.exports = {
       }
       throw new Error('invalid-cardid')
     }
-    const count = await dashboard.RedisList.count(`card:disputes:${req.query.cardid}`)
+    const count = await dashboard.RedisList.count(`card:invoices:${req.query.cardid}`)
     return count
   }
 }

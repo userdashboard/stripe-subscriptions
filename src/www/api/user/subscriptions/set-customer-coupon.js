@@ -10,16 +10,19 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-account')
     }
+    if (req.customer.discount) {
+      throw new Error('invalid-account')
+    }
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.query.couponid)
+    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }
     let coupon
     try {
-      coupon = await stripe.coupons.retrieve(req.query.couponid, req.stripeKey)
+      coupon = await stripe.coupons.retrieve(req.body.couponid, req.stripeKey)
     } catch (error) {
     }
     if (!coupon) {
@@ -31,7 +34,7 @@ module.exports = {
   },
   patch: async (req) => {
     const customerInfo = {
-      coupon: req.query.couponid
+      coupon: req.body.couponid
     }
     try {
       const customer = await stripe.customers.update(req.query.customerid, customerInfo, req.stripeKey)

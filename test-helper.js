@@ -34,7 +34,9 @@ module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
 module.exports.currentWebHookNumber = currentWebHookNumber
 module.exports.forgiveInvoice = forgiveInvoice
+module.exports.loadCharge = loadCharge
 module.exports.loadInvoice = loadInvoice
+module.exports.payInvoice = payInvoice
 module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
 beforeEach(setup)
@@ -138,11 +140,10 @@ async function createCoupon (administrator, properties) {
     percent_off: '25',
     duration: 'repeating',
     duration_in_months: '3'
-
   }
   if (properties) {
     for (const property in properties) {
-      req.body[properties] = properties[property].toString()
+      req.body[property] = properties[property].toString()
     }
   }
   await req.route.api.post(req)
@@ -192,14 +193,13 @@ async function createSubscriptionDiscount (administrator, subscription, coupon) 
     couponid: coupon.id
   }
   await req.route.api.patch(req)
-  req.session = await TestHelper.unlockSession(administrator)
-  const discount = await req.route.api.patch(req)
-  administrator.discount = discount
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const subscriptionNow = await req.route.api.patch(req)
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return administrator.discount
+  return subscriptionNow
 }
 
 async function createCustomerDiscount (administrator, customer, coupon) {
@@ -210,14 +210,13 @@ async function createCustomerDiscount (administrator, customer, coupon) {
     couponid: coupon.id
   }
   await req.route.api.patch(req)
-  req.session = await TestHelper.unlockSession(administrator)
-  const discount = await req.route.api.patch(req)
-  administrator.discount = discount
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const customerNow = await req.route.api.patch(req)
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  return administrator.discount
+  return customerNow
 }
 
 async function createCustomer (user) {
@@ -251,11 +250,12 @@ async function createCard (user, properties) {
     address_city: 'Test address city',
     address_state: 'California',
     address_zip: '90120',
-    address_country: 'US'
+    address_country: 'US',
+    default: 'true'
   }
   if (properties) {
     for (const property in properties) {
-      req.body[properties] = properties[property].toString()
+      req.body[property] = properties[property].toString()
     }
   }
   await req.route.api.post(req)
@@ -296,6 +296,19 @@ async function loadInvoice (user, subscriptionid) {
     const newest = invoices[0]
     user.invoice = newest
     return user.invoice
+  }
+}
+
+async function loadCharge (user, subscriptionid) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges?subscriptionid=${subscriptionid}`, 'POST')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  const charges = await req.route.api.get(req)
+  if (charges && charges.length) {
+    const newest = charges[0]
+    user.charge = newest
+    return user.charge
   }
 }
 
@@ -351,6 +364,21 @@ async function forgiveInvoice (administrator, invoiceid) {
   req.administratorAccount = req.account = administrator.account
   await req.route.api.patch(req)
   req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const invoice = await req.route.api.patch(req)
+  return invoice
+}
+
+async function payInvoice (user, invoiceid) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'POST')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  req.body = {
+    cardid: user.card.id
+  }
+  console.log(req.body, user)
+  await req.route.api.patch(req)
+  req.session = await TestHelper.unlockSession(user)
   const invoice = await req.route.api.patch(req)
   return invoice
 }

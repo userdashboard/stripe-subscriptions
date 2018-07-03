@@ -257,11 +257,13 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/set-charge-flagged                     LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-coupon-published                   LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-coupon-unpublished                 LOCK                    PATCH           /src/www                                                   
+/api/administrator/subscriptions/set-customer-coupon                    LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-invoice-forgiven                   LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-plan-published                     LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-plan-unpublished                   LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-product-published                  LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/set-product-unpublished                LOCK                    PATCH           /src/www                                                   
+/api/administrator/subscriptions/set-subscription-coupon                LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/subscription                                                   GET             /src/www                                                   
 /api/administrator/subscriptions/subscription-charges                                           GET             /src/www                                                   
 /api/administrator/subscriptions/subscription-charges-count                                     GET             /src/www                                                   
@@ -356,7 +358,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/published-products-count                                                GET             /src/www                                                   
 /api/user/subscriptions/refund                                                                  GET             /src/www                                                   
 /api/user/subscriptions/refunds                               GUEST                             GET             /src/www                                                   
-/api/user/subscriptions/refunds.count                                                           GET             /src/www                                                   
+/api/user/subscriptions/refunds-count                                                           GET             /src/www                                                   
 /api/user/subscriptions/set-customer-coupon                             LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-invoice-paid                                LOCK                    PATCH           /src/www                                                   
 /api/user/subscriptions/set-subscription-coupon                         LOCK                    PATCH           /src/www                                                   

@@ -6,13 +6,13 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-cardid')
     }
-    const cardExists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
-    const ownCardExists = cardExists ? await dashboard.RedisList.exists(`customer:cards:${req.customer.id}`, req.query.cardid) : false
-    if (!ownCardExists) {
-      if (cardExists) {
-        throw new Error('invalid-account')
-      }
+    const exists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
+    if (!exists) {
       throw new Error('invalid-cardid')
+    }
+    const owned = await dashboard.RedisList.exists(`customer:cards:${req.customer.id}`, req.query.cardid)
+    if (!owned) {
+      throw new Error('invalid-account')
     }
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
     const itemids = await dashboard.RedisList.list(`card:subscriptions:${req.query.cardid}`, offset)

@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/card-invoices', () => {
-  describe('Cardinvoices#GET', () => {
+  describe('CardInvoices#GET', () => {
     it('should limit invoices on card to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})

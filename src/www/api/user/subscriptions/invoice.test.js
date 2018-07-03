@@ -4,7 +4,7 @@ const dashboard = require('@userappstore/dashboard')
 const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/invoice', () => {
-  describe('invoice#GET', () => {
+  describe('Invoice#GET', () => {
     it('should reject invalid invoice', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=invalid`, 'GET')

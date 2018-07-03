@@ -6,6 +6,14 @@ module.exports = {
     if (!req.query || !req.query.chargeid) {
       throw new Error('invalid-chargeid')
     }
+    const exists = await dashboard.RedisList.exists(`charges`, req.query.chargeid)
+    if (!exists) {
+      throw new Error('invalid-chargeid')
+    }
+    const owned = await dashboard.RedisList.exists(`customer:charges:${req.customer.id}`, req.query.chargeid)
+    if (!owned) {
+      throw new Error('invalid-account')
+    }
     let charge
     try {
       charge = await stripe.charges.retrieve(req.query.chargeid, req.stripeKey)

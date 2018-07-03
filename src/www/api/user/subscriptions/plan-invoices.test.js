@@ -11,14 +11,16 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user)
+      await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
-      const invoice2 = await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(4)
-      const invoice3 = await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user)
+      const invoice2 = await TestHelper.loadInvoice(user, user.subscription.id)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(6)
+      const invoice3 = await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-invoices?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -58,10 +60,11 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       await TestHelper.createCustomer(user)
       const invoices = [ ]
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
-        const invoice = await TestHelper.createCard(user)
+        await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        invoices.unshift(invoice)
         await TestHelper.waitForWebhooks(2 * (i + 1))
+        const invoice = await TestHelper.loadInvoice(user, user.subscription.id)
+        invoices.unshift(invoice)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-invoices?planid=${administrator.plan.id}&offset=${offset}`, 'GET')
       req.account = user.account

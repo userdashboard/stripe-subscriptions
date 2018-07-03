@@ -1,9 +1,18 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
   get: async (req) => {
     if (!req.query || !req.query.refundid) {
       throw new Error('invalid-refundid')
+    }
+    const exists = await dashboard.RedisList.exists(`refunds`, req.query.refundid)
+    if (!exists) {
+      throw new Error('invalid-refundid')
+    }
+    const owned = await dashboard.RedisList.exists(`customer:refunds:${req.customer.id}`, req.query.refundid)
+    if (!owned) {
+      throw new Error('invalid-account')
     }
     let refund
     try {

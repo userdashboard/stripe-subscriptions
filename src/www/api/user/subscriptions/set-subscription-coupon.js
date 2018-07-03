@@ -7,24 +7,35 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
+    const exists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+    if (!exists) {
+      throw new Error('invalid-subscriptionid')
+    }
+    const owned = await dashboard.RedisList.exists(`customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
+    if (!owned) {
+      throw new Error('invalid-account')
+    }
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.query.couponid)
+    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }
-    const subscriptionExists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
-    const ownSubscriptionExists = await dashboard.RedisList.exists(`customer:subscriptions:${req.customer.id}`)
-    if (!ownSubscriptionExists) {
-      if (subscriptionExists) {
-        throw new Error('invalid-account')
-      }
+    let subscription
+    try {
+      subscription = await stripe.subscriptions.retrieve(req.query.subscriptionid, req.stripeKey)
+    } catch (error) {
+    }
+    if (!subscription) {
       throw new Error('invalid-subscriptionid')
+    }
+    if (subscription.discount) {
+      throw new Error('invalid-subscription')
     }
     let coupon
     try {
-      coupon = await stripe.coupons.retrieve(req.query.couponid, req.stripeKey)
+      coupon = await stripe.coupons.retrieve(req.body.couponid, req.stripeKey)
     } catch (error) {
     }
     if (!coupon) {
@@ -36,10 +47,10 @@ module.exports = {
   },
   patch: async (req) => {
     const subscriptionInfo = {
-      coupon: req.query.couponid
+      coupon: req.body.couponid
     }
     try {
-      const subscription = await stripe.subscriptions.update(req.query.customerid, subscriptionInfo, req.stripeKey)
+      const subscription = await stripe.subscriptions.update(req.query.subscriptionid, subscriptionInfo, req.stripeKey)
       req.success = true
       return subscription
     } catch (error) {

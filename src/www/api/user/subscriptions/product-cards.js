@@ -13,7 +13,7 @@ module.exports = {
     }
     const cards = []
     for (const cardid of cardids) {
-      const card = await stripe.products.retrieveCard(req.customer.id, cardid, req.stripeKey)
+      const card = await stripe.customers.retrieveCard(req.customer.id, cardid, req.stripeKey)
       cards.push(card)
     }
     return cards

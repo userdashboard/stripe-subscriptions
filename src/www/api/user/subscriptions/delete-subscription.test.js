@@ -32,9 +32,6 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      await TestHelper.createSubscription(user2, administrator.plan.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.account = user2.account
       req.session = user2.session
@@ -80,7 +77,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-subscription')
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
     it('should delete subscription at period end', async () => {
@@ -101,13 +98,7 @@ describe(`/api/user/subscriptions/delete-subscription`, () => {
       }
       await req.route.api.delete(req)
       req.session = await TestHelper.unlockSession(user)
-      await req.route.api.delete(req)
-      // now check the subscription is deleted and on-going
-      const req2 = TestHelper.createRequest(`/api/user/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
-      req2.account = req.account
-      req2.session = req.session
-      req2.customer = req.customer
-      const subscription = await req2.route.api.get(req2)
+      const subscription = await req.route.api.delete(req)
       assert.equal(subscription.cancel_at_period_end, true)
     })
 

@@ -4,7 +4,9 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
   describe('SetSubscriptionCoupon#PATCH', () => {
-    it('should reject invalid couponid', async () => {
+    it('should reject invalid subscriptionid', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -13,7 +15,7 @@ describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        couponid: 'invalid'
+        couponid: administrator.coupon.id
       }
       let errorMessage
       try {
@@ -21,29 +23,25 @@ describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-couponid')
+      assert.equal(errorMessage, 'invalid-subscriptionid')
     })
 
-    it('should reject account with coupon', async () => {
+    it('should reject subscription with coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
+      const coupon1 = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25})
+      const coupon2 = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25})
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const coupon1 = await TestHelper.createCoupon(administrator)
-      const coupon2 = await TestHelper.createCoupon(administrator)
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscriptionDiscount(user, coupon1.id)
-      await TestHelper.waitForWebhooks(3)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?subscrpitionid=${user.subscription.id}`, 'GET')
-      req.account = user2.account
-      req.session = user2.session
-      req.customer = user2.customer
+      await TestHelper.createSubscriptionDiscount(administrator, user.subscription, coupon1)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?subscriptionid=${user.subscription.id}`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
       req.body = {
         couponid: coupon2.id
       }
@@ -53,23 +51,20 @@ describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-account')
+      assert.equal(errorMessage, 'invalid-subscription')
     })
 
     it('should apply coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
+      const coupon = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25})
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const coupon = await TestHelper.createCoupon(administrator)
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan.id)
       await TestHelper.waitForWebhooks(2)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?couponidsubscrpitionid=${user.subscription.id}`, 'PATCH')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

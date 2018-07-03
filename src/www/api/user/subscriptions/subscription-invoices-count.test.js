@@ -3,7 +3,7 @@ const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/user/subscriptions/subscription-invoices-count', async () => {
-  describe('SubscriptioninvoicesCount#GET', () => {
+  describe('SubscriptionInvoicesCount#GET', () => {
     it('should count subscription\'s invoices', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})

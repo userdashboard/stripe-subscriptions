@@ -7,17 +7,19 @@ describe('/api/user/subscriptions/product-charges-count', async () => {
     it('should count all charges on product', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
+      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 30000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan3.id)
       await TestHelper.waitForWebhooks(6)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/product-charges-count?planid=${administrator.plan.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/product-charges-count?productid=${administrator.product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

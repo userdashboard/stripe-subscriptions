@@ -1,3 +1,4 @@
+const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 
 module.exports = {
@@ -6,6 +7,14 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
+    const exists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+    if (!exists) {
+      throw new Error('invalid-subscriptionid')
+    }
+    const owned = await dashboard.RedisList.exists(`customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
+    if (!owned) {
+      throw new Error('invalid-account')
+    }
     if (!req.body || !req.body.planid) {
       throw new Error('invalid-planid')
     }
@@ -13,9 +22,6 @@ module.exports = {
     try {
       subscription = await stripe.subscriptions.retrieve(req.query.subscriptionid, req.stripeKey)
     } catch (error) {
-    }
-    if (!subscription) {
-      throw new Error('invalid-subscriptionid')
     }
     if (subscription.customer !== req.customer.id) {
       throw new Error('invalid-account')

@@ -35,7 +35,7 @@ describe(`/api/user/subscriptions/delete-card`, () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-cardid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should delete card', async () => {

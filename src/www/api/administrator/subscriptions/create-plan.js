@@ -64,11 +64,11 @@ module.exports = {
     }
     if (req.body.trial_period_days) {
       try {
-        const trial_period_days = parseInt(req.body.trial_period_days, 10)
-        if (req.body.trial_period_days !== trial_period_days.toString()) {
+        const trialPeriodDays = parseInt(req.body.trial_period_days, 10)
+        if (trialPeriodDays < 0 || trialPeriodDays > 90) {
           throw new Error('invalid-trial_period_days')
         }
-        if (trial_period_days < 0 || trial_period_days > 90) {
+        if (req.body.trial_period_days !== trialPeriodDays.toString()) {
           throw new Error('invalid-trial_period_days')
         }
       } catch (s) {

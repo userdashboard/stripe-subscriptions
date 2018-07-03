@@ -32,7 +32,7 @@ describe(`/api/user/subscriptions/create-refund`, () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForWebhooks(4)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${user.charge.id}`, 'GET')
@@ -62,7 +62,7 @@ describe(`/api/user/subscriptions/create-refund`, () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
       req.account = user.account
       req.session = user.session

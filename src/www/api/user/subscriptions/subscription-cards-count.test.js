@@ -21,7 +21,7 @@ describe('/api/user/subscriptions/subscription-cards-count', async () => {
       await TestHelper.createCard(user)
       await TestHelper.changeSubscription(user, plan3.id)
       await TestHelper.waitForWebhooks(6)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-cards-count?productid=${product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-cards-count?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

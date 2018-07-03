@@ -51,13 +51,18 @@ describe('/api/user/subscriptions/refunds', () => {
       await TestHelper.createCard(user)
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, plan1.id)
-        await TestHelper.waitForWebhooks(0 + ((i + 1) * 2))
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
         await TestHelper.changeSubscription(user, plan2.id)
-        await TestHelper.waitForWebhooks(2 + ((i + 1) * 2))
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.loadCharge(user, user.subscription.id)
         await TestHelper.createRefund(user, user.charge)
-        await TestHelper.waitForWebhooks(4 + ((i + 1) * 2))
+        webhook += 1
+        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/refunds?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
@@ -77,13 +82,18 @@ describe('/api/user/subscriptions/refunds', () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const refunds = []
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, plan1.id)
-        await TestHelper.waitForWebhooks(0 + ((i + 1) * 2))
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
         await TestHelper.changeSubscription(user, plan2.id)
-        await TestHelper.waitForWebhooks(2 + ((i + 1) * 2))
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.loadCharge(user, user.subscription.id)
         const refund = await TestHelper.createRefund(user, user.charge)
-        await TestHelper.waitForWebhooks(4 + ((i + 1) * 2))
+        webhook += 1
+        await TestHelper.waitForWebhooks(webhook)
         refunds.unshift(refund)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/refunds?customerid=${user.customer.id}&offset=${offset}`, 'GET')

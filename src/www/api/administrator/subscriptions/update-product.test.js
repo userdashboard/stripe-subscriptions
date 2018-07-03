@@ -6,7 +6,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
   describe('UpdateProduct#PATCH', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account

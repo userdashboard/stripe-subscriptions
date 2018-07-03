@@ -27,11 +27,13 @@ describe('/api/user/subscriptions/upcoming-invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user2.account
       req.session = user2.session
@@ -42,7 +44,7 @@ describe('/api/user/subscriptions/upcoming-invoice', () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-subscriptionid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should return upcoming invoice for subscription', async () => {
@@ -53,6 +55,7 @@ describe('/api/user/subscriptions/upcoming-invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session

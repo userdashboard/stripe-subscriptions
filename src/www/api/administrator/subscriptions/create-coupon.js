@@ -123,6 +123,7 @@ module.exports = {
         published: dashboard.Timestamp.now
       }
     }
+    console.log(couponInfo)
     const coupon = await stripe.coupons.create(couponInfo, req.stripeKey)
     req.success = true
     await dashboard.RedisList.add('coupons', coupon.id)

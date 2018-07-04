@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node main.js",
-    "test": "NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000 --slow 1"
+    "test": "NODE_ENV=testing mocha src/www/api/administrator --recursive --timeout 1800000 --slow 1"
   },
   "dependencies": {
     "@userappstore/dashboard": "^1.0.1056",

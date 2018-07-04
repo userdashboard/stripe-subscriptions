@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/create-coupon`, () => {
+describe.only(`/api/administrator/subscriptions/create-coupon`, () => {
   describe('CreateCoupon#POST', () => {
     it('should require alphanumeric id', async () => {
       const administrator = await TestHelper.createAdministrator()
@@ -204,7 +204,7 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
       assert.notEqual(null, coupon)
     })
 
-    it('should create published coupon', async () => {
+    it.only('should create published coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.administratorAccount = req.account = administrator.account
@@ -221,7 +221,7 @@ describe(`/api/administrator/subscriptions/create-coupon`, () => {
         expire_month: '1',
         expire_year: (new Date().getFullYear() + 1).toString(),
         expire_meridien: 'AM',
-        published: 'true'
+        published: true
       }
       await req.route.api.post(req)
       req.session = await TestHelper.unlockSession(administrator)

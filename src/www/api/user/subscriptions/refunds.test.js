@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe.only('/api/user/subscriptions/refunds', () => {
+describe('/api/user/subscriptions/refunds', () => {
   describe('Refunds#GET', () => {
     it('should limit refunds to one page', async () => {
       const administrator = await TestHelper.createAdministrator()

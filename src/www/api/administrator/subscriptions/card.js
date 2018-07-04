@@ -6,9 +6,14 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-cardid')
     }
+    const exists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
+    if (!exists) {
+      throw new Error('invalid-cardid')
+    }
+    const customerid = await global.redisClient.hgetAsync(`map:cardid:customerid`, req.query.cardid)
     let card
     try {
-      card = await stripe.customers.retrieveCard(req.customer.id, req.query.cardid, req.stripeKey)
+      card = await stripe.customers.retrieveCard(customerid, req.query.cardid, req.stripeKey)
     } catch (error) {
     }
     if (!card) {

@@ -376,7 +376,6 @@ async function payInvoice (user, invoiceid) {
   req.body = {
     cardid: user.card.id
   }
-  console.log(req.body, user)
   await req.route.api.patch(req)
   req.session = await TestHelper.unlockSession(user)
   const invoice = await req.route.api.patch(req)

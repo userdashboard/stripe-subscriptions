@@ -7,13 +7,14 @@ describe('/api/user/subscriptions/card-charges-count', async () => {
     it('should count all charges on card', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges-count?cardid=${user.card.id}`, 'GET')
       req.account = user.account

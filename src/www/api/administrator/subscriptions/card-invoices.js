@@ -6,14 +6,18 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-cardid')
     }
-    const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
+    const exists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
+    if (!exists) {
+      throw new Error('invalid-cardid')
+    }
+    const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
     const itemids = await dashboard.RedisList.list(`card:invoices:${req.query.cardid}`, offset)
     if (!itemids || !itemids.length) {
       return null
     }
     const items = []
-    for (const cardid of itemids) {
-      const item = await stripe.customers.retrieveCard(req.customer.id, cardid, req.stripeKey)
+    for (const invoiceid of itemids) {
+      const item = await stripe.invoices.retrieve(invoiceid, req.stripeKey)
       items.push(item)
     }
     return items

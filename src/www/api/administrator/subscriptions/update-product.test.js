@@ -26,7 +26,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
 
     it('should reject invalid name', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
@@ -47,7 +46,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
 
     it('should reject invalid name length', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
@@ -69,7 +67,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
 
     it('should reject invalid statement_descriptor', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
@@ -90,7 +87,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
 
     it('should reject invalid unit_label', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
@@ -111,7 +107,6 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
 
     it('should update product', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-product?productid=${administrator.product.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account

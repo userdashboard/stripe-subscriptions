@@ -14,7 +14,7 @@ module.exports = {
     if (!owned) {
       throw new Error('invalid-account')
     }
-    const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
+    const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
     const itemids = await dashboard.RedisList.list(`card:subscriptions:${req.query.cardid}`, offset)
     if (!itemids || !itemids.length) {
       return null

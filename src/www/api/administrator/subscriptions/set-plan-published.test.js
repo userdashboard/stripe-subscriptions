@@ -6,7 +6,6 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
   describe('SetPlanPublished#PATCH', () => {
     it('should reject invalid planid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -22,7 +21,7 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
     it('should reject published plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0, published: true })
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -37,7 +36,8 @@ describe(`/api/administrator/subscriptions/set-plan-published`, () => {
 
     it('should publish plan', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0 })
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-published?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

@@ -9,7 +9,7 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-customer')
     }
-    const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
+    const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
     const cardids = await dashboard.RedisList.list(`customer:cards:${req.query.customerid}`, offset)
     if (!cardids || !cardids.length) {
       return null

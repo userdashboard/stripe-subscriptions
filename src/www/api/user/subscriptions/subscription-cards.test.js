@@ -40,7 +40,8 @@ describe('/api/user/subscriptions/subscription-cards', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      let webhook = 0
+      let webhook = 2
+      await TestHelper.waitForWebhooks(webhook)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const amount = plan1.amount + ((i + 1) * 1000)
         const newPlan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount})

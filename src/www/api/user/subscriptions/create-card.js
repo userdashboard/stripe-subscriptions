@@ -36,6 +36,7 @@ module.exports = {
     req.customer = await stripe.customers.update(req.customer.id, {default_source: card.id}, req.stripeKey)
     await dashboard.RedisList.add('cards', card.id)
     await dashboard.RedisList.add(`customer:cards:${req.query.customerid}`, card.id)
+    await global.redisClient.hsetAsync(`map:cardid:customerid`, card.id, req.query.customerid)
     req.success = true
     return card
   }

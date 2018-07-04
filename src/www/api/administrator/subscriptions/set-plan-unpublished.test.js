@@ -6,7 +6,6 @@ describe(`/api/administrator/subscriptions/set-plan-unpublished`, () => {
   describe('SetPlanUnpublished#PATCH', () => {
     it('should reject invalid planid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createPlan(administrator)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

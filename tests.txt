@@ -1,16 +1,272 @@
 
 > @userappstore/stripe-subscriptions@1.0.1036 test /home/ubuntu/workspace
-> NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000
+> NODE_ENV=testing mocha src/www/api/user --recursive --timeout 1800000 --slow 1
 
 
 
   /api/user/subscriptions/card-charges-count
     CardChargesCount#GET
-{ planid: 'plan1 1530377259008 24865',
-  currency: 'USD',
-  interval: 'month',
-  interval_count: '1',
-  amount: '10000',
-  productid: 'prod_D94N8nVkyCvlMH',
-  published: 'true',
-  trial_period_days: '0' }
+      ✓ should count all charges on card (27218ms)
+
+  /api/user/subscriptions/card-charges
+    CardCharges#GET
+      ✓ should limit card's charges to one page (37483ms)
+      ✓ should enforce page size (43884ms)
+      ✓ should enforce specified offset (47355ms)
+
+  /api/user/subscriptions/card-invoices-count
+    CardInvoicesCount#GET
+      ✓ should count all invoices on card (20668ms)
+
+  /api/user/subscriptions/card-invoices
+    CardInvoices#GET
+      ✓ should limit invoices on card to one page (26217ms)
+
+  /api/user/subscriptions/card-refunds-count
+    CardRefundsCount#GET
+      ✓ should count all refunds on card (50956ms)
+
+  /api/user/subscriptions/card-refunds
+    CardRefunds#GET
+      ✓ should limit refunds on card to one page (52888ms)
+
+  /api/user/subscriptions/card-subscriptions-count
+    CardSubscriptionsCount#GET
+      ✓ should count all subscriptions on card (30983ms)
+
+  /api/user/subscriptions/card-subscriptions
+    CardSubscriptions#GET
+      ✓ should limit subscriptions on card to one page (33451ms)
+
+  /api/user/subscriptions/card
+    Card#GET
+      ✓ should reject invalid card (1958ms)
+      ✓ should reject other account's card (5219ms)
+      ✓ should return card data (3808ms)
+
+  /api/user/subscriptions/cards-count
+    CardsCount#GET
+      ✓ should count account's cards (6314ms)
+
+  /api/user/subscriptions/cards
+    Cards#GET
+      ✓ should limit cards to one page (6880ms)
+      ✓ should enforce page size (8475ms)
+      ✓ should enforce specified offset (8690ms)
+
+  /api/user/subscriptions/charge
+    Charge#GET
+      ✓ should reject invalid charge (1639ms)
+      ✓ should reject other account's charge (24054ms)
+      ✓ should return charge data (23906ms)
+
+  /api/user/subscriptions/charges-count
+    Charges#GET
+      ✓ should count charges (63881ms)
+
+  /api/user/subscriptions/charges
+    Charges#GET
+      ✓ should limit charges to one page (34063ms)
+
+  /api/user/subscriptions/create-card
+    CreateCard#POST
+      ✓ should require name, cvc, number, exp_month and exp_year (1994ms)
+      ✓ should create card (3353ms)
+
+  /api/user/subscriptions/create-customer
+    CreateCustomer#POST
+      ✓ should reject other accountid (3321ms)
+      ✓ should reject existing customer (2355ms)
+      ✓ should create customer (1917ms)
+
+  /api/user/subscriptions/create-refund
+    CreateRefund#POST
+      ✓ should reject invalid charge (1628ms)
+      ✓ should reject other account's charge (23041ms)
+      ✓ should create refund (24161ms)
+
+  /api/user/subscriptions/create-subscription
+    CreateSubscription#POST
+      ✓ should reject invalid planid (3683ms)
+      ✓ should reject never-published planid (7005ms)
+      ✓ should reject unpublished plan (8248ms)
+      ✓ should allow customer without card on free plan (6880ms)
+      ✓ should reject customer without card (5809ms)
+      ✓ should create authorized subscription (7998ms)
+
+  /api/user/subscriptions/customer
+    Customer#GET
+      ✓ should reject invalid customerid (2120ms)
+      ✓ should reject other account's customerid (5392ms)
+      ✓ should return customer data (3808ms)
+
+  /api/user/subscriptions/delete-card
+    DeleteCard#DELETE
+      ✓ should reject invalid cardid (1632ms)
+      ✓ should reject other account's card (6783ms)
+      ✓ should delete card (4371ms)
+
+  /api/user/subscriptions/delete-subscription
+    DeleteSubscription#DELETE
+      ✓ should reject invalid subscriptionid (1617ms)
+      ✓ should reject other account's subscription (17807ms)
+      ✓ should require active subscription (16172ms)
+      ✓ should delete subscription at period end (13959ms)
+      ✓ should delete subscription immediately (17336ms)
+
+  /api/user/subscriptions/invoice
+    Invoice#GET
+      ✓ should reject invalid invoice (1633ms)
+      ✓ should reject other account's invoice (35250ms)
+      ✓ should return invoice data (14116ms)
+
+  /api/user/subscriptions/charges-count
+    InvoicesCount#GET
+      ✓ should count charges (36812ms)
+
+  /api/user/subscriptions/invoices
+    Invoices#GET
+      ✓ should limit invoices to one page (34060ms)
+
+  /api/user/subscriptions/plan-cards-count
+    PlanCardsCount#GET
+      ✓ should count all cards on plan (38915ms)
+
+  /api/user/subscriptions/plan-cards
+    PlanCards#GET
+      ✓ should limit cards to one page (33425ms)
+      ✓ should enforce page size (57952ms)
+      ✓ should enforce specified offset (38912ms)
+
+  /api/user/subscriptions/plan-charges-count
+    PlanChargesCount#GET
+      ✓ should count all charges on plan (45718ms)
+
+  /api/user/subscriptions/plan-charges
+    PlanCharges#GET
+      ✓ should limit charges to one page (34498ms)
+      ✓ should enforce page size (40750ms)
+      ✓ should enforce specified offset (45792ms)
+
+  /api/user/subscriptions/plan-invoices-count
+    PlanInvoicesCount#GET
+      ✓ should count all invoices on plan (35035ms)
+
+  /api/user/subscriptions/plan-invoices
+    PlanInvoices#GET
+      ✓ should limit invoices to one page (33676ms)
+      ✓ should enforce page size (43599ms)
+      ✓ should enforce specified offset (40475ms)
+
+  /api/user/subscriptions/plan-subscriptions-count
+    PlanSubscriptionsCount#GET
+      ✓ should count all subscriptions on plan (27556ms)
+
+  /api/user/subscriptions/plan-subscriptions
+    PlanSubscriptions#GET
+      ✓ should limit subscriptions to one page (34205ms)
+      ✓ should enforce page size (39895ms)
+      ✓ should enforce specified offset (43588ms)
+
+  /api/user/subscriptions/product-cards-count
+    ProductCardsCount#GET
+      ✓ should count all cards on product (33246ms)
+
+  /api/user/subscriptions/product-cards
+    ProductCards#GET
+      ✓ should limit cards to one page (31051ms)
+      ✓ should enforce page size (42283ms)
+      ✓ should enforce specified offset (39125ms)
+
+  /api/user/subscriptions/product-charges-count
+    ProductChargesCount#GET
+      ✓ should count all charges on product (33019ms)
+
+  /api/user/subscriptions/product-charges
+    ProductCharges#GET
+      ✓ should limit charges to one page (28519ms)
+      ✓ should enforce page size (42098ms)
+      ✓ should enforce specified offset (37128ms)
+
+  /api/user/subscriptions/product-invoices-count
+    ProductInvoicesCount#GET
+      ✓ should count all invoices on product (33588ms)
+
+  /api/user/subscriptions/product-invoices
+    ProductInvoices#GET
+      ✓ should limit invoices to one page (40205ms)
+      ✓ should enforce page size (39913ms)
+      ✓ should enforce specified offset (45300ms)
+
+  /api/user/subscriptions/product-subscriptions-count
+    ProductSubscriptionsCount#GET
+      ✓ should count all subscriptions on product (45714ms)
+
+  /api/user/subscriptions/product-subscriptions
+    ProductSubscriptions#GET
+      ✓ should limit subscriptions to one page (34159ms)
+      ✓ should enforce page size (40511ms)
+      ✓ should enforce specified offset (65528ms)
+
+  /api/user/subscriptions/published-plan
+    PublishedPlan#GET
+      ✓ should not require account (3913ms)
+      ✓ should reject never published plan (5467ms)
+      ✓ should reject unpublished plan (6379ms)
+      ✓ should return plan data (5741ms)
+
+  /api/user/subscriptions/published-plans-count
+    PublishedPlansCount#GET
+      ✓ should count published plans (7044ms)
+
+  /api/user/subscriptions/published-plans
+    PublishedPlans#GET
+      ✓ should not require account (3913ms)
+      ✓ should exclude never published plans (5003ms)
+      ✓ should exclude unpublished plan (7716ms)
+      ✓ should return plan list (9327ms)
+
+  /api/user/subscriptions/published-product
+    PublishedProduct#GET
+      ✓ should not require account (4230ms)
+      ✓ should reject never published product (4242ms)
+      ✓ should reject unpublished product (5343ms)
+      ✓ should return product data (4270ms)
+
+  /api/user/subscriptions/published-products-count
+    PublishedProductsCount#GET
+      ✓ should count published products (4837ms)
+
+  /api/user/subscriptions/published-products
+    PublishedProducts#GET
+      ✓ should not require account (4521ms)
+      ✓ should exclude never published products (4973ms)
+      ✓ should exclude unpublished product (6095ms)
+      ✓ should limit product list to one page (6308ms)
+
+  /api/user/subscriptions/refund
+    Refund#GET
+      ✓ should reject invalid refund (2074ms)
+      ✓ should reject other account's refund (29569ms)
+      ✓ should return refund data (42581ms)
+
+  /api/user/subscriptions/refunds-count
+    RefundsCount#GET
+      ✓ should count refunds (61062ms)
+
+  /api/user/subscriptions/refunds
+    Refunds#GET
+      ✓ should limit refunds to one page (69071ms)
+      ✓ should enforce page size (99714ms)
+      ✓ should enforce specified offset (86808ms)
+
+  /api/user/subscriptions/set-customer-coupon
+    SetCustomerCoupon#PATCH
+      ✓ should reject invalid customerid (5635ms)
+      ✓ should reject account with coupon (6388ms)
+      ✓ should apply coupon (5257ms)
+
+  /api/user/subscriptions/set-invoice-paid
+    SetInvoicePaid#PATCH
+      ✓ should reject invalid invoiceid (3436ms)
+      ✓ should reject other account's invoice (24165ms)

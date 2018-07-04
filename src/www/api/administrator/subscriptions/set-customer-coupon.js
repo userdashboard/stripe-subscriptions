@@ -48,8 +48,11 @@ module.exports = {
     try {
       const customer = await stripe.customers.update(req.query.customerid, customerInfo, req.stripeKey)
       req.success = true
+      await dashboard.RedisList.add(`customer:coupons:${customer.id}`, req.body.couponid)
+      await dashboard.RedisList.add(`coupon:customers:${req.body.couponid}`, customer.id)
       return customer
     } catch (error) {
+      console.log(error)
       throw new Error('unknown-error')
     }
   }

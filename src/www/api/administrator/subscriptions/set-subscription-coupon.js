@@ -48,8 +48,11 @@ module.exports = {
     try {
       const subscription = await stripe.subscriptions.update(req.query.subscriptionid, subscriptionInfo, req.stripeKey)
       req.success = true
+      await dashboard.RedisList.add(`subscription:coupons:${req.query.subscriptionid}`, req.body.couponid)
+      await dashboard.RedisList.add(`coupon:subscriptions:${req.body.couponid}`, req.query.subscriptionid)
       return subscription
     } catch (error) {
+      console.log(error)
       throw new Error('unknown-error')
     }
   }

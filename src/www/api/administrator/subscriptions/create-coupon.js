@@ -125,10 +125,8 @@ module.exports = {
     }
     const coupon = await stripe.coupons.create(couponInfo, req.stripeKey)
     req.success = true
-    console.log('indezxing', coupon.id)
     await dashboard.RedisList.add('coupons', coupon.id)
     if (coupon.metadata.published) {
-      console.log('indezxing published', coupon.id)
       await dashboard.RedisList.add('published:coupons', coupon.id)
     }
     return coupon

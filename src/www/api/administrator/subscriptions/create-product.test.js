@@ -75,7 +75,7 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
       req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const product = await req.route.api.post(req)
       assert.notEqual(null, product)
-      assert.notEqual(null, product.published)
+      assert.notEqual(null, product.metadata.published)
     })
   })
 })

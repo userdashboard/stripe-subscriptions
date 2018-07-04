@@ -236,7 +236,7 @@ describe(`/api/administrator/subscriptions/create-plan`, () => {
       req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const plan = await req.route.api.post(req)
       assert.notEqual(null, plan)
-      assert.notEqual(null, plan.published)
+      assert.notEqual(null, plan.metadata.published)
     })
   })
 })

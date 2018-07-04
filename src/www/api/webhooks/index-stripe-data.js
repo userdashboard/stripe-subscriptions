@@ -88,6 +88,10 @@ module.exports = {
         await dashboard.RedisList.add(`subscription:disputes:${subscriptionid}`, dispute.id)
         await dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
         break
+      case 'payout.created':
+        const payout = stripeEvent.data.object
+        await dashboard.RedisList.add('payouts', payout.id)
+        break
     }
     if (process.env.NODE_ENV !== 'production') {
       await global.redisClient.incrbyAsync('webhookNumber', 1)

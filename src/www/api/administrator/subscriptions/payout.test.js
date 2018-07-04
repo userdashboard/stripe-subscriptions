@@ -21,10 +21,11 @@ describe('/api/administrator/subscriptions/payout', () => {
     it('should return payout data', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
-      const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
-      req2.account = administrator.account
-      req2.session = administrator.session
-      const payoutNow = await req2.route.api.get(req2)
+      await TestHelper.waitForWebhooks(1)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
+      const payoutNow = await req.route.api.get(req)
       assert.equal(payoutNow.id, payout.id)
     })
   })

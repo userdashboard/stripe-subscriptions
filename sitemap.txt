@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1056
+Version: 1.0.1058
 https://stripe-subscriptions-benlowry.c9users.io
 Root path: /home/ubuntu/workspace/src/www
 Application path: /home/ubuntu/workspace
@@ -202,7 +202,7 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/customer-invoices                                              GET             /src/www                                                   
 /api/administrator/subscriptions/customer-invoices-count                                        GET             /src/www                                                   
 /api/administrator/subscriptions/customer-refunds                                               GET             /src/www                                                   
-/api/administrator/subscriptions/customer-refunds.count                                         GET             /src/www                                                   
+/api/administrator/subscriptions/customer-refunds-count                                         GET             /src/www                                                   
 /api/administrator/subscriptions/customer-subscriptions                                         GET             /src/www                                                   
 /api/administrator/subscriptions/customer-subscriptions-count                                   GET             /src/www                                                   
 /api/administrator/subscriptions/customers                                                      GET             /src/www                                                   

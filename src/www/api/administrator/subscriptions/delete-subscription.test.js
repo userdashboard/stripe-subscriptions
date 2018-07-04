@@ -38,8 +38,8 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
       req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
-      req2.account = administrator.account
-      req2.session = administrator.session
+      req2.administratorAccount = req2.account = administrator.account
+      req2.administratorSession = req2.session = administrator.session
       req2.body = {
         refund: 'at_period_end'
       }

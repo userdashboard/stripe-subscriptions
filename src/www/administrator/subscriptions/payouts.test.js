@@ -2,13 +2,15 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/administrator/subscriptions/payouts`, () => {
+describe.only(`/api/administrator/subscriptions/payouts`, () => {
   describe('Payouts#BEFORE', () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout1 = await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(1)
       const payout2 = await TestHelper.createPayout()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/payouts`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
@@ -23,9 +25,10 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should limit payouts to one page', async () => {
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createPayout()
+        await TestHelper.waitForWebhooks(i + 1)
       }
-      const req = TestHelper.createRequest('/administrator/subscriptions/payouts', 'GET')
+      const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts', 'GET')
       req.account = user.account
       req.session = user.session
       const res = TestHelper.createResponse()
@@ -43,9 +46,10 @@ describe(`/administrator/subscriptions/payouts`, () => {
       global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createPayout()
+        await TestHelper.waitForWebhooks(i + 1)
       }
-      const req = TestHelper.createRequest('/administrator/subscriptions/payouts', 'GET')
+      const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts', 'GET')
       req.account = user.account
       req.session = user.session
       const res = TestHelper.createResponse()
@@ -62,12 +66,13 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
-      const codes = [ user.code ]
+      const payouts = [ ]
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.code)
+        const payout = await TestHelper.createPayout()
+        payouts.push(payout)
+        await TestHelper.waitForWebhooks(i + 1)
       }
-      const req = TestHelper.createRequest(`/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
       req.account = user.account
       req.session = user.session
       const res = TestHelper.createResponse()
@@ -75,7 +80,7 @@ describe(`/administrator/subscriptions/payouts`, () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(payouts[offset + i].codeid))
         }
       }
       return req.route.api.get(req, res)

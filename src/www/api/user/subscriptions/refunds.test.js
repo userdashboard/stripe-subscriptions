@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/refunds', () => {
+describe.only('/api/user/subscriptions/refunds', () => {
   describe('Refunds#GET', () => {
     it('should limit refunds to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
@@ -46,11 +46,11 @@ describe('/api/user/subscriptions/refunds', () => {
       global.PAGE_SIZE = 3
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, plan1.id)
@@ -76,11 +76,11 @@ describe('/api/user/subscriptions/refunds', () => {
       const offset = 1
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 20000})
       const refunds = []
       let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {

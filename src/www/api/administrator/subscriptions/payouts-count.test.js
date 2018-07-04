@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/payouts-count', async () => {
   describe('PayoutsCount#GET', () => {
-    it.only('should count payouts', async () => {
+    it('should count payouts', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPayout()
       await TestHelper.waitForWebhooks(1)

@@ -4,11 +4,14 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/payouts`, () => {
   describe('Payouts#GET', () => {
-    it.only('should return limit payouts to one page', async () => {
+    it('should return limit payouts to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(1)
       const payout2 = await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(2)
       const payout3 = await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

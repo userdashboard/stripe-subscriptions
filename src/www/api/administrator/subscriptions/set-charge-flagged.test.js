@@ -73,7 +73,7 @@ describe(`/api/administrator/subscriptions/set-charge-flagged`, () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const charge = await req.route.api.patch(req)
       assert.notEqual(null, charge)
       assert.notEqual(null, charge.fraud_details)

@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe.only(`/api/administrator/subscriptions/create-coupon`, () => {
+describe(`/api/administrator/subscriptions/create-coupon`, () => {
   describe('CreateCoupon#POST', () => {
     it('should require alphanumeric id', async () => {
       const administrator = await TestHelper.createAdministrator()
@@ -199,12 +199,12 @@ describe.only(`/api/administrator/subscriptions/create-coupon`, () => {
         expire_meridien: 'AM'
       }
       await req.route.api.post(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const coupon = await req.route.api.post(req)
       assert.notEqual(null, coupon)
     })
 
-    it.only('should create published coupon', async () => {
+    it('should create published coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.administratorAccount = req.account = administrator.account
@@ -221,13 +221,13 @@ describe.only(`/api/administrator/subscriptions/create-coupon`, () => {
         expire_month: '1',
         expire_year: (new Date().getFullYear() + 1).toString(),
         expire_meridien: 'AM',
-        published: true
+        published: 'true'
       }
       await req.route.api.post(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const coupon = await req.route.api.post(req)
       assert.notEqual(null, coupon)
-      assert.notEqual(null, coupon.published)
+      assert.notEqual(null, coupon.metadata.published)
     })
   })
 })

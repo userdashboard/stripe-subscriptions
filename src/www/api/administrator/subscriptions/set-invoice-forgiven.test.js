@@ -55,7 +55,7 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.patch(req)
       let errorMessage
       try {
@@ -82,7 +82,7 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.patch(req)
       assert.equal(req.success, true)
     })

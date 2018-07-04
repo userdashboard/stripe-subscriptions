@@ -35,7 +35,7 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
         refund: 'at_period_end'
       }
       await req.route.api.delete(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
       req2.account = administrator.account
@@ -66,7 +66,7 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
         refund: 'at_period_end'
       }
       await req.route.api.delete(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       assert.equal(req.success, true)
     })
@@ -85,7 +85,7 @@ describe(`/api/administrator/subscriptions/delete-subscription`, () => {
         refund: ''
       }
       await req.route.api.delete(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       assert.equal(req.success, true)
     })

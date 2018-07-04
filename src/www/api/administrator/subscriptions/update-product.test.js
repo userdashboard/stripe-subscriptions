@@ -117,7 +117,7 @@ describe(`/api/administrator/subscriptions/update-product`, () => {
         unit_label: 'new-thing'
       }
       await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.patch(req)
       assert.equal(req.success, true)
     })

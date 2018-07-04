@@ -25,7 +25,7 @@ describe(`/api/administrator/subscriptions/delete-product`, () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.delete(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       // now check the product is deleted
       assert.equal(req.success, true)

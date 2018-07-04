@@ -105,7 +105,7 @@ describe(`/api/administrator/subscriptions/create-refund`, () => {
         amount: 10000
       }
       await req.route.api.post(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const refund = await req.route.api.post(req)
       assert.notEqual(null, refund)
     })

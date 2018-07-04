@@ -56,7 +56,7 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       req.administratorSession = req.session = administrator.session
       req.subscription = administrator.subscription
       await req.route.api.delete(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.delete(req)
       assert.equal(req.success, true)
     })

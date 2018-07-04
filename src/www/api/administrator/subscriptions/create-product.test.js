@@ -54,7 +54,7 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
         unit_label: 'thing'
       }
       await req.route.api.post(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const product = await req.route.api.post(req)
       assert.notEqual(null, product)
     })
@@ -72,7 +72,7 @@ describe(`/api/administrator/subscriptions/create-product`, () => {
         published: 'true'
       }
       await req.route.api.post(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       const product = await req.route.api.post(req)
       assert.notEqual(null, product)
       assert.notEqual(null, product.published)

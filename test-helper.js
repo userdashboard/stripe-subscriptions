@@ -209,10 +209,14 @@ async function createCustomerDiscount (administrator, customer, coupon) {
   req.body = {
     couponid: coupon.id
   }
-  await req.route.api.patch(req)
-  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  console.log(req.url, req.body)
+  const x = await req.route.api.patch(req)
+  console.log(x)
+  const y = req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  console.log(y)
   const customerNow = await req.route.api.patch(req)
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
+  console.log(x, y, customerNow)
   if (administrator.session.lock || administrator.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }

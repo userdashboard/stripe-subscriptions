@@ -89,7 +89,7 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
         couponid: coupon.id
       }
       await req.route.api.patch(req)
-      req.session = await TestHelper.unlockSession(administrator)
+      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
       await req.route.api.patch(req)
       assert.equal(req.success, true)
     })

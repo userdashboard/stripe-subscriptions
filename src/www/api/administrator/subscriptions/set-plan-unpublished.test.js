@@ -53,7 +53,7 @@ describe(`/api/administrator/subscriptions/set-plan-unpublished`, () => {
     it('should unpublish plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${administrator.plan.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

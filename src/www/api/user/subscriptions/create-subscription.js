@@ -43,6 +43,8 @@ module.exports = {
       await dashboard.RedisList.add(`customer:subscriptions:${req.customer.id}`, subscription.id)
       await dashboard.RedisList.add(`plan:subscriptions:${req.query.planid}`, subscription.id)
       await dashboard.RedisList.add(`product:subscriptions:${req.plan.product}`, subscription.id)
+      await dashboard.RedisList.add(`plan:customers:${req.query.planid}`, req.customer.id)
+      await dashboard.RedisList.add(`product:customers:${req.plan.product}`, req.customer.id)
       req.success = true
       return subscription
     } catch (error) {

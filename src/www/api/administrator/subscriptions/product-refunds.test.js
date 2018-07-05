@@ -14,13 +14,16 @@ describe('/api/administrator/subscriptions/product-refunds', () => {
       await TestHelper.createCard(user)
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
+      const subscription2 = await TestHelper.createSubscription(user2, plan2.id)
       await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-refunds?productid=${user.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, global.PAGE_SIZE)
+      assert.equal(subscriptions.length, 2)
       assert.equal(subscriptions[0].amount, plan2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
       assert.equal(subscriptions[1].amount, plan1.amount)

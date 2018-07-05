@@ -21,7 +21,7 @@ describe('/api/administrator/subscriptions/subscription-invoices', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, global.PAGE_SIZE)
+      assert.equal(subscriptions.length, 2)
       assert.equal(subscriptions[0].amount, product2.amount)
       assert.equal(subscriptions[0].subscription, subscription2.id)
       assert.equal(subscriptions[1].amount, product1.amount)

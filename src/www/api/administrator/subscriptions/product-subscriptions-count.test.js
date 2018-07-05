@@ -7,13 +7,16 @@ describe('/api/administrator/subscriptions/product-subscriptions-count', async (
     it('should count all subscriptions on product', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
+      await TestHelper.createSubscription(user2, administrator.plan.id)
       await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-subscriptions-count?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account

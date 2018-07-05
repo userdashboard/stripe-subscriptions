@@ -26,7 +26,7 @@ describe('/api/administrator/subscriptions/charges', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const charges = await req.route.api.get(req)
-      assert.equal(charges.length, global.PAGE_SIZE)
+      assert.equal(charges.length, 2)
       assert.equal(charges[0].id, charge3.id)
       assert.equal(charges[1].id, charge2.id)
     })

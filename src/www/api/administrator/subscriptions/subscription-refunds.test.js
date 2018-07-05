@@ -24,7 +24,7 @@ describe('/api/administrator/subscriptions/subscription-refunds', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const refunds = await req.route.api.get(req)
-      assert.equal(refunds.length, global.PAGE_SIZE)
+      assert.equal(refunds.length, 2)
       assert.equal(refunds[0].id, refund2.id)
       assert.equal(refunds[1].id, refund1.id)
     })

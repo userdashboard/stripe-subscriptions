@@ -27,6 +27,7 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -49,14 +50,13 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
+      await TestHelper.forgiveInvoice(administrator, user.invoice.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      await req.route.api.patch(req)
-      req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
-      await req.route.api.patch(req)
       let errorMessage
       try {
         await req.route.api.patch(req)
@@ -76,15 +76,16 @@ describe(`/api/administrator/subscriptions/set-invoice-forgiven`, () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${user.invoice.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.patch(req)
       req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
-      await req.route.api.patch(req)
-      assert.equal(req.success, true)
+      const invoiceNow = await req.route.api.patch(req)
+      assert.equal(invoiceNow.forgiven, true)
     })
   })
 })

@@ -6,7 +6,6 @@ describe(`/api/administrator/subscriptions/set-coupon-published`, () => {
   describe('SetCouponPublished#PATCH', () => {
     it('should reject invalid couponid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-coupon-published?couponid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -36,7 +35,7 @@ describe(`/api/administrator/subscriptions/set-coupon-published`, () => {
 
     it('should publish coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      await TestHelper.createCoupon(administrator, {percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

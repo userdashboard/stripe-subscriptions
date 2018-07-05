@@ -6,15 +6,10 @@ describe('/api/administrator/subscriptions/published-coupons-count', async () =>
   describe('PublishedCouponsCount#GET', () => {
     it('should count all published coupons', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.createCoupon(administrator, {published: true})
+      await TestHelper.createCoupon(administrator, {published: true})
+      await TestHelper.createCoupon(administrator, {published: true, unpublished: true})
+      await TestHelper.createCoupon(administrator)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/published-coupons-count`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

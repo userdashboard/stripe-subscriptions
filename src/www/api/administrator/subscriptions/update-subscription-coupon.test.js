@@ -50,7 +50,7 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
-      const coupon = await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const coupon = await TestHelper.createCoupon(administrator, {published: true, unpublished: true})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -84,7 +84,6 @@ describe(`/api/administrator/subscriptions/update-subscription-coupon`, () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      req.subscription = administrator.subscription
       req.body = {
         couponid: coupon.id
       }

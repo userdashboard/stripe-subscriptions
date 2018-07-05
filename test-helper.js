@@ -33,6 +33,7 @@ module.exports.createRefund = createRefund
 module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
 module.exports.currentWebHookNumber = currentWebHookNumber
+module.exports.flagCharge = flagCharge
 module.exports.forgiveInvoice = forgiveInvoice
 module.exports.loadCharge = loadCharge
 module.exports.loadInvoice = loadInvoice
@@ -153,9 +154,9 @@ async function createCoupon (administrator, properties) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-coupon-unpublished?couponid=${coupon.id}`, 'PATCH')
     req2.administratorSession = req2.session = administrator.session
     req2.administratorAccount = req2.account = administrator.account
-    await req.route.api.patch(req)
-    req.session = await TestHelper.unlockSession(administrator)
-    coupon = await req.route.api.patch(req)
+    await req2.route.api.patch(req2)
+    req2.session = await TestHelper.unlockSession(administrator)
+    coupon = await req2.route.api.patch(req2)
   }
   administrator.coupon = coupon
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
@@ -352,21 +353,43 @@ async function cancelSubscription (user, refund) {
   req.session = await TestHelper.unlockSession(user)
   const subscription = await req.route.api.delete(req)
   user.subscription = subscription
+  user.session = await dashboard.Session.load(user.session.sessionid)
+  if (user.session.lock || user.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
   return user.subscription
 }
 
 async function forgiveInvoice (administrator, invoiceid) {
-  const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${invoiceid}`, 'POST')
+  const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${invoiceid}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
   await req.route.api.patch(req)
   req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
   const invoice = await req.route.api.patch(req)
+  administrator.session = await dashboard.Session.load(administrator.session.sessionid)
+  if (administrator.session.lock || administrator.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
   return invoice
 }
 
+async function flagCharge (administrator, chargeid) {
+  const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-flagged?chargeid=${chargeid}`, 'PATCH')
+  req.administratorSession = req.session = administrator.session
+  req.administratorAccount = req.account = administrator.account
+  await req.route.api.patch(req)
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
+  const charge = await req.route.api.patch(req)
+  administrator.session = await dashboard.Session.load(administrator.session.sessionid)
+  if (administrator.session.lock || administrator.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
+  return charge
+}
+
 async function payInvoice (user, invoiceid) {
-  const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'POST')
+  const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'PATCH')
   req.session = user.session
   req.account = user.account
   req.customer = user.customer

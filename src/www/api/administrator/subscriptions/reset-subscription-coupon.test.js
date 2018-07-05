@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper')
 
-describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => {
-  describe('DeleteCustomerDiscount#DELETE', () => {
+describe(`/api/administrator/subscriptions/reset-subscription-coupon`, () => {
+  describe('ResetSubscriptionCoupon#PATCH', () => {
     it('should reject invalid subscriptionid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=invalid`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-coupon?subscriptionid=invalid`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -27,7 +27,7 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-coupon?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -39,7 +39,7 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       assert.equal(errorMessage, 'invalid-subscription')
     })
 
-    it('should delete subscription discount', async () => {
+    it('should remove subscription coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const product = await TestHelper.createProduct(administrator, {published: true})
@@ -49,16 +49,14 @@ describe(`/api/administrator/subscriptions/delete-subscription-discount`, () => 
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createSubscriptionDiscount(user, administrator.coupon.id)
-      await TestHelper.waitForWebhooks(4)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-discount?subscriptionid=${user.subscription.id}`, 'DELETE')
+      await TestHelper.createSubscriptionDiscount(administrator, user.subscription, administrator.coupon)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/reset-subscription-coupon?subscriptionid=${user.subscription.id}`, 'DELETE')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      req.subscription = administrator.subscription
       await req.route.api.delete(req)
       req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
-      await req.route.api.delete(req)
-      assert.equal(req.success, true)
+      const subscriptionNow = await req.route.api.delete(req)
+      assert.equal(subscriptionNow.coupon, null)
     })
   })
 })

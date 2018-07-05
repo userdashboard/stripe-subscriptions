@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/set-product-published`, () => {
+describe.only(`/api/administrator/subscriptions/set-product-published`, () => {
   describe('SetProductPublished#PATCH', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createAdministrator()

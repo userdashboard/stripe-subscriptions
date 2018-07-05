@@ -14,7 +14,7 @@ module.exports = {
     if (!charge) {
       throw new Error('invalid-chargeid')
     }
-    if (!charge.refunded || (charge.fraud_details && charge.fraud_details.user_report === 'fraudulent')) {
+    if (!charge.refunded || charge.fraud_details.user_report) {
       throw new Error('invalid-charge')
     }
   },

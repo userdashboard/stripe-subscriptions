@@ -22,10 +22,10 @@ describe('/api/administrator/subscriptions/product-charges', () => {
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-charges?productid=${product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
-      const subscriptions = await req.route.api.get(req)
-      assert.equal(subscriptions.length, 2)
-      assert.equal(subscriptions[0].amount, plan2.amount)
-      assert.equal(subscriptions[1].amount, plan1.amount)
+      const charges = await req.route.api.get(req)
+      assert.equal(charges.length, 2)
+      assert.equal(charges[0].amount, plan2.amount)
+      assert.equal(charges[1].amount, plan1.amount)
     })
   })
 })

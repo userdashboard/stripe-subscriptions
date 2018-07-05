@@ -13,10 +13,9 @@ describe('/api/administrator/subscriptions/products', () => {
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const products = await req.route.api.get(req)
-      assert.equal(true, products.length >= 3)
+      assert.equal(products.length, 2)
       assert.equal(products[0].id, product3.id)
       assert.equal(products[1].id, product2.id)
-      assert.equal(products[2].id, product1.id)
     })
   })
 })

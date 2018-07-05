@@ -10,7 +10,7 @@ module.exports = {
     }
     const items = []
     for (const couponid of itemids) {
-      const coupon = await stripe.subscriptions.retrieve(couponid, req.stripeKey)
+      const coupon = await stripe.coupons.retrieve(couponid, req.stripeKey)
       items.push(coupon)
     }
     return items

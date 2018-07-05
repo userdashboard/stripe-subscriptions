@@ -340,21 +340,18 @@ async function changeSubscription (user, planid) {
   return user.subscription
 }
 
-async function cancelSubscription (user) {
-  const req = TestHelper.createRequest(`/api/user/subscriptions/cancel-subscription?subscriptionid=${user.subscription.id}`, 'POST')
+async function cancelSubscription (user, refund) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
   req.session = user.session
   req.account = user.account
   req.customer = user.customer
   req.body = {
-    refund: 'refund'
+    refund: refund || 'refund'
   }
-  await req.route.api.patch(req)
+  await req.route.api.delete(req)
   req.session = await TestHelper.unlockSession(user)
-  const subscription = await req.route.api.patch(req)
+  const subscription = await req.route.api.delete(req)
   user.subscription = subscription
-  const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
-  user.invoice = await stripe.invoices.pay(invoice.id, stripeKey)
-  user.charge = await stripe.charges.retrieve(user.invoice.charge, stripeKey)
   return user.subscription
 }
 

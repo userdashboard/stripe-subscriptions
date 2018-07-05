@@ -92,6 +92,16 @@ module.exports = {
         const payout = stripeEvent.data.object
         await dashboard.RedisList.add('payouts', payout.id)
         break
+      case 'customer.subscription.deleted':
+        const subscription = stripeEvent.data.object
+        customerid = subscription.customer
+        planid = subscription.plan.id
+        productid = subscription.plan.product
+        await dashboard.RedisList.remove('subscriptions', subscription.id)
+        await dashboard.RedisList.remove(`customer:subscriptions:${req.customer.id}`, subscription.id)
+        await dashboard.RedisList.remove(`plan:subscriptions:${planid}`, subscription.id)
+        await dashboard.RedisList.remove(`product:subscriptions:${productid}`, subscription.id)
+        break
     }
     if (process.env.NODE_ENV !== 'production') {
       await global.redisClient.incrbyAsync('webhookNumber', 1)

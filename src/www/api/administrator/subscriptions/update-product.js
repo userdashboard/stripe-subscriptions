@@ -38,8 +38,9 @@ module.exports = {
       unit_label: req.body.unit_label
     }
     try {
-      await stripe.products.update(req.query.productid, updateInfo, req.stripeKey)
+      const product = await stripe.products.update(req.query.productid, updateInfo, req.stripeKey)
       req.success = true
+      return product
     } catch (error) {
       throw new Error('unknown-error')
     }

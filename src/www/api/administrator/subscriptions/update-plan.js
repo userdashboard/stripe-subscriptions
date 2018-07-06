@@ -53,8 +53,9 @@ module.exports = {
       updateInfo.trial_period_days = req.body.trial_period_days
     }
     try {
-      await stripe.plans.update(req.query.planid, updateInfo, req.stripeKey)
+      const plan = await stripe.plans.update(req.query.planid, updateInfo, req.stripeKey)
       req.success = true
+      return plan
     } catch (error) {
       throw new Error('unknown-error')
     }

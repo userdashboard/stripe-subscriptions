@@ -8,8 +8,7 @@ describe(`/api/administrator/subscriptions/update-plan`, () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true})
-      await TestHelper.createProduct(administrator, {published: true})
-      const newProduct = administrator.product
+      const newProduct = await TestHelper.createProduct(administrator, {published: true})
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/update-plan?planid=invalid`, 'PATCH')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

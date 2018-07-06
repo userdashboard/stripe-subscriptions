@@ -6,531 +6,371 @@
 
   /api/administrator/subscriptions/card-charges-count
     CardChargesCount#GET
-      ✓ should count all charges on card (19477ms)
+      ✓ should count all charges on card (24435ms)
 
   /api/administrator/subscriptions/card-charges
     CardCharges#GET
-      ✓ should limit charges on card to one page (28569ms)
+      ✓ should limit charges on card to one page (55823ms)
 
   /api/administrator/subscriptions/card-invoices-count
     CardInvoicesCount#GET
-      ✓ should count all invoices on card (44687ms)
+      ✓ should count all invoices on card (22361ms)
 
   /api/administrator/subscriptions/card-invoices
     CardInvoices#GET
-      ✓ should limit invoices on card to one page (23844ms)
+      ✓ should limit invoices on card to one page (23982ms)
 
   /api/administrator/subscriptions/card-refunds-count
     CardRefundsCount#GET
-      ✓ should count all refunds on card (58324ms)
+      ✓ should count all refunds on card (39431ms)
 
   /api/administrator/subscriptions/card-refunds
     CardRefunds#GET
-      ✓ should limit refunds on card to one page (58001ms)
+      ✓ should limit refunds on card to one page (50705ms)
 
   /api/administrator/subscriptions/card
     Card#GET
-      ✓ should reject invalid card (4816ms)
-      ✓ should return card data (5122ms)
+      ✓ should reject invalid card (5192ms)
+      ✓ should return card data (5230ms)
 
   /api/administrator/subscriptions/charge
     Charge#GET
-      ✓ should reject invalid charge (1776ms)
-      ✓ should return charge data (15173ms)
+      ✓ should reject invalid charge (1788ms)
+      ✓ should return charge data (14295ms)
 
   /api/administrator/subscriptions/charges-count
     ChargesCount#GET
-      ✓ should count charges (34295ms)
+      ✓ should count charges (59531ms)
 
   /api/administrator/subscriptions/charges
     Charges#GET
-      ✓ should limit charges to one page (32713ms)
+      ✓ should limit charges to one page (46631ms)
 
   /api/administrator/subscriptions/coupon-customers-count
     CouponCustomersCount#GET
-      ✓ should count all customers on coupon (12323ms)
+      ✓ should count all customers on coupon (11736ms)
 
   /api/administrator/subscriptions/coupon-customers
     CouponCustomers#GET
-      ✓ should limit customers on coupon to one page (18224ms)
+      ✓ should limit customers on coupon to one page (17998ms)
 
   /api/administrator/subscriptions/coupon-subscriptions-count
     CouponSubscriptionsCount#GET
-      ✓ should count all subscriptions on coupon (27384ms)
+      ✓ should count all subscriptions on coupon (29971ms)
 
   /api/administrator/subscriptions/coupon-subscriptions
     CouponSubscriptions#GET
-      ✓ should limit subscriptions on coupon to one page (40054ms)
+      ✓ should limit subscriptions on coupon to one page (39286ms)
 
   /api/administrator/subscriptions/coupon
     Coupon#GET
-      ✓ should reject invalid coupon (1806ms)
-      ✓ should return coupon data (2494ms)
+      ✓ should reject invalid coupon (1783ms)
+      ✓ should return coupon data (2531ms)
 
   /api/administrator/subscriptions/coupons-count
     CouponsCount#GET
-      ✓ should count coupons (4947ms)
+      ✓ should count coupons (4963ms)
 
   /api/administrator/subscriptions/coupons
     Coupons#GET
-      ✓ should limit coupons to one page (4096ms)
+      ✓ should limit coupons to one page (4248ms)
 
   /api/administrator/subscriptions/create-coupon
     CreateCoupon#POST
-      ✓ should require alphanumeric id (1543ms)
-      ✓ should require percent or amount off (1585ms)
-      ✓ should require currency with amount off (1560ms)
-      ✓ should require valid percent off (1551ms)
-      ✓ should require valid duration (1529ms)
+      ✓ should require alphanumeric id (1536ms)
+      ✓ should require percent or amount off (1540ms)
+      ✓ should require currency with amount off (1541ms)
+      ✓ should require valid percent off (1579ms)
+      ✓ should require valid duration (1540ms)
       ✓ should require valid repeating duration (1535ms)
       ✓ should require valid expire_meridien (1534ms)
-      ✓ should require valid expire (1534ms)
-      ✓ should create coupon (2301ms)
-      ✓ should create published coupon (2332ms)
+      ✓ should require valid expire (1524ms)
+      ✓ should create coupon (2337ms)
+      ✓ should create published coupon (2302ms)
 
   /api/administrator/subscriptions/create-plan
     CreatePlan#POST
-      ✓ should require alphanumeric id (2313ms)
-      ✓ should require product (2302ms)
-      ✓ should require valid product (1823ms)
-      ✓ should require amount (2528ms)
-      ✓ should require currency (2269ms)
-      ✓ should require valid interval (2441ms)
-      ✓ should require valid interval count (2525ms)
-      ✓ should require valid trial period (2457ms)
-      ✓ should create plan (3419ms)
-      ✓ should create published plan (3489ms)
+      ✓ should require alphanumeric id (2255ms)
+      ✓ should require product (2256ms)
+      ✓ should require valid product (1762ms)
+      ✓ should require amount (2479ms)
+      ✓ should require currency (2324ms)
+      ✓ should require valid interval (2599ms)
+      ✓ should require valid interval count (2624ms)
+      ✓ should require valid trial period (2818ms)
+      ✓ should create plan (3767ms)
+      ✓ should create published plan (3666ms)
 
   /api/administrator/subscriptions/create-product
     CreateProduct#POST
-      ✓ should require name (1623ms)
-      ✓ should require statement_descriptor (1550ms)
-      ✓ should create product (3094ms)
-      ✓ should create published product (3067ms)
+      ✓ should require name (1528ms)
+      ✓ should require statement_descriptor (1535ms)
+      ✓ should create product (3078ms)
+      ✓ should create published product (3240ms)
 
   /api/administrator/subscriptions/create-refund
     CreateRefund#POST
-      ✓ should reject invalid charge (1806ms)
-      ✓ should require amount (16113ms)
-      ✓ should reject negative amount (20232ms)
-      ✓ should reject amount higher than charge (16698ms)
-      ✓ should create authorized refund (23743ms)
+      ✓ should reject invalid charge (1935ms)
+      ✓ should require amount (15306ms)
+      ✓ should reject negative amount (14670ms)
+      ✓ should reject amount higher than charge (14690ms)
+      ✓ should create authorized refund (16154ms)
 
   /api/administrator/subscriptions/customer-cards-count
     CustomerCardsCount#GET
-      ✓ should count all cards on customer (11296ms)
+      ✓ should count all cards on customer (11742ms)
 
   /api/administrator/subscriptions/customer-cards
     CustomerCards#GET
-      ✓ should limit cards on customer to one page (8510ms)
+      ✓ should limit cards on customer to one page (9181ms)
 
   /api/administrator/subscriptions/customer-charges-count
     CustomerChargesCount#GET
-      ✓ should count all charges on customer (22436ms)
+      ✓ should count all charges on customer (23514ms)
 
   /api/administrator/subscriptions/customer-charges
     CustomerCharges#GET
-      ✓ should limit charges on customer to one page (30129ms)
+      ✓ should limit charges on customer to one page (31528ms)
 
   /api/administrator/subscriptions/customer-invoices-count
     CustomerInvoicesCount#GET
-      ✓ should count all invoices on customer (19020ms)
+      ✓ should count all invoices on customer (21334ms)
 
   /api/administrator/subscriptions/customer-invoices
     CustomerInvoices#GET
-      ✓ should limit invoices on customer to one page (35215ms)
+      ✓ should limit invoices on customer to one page (31707ms)
 
   /api/administrator/subscriptions/customer-refunds-count
     CustomerRefundsCount#GET
-      ✓ should count all refunds on customer (30963ms)
+      ✓ should count all refunds on customer (35345ms)
 
   /api/administrator/subscriptions/customer-refunds
     CustomerRefunds#GET
-      ✓ should limit refunds on customer to one page (51769ms)
+      ✓ should limit refunds on customer to one page (49761ms)
 
   /api/administrator/subscriptions/customer-subscriptions-count
     CustomerSubscriptionsCount#GET
-      ✓ should count all subscriptions on customer (18528ms)
+      ✓ should count all subscriptions on customer (23266ms)
 
   /api/administrator/subscriptions/customer-subscriptions
     CustomerSubscriptions#GET
-      ✓ should limit subscriptions on customer to one page (32066ms)
+      ✓ should limit subscriptions on customer to one page (34175ms)
 
   /api/administrator/subscriptions/customer
     Customer#GET
-      ✓ should reject invalid customer (1770ms)
-      ✓ should return customer data (5000ms)
+      ✓ should reject invalid customer (1772ms)
+      ✓ should return customer data (5248ms)
 
   /api/administrator/subscriptions/customers-count
     CustomersCount#GET
-      ✓ should count customers (5200ms)
+      ✓ should count customers (5215ms)
 
   /api/administrator/subscriptions/customers
     Customers#GET
-      ✓ should limit customers to one page (7776ms)
+      ✓ should limit customers to one page (7681ms)
 
   /api/administrator/subscriptions/delete-coupon
     DeleteCoupon#DELETE
-      ✓ should reject invalid couponid (1773ms)
-      ✓ should delete coupon (3206ms)
+      ✓ should reject invalid couponid (1817ms)
+      ✓ should delete coupon (3274ms)
 
   /api/administrator/subscriptions/delete-plan
     DeletePlan#DELETE
-      ✓ should reject invalid planid (1759ms)
-      ✓ should delete plan (4437ms)
+      ✓ should reject invalid planid (1757ms)
+      ✓ should delete plan (4494ms)
 
   /api/administrator/subscriptions/delete-product
     DeleteProduct#DELETE
-      ✓ should reject invalid productid (1797ms)
-      ✓ should delete product (3204ms)
+      ✓ should reject invalid productid (1758ms)
+      ✓ should delete product (3303ms)
 
   /api/administrator/subscriptions/delete-subscription
     DeleteSubscription#DELETE
-      ✓ should reject invalid subscriptionid (1743ms)
-      ✓ should require active subscription (34128ms)
-      ✓ should delete subscription at period end (15044ms)
-      ✓ should delete subscription immediately (16983ms)
+      ✓ should reject invalid subscriptionid (1861ms)
+      ✓ should require active subscription (16726ms)
+      ✓ should delete subscription at period end (13831ms)
+      ✓ should delete subscription immediately (15311ms)
 
   /api/administrator/subscriptions/invoice
     Invoice#GET
-      ✓ should reject invalid invoice (1823ms)
-      ✓ should return invoice data (14657ms)
+      ✓ should reject invalid invoice (1771ms)
+      ✓ should return invoice data (13497ms)
 
   /api/administrator/subscriptions/invoices-count
     InvoicesCount#GET
-      ✓ should count invoices (24950ms)
+      ✓ should count invoices (23293ms)
 
   /api/administrator/subscriptions/invoices
     Invoices#GET
-      ✓ should limit invoices to one page (37137ms)
+      ✓ should limit invoices to one page (44287ms)
 
   /api/administrator/subscriptions/payout
     Payout#GET
-      ✓ should reject invalid payoutid (1883ms)
-      ✓ should return payout data (7501ms)
+      ✓ should reject invalid payoutid (1768ms)
+      ✓ should return payout data (8423ms)
 
   /api/administrator/subscriptions/payouts-count
     PayoutsCount#GET
-      ✓ should count payouts (20394ms)
+      ✓ should count payouts (33862ms)
 
   /api/administrator/subscriptions/payouts
     Payouts#GET
-      ✓ should return limit payouts to one page (22181ms)
+      ✓ should return limit payouts to one page (16143ms)
 
   /api/administrator/subscriptions/plan-charges-count
     PlanChargesCount#GET
-      ✓ should count all charges on plan (17482ms)
+      ✓ should count all charges on plan (24113ms)
 
   /api/administrator/subscriptions/plan-charges
     PlanCharges#GET
-      ✓ should limit charges on plan to one page (40067ms)
+      ✓ should limit charges on plan to one page (60903ms)
 
   /api/administrator/subscriptions/plan-customers-count
     PlanCustomersCount#GET
-      ✓ should count all customers on plan (24225ms)
+      ✓ should count all customers on plan (44528ms)
 
   /api/administrator/subscriptions/plan-customers
     PlanCustomers#GET
-      ✓ should limit customers on plan to one page (31152ms)
+      ✓ should limit customers on plan to one page (37195ms)
 
   /api/administrator/subscriptions/plan-invoices-count
     PlanInvoicesCount#GET
-      ✓ should count all invoices on plan (18284ms)
+      ✓ should count all invoices on plan (28180ms)
 
   /api/administrator/subscriptions/plan-invoices
     PlanInvoices#GET
-      ✓ should limit invoices on plan to one page (48987ms)
+      ✓ should limit invoices on plan to one page (32920ms)
 
   /api/administrator/subscriptions/plan-refunds-count
     PlanRefundsCount#GET
-      ✓ should count all refunds on plan (29799ms)
+      ✓ should count all refunds on plan (45851ms)
 
   /api/administrator/subscriptions/plan-refunds
     PlanRefunds#GET
-      ✓ should limit refunds on plan to one page (56666ms)
+      ✓ should limit refunds on plan to one page (49640ms)
 
   /api/administrator/subscriptions/plan-subscriptions-count
     PlanSubscriptionsCount#GET
-      ✓ should count all subscriptions on plan (34742ms)
+      ✓ should count all subscriptions on plan (19908ms)
 
   /api/administrator/subscriptions/plan-subscriptions
     PlanSubscriptions#GET
-      ✓ should limit subscriptions on plan to one page (36588ms)
+      ✓ should limit subscriptions on plan to one page (32085ms)
 
   /api/administrator/subscriptions/plan
     Plan#GET
-      ✓ should return plan data (3726ms)
+      ✓ should return plan data (3751ms)
 
   /api/administrator/subscriptions/plans-count
     PlansCount#GET
-      ✓ should count plans (5910ms)
+      ✓ should count plans (6096ms)
 
   /api/administrator/subscriptions/plans
     Plans#GET
-      ✓ should limit plans to one page (8787ms)
+      ✓ should limit plans to one page (8996ms)
 
   /api/administrator/subscriptions/product-charges-count
     ProductChargesCount#GET
-      ✓ should count all charges on product (20219ms)
+      ✓ should count all charges on product (40624ms)
 
   /api/administrator/subscriptions/product-charges
     ProductCharges#GET
-      ✓ should limit charges on product to one page (24567ms)
+      ✓ should limit charges on product to one page (24238ms)
 
   /api/administrator/subscriptions/product-customers-count
     ProductCustomersCount#GET
-      ✓ should count all customers on product (23422ms)
+      ✓ should count all customers on product (27497ms)
 
   /api/administrator/subscriptions/product-customers
     ProductCustomers#GET
-      ✓ should limit customers on product to one page (57267ms)
+      ✓ should limit customers on product to one page (39310ms)
 
   /api/administrator/subscriptions/product-invoices-count
     ProductInvoicesCount#GET
-      ✓ should count all invoices on product (43050ms)
+      ✓ should count all invoices on product (27659ms)
 
   /api/administrator/subscriptions/product-invoices
     ProductInvoices#GET
-      ✓ should limit invoices on product to one page (36982ms)
+      ✓ should limit invoices on product to one page (37532ms)
 
   /api/administrator/subscriptions/product-refunds-count
     ProductRefundsCount#GET
-      ✓ should count all refunds on product (33652ms)
+      ✓ should count all refunds on product (45997ms)
 
   /api/administrator/subscriptions/product-refunds
     ProductRefunds#GET
-      ✓ should limit refunds on product to one page (48244ms)
+      ✓ should limit refunds on product to one page (50698ms)
 
   /api/administrator/subscriptions/product-subscriptions-count
     ProductSubscriptionsCount#GET
-      ✓ should count all subscriptions on product (50098ms)
+      ✓ should count all subscriptions on product (23105ms)
 
   /api/administrator/subscriptions/product-subscriptions
     ProductSubscriptions#GET
-      ✓ should limit subscriptions on product to one page (34276ms)
+      ✓ should limit subscriptions on product to one page (56794ms)
 
   /api/administrator/subscriptions/product
     Product#GET
-      ✓ should return product data (2509ms)
+      ✓ should return product data (2577ms)
 
   /api/administrator/subscriptions/products-count
     ProductsCount#GET
-      ✓ should count products (3887ms)
+      ✓ should count products (3742ms)
 
   /api/administrator/subscriptions/products
     Products#GET
-      ✓ should limit products to one page (5106ms)
+      ✓ should limit products to one page (5324ms)
 
   /api/administrator/subscriptions/published-coupons-count
     PublishedCouponsCount#GET
-      ✓ should count all published coupons (5348ms)
+      ✓ should count all published coupons (5412ms)
 
   /api/administrator/subscriptions/published-coupons
     PublishedCoupons#GET
-      ✓ should limit published coupons to one page (4210ms)
+      ✓ should limit published coupons to one page (4209ms)
 
   /api/administrator/subscriptions/published-plans-count
     PublishedPlansCount#GET
-      ✓ should count all published plans (8281ms)
+      ✓ should count all published plans (8341ms)
 
   /api/administrator/subscriptions/published-plans
     PublishedPlans#GET
-      ✓ should limit published plans to one page (6658ms)
+      ✓ should limit published plans to one page (6722ms)
 
   /api/administrator/subscriptions/published-products-count
     PublishedProductsCount#GET
-      ✓ should count all published products (5779ms)
+      ✓ should count all published products (6046ms)
 
   /api/administrator/subscriptions/published-products
     PublishedProducts#GET
-      ✓ should limit published products to one page (4126ms)
+      ✓ should limit published products to one page (4503ms)
 
   /api/administrator/subscriptions/refund
     Refund#GET
-      ✓ should reject invalid refund (1751ms)
-      ✓ should return refund data (20421ms)
+      ✓ should reject invalid refund (1903ms)
+      ✓ should return refund data (20320ms)
 
   /api/administrator/subscriptions/refunds-count
     RefundsCount#GET
-      ✓ should count all refunds (66468ms)
+      ✓ should count all refunds (42329ms)
 
   /api/administrator/subscriptions/refunds
     Refunds#GET
-      ✓ should limit refunds to one page (84680ms)
+      ✓ should limit refunds to one page (60930ms)
 
   /api/administrator/subscriptions/reset-customer-coupon
     ResetCustomerCoupon#PATCH
-      ✓ should reject invalid customerid (1845ms)
-      ✓ should reject undiscounted customer (3703ms)
-      ✓ should remove customer coupon (6611ms)
+      ✓ should reject invalid customerid (1793ms)
+      ✓ should reject undiscounted customer (3652ms)
+      ✓ should remove customer coupon (6510ms)
 
   /api/administrator/subscriptions/reset-subscription-coupon
     ResetSubscriptionCoupon#PATCH
-      ✓ should reject invalid subscriptionid (1783ms)
-      ✓ should reject undiscounted subscription (15337ms)
-      ✓ should remove subscription coupon (17769ms)
+      ✓ should reject invalid subscriptionid (1785ms)
+      ✓ should reject undiscounted subscription (13899ms)
+      ✓ should remove subscription coupon (15724ms)
 
   /api/administrator/subscriptions/set-charge-flagged
     SetChargeRefunded#PATCH
-      ✓ should reject invalid charge (1972ms)
-      ✓ should reject flagged charge (19599ms)
-      ✓ should require refunded charge (13722ms)
-      ✓ should update charge flagged as fraud (20565ms)
-
-  /api/administrator/subscriptions/set-coupon-published
-    SetCouponPublished#PATCH
-      ✓ should reject invalid couponid (1859ms)
-      ✓ should reject published coupon (2616ms)
-      ✓ should publish coupon (3367ms)
-
-  /api/administrator/subscriptions/set-coupon-unpublished
-    SetCouponUnpublished#PATCH
-      ✓ should reject invalid couponid (1825ms)
-      ✓ should reject never published coupon (2596ms)
-      ✓ should reject unpublished coupon (3507ms)
-      ✓ should unpublish coupon (3264ms)
-
-  /api/administrator/subscriptions/set-invoice-forgiven
-    SetInvoiceForgiven#PATCH
-      ✓ should reject invalid invoiceid (1793ms)
-      ✓ should reject paid invoice (13408ms)
-      ✓ should reject forgiven invoice (27067ms)
-      ✓ should forgive invoice (42432ms)
-
-  /api/administrator/subscriptions/set-plan-published
-    SetPlanPublished#PATCH
-      ✓ should reject invalid planid (1785ms)
-      ✓ should reject published plan (3883ms)
-      ✓ should publish plan (4543ms)
-
-  /api/administrator/subscriptions/set-plan-unpublished
-    SetPlanUnpublished#PATCH
-      ✓ should reject invalid planid (1768ms)
-      ✓ should reject never published plan (3906ms)
-      ✓ should reject unpublished plan (4792ms)
-      ✓ should unpublish plan (4439ms)
-
-  /api/administrator/subscriptions/set-product-published
-    SetProductPublished#PATCH
-      ✓ should reject invalid productid (2464ms)
-      ✓ should reject published product (2564ms)
-      ✓ should publish product (3224ms)
-
-  /api/administrator/subscriptions/set-product-unpublished
-    SetProductUnpublished#PATCH
-      ✓ should reject invalid productid (2523ms)
-      ✓ should reject never published product (2458ms)
-      ✓ should reject unpublished product (3716ms)
-      ✓ should unpublish product (3294ms)
-
-  /api/administrator/subscriptions/subscription-charges-count
-    SubscriptionChargesCount#GET
-      ✓ should count all charges on subscription (19014ms)
-
-  /api/administrator/subscriptions/subscription-charges
-    SubscriptionCharges#GET
-      ✓ should limit charges on subscription to one page (30784ms)
-
-  /api/administrator/subscriptions/subscription-invoices-count
-    SubscriptionInvoicesCount#GET
-      ✓ should count all invoices on subscription (36795ms)
-
-  /api/administrator/subscriptions/subscription-invoices
-    SubscriptionInvoices#GET
-      ✓ should limit invoices on subscription to one page (29706ms)
-
-  /api/administrator/subscriptions/subscription-refunds-count
-    SubscriptionRefundsCount#GET
-      1) should count all refunds on subscription
-
-  /api/administrator/subscriptions/subscription-refunds
-    SubscriptionRefunds#GET
-      ✓ should limit refunds on subscription to one page (43405ms)
-
-  /api/administrator/subscriptions/subscription
-    Subscription#GET
-      ✓ should reject invalid subscriptionid (1790ms)
-      ✓ should return subscription data (15133ms)
-
-  /api/administrator/subscriptions/subscriptions-count
-    SubscriptionsCount#GET
-      ✓ should count all subscriptions (21179ms)
-
-  /api/administrator/subscriptions/subscriptions
-    Subscriptions#GET
-      ✓ should limit subscriptions to one page (57246ms)
-
-  /api/administrator/subscriptions/unpublished-coupons-count
-    UnpublishedCouponsCount#GET
-      ✓ should count all unpublished coupons (7611ms)
-
-  /api/administrator/subscriptions/unpublished-coupons
-    UnpublishedCoupons#GET
-      ✓ should limit unpublished coupons to one page (7106ms)
-
-  /api/administrator/subscriptions/unpublished-plans-count
-    UnpublishedPlansCount#GET
-      ✓ should count all unpublished plans (10417ms)
-
-  /api/administrator/subscriptions/unpublished-plans
-    UnpublishedPlans#GET
-      ✓ should limit unpublished plans to one page (9536ms)
-
-  /api/administrator/subscriptions/unpublished-products-count
-    UnpublishedProductsCount#GET
-      ✓ should count all unpublished products (6867ms)
-
-  /api/administrator/subscriptions/unpublished-products
-    UnpublishedProducts#GET
-      ✓ should limit unpublished products to one page (7527ms)
-
-  /api/administrator/subscriptions/update-customer-coupon
-    UpdateCustomerCoupon#PATCH
-      ✓ should reject invalid customerid (2535ms)
-      ✓ should reject invalid couponid (4736ms)
-      ✓ should reject unpublished coupon (5575ms)
-      ✓ should update customer coupon (5437ms)
-
-  /api/administrator/subscriptions/update-plan
-    UpdatePlan#PATCH
-      ✓ should reject invalid planid (4530ms)
-      ✓ should reject invalid productid (3964ms)
-      ✓ should reject unpublished plan (6724ms)
-      ✓ should reject unpublished product (5952ms)
-      ✓ should reject never published product (4755ms)
-      ✓ should reject invalid trial (5528ms)
-      ✓ should update plan (5401ms)
-
-  /api/administrator/subscriptions/update-product
-    UpdateProduct#PATCH
-      ✓ should reject invalid productid (2584ms)
-      ✓ should reject invalid name (2553ms)
-      ✓ should reject invalid name length (2543ms)
-      ✓ should reject invalid statement_descriptor (2515ms)
-      ✓ should reject invalid unit_label (2547ms)
-      ✓ should update product (3275ms)
-
-  /api/administrator/subscriptions/update-subscription-coupon
-    UpdateSubscriptionCoupon#PATCH
-      ✓ should reject invalid subscriptionid (2467ms)
-      ✓ should reject invalid couponid (15407ms)
-      ✓ should reject unpublished coupon (14031ms)
-      ✓ should update subscription coupon (13188ms)
-
-
-  188 passing (45m)
-  1 failing
-
-  1) /api/administrator/subscriptions/subscription-refunds-count
-       SubscriptionRefundsCount#GET
-         should count all refunds on subscription:
-     Error: invalid-amount
-      at Object.before (src/www/api/administrator/subscriptions/create-refund.js:10:13)
-      at Object.nodejsHandler.(anonymous function) [as post] (node_modules/@userappstore/dashboard/src/api.js:145:33)
-      at Object.createRefund (test-helper.js:178:23)
-      at it (src/www/api/administrator/subscriptions/subscription-refunds-count.test.js:17:24)
-      at <anonymous>
-      at process._tickCallback (internal/process/next_tick.js:169:7)
-
-
-
+      ✓ should reject invalid charge (1851ms)
+      ✓ should reject flagged charge (23522ms)

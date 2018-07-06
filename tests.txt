@@ -6,15 +6,3 @@
 
   /api/administrator/subscriptions/card-charges-count
     CardChargesCount#GET
-      ✓ should count all charges on card (23334ms)
-
-  /api/administrator/subscriptions/card-charges
-    CardCharges#GET
-      ✓ should limit charges on card to one page (29804ms)
-
-  /api/administrator/subscriptions/card-invoices-count
-    CardInvoicesCount#GET
-      ✓ should count all invoices on card (22000ms)
-
-  /api/administrator/subscriptions/card-invoices
-    CardInvoices#GET

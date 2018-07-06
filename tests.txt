@@ -1,25 +1,20 @@
 
 > @userappstore/stripe-subscriptions@1.0.1036 test /home/ubuntu/workspace
-> NODE_ENV=testing mocha src/www/api/administrator --recursive --timeout 1800000 --slow 1
+> NODE_ENV=testing mocha src/www/api --recursive --timeout 1800000 --slow 1
 
 
 
-  /api/administrator/subscriptions/delete-subscription
-    DeleteSubscription#DELETE
-      1) should require active subscription
+  /api/administrator/subscriptions/card-charges-count
+    CardChargesCount#GET
+      ✓ should count all charges on card (23334ms)
 
+  /api/administrator/subscriptions/card-charges
+    CardCharges#GET
+      ✓ should limit charges on card to one page (29804ms)
 
-  0 passing (13s)
-  1 failing
+  /api/administrator/subscriptions/card-invoices-count
+    CardInvoicesCount#GET
+      ✓ should count all invoices on card (22000ms)
 
-  1) /api/administrator/subscriptions/delete-subscription
-       DeleteSubscription#DELETE
-         should require active subscription:
-     TypeError: Cannot read property 'api' of undefined
-      at Object.cancelSubscription (test-helper.js:351:18)
-      at it.only (src/www/api/administrator/subscriptions/delete-subscription.test.js:33:24)
-      at <anonymous>
-      at process._tickCallback (internal/process/next_tick.js:169:7)
-
-
-
+  /api/administrator/subscriptions/card-invoices
+    CardInvoices#GET

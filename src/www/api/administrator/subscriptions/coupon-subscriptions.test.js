@@ -26,7 +26,7 @@ describe('/api/administrator/subscriptions/coupon-subscriptions', () => {
       await TestHelper.createCustomer(user3)
       await TestHelper.createCard(user3)
       const subscription3 = await TestHelper.createSubscription(user3, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForWebhooks(6)
       await TestHelper.createSubscriptionDiscount(administrator, user3.subscription, coupon)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/coupon-subscriptions?couponid=${coupon.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account

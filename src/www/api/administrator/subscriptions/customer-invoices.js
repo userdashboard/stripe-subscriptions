@@ -13,8 +13,8 @@ module.exports = {
     }
     const items = []
     for (const invoiceid of itemids) {
-      const item = await stripe.invoices.retrieve(invoiceid, req.stripeKey)
-      items.push(item)
+      const invoice = await stripe.invoices.retrieve(invoiceid, req.stripeKey)
+      items.push(invoice)
     }
     return items
   }

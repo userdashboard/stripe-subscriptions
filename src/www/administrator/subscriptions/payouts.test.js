@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe.only(`/api/administrator/subscriptions/payouts`, () => {
+describe(`/api/administrator/subscriptions/payouts`, () => {
   describe('Payouts#BEFORE', () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()

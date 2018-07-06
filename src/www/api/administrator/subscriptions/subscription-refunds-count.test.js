@@ -4,7 +4,7 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/subscription-refunds-count', async () => {
   describe('SubscriptionRefundsCount#GET', () => {
-    it('should count all refunds on subscription', async () => {
+    it.only('should count all refunds on subscription', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
@@ -14,11 +14,11 @@ describe('/api/administrator/subscriptions/subscription-refunds-count', async ()
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.createRefund(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
       await TestHelper.waitForWebhooks(3)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(5)
-      await TestHelper.createRefund(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
       await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscription-refunds-count?subscriptionid=${user.subscription.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account

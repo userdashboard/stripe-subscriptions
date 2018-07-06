@@ -9,9 +9,6 @@ describe('/api/administrator/subscriptions/unpublished-products', () => {
       await TestHelper.createProduct(administrator, {published: true, unpublished: true})
       const product2 = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
       const product3 = await TestHelper.createProduct(administrator, {published: true, unpublished: true})
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/unpublished-products`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

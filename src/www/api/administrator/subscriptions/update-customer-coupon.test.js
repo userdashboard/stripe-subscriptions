@@ -45,7 +45,7 @@ describe(`/api/administrator/subscriptions/update-customer-coupon`, () => {
 
     it('should reject unpublished coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      await TestHelper.createCoupon(administrator, {published: true, unpublished: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const newCoupon = administrator.coupon

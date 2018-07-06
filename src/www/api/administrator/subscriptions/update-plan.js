@@ -35,14 +35,11 @@ module.exports = {
     }
     if (req.body.trial_period_days) {
       try {
-        req.body.trial_period_days = parseInt(req.body.trial_period_days, 10)
-        if (!req.body.trial_period_days || req.body.trial_period_days < 0 || req.body.trial_period_days > 365) {
+        const trialPeriodDays = parseInt(req.body.trial_period_days, 10)
+        if (trialPeriodDays !== req.body.trial_period_days.toString()) {
           throw new Error('invalid-trial_period_days')
         }
       } catch (s) {
-        throw new Error('invalid-trial_period_days')
-      }
-      if (req.body.trial_period_days < 0 || req.body.trial_period_days > 365) {
         throw new Error('invalid-trial_period_days')
       }
     }

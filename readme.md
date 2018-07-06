@@ -69,4 +69,4 @@ Your account id is stored in the Stripe database attached to your customer objec
 
 ## Security
 
-All user and administration create and update API endpoints require authorization.
+All user and administration create, delete and update API endpoints require authorization.

@@ -29,8 +29,9 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2)
       await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user2.account
@@ -53,6 +54,8 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -71,6 +74,9 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
+      await TestHelper.loadCharge(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -91,6 +97,8 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -113,6 +121,8 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -136,6 +146,8 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user.account
       req.session = user.session

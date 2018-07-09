@@ -84,11 +84,11 @@
       </div>
     </form>
   </body>
-  <template id="country-template">
-    <option value="${code}">${name}</option>
+  <template id="country-option-template">
+    <option value="${country.code}">${country.name}</option>
   </template>
-  <template id="state-template">
-    <option value="${code}">${name}</option>
+  <template id="state-option-template">
+    <option value="${state.code}">${state.name}</option>
   </template>
   <template id="invalid-name">
     <div class="error message">Error!  Invalid or missing name.</div>

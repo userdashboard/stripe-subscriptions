@@ -10,10 +10,8 @@ module.exports = {
 
 async function beforeRequest (req) {
   if (req.session.lockURL === req.url && req.session.unlocked) {
+    req.query = {customerid: req.query.customerid}
     await global.api.user.subscriptions.CreateCard.post(req)
-    if (req.success) {
-
-    }
   }
 }
 
@@ -22,7 +20,7 @@ async function renderPage (req, res, messageTemplate) {
     messageTemplate = 'success'
   }
   const doc = dashboard.HTML.parse(req.route.html)
-  dashboard.HTML.renderList(doc, countries, 'country-template', 'address_country')
+  dashboard.HTML.renderList(doc, countries, 'country-option-template', 'address_country')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, {}, messageTemplate, 'message-container')
   }
@@ -31,13 +29,13 @@ async function renderPage (req, res, messageTemplate) {
     country = countryDivisions[req.body ? req.body.address_country : req.country.country.iso_code]
     const states = []
     for (const code in country.divisions) {
-      states.push({code, name: country.divisions[code]})
+      states.push({code, name: country.divisions[code], object: 'state'})
     }
     if (!states || !states.length) {
       const stateContainer = doc.getElementById('state-container')
       stateContainer.parentNode.removeChild(stateContainer)
     } else {
-      dashboard.HTML.renderList(doc, states, 'state-template', 'address_state')
+      dashboard.HTML.renderList(doc, states, 'state-option-template', 'address_state')
     }
   }
   req.body = req.body || {}
@@ -79,12 +77,14 @@ async function submitForm (req, res) {
     }
   }
   try {
+    req.query = {customerid: req.customer.id}
     await global.api.user.subscriptions.CreateCard.post(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }
     return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
+    console.log('error', error)
     return renderPage(req, res, 'unknown-error')
   }
 }

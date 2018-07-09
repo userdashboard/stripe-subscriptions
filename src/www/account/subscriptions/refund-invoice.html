@@ -20,12 +20,12 @@
         </tr>
       </thead>
       <tr id="${invoice.id}">
-          <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
-          <td>${invoice.number}</td>
-          <td>${invoice.date}</td>
-          <td>${invoice.totalFormatted}</td>
-          <td></td>
-        </tr>
+        <td><a href="invoice?invoiceid=${invoice.id}">${invoice.id}</a></td>
+        <td>${invoice.number}</td>
+        <td>${invoice.date}</td>
+        <td>${invoice.totalFormatted}</td>
+        <td></td>
+      </tr>
     </table>
     <form id="submit-form" method="POST" class="pure-form pure-form-stacked">
       <div id="refund-container">
@@ -41,7 +41,7 @@
     </form>
   </body>
   <template id="refund-template">
-    <span>${refund.amountFormatted} ${refund.currency}</span>
+    <span>${charge.amount} ${charge.currency}</span>
   </template>
   <template id="success">
     <div class="success message">Success!  The invoice has been refunded.</div>

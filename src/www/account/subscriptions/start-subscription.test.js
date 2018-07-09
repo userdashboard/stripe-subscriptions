@@ -26,7 +26,6 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -47,7 +46,6 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -140,7 +138,7 @@ describe(`/account/subscriptions/start-subscription`, async () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('invalid-source', message.attr.template)
+        assert.equal('invalid-cardid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -153,6 +151,7 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session

@@ -9,7 +9,7 @@ async function beforeRequest (req) {
   if (!req.query || !req.query.planid) {
     throw new Error('invalid-planid')
   }
-  const plan = await global.api.user.subscriptions.Plan.get(req)
+  const plan = await global.api.user.subscriptions.PublishedPlan.get(req)
   if (!plan.metadata.published || plan.metadata.unpublished) {
     throw new Error('invalid-plan')
   }

@@ -69,7 +69,7 @@
       </table>
     </div>
     <h2>Line items</h2>
-    <table id="lineitems-table" class="pure-table pure-table-striped">
+    <table id="line_items-table" class="pure-table pure-table-striped">
       <thead>
         <tr>
           <th>ID</th>
@@ -82,13 +82,13 @@
       </thead>
     </table>
   </body>
-  <template id="lineitem-row">
-    <tr id="${lineitem.id}">
-      <td>${lineitem.id}</td>
-      <td>${lineitem.quantity}</td>
-      <td>${lineitem.description}</td>
-      <td>${lineitem.startFormatted} - ${lineitem.endFormatted}</td>
-      <td>${lineitem.totalFormatted}</td>
+  <template id="line_item-row">
+    <tr id="${line_item.id}">
+      <td>${line_item.id}</td>
+      <td>${line_item.quantity}</td>
+      <td>${line_item.description}</td>
+      <td>${line_item.startFormatted} - ${line_item.endFormatted}</td>
+      <td>${line_item.totalFormatted}</td>
       <td></td>
     </tr>
   </template>

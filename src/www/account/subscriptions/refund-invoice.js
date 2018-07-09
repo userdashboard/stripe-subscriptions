@@ -10,7 +10,10 @@ async function beforeRequest (req) {
     throw new Error('invalid-invoiceid')
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
-    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
+    await global.api.user.subscriptions.CreateRefund.post(req)
+    if (req.success) {
+      return
+    }
   }
   const invoice = await global.api.user.subscriptions.Invoice.get(req)
   req.query.chargeid = invoice.charge.id || invoice.charge
@@ -43,7 +46,7 @@ async function submitForm (req, res) {
   req.query.chargeid = req.data.charge.id
   req.body.amount = req.data.amount
   try {
-    await global.api.user.subscriptions.SetChargeRefunded.patch(req)
+    await global.api.user.subscriptions.CreateRefund.post(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

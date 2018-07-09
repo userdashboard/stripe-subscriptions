@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe.only(`/account/subscriptions/card`, async () => {
+describe(`/account/subscriptions/card`, async () => {
   describe('Card#BEFORE', () => {
     it('should reject invalid card', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest('/account/subscriptions/card?cardid=invalid', 'POST')
       req.account = user.account
       req.session = user.session
@@ -28,7 +28,7 @@ describe.only(`/account/subscriptions/card`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2, false)
+      await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${user.card.id}`, 'POST')
       req.account = user2.account
       req.session = user2.session

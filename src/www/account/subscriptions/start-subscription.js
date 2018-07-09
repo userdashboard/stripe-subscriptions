@@ -12,13 +12,22 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.CreateSubscription.post(req)
-    if (req.success) {
-      return
-    }
   }
-  const plan = await global.api.user.subscriptions.Plan.get(req)
-  if (!plan.metadata.published || plan.metadata.unpublished) {
-    throw new Error('invalid-plan')
+  const plan = await global.api.user.subscriptions.PublishedPlan.get(req)
+  if (req.success) {
+    req.data = {plan}
+    return
+  }
+  req.query.customerid = req.customer.id
+  const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
+  if (subscriptions && subscriptions.length) {
+    for (const subscription of subscriptions) {
+      if (subscription.plan.id === req.query.planid) {
+        req.error = 'duplicate-subscription'
+        req.data = {plan}
+        return
+      }
+    }
   }
   const card = req.customer.default_source || { last4: '', brand: '' }
   req.data = {card, plan}
@@ -27,11 +36,13 @@ async function beforeRequest (req) {
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
+  } else if (req.error) {
+    messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.plan, 'plan')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
-    if (messageTemplate === 'success') {
+    if (messageTemplate === 'success' || messageTemplate === 'duplicate-subscription') {
       const submitForm = doc.getElementById('submit-form')
       submitForm.parentNode.removeChild(submitForm)
       return dashboard.Response.end(req, res, doc)
@@ -41,13 +52,11 @@ async function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
-  const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
-  if (subscriptions && subscriptions.length) {
-    for (const subscription of subscriptions) {
-      if (subscription.plan.id === req.query.planid) {
-        return renderPage(req, res, 'duplicate-subscription')
-      }
-    }
+  if (req.error) {
+    return renderPage(req, res)
+  }
+  req.body = {
+    cardid: req.customer.default_source
   }
   try {
     await global.api.user.subscriptions.CreateSubscription.post(req)

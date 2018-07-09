@@ -29,8 +29,8 @@ async function beforeRequest (req) {
   } else {
     subscription.nextCharge = dashboard.Timestamp.date(subscription.current_period_end)
   }
-  const invoiceList = await global.api.user.subscriptions.Invoices.get(req)
-  const invoices = invoiceList.data
+  req.query.customerid = req.customer.id
+  const invoices = await global.api.user.subscriptions.Invoices.get(req)
   if (invoices && invoices.length) {
     for (const invoice of invoices) {
       invoice.totalFormatted = dashboard.Format.money(invoice.total || 0, invoice.currency)
@@ -69,8 +69,9 @@ async function renderPage (req, res) {
     if (interval !== req.data.subscription.plan.interval) {
       const element1 = doc.getElementById(`${interval}-singular-interval-${req.data.subscription.id}`)
       element1.parentNode.removeChild(element1)
-      const element2 = doc.getElementById(`${interval}-multiple-${req.data.subscription.id}`)
+      const element2 = doc.getElementById(`${interval}-multiple-interval-${req.data.subscription.id}`)
       element2.parentNode.removeChild(element2)
+      continue
     }
     if (req.data.subscription.plan.interval_count === 1) {
       const element = doc.getElementById(`${interval}-multiple-interval-${req.data.subscription.id}`)

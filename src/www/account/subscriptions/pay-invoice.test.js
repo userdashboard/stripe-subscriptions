@@ -3,10 +3,10 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe(`/account/subscriptions/pay-invoice`, async () => {
-  describe('SetInvoicePaid#BEFORE', () => {
+  describe('PayInvoice#BEFORE', () => {
     it('should reject invalid invoice', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest('/account/subscriptions/pay-invoice?invoiceid=invalid', 'POST')
       req.account = user.account
       req.session = user.session
@@ -23,11 +23,18 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
     it('should reject other account\'s invoice', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2, false)
+      await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user2.account
       req.session = user2.session
@@ -46,7 +53,11 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -66,8 +77,13 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -79,15 +95,20 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
     })
   })
 
-  describe('SetInvoicePaid#GET', () => {
+  describe('PayInvoice#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -108,8 +129,13 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -124,15 +150,20 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
     })
   })
 
-  describe('SetInvoicePaid#POST', () => {
+  describe('PayInvoice#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user.account
       req.session = user.session

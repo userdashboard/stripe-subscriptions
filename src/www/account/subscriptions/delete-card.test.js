@@ -42,7 +42,7 @@ describe(`/account/subscriptions/delete-card`, async () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-cardid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should reject default payment source', async () => {
@@ -84,8 +84,9 @@ describe(`/account/subscriptions/delete-card`, async () => {
   describe('DeleteCard#GET', () => {
     it('should present the form', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      const card1 = user.card
+      await TestHelper.createCustomer(user)
+      const card1 = await TestHelper.createCard(user)
+      await TestHelper.createCard(user)
       await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${card1.id}`, 'GET')
       req.account = user.account

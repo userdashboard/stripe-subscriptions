@@ -25,7 +25,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html, req.data.invoice, 'invoice')
-  dashboard.HTML.renderTable(doc, req.data.invoice.lines.data, 'lineitem-row', 'lineitems-table')
+  dashboard.HTML.renderTable(doc, req.data.invoice.lines.data, 'line_item-row', 'line_items-table')
   if (req.data.charge && req.data.invoice.total < 0) {
     dashboard.HTML.renderTemplate(doc, req.data.charge, 'refund-row', 'refunds-table')
     const chargeContainer = doc.getElementById('charge-container')

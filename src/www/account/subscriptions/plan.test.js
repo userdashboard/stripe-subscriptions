@@ -6,7 +6,7 @@ describe('/account/subscriptions/plan', () => {
   describe('Plan#BEFORE', () => {
     it('should reject invalid plan', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest('/account/subscriptions/plan?planid=invalid', 'POST')
       req.account = user.account
       req.session = user.session
@@ -25,7 +25,7 @@ describe('/account/subscriptions/plan', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -44,7 +44,7 @@ describe('/account/subscriptions/plan', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -63,7 +63,7 @@ describe('/account/subscriptions/plan', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -81,7 +81,7 @@ describe('/account/subscriptions/plan', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/plan?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session

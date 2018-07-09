@@ -35,7 +35,7 @@ async function renderPage (req, res, messageTemplate) {
       return dashboard.Response.end(req, res, doc)
     }
   }
-  const amount = { amount: req.data.invoice.amount - req.data.invoice.amount_paid }
+  const amount = {amount: req.data.invoice.amount - req.data.invoice.amount_paid, object: 'invoice'}
   dashboard.HTML.renderTemplate(doc, amount, 'amount-template', 'amount-now')
   return dashboard.Response.end(req, res, doc)
 }
@@ -45,13 +45,14 @@ async function submitForm (req, res) {
     return renderPage(req, res)
   }
   try {
-    req.body.sourceid = req.customer.default_source
+    req.body.cardid = req.customer.default_source
     await global.api.user.subscriptions.SetInvoicePaid.patch(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }
     return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
+    console.log(error)
     return renderPage(req, res, 'unknown-error')
   }
 }

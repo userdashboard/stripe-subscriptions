@@ -29,31 +29,10 @@ describe('/account/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'POST')
-      req.account = user2.account
-      req.session = user2.session
-      req.customer = user2.customer
-      let errorMessage
-      try {
-        await req.route.api.before(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.equal(errorMessage, 'invalid-account')
-    })
-
-    it('should reject other account\'s invoice', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2, false)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user2.account
       req.session = user2.session
@@ -75,6 +54,8 @@ describe('/account/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -95,6 +76,8 @@ describe('/account/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
       req.session = user.session

@@ -72,7 +72,7 @@ describe(`/account/subscriptions/cancel-subscription`, async () => {
   })
 
   describe('CancelSubscription#POST', () => {
-    it.only('should apply after authorization', async () => {
+    it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})

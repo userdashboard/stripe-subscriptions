@@ -26,7 +26,6 @@ describe(`/account/subscriptions/edit-payment-information`, async () => {
     it('should require name', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/edit-payment-information`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -79,7 +78,6 @@ describe(`/account/subscriptions/edit-payment-information`, async () => {
     it('should require card number', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/edit-payment-information`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -106,7 +104,6 @@ describe(`/account/subscriptions/edit-payment-information`, async () => {
     it('should require expiration month', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/edit-payment-information`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -133,7 +130,6 @@ describe(`/account/subscriptions/edit-payment-information`, async () => {
     it('should require expiration year', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/edit-payment-information`, 'POST')
       req.account = user.account
       req.session = user.session

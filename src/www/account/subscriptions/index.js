@@ -8,6 +8,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  req.query = {customerid: req.customer.id}
   const cards = await global.api.user.subscriptions.Cards.get(req)
   const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
   if (subscriptions && subscriptions.length) {
@@ -55,46 +56,45 @@ async function renderPage (req, res) {
         if (subscription.status === status) {
           continue
         }
-        const element = document.getElementById(`${status}-subscription-${subscription.id}`)
+        const element = doc.getElementById(`${status}-subscription-${subscription.id}`)
         element.parentNode.removeChild(element)
       }
       if (subscription.status === 'active') {
         if (subscription.cancel_at_period_end) {
-          const element = document.getElementById(`active-subscription-${subscription.id}`)
+          const element = doc.getElementById(`active-subscription-${subscription.id}`)
           element.parentNode.removeChild(element)
-          const element2 = document.getElementById(`change-plan-link-${subscription.id}`)
+          const element2 = doc.getElementById(`change-plan-link-${subscription.id}`)
           element2.parentNode.removeChild(element2)
-          const element3 = document.getElementById(`cancel-subscription-link-${subscription.id}`)
+          const element3 = doc.getElementById(`cancel-subscription-link-${subscription.id}`)
           element3.parentNode.removeChild(element3)
         } else {
-          const element = document.getElementById(`canceling-subscription-${subscription.id}`)
+          const element = doc.getElementById(`canceling-subscription-${subscription.id}`)
           element.parentNode.removeChild(element)
         }
       }
       for (const interval of intervals) {
         if (interval !== subscription.plan.interval) {
-          const element = document.getElementById(`${interval}-singular-interval-${subscription.id}`)
+          const element = doc.getElementById(`${interval}-singular-interval-${subscription.id}`)
           element.parentNode.removeChild(element)
-          const element2 = document.getElementById(`${interval}-multiple-${subscription.id}`)
+          const element2 = doc.getElementById(`${interval}-multiple-interval-${subscription.id}`)
           element2.parentNode.removeChild(element2)
-        }
-        if (subscription.plan.interval_count === 1) {
-          const element = document.getElementById(`${interval}-multiple-interval-${subscription.id}`)
+        } else if (subscription.plan.interval_count === 1) {
+          const element = doc.getElementById(`${interval}-multiple-interval-${subscription.id}`)
           element.parentNode.removeChild(element)
         } else {
-          const element = document.getElementById(`${interval}-singular-interval-${subscription.id}`)
+          const element = doc.getElementById(`${interval}-singular-interval-${subscription.id}`)
           element.parentNode.removeChild(element)
         }
       }
     }
   } else {
-    const element = document.getElementById(`subscriptionsContainer`)
+    const element = doc.getElementById(`subscriptions-container`)
     element.parentNode.removeChild(element)
   }
   if (req.data.invoices && req.data.invoices.length) {
     dashboard.HTML.renderTable(doc, req.data.invoices, 'invoice-row', 'invoices-table')
   } else {
-    const element = document.getElementById(`invoicesContainer`)
+    const element = doc.getElementById(`invoices-container`)
     element.parentNode.removeChild(element)
   }
   if (req.data.cards && req.data.cards.length) {
@@ -106,16 +106,16 @@ async function renderPage (req, res) {
     }
     dashboard.HTML.renderTable(doc, req.data.cards, 'card-row', 'cards-table')
   } else {
-    const element = document.getElementById(`cardsContainer`)
+    const element = doc.getElementById(`cards-container`)
     element.parentNode.removeChild(element)
-    const element2 = document.getElementById(`payment-informationContainer`)
+    const element2 = doc.getElementById(`payment-information-container`)
     element2.parentNode.removeChild(element2)
   }
   if (req.customer.account_balance < 0) {
     const balanceField = doc.getElementById('balance')
     balanceField.setInnerText(dashboard.Format.money(-req.customer.account_balance, req.customer.currency))
   } else {
-    const element = document.getElementById(`balance-informationContainer`)
+    const element = doc.getElementById(`balance-information-container`)
     element.parentNode.removeChild(element)
   }
   return dashboard.Response.end(req, res, doc)

@@ -65,7 +65,7 @@ async function createProduct (administrator, properties) {
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
   req.body = {
-    name: `product${productNumber}-` + new Date().getTime() + '-' + Math.ceil(Math.random() * 1000),
+    name: `product${productNumber}_` + new Date().getTime() + '_' + Math.ceil(Math.random() * 1000),
     statement_descriptor: `product${productNumber} description`,
     unit_label: 'thing'
   }
@@ -100,7 +100,7 @@ async function createPlan (administrator, properties) {
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
   req.body = {
-    planid: `plan${planNumber} ` + new Date().getTime() + ' ' + Math.ceil(Math.random() * 100000),
+    planid: `plan${planNumber}_` + new Date().getTime() + '_' + Math.ceil(Math.random() * 100000),
     currency: 'USD',
     interval: 'month',
     interval_count: '1',
@@ -137,7 +137,7 @@ async function createCoupon (administrator, properties) {
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
   req.body = {
-    couponid: `coupon${couponNumber}` + new Date().getTime() + Math.ceil(Math.random() * 1000),
+    couponid: `coupon${couponNumber}_` + new Date().getTime() + `_` + Math.ceil(Math.random() * 1000),
     percent_off: '25',
     duration: 'repeating',
     duration_in_months: '3'

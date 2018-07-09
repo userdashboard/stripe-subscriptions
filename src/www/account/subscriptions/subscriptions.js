@@ -8,9 +8,11 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
+  req.query = req.query || {}
+  req.query.customerid = req.customer.id
   const count = await global.api.user.subscriptions.SubscriptionsCount.get(req)
-  const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
+  const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
   if (subscriptions && subscriptions.length) {
     for (const subscription of subscriptions) {
       subscription.plan_name = subscription.plan.name
@@ -52,21 +54,6 @@ async function renderPage (req, res) {
           element2.parentNode.removeChild(element2)
           const element3 = doc.getElementById(`cancel-subscription-link-${subscription.id}`)
           element3.parentNode.removeChild(element3)
-        }
-      }
-      for (const interval of intervals) {
-        if (interval !== subscription.plan.interval) {
-          const element1 = doc.getElementById(`${interval}-singular-interval-${subscription.id}`)
-          element1.parentNode.removeChild(element1)
-          const element2 = doc.getElementById(`${interval}-multiple-${subscription.id}`)
-          element2.parentNode.removeChild(element2)
-        }
-        if (subscription.plan.interval_count === 1) {
-          const element = doc.getElementById(`${interval}-multiple-interval-${subscription.id}`)
-          element.parentNode.removeChild(element)
-        } else {
-          const element = doc.getElementById(`${interval}-singular-interval-${subscription.id}`)
-          element.parentNode.removeChild(element)
         }
       }
     }

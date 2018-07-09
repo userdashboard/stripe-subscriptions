@@ -7,9 +7,15 @@ describe(`/account/subscriptions/subscriptions`, async () => {
     it('should bind subscriptions to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/account/subscriptions/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -17,44 +23,34 @@ describe(`/account/subscriptions/subscriptions`, async () => {
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.subscriptions, null)
-      assert.equal(req.data.subscriptions.length, 1)
+      assert.equal(req.data.subscriptions.length, 2)
     })
   })
 
   describe('Subscriptions#GET', () => {
-    it('should limit subscriptions to one page', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/account/subscriptions/subscriptions', 'GET')
-      req.account = user.account
-      req.session = user.session
-      const res = TestHelper.createResponse()
-      res.end = async (str) => {
-        const doc = TestHelper.extractDoc(str)
-        assert.notEqual(null, doc)
-        const table = doc.getElementById('reset-codes-table')
-        const rows = table.getElementsByTagName('tr')
-        assert.equal(rows.length, global.PAGE_SIZE + 1)
-      }
-      return req.route.api.get(req, res)
-    })
-
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+        await TestHelper.createSubscription(user, administrator.plan.id)
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/account/subscriptions/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        const table = doc.getElementById('reset-codes-table')
+        const table = doc.getElementById('subscriptions-table')
         const rows = table.getElementsByTagName('tr')
         assert.equal(rows.length, global.PAGE_SIZE + 1)
       }
@@ -63,21 +59,30 @@ describe(`/account/subscriptions/subscriptions`, async () => {
 
     it('should enforce specified offset', async () => {
       const offset = 1
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
       const user = await TestHelper.createUser()
-      const codes = [ user.code ]
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      const subscriptions = []
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.code)
+        await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+        await TestHelper.createSubscription(user, administrator.plan.id)
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
+        subscriptions.push(user.subscription)
       }
       const req = TestHelper.createRequest(`/account/subscriptions/subscriptions?offset=${offset}`, 'GET')
       req.account = user.account
       req.session = user.session
+      req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(subscriptions[offset + i].id))
         }
       }
       return req.route.api.get(req, res)

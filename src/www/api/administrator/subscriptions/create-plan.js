@@ -7,7 +7,7 @@ module.exports = {
     if (!req.body || !req.body.planid) {
       throw new Error('invalid-planid')
     }
-    if (!req.body.planid.match(/^[a-zA-Z0-9 ]+$/)) {
+    if (!req.body.planid.match(/^[a-zA-Z0-9_ ]+$/)) {
       throw new Error('invalid-planid')
     }
     if (global.MINIMUM_PLAN_LENGTH > req.body.planid.length ||

@@ -33,7 +33,7 @@ describe('/administrator/subscriptions/subscriptions', () => {
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        const table = doc.getElementById('reset-codes-table')
+        const table = doc.getElementById('subscriptions-table')
         const rows = table.getElementsByTagName('tr')
         assert.equal(rows.length, global.PAGE_SIZE + 1)
       }
@@ -53,7 +53,7 @@ describe('/administrator/subscriptions/subscriptions', () => {
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        const table = doc.getElementById('reset-codes-table')
+        const table = doc.getElementById('subscriptions-table')
         const rows = table.getElementsByTagName('tr')
         assert.equal(rows.length, global.PAGE_SIZE + 1)
       }

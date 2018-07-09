@@ -15,11 +15,14 @@ This module adds subscription billing functionality to [userappstore/dashboard](
     
 ## Roadmap
 
-This module does not currently support complex subscriptions where you might add or remove items.
+This module currently only supports basic subscriptions with 1x a product.
 
-This module requires sales taxes applied where appropriate.
+This module currently does not apply any form of tax.
 
-This module has WIP or missing APIs and UIs for disputes, transactions, invoice line items.
+This module has WIP or incomplete API + UI for:
+- disputes (currently there's no way for a customer to file a dispute either).
+- transaction objects
+- invoice line items
 
 ## APIs
 

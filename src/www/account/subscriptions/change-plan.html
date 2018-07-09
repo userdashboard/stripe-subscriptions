@@ -22,9 +22,8 @@
         <td>${subscription.plan_name}</td>
       </tr>
     </table>
-    <form id="submit-form" method="GET" action="confirm-change-plan" class="pure-form pure-form-stacked">
-      <input type="submit" tabindex="-1" />
-      <input id="subscriptionid" name="subscriptionid" type="hidden" />
+    <form id="submit-form" method="GET" action="confirm-change-plan?subcriptionid=${subscription.id}" class="pure-form pure-form-stacked">
+      <input type="submit" tabindex="-1" />>
       <div class="pure-control-group">
         <label for="name">Current plan</label>
         <span id="plan-name" class="next-charge"></span>
@@ -41,7 +40,7 @@
     </form>
   </body>
   <template id="plan-option-template">
-    <option value="${option.value}">${option.text}</option>
+    <option value="${plan.id}">${plan.name}</option>
   </template>
   <template id="plan-name-template">
     <span>${plan.name}</span>
@@ -49,8 +48,8 @@
   <template id="success">
     <div class="success message">Success!  Your subscription has been updated.</div>
   </template>  
-  <template id="invalid-payment_source">
-    <div class="error message">Error!  You must update your payment information first.</div>
+  <template id="invalid-cardid">
+    <div class="error message">Error!  You must add payment information first.</div>
   </template>
   <template id="invalid-planid">
     <div class="error message">Error!  An invalid plan was selected.</div>

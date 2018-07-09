@@ -1,8 +1,8 @@
 @userappstore/dashboard
 Version: 1.0.1058
-https://stripe-subscriptions-benlowry.c9users.io
-Root path: /home/ubuntu/workspace/src/www
-Application path: /home/ubuntu/workspace
+http://undefined
+Root path: /root/workspace/stripe-subscriptions/src/www
+Application path: /root/workspace/stripe-subscriptions
 
 Administrator menu:
 /administrator/subscriptions "Stripe Subscriptions"

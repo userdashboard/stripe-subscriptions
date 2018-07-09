@@ -7,7 +7,7 @@ module.exports = {
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    if (!req.body.couponid.match(/^[a-zA-Z0-9]+$/) ||
+    if (!req.body.couponid.match(/^[a-zA-Z0-9_]+$/) ||
       global.MINIMUM_COUPON_LENGTH > req.body.couponid.length ||
       global.MAXIMUM_COUPON_LENGTH < req.body.couponid.length) {
       throw new Error('invalid-couponid')

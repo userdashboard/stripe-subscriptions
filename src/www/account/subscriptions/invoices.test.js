@@ -9,6 +9,8 @@ describe(`/account/subscriptions/invoices`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/invoices`, 'GET')
       req.account = user.account
@@ -24,6 +26,8 @@ describe(`/account/subscriptions/invoices`, async () => {
   describe('Invoices#GET', () => {
     it('should limit invoices to one page', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
@@ -45,6 +49,8 @@ describe(`/account/subscriptions/invoices`, async () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createResetCode(user)
       }
@@ -66,6 +72,8 @@ describe(`/account/subscriptions/invoices`, async () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const codes = [ user.code ]
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createResetCode(user)

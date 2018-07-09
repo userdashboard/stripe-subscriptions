@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.DeleteSubscription.delete(req)
+    if (req.success) {
+      return
+    }
   }
   const subscription = await global.api.user.subscriptions.Subscription.get(req)
   if (subscription.status === 'canceled' || subscription.cancel_at_period_end) {
@@ -20,7 +23,7 @@ async function beforeRequest (req) {
   if (subscription.customer !== req.customer.id) {
     throw new Error('invalid-account')
   }
-  const invoice = global.api.user.subscriptions.UpcomingInvoice.get(req)
+  const invoice = await global.api.user.subscriptions.UpcomingInvoice.get(req)
   const card = req.customer.default_source || { last4: '', brand: '' }
   req.data = {subscription, card, invoice}
 }

@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/account/subscriptions/card`, async () => {
+describe.only(`/account/subscriptions/card`, async () => {
   describe('Card#BEFORE', () => {
     it('should reject invalid card', async () => {
       const user = await TestHelper.createUser()
@@ -25,7 +25,8 @@ describe(`/account/subscriptions/card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2, false)
       const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${user.card.id}`, 'POST')
@@ -38,7 +39,7 @@ describe(`/account/subscriptions/card`, async () => {
       } catch (error) {
         errorMessage = error.message
       }
-      assert.equal(errorMessage, 'invalid-cardid')
+      assert.equal(errorMessage, 'invalid-account')
     })
 
     it('should bind card to req', async () => {
@@ -46,7 +47,8 @@ describe(`/account/subscriptions/card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${user.card.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -63,10 +65,9 @@ describe(`/account/subscriptions/card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      const card1 = user.card
+      await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${card1.id}`, 'POST')
+      const req = TestHelper.createRequest(`/account/subscriptions/card?cardid=${user.card.id}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -74,8 +75,8 @@ describe(`/account/subscriptions/card`, async () => {
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        const card1Row = doc.getElementById(card1.id)
-        assert.notEqual(null, card1Row)
+        const cardRow = doc.getElementById(user.card.id)
+        assert.notEqual(null, cardRow)
       }
       return req.route.api.get(req, res)
     })

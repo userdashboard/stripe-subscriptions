@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.UpdateSubscriptionPlan.patch(req)
+    if (req.success) {
+      return
+    }
   }
   let subscription = await global.api.user.subscriptions.Subscription.get(req)
   if (subscription.status === 'canceled' || subscription.customer !== req.customer.id || subscription.cancel_at_period_end) {

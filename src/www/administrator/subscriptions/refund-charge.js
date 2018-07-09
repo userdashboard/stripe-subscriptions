@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.SetChargeRefunded.patch(req)
+    if (req.success) {
+      return
+    }
   }
   const charge = await global.api.administrator.subscriptions.Charge.get(req)
   if (!charge.paid || charge.refunded) {

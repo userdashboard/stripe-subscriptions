@@ -9,6 +9,9 @@ module.exports = {
 async function beforeRequest (req) {
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.CreatePlan.post(req)
+    if (req.success) {
+      return
+    }
   }
   const products = await global.api.administrator.subscriptions.Products.get(req)
   req.data = { products }

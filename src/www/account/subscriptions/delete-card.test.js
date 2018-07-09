@@ -9,7 +9,7 @@ describe(`/account/subscriptions/delete-card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=invalid`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -28,13 +28,14 @@ describe(`/account/subscriptions/delete-card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2, true)
-      const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${user2.card.id}`, 'GET')
-      req.account = user.account
-      req.session = user.session
-      req.customer = user.customer
+      await TestHelper.createCustomer(user2)
+      const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${user.card.id}`, 'GET')
+      req.account = user2.account
+      req.session = user2.session
+      req.customer = user2.customer
       let errorMessage
       try {
         await req.route.api.before(req)
@@ -49,7 +50,8 @@ describe(`/account/subscriptions/delete-card`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -65,8 +67,8 @@ describe(`/account/subscriptions/delete-card`, async () => {
 
     it('should bind card to req', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      const card1 = user.card
+      await TestHelper.createCustomer(user)
+      const card1 = await TestHelper.createCard(user)
       await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${card1.id}`, 'GET')
       req.account = user.account
@@ -101,8 +103,8 @@ describe(`/account/subscriptions/delete-card`, async () => {
 
     it('should present the card table', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      const card1 = user.card
+      await TestHelper.createCustomer(user)
+      const card1 = await TestHelper.createCard(user)
       await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${card1.id}`, 'GET')
       req.account = user.account
@@ -121,9 +123,8 @@ describe(`/account/subscriptions/delete-card`, async () => {
   describe('DeleteCard#POST', () => {
     it('should apply after authorization', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
-      await TestHelper.createCard(user)
-      const card1 = user.card
+      await TestHelper.createCustomer(user)
+      const card1 = await TestHelper.createCard(user)
       await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/delete-card?cardid=${card1.id}`, 'POST')
       req.account = user.account

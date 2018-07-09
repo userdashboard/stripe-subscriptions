@@ -11,6 +11,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.SetInvoicePaid.patch(req)
+    if (req.success) {
+      return
+    }
   }
   const invoice = await global.api.user.subscriptions.Invoice.get(req)
   if (invoice.paid) {

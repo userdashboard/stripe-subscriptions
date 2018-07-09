@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.UpdatePlan.patch(req)
+    if (req.success) {
+      return
+    }
   }
   const plan = await global.api.administrator.subscriptions.Plan.get(req)
   if (plan.metadata.unpublished) {

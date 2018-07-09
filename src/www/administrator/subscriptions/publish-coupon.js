@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.SetCouponPublished.patch(req)
+    if (req.success) {
+      return
+    }
   }
   const coupon = await global.api.administrator.subscriptions.Coupon.get(req)
   if (coupon.metadata.published) {

@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.DeletePlan.delete(req)
+    if (req.success) {
+      return
+    }
   }
   const plan = await global.api.administrator.subscriptions.Plan.get(req)
   req.data = {plan}

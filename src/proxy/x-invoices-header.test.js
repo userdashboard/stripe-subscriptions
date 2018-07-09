@@ -10,7 +10,11 @@ describe(`proxy/x-invoices-header`, () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session

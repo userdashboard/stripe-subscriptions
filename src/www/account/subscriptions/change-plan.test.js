@@ -2,14 +2,17 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/account/subscriptions/change-plan`, async () => {
+describe.only(`/account/subscriptions/change-plan`, async () => {
   describe('ChangePlan#BEFORE', () => {
     it('should bind subscription to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -27,7 +30,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -47,7 +53,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -68,7 +77,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -94,7 +106,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -120,7 +135,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id}, {published: true, unpublished: true}, 1000, 0)
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -145,8 +163,9 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
@@ -173,7 +192,10 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session

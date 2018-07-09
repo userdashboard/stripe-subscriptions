@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.DeleteCard.delete(req)
+    if (req.success) {
+      return
+    }
   }
   const card = await global.api.user.subscriptions.Card.get(req)
   if (card.id === req.customer.default_source) {

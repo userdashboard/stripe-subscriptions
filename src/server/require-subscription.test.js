@@ -5,18 +5,13 @@ const TestHelper = require('../../test-helper.js')
 
 describe('server/require-subscription', async () => {
   describe('RequireSubscription#AFTER', () => {
-    it('should require customer', async () => {
+    it('should allow non-customer', async () => {
       const user = await TestHelper.createUser()
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session
-      let errorMessage
-      try {
-        await RequireSubscription.after(req)
-      } catch (error) {
-        errorMessage = error.message
-      }
-      assert.equal(errorMessage, 'invalid-customerid')
+      await RequireSubscription.after(req)
+      assert.equal(null, req.redirect)
     })
 
     it('should allow customer without subscription access to /account/*', async () => {
@@ -35,9 +30,11 @@ describe('server/require-subscription', async () => {
     it('should allow administrator without subscription access to /administrator/', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCustomer(administrator)
+      await TestHelper.createCard(administrator)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
+      req.customer = administrator.customer
       const res = TestHelper.createResponse()
       res.end = (str) => {}
       await RequireSubscription.after(req, res)

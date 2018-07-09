@@ -14,14 +14,5 @@ describe('server/bind-customer', async () => {
       await BindCustomer.after(req)
       assert.equal(req.customer.id, user.customer.id)
     })
-
-    it('should bind new customer data to req', async () => {
-      const user = await TestHelper.createUser()
-      const req = TestHelper.createRequest(`/account/change-username`, 'GET')
-      req.account = user.account
-      req.session = user.session
-      await BindCustomer.after(req)
-      assert.equal(req.customer.id, req.account.customerid)
-    })
   })
 })

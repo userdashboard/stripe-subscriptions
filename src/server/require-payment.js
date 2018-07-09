@@ -11,7 +11,10 @@ async function afterAuthentication (req, res) {
   if (req.url.indexOf('/administrator') === 0 || req.url.indexOf('/account') === 0) {
     return
   }
+  const queryWas = req.query
+  req.query = {customerid: req.customer.id}
   const invoices = await global.api.user.subscriptions.Invoices.get(req)
+  req.query = queryWas
   if (!invoices || !invoices.length) {
     return
   }

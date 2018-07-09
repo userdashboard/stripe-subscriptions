@@ -11,7 +11,10 @@ async function afterAuthentication (req, res) {
   if (req.url.indexOf('/administrator') === 0 || req.url.indexOf('/account') === 0) {
     return
   }
+  const queryWas = req.query
+  req.query = {customerid: req.customer.id}
   const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
+  req.query = queryWas
   if (!subscriptions || !subscriptions.length) {
     req.redirect = true
     return dashboard.Response.redirect(req, res, `/account/subscriptions/plans`)

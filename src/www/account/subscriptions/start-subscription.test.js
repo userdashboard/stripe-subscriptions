@@ -24,6 +24,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
@@ -43,6 +45,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id}, {published: true, unpublished: true}, 1000, 0)
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
@@ -62,7 +66,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -80,7 +85,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -100,7 +106,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -121,7 +128,7 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -143,6 +150,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
@@ -165,7 +174,8 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, true)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session

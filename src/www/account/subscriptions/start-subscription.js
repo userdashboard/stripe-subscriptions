@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.CreateSubscription.post(req)
+    if (req.success) {
+      return
+    }
   }
   const plan = await global.api.user.subscriptions.Plan.get(req)
   if (!plan.metadata.published || plan.metadata.unpublished) {

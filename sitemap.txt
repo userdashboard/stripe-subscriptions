@@ -279,10 +279,8 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/administrator/subscriptions/unpublished-plans-count                                        GET             /src/www                                                   
 /api/administrator/subscriptions/unpublished-products                                           GET             /src/www                                                   
 /api/administrator/subscriptions/unpublished-products-count                                     GET             /src/www                                                   
-/api/administrator/subscriptions/update-customer-coupon                 LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/update-plan                            LOCK                    PATCH           /src/www                                                   
 /api/administrator/subscriptions/update-product                         LOCK                    PATCH           /src/www                                                   
-/api/administrator/subscriptions/update-subscription-coupon             LOCK                    PATCH           /src/www                                                   
 /api/user/account                                             GUEST                             GET             @userappstore/dashboard                                    
 /api/user/create-account                                      GUEST                             POST            @userappstore/dashboard                                    
 /api/user/create-profile                                                LOCK                    POST            @userappstore/dashboard                                    

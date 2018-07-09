@@ -12,6 +12,9 @@ async function beforeRequest (req) {
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.administrator.subscriptions.SetProductUnpublished.patch(req)
+    if (req.success) {
+      return
+    }
   }
   const product = await global.api.administrator.subscriptions.Product.get(req)
   if (!product.metadata.published || product.metadata.unpublished) {

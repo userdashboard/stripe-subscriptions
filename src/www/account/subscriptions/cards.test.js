@@ -12,6 +12,7 @@ describe(`/account/subscriptions/cards`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/cards`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -26,8 +27,9 @@ describe(`/account/subscriptions/cards`, async () => {
   describe('Cards#GET', () => {
     it('should limit cards to one page', async () => {
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createCard(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/cards', 'GET')
       req.account = user.account
@@ -47,8 +49,9 @@ describe(`/account/subscriptions/cards`, async () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createCard(user)
       }
       const req = TestHelper.createRequest('/account/subscriptions/cards', 'GET')
       req.account = user.account

@@ -11,6 +11,9 @@ module.exports = {
 async function beforeRequest (req) {
   if (req.session.lockURL === req.url && req.session.unlocked) {
     await global.api.user.subscriptions.CreateCard.post(req)
+    if (req.success) {
+
+    }
   }
 }
 

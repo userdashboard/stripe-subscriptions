@@ -6,7 +6,8 @@ describe('/account/subscriptions/invoice', () => {
   describe('Invoice#BEFORE', () => {
     it('should reject invalid invoice', async () => {
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       const req = TestHelper.createRequest('/account/subscriptions/invoice?invoiceid=invalid', 'POST')
       req.account = user.account
       req.session = user.session
@@ -25,9 +26,11 @@ describe('/account/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createCustomer(user2, false)
+      await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'POST')
       req.account = user2.account
       req.session = user2.session
@@ -46,6 +49,8 @@ describe('/account/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2, false)
@@ -67,6 +72,8 @@ describe('/account/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account
@@ -85,6 +92,8 @@ describe('/account/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const req = TestHelper.createRequest(`/account/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.account = user.account

@@ -7,7 +7,7 @@ describe('/administrator/subscriptions/customer', () => {
     it('should reject invalid customer', async () => {
       const administrator = await TestHelper.createAdministrator()
       const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user, false)
+      await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest('/administrator/subscriptions/customer?customerid=invalid', 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

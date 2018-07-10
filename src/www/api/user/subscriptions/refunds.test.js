@@ -18,19 +18,19 @@ describe('/api/user/subscriptions/refunds', () => {
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(5)
       await TestHelper.createSubscription(user, plan3.id)
       await TestHelper.waitForWebhooks(7)
       await TestHelper.changeSubscription(user, plan4.id)
       await TestHelper.waitForWebhooks(9)
-      const refund2 = await TestHelper.createRefund(user, user.charge)
+      const refund2 = await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(10)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(12)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(14)
-      const refund3 = await TestHelper.createRefund(user, user.charge)
+      const refund3 = await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(15)
       const req = TestHelper.createRequest(`/api/user/subscriptions/refunds?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
@@ -60,7 +60,7 @@ describe('/api/user/subscriptions/refunds', () => {
         webhook += 2
         await TestHelper.waitForWebhooks(webhook)
         await TestHelper.loadCharge(user, user.subscription.id)
-        await TestHelper.createRefund(user, user.charge)
+        await TestHelper.createRefund(administrator, user.charge)
         webhook += 1
         await TestHelper.waitForWebhooks(webhook)
       }
@@ -91,7 +91,7 @@ describe('/api/user/subscriptions/refunds', () => {
         webhook += 2
         await TestHelper.waitForWebhooks(webhook)
         await TestHelper.loadCharge(user, user.subscription.id)
-        const refund = await TestHelper.createRefund(user, user.charge)
+        const refund = await TestHelper.createRefund(administrator, user.charge)
         webhook += 1
         await TestHelper.waitForWebhooks(webhook)
         refunds.unshift(refund)

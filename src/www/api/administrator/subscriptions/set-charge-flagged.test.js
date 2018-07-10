@@ -28,7 +28,7 @@ describe(`/api/administrator/subscriptions/set-charge-flagged`, () => {
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       await TestHelper.flagCharge(administrator, user.charge.id)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'PATCH')
@@ -75,7 +75,7 @@ describe(`/api/administrator/subscriptions/set-charge-flagged`, () => {
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'PATCH')
       req.administratorAccount = req.account = administrator.account

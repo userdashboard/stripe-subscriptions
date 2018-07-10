@@ -32,7 +32,7 @@ describe('/api/user/subscriptions/refund', () => {
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
       await TestHelper.waitForWebhooks(4)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(5)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)

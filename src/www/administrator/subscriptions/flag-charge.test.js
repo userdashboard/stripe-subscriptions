@@ -50,7 +50,7 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -73,7 +73,7 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -98,7 +98,7 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -124,7 +124,7 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.createRefund(administrator, user.charge)
       await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account

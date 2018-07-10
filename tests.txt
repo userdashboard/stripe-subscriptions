@@ -6,70 +6,7 @@
 
   proxy/x-customer-header
     Customer#AFTER
-      ✓ should set customer data in header (2175ms)
+      ✓ should set customer data in header (2232ms)
 
   proxy/x-invoices-header
     Invoices#AFTER
-      ✓ should set invoice data in header (16823ms)
-
-  proxy/x-subscriptions-header
-    Subscriptions#AFTER
-      ✓ should set invoice data in header (10331ms)
-
-  server/bind-customer
-    BindCustomer#AFTER
-      ✓ should bind existing customer data to req (2473ms)
-
-  server/bind-stripekey
-    BindStripeKey#AFTER
-      ✓ should bind stripekey data to req (1702ms)
-
-  server/require-payment
-    RequirePayment#AFTER
-      ✓ should allow non-customer through (1704ms)
-      ✓ should allow non-owing customer through (2052ms)
-      ✓ should allow owing customer access to /account/* (22083ms)
-      ✓ should allow owing administrator access to /administrator/ (11262ms)
-      ✓ should redirect owing customer to the payment form (14174ms)
-
-  server/require-subscription
-    RequireSubscription#AFTER
-      ✓ should allow non-customer (1706ms)
-      ✓ should allow customer without subscription access to /account/* (2261ms)
-      ✓ should allow administrator without subscription access to /administrator/ (3581ms)
-      ✓ should redirect unsubscribed customer to the plans list (2030ms)
-
-  /account/subscriptions/cancel-subscription
-    CancelSubscription#BEFORE
-      ✓ should bind subscription to req (13688ms)
-    CancelSubscription#GET
-      ✓ should present the form (27630ms)
-      ✓ should present the subscription table (24532ms)
-    CancelSubscription#POST
-      ✓ should apply after authorization (18750ms)
-
-  /account/subscriptions/card
-    Card#BEFORE
-      ✓ should reject invalid card (2223ms)
-      ✓ should reject other account's card (10516ms)
-      ✓ should bind card to req (8454ms)
-    Card#GET
-      ✓ should have row for card (8375ms)
-
-  /account/subscriptions/cards
-    Cards#BEFORE
-      ✓ should bind cards to req (11984ms)
-    Cards#GET
-      ✓ should enforce page size (10019ms)
-      ✓ should enforce specified offset (10355ms)
-
-  /account/subscriptions/change-plan
-    ChangePlan#BEFORE
-      ✓ should bind subscription to req (17520ms)
-    ChangePlan#GET
-      ✓ should present the form (16303ms)
-      ✓ should present the subscription table (18300ms)
-    ChangePlan#POST
-      ✓ should reject same plan (15300ms)
-      ✓ should reject never published plan (18094ms)
-      ✓ should reject unpublished plan (19108ms)

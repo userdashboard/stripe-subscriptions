@@ -134,6 +134,7 @@ describe(`/administrator/subscriptions/refund-charge`, async () => {
         req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
+          await TestHelper.waitForWebhooks(3)
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)

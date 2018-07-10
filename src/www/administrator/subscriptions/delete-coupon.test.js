@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe.only(`/administrator/subscriptions/delete-coupon`, async () => {
+describe(`/administrator/subscriptions/delete-coupon`, async () => {
   describe('DeleteCoupon#BEFORE', () => {
     it('should reject invalid couponid', async () => {
       const administrator = await TestHelper.createAdministrator()

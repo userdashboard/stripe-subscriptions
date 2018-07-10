@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe('/administrator/subscriptions/invoice', () => {
+describe.only('/administrator/subscriptions/invoice', () => {
   describe('Invoice#BEFORE', () => {
     it('should reject invalid invoiceid', async () => {
       const administrator = await TestHelper.createAdministrator()
@@ -23,7 +23,11 @@ describe('/administrator/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -40,7 +44,11 @@ describe('/administrator/subscriptions/invoice', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadInvoice(user, user.subscription.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

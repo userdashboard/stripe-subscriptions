@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
-  describe('SetChargeFlagged#BEFORE', () => {
+describe(`/administrator/subscriptions/flag-charge`, async () => {
+  describe('FlagCharge#BEFORE', () => {
     it('should reject invalid chargeid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=invalid`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -23,8 +23,12 @@ describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -41,9 +45,14 @@ describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
@@ -53,15 +62,20 @@ describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
     })
   })
 
-  describe('SetChargeFlagged#GET', () => {
+  describe('FlagCharge#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -79,9 +93,14 @@ describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -94,15 +113,20 @@ describe(`/administrator/subscriptions/set-charge-flagged`, async () => {
     })
   })
 
-  describe('SetChargeFlagged#POST', () => {
+  describe('FlagCharge#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-charge-flagged?chargeid=${user.charge.id}`, 'POST')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(user, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {

@@ -22,7 +22,10 @@ describe(`/administrator/subscriptions`, async () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -93,11 +96,15 @@ describe(`/administrator/subscriptions`, async () => {
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, plan1.id)
-      const subscription1 = user.subscription
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      const subscription1 = await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
-      await TestHelper.createSubscription(user2, plan2.id)
-      const subscription2 = user2.subscription
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
+      const subscription2 = await TestHelper.createSubscription(user2, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

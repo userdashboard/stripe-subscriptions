@@ -21,7 +21,7 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
     it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true, trial_period_days: 0, amount: 10000})
       const req = TestHelper.createRequest(`/administrator/subscriptions/edit-plan?planid=${administrator.plan.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -139,7 +139,7 @@ describe(`/administrator/subscriptions/edit-plan`, () => {
       return req.route.api.post(req, res)
     })
 
-    it('should reject invalid trial_period_days', async () => {
+    it('should reject invalid trial period', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})

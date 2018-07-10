@@ -101,6 +101,7 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.loadInvoice(user, user.subscription.id)
       const card1 = user.card
       await TestHelper.createCard(user)
@@ -129,10 +130,10 @@ describe(`/account/subscriptions`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, plan1.id)
-      const subscription1 = user.subscription
-      await TestHelper.createSubscription(user, plan2.id)
-      const subscription2 = user.subscription
+      const subscription1 = await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest('/account/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session

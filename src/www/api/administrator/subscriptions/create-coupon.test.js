@@ -4,13 +4,13 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe(`/api/administrator/subscriptions/create-coupon`, () => {
   describe('CreateCoupon#POST', () => {
-    it('should require alphanumeric id', async () => {
+    it('should require alphanumeric_ id', async () => {
       const administrator = await TestHelper.createAdministrator()
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-coupon`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
-        couponid: `coupon_`,
+        couponid: `#$%@#$%@#$%`,
         amount_off: null,
         percent_off: null
       }

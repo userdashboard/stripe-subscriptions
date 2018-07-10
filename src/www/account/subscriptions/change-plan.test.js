@@ -205,7 +205,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       }
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        console.log(req.session)
         req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {

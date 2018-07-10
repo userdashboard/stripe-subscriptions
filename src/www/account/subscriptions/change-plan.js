@@ -22,7 +22,6 @@ async function beforeRequest (req) {
   }
   req.query.planid = subscription.plan.id
   const currentPlan = await global.api.user.subscriptions.PublishedPlan.get(req)
-  currentPlan.text = currentPlan.metadata.display.change_plan || currentPlan.metadata.display.register || currentPlan.name
   currentPlan.currency = subscription.plan.currency.toUpperCase()
   currentPlan.priceFormatted = dashboard.Format.money(subscription.plan.amount || 0, subscription.plan.currency)
   const plans = await global.api.user.subscriptions.PublishedPlans.get(req)

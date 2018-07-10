@@ -52,7 +52,6 @@ module.exports = {
       await dashboard.RedisList.add(`coupon:subscriptions:${req.body.couponid}`, req.query.subscriptionid)
       return subscription
     } catch (error) {
-      console.log(error)
       throw new Error('unknown-error')
     }
   }

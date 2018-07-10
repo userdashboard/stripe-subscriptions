@@ -2,11 +2,11 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/administrator/subscriptions/set-coupon-published`, async () => {
-  describe('SetCouponPublished#BEFORE', () => {
+describe(`/administrator/subscriptions/publish-coupon`, async () => {
+  describe('PublishCoupon#BEFORE', () => {
     it('should reject invalid couponid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=invalid`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=invalid`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -21,7 +21,7 @@ describe(`/administrator/subscriptions/set-coupon-published`, async () => {
     it('should reject published coupon', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -35,8 +35,8 @@ describe(`/administrator/subscriptions/set-coupon-published`, async () => {
 
     it('should bind coupon to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
+      await TestHelper.createCoupon(administrator, {percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
@@ -46,11 +46,11 @@ describe(`/administrator/subscriptions/set-coupon-published`, async () => {
     })
   })
 
-  describe('SetCouponPublished#GET', () => {
+  describe('PublishCoupon#GET', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
+      await TestHelper.createCoupon(administrator, {percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -65,8 +65,8 @@ describe(`/administrator/subscriptions/set-coupon-published`, async () => {
 
     it('should present the coupon table', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'GET')
+      await TestHelper.createCoupon(administrator, {percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -79,11 +79,11 @@ describe(`/administrator/subscriptions/set-coupon-published`, async () => {
     })
   })
 
-  describe('SetCouponPublished#POST', () => {
+  describe('PublishCoupon#POST', () => {
     it('should apply after authorization', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createCoupon(administrator, {published: true, percent_off: 25, duration: 'repeating', duration_in_months: 3})
-      const req = TestHelper.createRequest(`/administrator/subscriptions/set-coupon-published?couponid=${administrator.coupon.id}`, 'POST')
+      await TestHelper.createCoupon(administrator, {percent_off: 25, duration: 'repeating', duration_in_months: 3})
+      const req = TestHelper.createRequest(`/administrator/subscriptions/publish-coupon?couponid=${administrator.coupon.id}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {}

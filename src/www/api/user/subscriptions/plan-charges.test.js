@@ -58,7 +58,7 @@ describe('/api/user/subscriptions/plan-charges', () => {
       const offset = 1
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      const invoices = [ ]
+      const invoices = []
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)

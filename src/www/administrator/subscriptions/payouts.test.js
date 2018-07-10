@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe(`/api/administrator/subscriptions/payouts`, () => {
+describe(`/administrator/subscriptions/payouts`, () => {
   describe('Payouts#BEFORE', () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
@@ -10,7 +10,7 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
       await TestHelper.waitForWebhooks(1)
       const payout2 = await TestHelper.createPayout()
       await TestHelper.waitForWebhooks(2)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
@@ -24,12 +24,14 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
   describe('Payouts#GET', () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
-      const user = await TestHelper.createUser()
+      const administrator = await TestHelper.createAdministrator()
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPayout()
-        await TestHelper.waitForWebhooks(i + 1)
+        webhook++
+        await TestHelper.waitForWebhooks(webhook)
       }
-      const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts', 'GET')
+      const req = TestHelper.createRequest('/administrator/subscriptions/payouts', 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -44,15 +46,17 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
     })
 
     it('should enforce specified offset', async () => {
+      const administrator = await TestHelper.createAdministrator()
       const offset = 1
-      const user = await TestHelper.createUser()
-      const payouts = [ ]
+      const payouts = []
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const payout = await TestHelper.createPayout()
-        payouts.push(payout)
-        await TestHelper.waitForWebhooks(i + 1)
+        payouts.unshift(payout)
+        webhook++
+        await TestHelper.waitForWebhooks(webhook)
       }
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
+      const req = TestHelper.createRequest(`/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -60,7 +64,7 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(payouts[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(payouts[offset + i].id))
         }
       }
       return req.route.api.get(req, res)

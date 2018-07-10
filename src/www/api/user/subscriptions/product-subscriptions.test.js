@@ -56,7 +56,7 @@ describe('/api/user/subscriptions/product-subscriptions', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const subscriptions = [ ]
+      const subscriptions = []
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
         const subscription = await TestHelper.createSubscription(user, administrator.plan.id)

@@ -23,15 +23,20 @@ describe('/administrator/subscriptions/refund', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(administrator, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/refund?refundid=${administrator.refund.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.refund, null)
-      assert.equal(req.data.refund.id, user.refund.id)
+      assert.equal(req.data.refund.id, administrator.refund.id)
     })
   })
 
@@ -41,15 +46,20 @@ describe('/administrator/subscriptions/refund', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.createRefund(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
+      await TestHelper.waitForWebhooks(2)
+      await TestHelper.loadCharge(user, user.subscription.id)
+      await TestHelper.createRefund(administrator, user.charge)
+      await TestHelper.waitForWebhooks(3)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/refund?refundid=${administrator.refund.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.refund.id)
+        const tr = doc.getElementById(administrator.refund.id)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)

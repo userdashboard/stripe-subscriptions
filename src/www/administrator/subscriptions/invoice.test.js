@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
-describe.only('/administrator/subscriptions/invoice', () => {
+describe('/administrator/subscriptions/invoice', () => {
   describe('Invoice#BEFORE', () => {
     it('should reject invalid invoiceid', async () => {
       const administrator = await TestHelper.createAdministrator()

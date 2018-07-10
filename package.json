@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.0.1036",
+  "version": "1.0.1058",
   "main": "index.js",
   "deprecated": false,
   "engine": {

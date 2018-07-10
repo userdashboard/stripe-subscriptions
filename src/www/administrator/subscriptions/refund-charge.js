@@ -11,7 +11,7 @@ async function beforeRequest (req) {
     throw new Error('invalid-chargeid')
   }
   if (req.session.lockURL === req.url && req.session.unlocked) {
-    await global.api.administrator.subscriptions.SetChargeRefunded.patch(req)
+    await global.api.administrator.subscriptions.CreateRefund.post(req)
     if (req.success) {
       return
     }
@@ -40,7 +40,7 @@ async function renderPage (req, res, messageTemplate) {
 
 async function submitForm (req, res) {
   try {
-    await global.api.administrator.subscriptions.SetChargeRefunded.patch(req)
+    await global.api.administrator.subscriptions.CreateRefund.post(req)
     if (req.success) {
       return renderPage(req, res, 'success')
     }

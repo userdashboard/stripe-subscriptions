@@ -52,7 +52,6 @@ async function submitForm (req, res) {
     }
     return dashboard.Response.redirect(req, res, '/account/authorize')
   } catch (error) {
-    console.log(error)
     return renderPage(req, res, 'unknown-error')
   }
 }

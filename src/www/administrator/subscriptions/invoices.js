@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.CardsCount.get(req)
+  const count = await global.api.administrator.subscriptions.InvoicesCount.get(req)
   const invoices = await global.api.administrator.subscriptions.Invoices.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (invoices && invoices.length) {

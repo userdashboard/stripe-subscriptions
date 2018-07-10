@@ -7,25 +7,43 @@ describe('/administrator/subscriptions/invoices', () => {
     it('should bind invoices to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
-      await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      const user2 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user2)
+      await TestHelper.createCard(user2)
+      await TestHelper.createSubscription(user2, plan2.id)
+      await TestHelper.waitForWebhooks(4)
+      await TestHelper.loadInvoice(user2, user2.subscription.id)
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoices`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoices, null)
-      assert.equal(req.data.invoices[0].id, user.invoice.id)
+      assert.equal(req.data.invoices[0].id, user2.invoice.id)
     })
   })
 
   describe('Invoices#GET', () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
-      const user = await TestHelper.createUser()
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        const user = await TestHelper.createUser()
+        await TestHelper.createCustomer(user)
+        await TestHelper.createCard(user)
+        await TestHelper.createSubscription(user, plan.id)
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/invoices', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -43,11 +61,20 @@ describe('/administrator/subscriptions/invoices', () => {
 
     it('should enforce specified offset', async () => {
       const offset = 1
-      const user = await TestHelper.createUser()
-      const codes = [ user.code ]
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const invoices = []
+      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.code)
+        const user = await TestHelper.createUser()
+        await TestHelper.createCustomer(user)
+        await TestHelper.createCard(user)
+        await TestHelper.createSubscription(user, plan.id)
+        webhook += 2
+        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.loadInvoice(user, user.subscription.id)
+        invoices.push(user.invoice)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoices?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -57,7 +84,7 @@ describe('/administrator/subscriptions/invoices', () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(invoices[offset + i].id))
         }
       }
       return req.route.api.get(req, res)

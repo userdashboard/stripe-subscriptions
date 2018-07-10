@@ -20,9 +20,9 @@ describe('/administrator/subscriptions/products', () => {
   describe('Products#GET', () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
-      const user = await TestHelper.createUser()
+      const administrator = await TestHelper.createAdministrator()
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createProduct(administrator)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/products', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -40,11 +40,11 @@ describe('/administrator/subscriptions/products', () => {
 
     it('should enforce specified offset', async () => {
       const offset = 1
-      const user = await TestHelper.createUser()
-      const codes = [ user.code ]
+      const administrator = await TestHelper.createAdministrator()
+      const products = []
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.code)
+        await TestHelper.createProduct(administrator, {published: true})
+        products.unshift(administrator.product)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/products?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -54,7 +54,7 @@ describe('/administrator/subscriptions/products', () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(products[offset + i].id))
         }
       }
       return req.route.api.get(req, res)

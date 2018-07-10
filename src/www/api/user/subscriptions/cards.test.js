@@ -39,7 +39,7 @@ describe('/api/user/subscriptions/cards', () => {
       const offset = 1
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      const cards = [ ]
+      const cards = []
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         const card = await TestHelper.createCard(user)
         cards.unshift(card)

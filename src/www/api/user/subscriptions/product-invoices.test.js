@@ -59,7 +59,7 @@ describe('/api/user/subscriptions/product-invoices', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      const invoices = [ ]
+      const invoices = []
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, administrator.plan.id)
         await TestHelper.waitForWebhooks(2 * (i + 1))

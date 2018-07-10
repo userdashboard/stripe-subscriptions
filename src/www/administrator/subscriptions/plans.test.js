@@ -21,9 +21,10 @@ describe('/administrator/subscriptions/plans', () => {
   describe('Plans#GET', () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
-      const user = await TestHelper.createUser()
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
+        await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/plans', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -41,11 +42,12 @@ describe('/administrator/subscriptions/plans', () => {
 
     it('should enforce specified offset', async () => {
       const offset = 1
-      const user = await TestHelper.createUser()
-      const codes = [ user.code ]
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plans = []
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-        codes.unshift(user.code)
+        await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+        plans.unshift(administrator.plan)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/plans?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -55,7 +57,7 @@ describe('/administrator/subscriptions/plans', () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(codes[offset + i].codeid))
+          assert.notEqual(null, doc.getElementById(plans[offset + i].id))
         }
       }
       return req.route.api.get(req, res)

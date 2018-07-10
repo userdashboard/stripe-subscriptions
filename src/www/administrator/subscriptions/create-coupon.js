@@ -28,21 +28,21 @@ async function renderPage (req, res, messageTemplate) {
   const days = []
   const years = []
   for (let i = 1; i < 32; i++) {
-    days.push({value: i, name: i.toString()})
+    days.push({value: i, name: i.toString(), object: 'option'})
   }
   const currentYear = new Date().getFullYear()
   for (let i = 0; i < 3; i++) {
     const y = currentYear + i
-    years.push({value: y, name: y.toString()})
+    years.push({value: y, name: y.toString(), object: 'option'})
   }
   const hours = []
   for (let i = 1; i < 13; i++) {
-    hours.push({value: i, name: i.toString()})
+    hours.push({value: i, name: i.toString(), object: 'option'})
   }
   const minutes = []
   for (let i = 0; i < 60; i++) {
     const padded = i < 10 ? `0${i}` : i
-    minutes.push({value: i, name: `${padded}`})
+    minutes.push({value: i, name: `${padded}`, object: 'option'})
   }
   dashboard.HTML.renderList(doc, minutes, 'expire-option-template', 'expires_minute')
   dashboard.HTML.renderList(doc, hours, 'expire-option-template', 'expires_hour')
@@ -78,55 +78,55 @@ async function submitForm (req, res) {
   if (!req.body.couponid.match(/^[a-zA-Z0-9]+$/)) {
     return renderPage(req, res, 'invalid-couponid')
   }
-  if (global.MINIMUM_COUPON_LENGTH > req.body.couponid.length ||
-    global.MAXIMUM_COUPON_LENGTH < req.body.couponid.length) {
-    return renderPage(req, res, 'invalid-couponid-length')
-  }
-  if (req.body.amount_off) {
-    try {
-      req.body.amount_off = parseInt(req.body.amount_off, 10)
-    } catch (s) {
-      return renderPage(req, res, 'invalid-amount_off')
-    }
-    if (!req.body.amount_off || req.body.amount_off < 0) {
-      return renderPage(req, res, 'invalid-amount_off')
-    }
-  } else if (req.body.percent_off) {
-    try {
-      req.body.percent_off = parseInt(req.body.percent_off, 10)
-    } catch (s) {
-      return renderPage(req, res, 'invalid-percent_off')
-    }
-    if (!req.body.percent_off || req.body.percent_off < 0 || req.body.percent_off > 100) {
-      return renderPage(req, res, 'invalid-percent_off')
-    }
-  }
   if (!req.body.amount_off && !req.body.percent_off) {
     return renderPage(req, res, 'invalid-discount')
   }
   if (req.body.duration !== 'once' && req.body.duration !== 'repeating' && req.body.duration !== 'forever') {
     return renderPage(req, res, 'invalid-duration')
   }
+  if (global.MINIMUM_COUPON_LENGTH > req.body.couponid.length ||
+    global.MAXIMUM_COUPON_LENGTH < req.body.couponid.length) {
+    return renderPage(req, res, 'invalid-couponid-length')
+  }
+  if (req.body.amount_off) {
+    try {
+      const amountOff = parseInt(req.body.amount_off, 10)
+      if (!amountOff || amountOff < 0) {
+        return renderPage(req, res, 'invalid-amount_off')
+      }
+    } catch (s) {
+      return renderPage(req, res, 'invalid-amount_off')
+    }
+  } else if (req.body.percent_off) {
+    try {
+      const percentOff = parseInt(req.body.percent_off, 10)
+    if (!percentOff || percentOff < 0 || percentOff > 100) {
+      return renderPage(req, res, 'invalid-percent_off')
+    }
+    } catch (s) {
+      return renderPage(req, res, 'invalid-percent_off')
+    }
+  }
   if (req.body.duration === 'repeating') {
     if (req.body.duration_in_months) {
       try {
-        req.body.duration_in_months = parseInt(req.body.duration_in_months, 10)
+        const durationInMonths = parseInt(req.body.duration_in_months, 10)
+        if (!durationInMonths || durationInMonths < 1 || durationInMonths > 24) {
+          return renderPage(req, res, 'invalid-duration_in_months')
+        }
       } catch (s) {
-        return renderPage(req, res, 'invalid-duration_in_months')
-      }
-      if (!req.body.duration_in_months || req.body.duration_in_months < 1 || req.body.duration_in_months > 24) {
         return renderPage(req, res, 'invalid-duration_in_months')
       }
     }
   }
   if (req.body.max_redemptions) {
     try {
-      req.body.max_redemptions = parseInt(req.body.max_redemptions, 10)
+      const maxRedemptions = parseInt(req.body.max_redemptions, 10)
+      if (!maxRedemptions || maxRedemptions < 0) {
+        return renderPage(req, res, 'invalid-max_redemptions')
+      }
     } catch (s) {
       return renderPage(req, res, 'max_redemptions')
-    }
-    if (!req.body.max_redemptions || req.body.max_redemptions < 0) {
-      return renderPage(req, res, 'invalid-max_redemptions')
     }
   }
   if (req.body.expire_day || req.body.expire_month || req.body.expire_year ||
@@ -153,7 +153,7 @@ async function submitForm (req, res) {
     req.query = { couponid: req.body.couponid }
     const coupon = await global.api.administrator.subscriptions.Coupon.get(req)
     if (coupon) {
-      return renderPage(req, res, 'duplicate-couponid')
+      return renderPage(req, res, 'invalid-couponid')
     }
   } catch (error) {
   }

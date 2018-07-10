@@ -65,11 +65,11 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-amount')
   }
   try {
-    req.body.amount = parseInt(req.body.amount, 10)
+    const amount = parseInt(req.body.amount, 10)
+    if (amount < 0) {
+      return renderPage(req, res, 'invalid-amount')
+    }
   } catch (s) {
-    return renderPage(req, res, 'invalid-amount')
-  }
-  if (req.body.amount < 0) {
     return renderPage(req, res, 'invalid-amount')
   }
   if (!req.body.interval_count) {
@@ -79,20 +79,20 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-interval')
   }
   try {
-    req.body.interval_count = parseInt(req.body.interval_count, 10)
+    const intervalCount = parseInt(req.body.interval_count, 10)
+    if (!intervalCount || intervalCount < 1) {
+      return renderPage(req, res, 'invalid-interval_count')
+    }
   } catch (s) {
-    return renderPage(req, res, 'invalid-interval_count')
-  }
-  if (!req.body.interval_count || req.body.interval_count < 1) {
     return renderPage(req, res, 'invalid-interval_count')
   }
   if (req.body.trial_period_days) {
     try {
-      req.body.trial_period_days = parseInt(req.body.trial_period_days, 10)
+      const trialPeriodDays = parseInt(req.body.trial_period_days, 10)
+      if (trialPeriodDays < 0 || trialPeriodDays > 365) {
+        return renderPage(req, res, 'invalid-trial_period_days')
+      }
     } catch (s) {
-      return renderPage(req, res, 'invalid-trial_period_days')
-    }
-    if (!req.body.trial_period_days || req.body.trial_period_days < 0 || req.body.trial_period_days > 365) {
       return renderPage(req, res, 'invalid-trial_period_days')
     }
   }

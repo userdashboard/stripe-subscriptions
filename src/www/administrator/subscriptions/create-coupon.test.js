@@ -94,7 +94,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
         assert.notEqual(null, messageContainer)
         assert.notEqual(null, messageContainer.child)
         const message = messageContainer.child[0]
-        assert.equal('duplicate-couponid', message.attr.template)
+        assert.equal('invalid-couponid', message.attr.template)
       }
       return req.route.api.post(req, res)
     })
@@ -319,7 +319,7 @@ describe('/administrator/subscriptions/create-coupon', () => {
       }
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         const res3 = TestHelper.createResponse()
         res3.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

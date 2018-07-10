@@ -22,26 +22,6 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
   })
 
   describe('Payouts#GET', () => {
-    it('should limit payouts to one page', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createPayout()
-        await TestHelper.waitForWebhooks(i + 1)
-      }
-      const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts', 'GET')
-      req.account = user.account
-      req.session = user.session
-      const res = TestHelper.createResponse()
-      res.end = async (str) => {
-        const doc = TestHelper.extractDoc(str)
-        assert.notEqual(null, doc)
-        const table = doc.getElementById('payouts-table')
-        const rows = table.getElementsByTagName('tr')
-        assert.equal(rows.length, global.PAGE_SIZE + 1)
-      }
-      return req.route.api.get(req, res)
-    })
-
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
@@ -50,8 +30,8 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
         await TestHelper.waitForWebhooks(i + 1)
       }
       const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts', 'GET')
-      req.account = user.account
-      req.session = user.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -73,8 +53,8 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
         await TestHelper.waitForWebhooks(i + 1)
       }
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
-      req.account = user.account
-      req.session = user.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

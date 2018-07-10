@@ -49,7 +49,7 @@ describe(`/administrator/subscriptions/set-invoice-forgiven`, async () => {
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         await req.route.api.before(req)
         let errorMessage
         try {
@@ -138,7 +138,7 @@ describe(`/administrator/subscriptions/set-invoice-forgiven`, async () => {
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

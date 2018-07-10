@@ -110,7 +110,7 @@ describe(`/administrator/subscriptions/set-plan-unpublished`, async () => {
       req.body = {}
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

@@ -168,7 +168,7 @@ describe(`/administrator/subscriptions/edit-product`, () => {
       }
       const res = TestHelper.createResponse()
       res.end = async (str) => {
-        await TestHelper.completeAuthorization(req)
+        req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
         const res3 = TestHelper.createResponse()
         res3.end = async (str) => {
           const doc = TestHelper.extractDoc(str)

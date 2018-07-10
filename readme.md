@@ -2,6 +2,9 @@
 
 This module adds subscription billing functionality to [userappstore/dashboard](https://github.com/userappstore/dashboard).  It adds an account menu for your users to manage their billing information and subscriptions, and an administrator menu to manage your plans, coupons, customers etc.
 
+# License
+
+This is free and unencumbered software released into the public domain.  The MIT License is provided for countries that have not established a public domain.
 
 ## 1) Install the module in your dashboard project
 

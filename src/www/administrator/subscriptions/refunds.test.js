@@ -22,25 +22,6 @@ describe('/administrator/subscriptions/refunds', () => {
   })
 
   describe('Refunds#GET', () => {
-    it('should limit refunds to one page', async () => {
-      const user = await TestHelper.createUser()
-      for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
-        await TestHelper.createResetCode(user)
-      }
-      const req = TestHelper.createRequest('/administrator/subscriptions/refunds', 'GET')
-      req.account = user.account
-      req.session = user.session
-      const res = TestHelper.createResponse()
-      res.end = async (str) => {
-        const doc = TestHelper.extractDoc(str)
-        assert.notEqual(null, doc)
-        const table = doc.getElementById('refunds-table')
-        const rows = table.getElementsByTagName('tr')
-        assert.equal(rows.length, global.PAGE_SIZE + 1)
-      }
-      return req.route.api.get(req, res)
-    })
-
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
@@ -48,8 +29,8 @@ describe('/administrator/subscriptions/refunds', () => {
         await TestHelper.createResetCode(user)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/refunds', 'GET')
-      req.account = user.account
-      req.session = user.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
@@ -70,8 +51,8 @@ describe('/administrator/subscriptions/refunds', () => {
         codes.unshift(user.code)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/refunds?offset=${offset}`, 'GET')
-      req.account = user.account
-      req.session = user.session
+      req.administratorAccount = req.account = administrator.account
+      req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)

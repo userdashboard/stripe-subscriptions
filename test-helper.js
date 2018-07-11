@@ -41,8 +41,9 @@ module.exports.payInvoice = payInvoice
 module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
 beforeEach(setup)
-
+let testNumber = 0
 async function setup () {
+  console.log('before....')
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1
@@ -56,6 +57,9 @@ async function setup () {
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
   global.redisClient.flushdb()
+  testNumber++
+  await global.redisClient.incrbyAsync('testNumber', testNumber)
+  console.log(' - ' + testNumber + ' - ')
 }
 
 let productNumber = 0
@@ -437,9 +441,9 @@ async function waitForWebhooks (target, callback) {
     if (webhookNumberNow >= target) {
       return callback()
     }
-    return setTimeout(wait, 1000)
+    return setTimeout(wait, 20)
   }
-  return setTimeout(wait, 100)
+  return setTimeout(wait, 20)
 }
 
 async function currentWebHookNumber () {

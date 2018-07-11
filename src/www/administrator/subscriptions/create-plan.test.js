@@ -375,8 +375,8 @@ describe('/administrator/subscriptions/create-plan', () => {
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
-        const res3 = TestHelper.createResponse()
-        res3.end = async (str) => {
+        const res2 = TestHelper.createResponse()
+        res2.end = async (str) => {
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)
@@ -384,7 +384,7 @@ describe('/administrator/subscriptions/create-plan', () => {
           const message = messageContainer.child[0]
           assert.equal('success', message.attr.template)
         }
-        return req.route.api.get(req, res3)
+        return req.route.api.get(req, res2)
       }
       return req.route.api.post(req, res)
     })

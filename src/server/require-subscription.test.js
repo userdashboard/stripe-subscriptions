@@ -57,5 +57,24 @@ describe('server/require-subscription', async () => {
       assert.equal(true, req.redirect)
       assert.equal(true, responseEnded)
     })
+    
+    it('should allow customer with subscription to pass', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan.id)
+      await TestHelper.waitForWebhooks(2)
+      const req = TestHelper.createRequest(`/home`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      const res = TestHelper.createResponse()
+      res.end = (str) => {}
+      await RequireSubscription.after(req, res)
+      assert.notEqual(true, req.redirect)
+    })
   })
 })

@@ -172,7 +172,7 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
           const message = messageContainer.child[0]
           assert.equal('success', message.attr.template)
         }
-        return req.route.api.post(req, res2)
+        return req.route.api.get(req, res2)
       }
       return req.route.api.post(req, res)
     })

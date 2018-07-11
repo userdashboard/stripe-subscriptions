@@ -4,7 +4,7 @@ const stripe = require('stripe')()
 // The creation of objects like charges and invoices that happen
 // without user actions are indexed as this webhook is notifed.  All
 // other types of data are indexed as created by the user.
-
+let lastStripeTimestamp 
 module.exports = {
   auth: false,
   post: async (req) => {
@@ -16,6 +16,16 @@ module.exports = {
     }
     if (!stripeEvent) {
       throw new Error('invalid-stripe-event')
+    }
+    if (process.env.NODE_ENV !== 'PRODUCTION') {
+      if (global.MINIMUM_STRIPE_TIMESTAMP > stripeEvent.created) {
+        return
+      }
+      const testNumber = await global.redisClient.getAsync('testNumber')
+      if (lastStripeTimestamp !== testNumber) {
+        console.log(' - ' + testNumber + ' - ')
+        lastStripeTimestamp = testNumber
+      }
     }
     let webhookNumber = await global.redisClient.getAsync('webhookNumber')
     if (webhookNumber && webhookNumber.length) {

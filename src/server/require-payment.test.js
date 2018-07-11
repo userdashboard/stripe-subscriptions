@@ -59,7 +59,9 @@ describe('server/require-payment', async () => {
       await TestHelper.createCustomer(administrator)
       await TestHelper.createCard(administrator)
       await TestHelper.createSubscription(administrator, plan1.id)
+      await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscriptionWithoutPaying(administrator, plan2.id)
+      await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

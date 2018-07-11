@@ -43,7 +43,6 @@ module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 beforeEach(setup)
 let testNumber = 0
 async function setup () {
-  console.log('before....')
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1

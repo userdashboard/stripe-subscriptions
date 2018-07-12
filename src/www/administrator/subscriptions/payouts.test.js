@@ -7,9 +7,9 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout1 = await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(1)
-      const payout2 = await TestHelper.createPayout()
       await TestHelper.waitForWebhooks(2)
+      const payout2 = await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -28,7 +28,7 @@ describe(`/administrator/subscriptions/payouts`, () => {
       let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPayout()
-        webhook++
+        webhook += 2
         await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/payouts', 'GET')
@@ -53,7 +53,7 @@ describe(`/administrator/subscriptions/payouts`, () => {
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const payout = await TestHelper.createPayout()
         payouts.unshift(payout)
-        webhook++
+        webhook += 2
         await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/payouts?offset=${offset}`, 'GET')

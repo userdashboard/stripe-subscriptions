@@ -42,7 +42,7 @@ module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 
 beforeEach(setup)
 let testNumber = 0
-async function setup () {
+function setup (callback) {
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1
@@ -55,10 +55,24 @@ async function setup () {
   global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
-  global.redisClient.flushdb()
   testNumber++
-  await global.redisClient.incrbyAsync('testNumber', testNumber)
-  console.log(' - ' + testNumber + ' - ')
+  console.log('     # ' + testNumber)
+  return global.redisClient.flushdb(() => {
+    return global.redisClient.incrby('testNumber', testNumber, () => {
+      function wait () {
+        return setTimeout(() => {
+          return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
+            if (webhookNumber) {
+              console.log('caught webhook from previous test')
+              return process.exit(1)
+            }
+            return callback()
+          })
+        }, 5000)
+      }
+      return util.promisify(wait)()
+    })
+  })
 }
 
 let productNumber = 0

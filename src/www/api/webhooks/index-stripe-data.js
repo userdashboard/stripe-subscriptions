@@ -21,6 +21,9 @@ module.exports = {
       if (global.MINIMUM_STRIPE_TIMESTAMP > stripeEvent.created) {
         return
       }
+      if (stripeEvent.data && stripeEvent.data.object.created && global.MINIMUM_STRIPE_TIMESTAMP > stripeEvent.data.object.created) {
+        return
+      }
       const testNumber = await global.redisClient.getAsync('testNumber')
       if (lastStripeTimestamp !== testNumber) {
         console.log(' - ' + testNumber + ' - ')
@@ -32,7 +35,7 @@ module.exports = {
       webhookNumber = parseInt(webhookNumber, 10)
     }
     webhookNumber = 1 + (webhookNumber || 0)
-    console.log(`[webhook ~${webhookNumber}]`, stripeEvent.type, stripeEvent.data.object.id)
+    console.log(`[webhook ~${webhookNumber}]`, stripeEvent.type, stripeEvent.data.object.id, JSON.stringify(stripeEvent))
     let invoice, charge, customerid, subscriptionid, planid, productid, cardid
     switch (stripeEvent.type) {
       case 'invoice.created':

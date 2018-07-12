@@ -7,11 +7,11 @@ describe('/api/administrator/subscriptions/payouts-count', async () => {
     it('should count payouts', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(1)
-      await TestHelper.createPayout()
       await TestHelper.waitForWebhooks(2)
       await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(3)
+      await TestHelper.waitForWebhooks(4)
+      await TestHelper.createPayout()
+      await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest('/api/administrator/subscriptions/payouts-count', 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

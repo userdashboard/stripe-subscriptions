@@ -6,60 +6,9 @@
 
   proxy/x-customer-header
     Customer#AFTER
- - 1 - 
-      ✓ should set customer data in header (2186ms)
+     # 1
+      1) should set customer data in header
 
   proxy/x-invoices-header
     Invoices#AFTER
- - 2 - 
-      ✓ should set invoice data in header (17457ms)
-
-  proxy/x-subscriptions-header
-    Subscriptions#AFTER
- - 3 - 
-      ✓ should set invoice data in header (14821ms)
-
-  server/bind-customer
-    BindCustomer#AFTER
- - 4 - 
-      ✓ should bind existing customer data to req (2615ms)
-
-  server/bind-stripekey
-    BindStripeKey#AFTER
- - 5 - 
-      ✓ should bind stripekey data to req (1627ms)
-
-  server/require-payment
-    RequirePayment#AFTER
- - 6 - 
-      ✓ should allow non-customer through (1629ms)
- - 7 - 
-      ✓ should allow non-owing customer through (2059ms)
- - 8 - 
-      ✓ should allow owing customer access to /account/* (22410ms)
- - 9 - 
-      ✓ should allow owing administrator access to /administrator/ (16897ms)
- - 10 - 
-      ✓ should redirect owing customer to the payment form (21180ms)
-
-  server/require-subscription
-    RequireSubscription#AFTER
- - 11 - 
-      ✓ should allow non-customer (1631ms)
- - 12 - 
-      ✓ should allow customer without subscription access to /account/* (2089ms)
- - 13 - 
-      ✓ should allow administrator without subscription access to /administrator/ (3467ms)
- - 14 - 
-      ✓ should redirect unsubscribed customer to the plans list (2057ms)
- - 15 - 
-      ✓ should allow customer with subscription to pass (14861ms)
-
-  /account/subscriptions/cancel-subscription
-    CancelSubscription#BEFORE
- - 16 - 
-      ✓ should bind subscription to req (13491ms)
-    CancelSubscription#GET
- - 17 - 
-      ✓ should present the form (15277ms)
- - 18 - 
+     # 2

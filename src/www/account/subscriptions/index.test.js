@@ -5,14 +5,9 @@ const TestHelper = require('../../../../test-helper.js')
 describe(`/account/subscriptions`, async () => {
   describe('Index#BEFORE', () => {
     it('should bind cards to req', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -94,18 +89,10 @@ describe(`/account/subscriptions`, async () => {
     })
 
     it('should have row for each card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const card1 = user.card
-      await TestHelper.createCard(user)
-      const card2 = user.card
+      const card1 = await TestHelper.createCard(user)
+      const card2 = await TestHelper.createCard(user)
       const req = TestHelper.createRequest('/account/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session

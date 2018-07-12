@@ -40,7 +40,7 @@ describe('server/require-payment', async () => {
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
+      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session

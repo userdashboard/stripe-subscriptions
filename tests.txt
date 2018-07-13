@@ -7,105 +7,34 @@
   proxy/x-customer-header
     Customer#AFTER
      # 1
-      ✓ should set customer data in header (2232ms)
+      ✓ should set customer data in header (2170ms)
 
   proxy/x-invoices-header
     Invoices#AFTER
      # 2
-      ✓ should set invoice data in header (15761ms)
+      ✓ should set invoice data in header (15038ms)
 
   proxy/x-subscriptions-header
     Subscriptions#AFTER
      # 3
-      ✓ should set invoice data in header (13888ms)
+      ✓ should set invoice data in header (13618ms)
 
   server/bind-customer
     BindCustomer#AFTER
      # 4
-      ✓ should bind existing customer data to req (2644ms)
+      ✓ should bind existing customer data to req (2305ms)
 
   server/bind-stripekey
     BindStripeKey#AFTER
      # 5
-      ✓ should bind stripekey data to req (1649ms)
+      ✓ should bind stripekey data to req (1829ms)
 
   server/require-payment
     RequirePayment#AFTER
      # 6
-      ✓ should allow non-customer through (1719ms)
+      ✓ should allow non-customer through (1638ms)
      # 7
-      ✓ should allow non-owing customer through (2155ms)
+      ✓ should allow non-owing customer through (2375ms)
      # 8
-      ✓ should allow owing customer access to /account/* (20886ms)
+      1) should allow owing customer access to /account/*
      # 9
-      ✓ should allow owing administrator access to /administrator/ (19698ms)
-     # 10
-      ✓ should redirect owing customer to the payment form (18894ms)
-
-  server/require-subscription
-    RequireSubscription#AFTER
-     # 11
-      ✓ should allow non-customer (1666ms)
-     # 12
-      ✓ should allow customer without subscription access to /account/* (2309ms)
-     # 13
-      ✓ should allow administrator without subscription access to /administrator/ (3640ms)
-     # 14
-      ✓ should redirect unsubscribed customer to the plans list (2011ms)
-     # 15
-      ✓ should allow customer with subscription to pass (12252ms)
-
-  /account/subscriptions/cancel-subscription
-    CancelSubscription#BEFORE
-     # 16
-      ✓ should bind subscription to req (13156ms)
-    CancelSubscription#GET
-     # 17
-      ✓ should present the form (13958ms)
-     # 18
-      ✓ should present the subscription table (14578ms)
-    CancelSubscription#POST
-     # 19
-      ✓ should apply after authorization (14732ms)
-
-  /account/subscriptions/card
-    Card#BEFORE
-     # 20
-      ✓ should reject invalid card (2027ms)
-     # 21
-      ✓ should reject other account's card (9902ms)
-     # 22
-      ✓ should bind card to req (7781ms)
-    Card#GET
-     # 23
-      ✓ should have row for card (7868ms)
-
-  /account/subscriptions/cards
-    Cards#BEFORE
-     # 24
-      ✓ should bind cards to req (11714ms)
-    Cards#GET
-     # 25
-      ✓ should enforce page size (9565ms)
-     # 26
-      ✓ should enforce specified offset (9215ms)
-
-  /account/subscriptions/change-plan
-    ChangePlan#BEFORE
-     # 27
-      ✓ should bind subscription to req (14734ms)
-    ChangePlan#GET
-     # 28
-      ✓ should present the form (12324ms)
-     # 29
-      ✓ should present the subscription table (12374ms)
-    ChangePlan#POST
-     # 30
-      ✓ should reject same plan (14590ms)
-     # 31
-      ✓ should reject never published plan (17847ms)
-     # 32
-      ✓ should reject unpublished plan (15985ms)
-     # 33
-      ✓ should reject paid plan without payment information (13065ms)
-     # 34

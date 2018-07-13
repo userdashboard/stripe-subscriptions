@@ -208,6 +208,9 @@ describe(`/account/subscriptions/change-plan`, async () => {
         req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
+          console.log('waiting... #3')
+          await TestHelper.waitForWebhooks(3)
+          console.log('waiting... #4')
           await TestHelper.waitForWebhooks(4)
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')

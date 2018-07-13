@@ -331,30 +331,51 @@ async function loadCharge (user, subscriptionid) {
 }
 
 async function changeSubscriptionWithoutPaying (user, planid) {
-  // TODO: this needs to go through the API
-  const subscriptionInfo = {
-    items: [{
-      plan: planid
-    }]
-  }
-  const subscription = await stripe.subscriptions.update(user.subscription.id, subscriptionInfo, stripeKey)
+  const req = TestHelper.createRequest(`/api/user/subscriptions/change-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  req.body = {planid}
+  await req.route.api.patch(req)
+  req.session = await TestHelper.unlockSession(user)
+  const subscription = await req.route.api.patch(req)
   user.subscription = subscription
-  user.invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
-  return user.subscription
+  user.session = await dashboard.Session.load(user.session.sessionid)
+  if (user.session.lock || user.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
+  return subscription
 }
 
 async function changeSubscription (user, planid) {
-  // TODO: this needs to go through the API
-  const subscriptionInfo = {
-    items: [{
-      plan: planid
-    }]
-  }
-  const subscription = await stripe.subscriptions.update(user.subscription.id, subscriptionInfo, stripeKey)
+  const req = TestHelper.createRequest(`/api/user/subscriptions/change-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  req.body = {planid}
+  await req.route.api.patch(req)
+  req.session = await TestHelper.unlockSession(user)
+  const subscription = await req.route.api.patch(req)
   user.subscription = subscription
-  const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
-  user.invoice = await stripe.invoices.pay(invoice.id, stripeKey)
-  user.charge = await stripe.charges.retrieve(user.invoice.charge, stripeKey)
+  user.session = await dashboard.Session.load(user.session.sessionid)
+  if (user.session.lock || user.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
+  const req2 = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
+  req2.session = user.session
+  req2.account = user.account
+  req2.customer = user.customer
+  const invoice = await req2.route.api.get(req2)
+  const req3 = TestHelper.createRequest(`/api/user/set-invoice-paid?invoiceid=${invoice.id}`, 'PATCH')
+  req3.session = user.session
+  req3.account = user.account
+  req3.customer = user.custome
+  req3.body = {
+    cardid: user.customer.default_source
+  }
+  await req3.route.api.patch(req3)
+  req3.session = await TestHelper.unlockSession(user)
+  await req3.route.api.patch(req3)
   return user.subscription
 }
 

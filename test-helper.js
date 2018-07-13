@@ -68,7 +68,7 @@ function setup (callback) {
             }
             return callback()
           })
-        }, 5000)
+        }, 10000)
       }
       return util.promisify(wait)()
     })

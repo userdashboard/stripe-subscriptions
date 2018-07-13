@@ -190,7 +190,7 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -208,6 +208,7 @@ describe(`/account/subscriptions/change-plan`, async () => {
         req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
+          await TestHelper.waitForWebhooks(4)
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)

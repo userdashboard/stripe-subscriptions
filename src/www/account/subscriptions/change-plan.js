@@ -16,6 +16,31 @@ async function beforeRequest (req) {
       return
     }
   }
+  if (req.body && req.body.planid) {
+    req.query.planid = req.body.planid
+    let newPlan
+    try {
+      newPlan = await global.api.user.subscriptions.PublishedPlan.get(req)
+      if (!newPlan.metadata.published || newPlan.metadata.unpublished) {
+        req.error = 'invalid-plan'
+      }
+      if (newPlan.amount > 0 && !req.customer.default_source) {
+        req.error = 'invalid-cardid'
+      }
+    } catch (error) {
+      switch (error.message) {
+        case 'invalid-planid':
+        case 'invalid-plan':
+          req.error = error.message
+          break
+        case 'invalid-payment_source':
+          req.error = 'invalid-cardid'
+          break
+        default:
+          throw new Error('unknown-error')
+      }
+    }
+  }
   let subscription = await global.api.user.subscriptions.Subscription.get(req)
   if (subscription.status === 'canceled' || subscription.customer !== req.customer.id || subscription.cancel_at_period_end) {
     throw new Error('invalid-subscription')
@@ -31,6 +56,8 @@ async function beforeRequest (req) {
 async function renderPage (req, res, messageTemplate) {
   if (req.success) {
     messageTemplate = 'success'
+  } else if (req.error) {
+    messageTemplate = req.error
   }
   const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription')
   if (messageTemplate) {
@@ -47,6 +74,9 @@ async function renderPage (req, res, messageTemplate) {
 }
 
 async function submitForm (req, res) {
+  if (req.error) {
+    return renderPage(req, res)
+  }
   if (!req.body) {
     return renderPage(req, res)
   }
@@ -54,26 +84,6 @@ async function submitForm (req, res) {
     return renderPage(req, res, 'invalid-planid')
   }
   if (req.body.planid === req.data.plan.id) {
-    return renderPage(req, res, 'invalid-plan')
-  }
-  req.query.planid = req.body.planid
-  let newPlan
-  try {
-    newPlan = await global.api.user.subscriptions.PublishedPlan.get(req)
-  } catch (error) {
-    switch (error.message) {
-      case 'invalid-planid':
-      case 'invalid-plan':
-        return renderPage(req, res, error.message)
-      case 'invalid-payment_source':
-        return renderPage(req, res, 'invalid-cardid')
-    }
-    return renderPage(req, res, 'unknown-error')
-  }
-  if (newPlan.amount > 0 && !req.customer.default_source) {
-    return renderPage(req, res, 'invalid-cardid')
-  }
-  if (!newPlan.metadata.published || newPlan.metadata.unpublished) {
     return renderPage(req, res, 'invalid-plan')
   }
   try {

@@ -22,7 +22,7 @@ describe('/api/administrator/subscriptions/product-refunds-count', async () => {
       await TestHelper.createSubscription(user2, administrator.plan.id)
       await TestHelper.waitForWebhooks(5)
       await TestHelper.loadCharge(user2, user2.subscription.id)
-      await TestHelper.createRefund(administrator2, user2.charge)
+      await TestHelper.createRefund(administrator, user2.charge)
       await TestHelper.waitForWebhooks(6)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-refunds-count?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account

@@ -16,7 +16,7 @@ describe('server/require-payment', async () => {
       assert.notEqual(true, req.redirect)
     })
 
-    it('should allow non-owing customer through', async () => {
+    it('should allow unsubscribed customer through', async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const req = TestHelper.createRequest(`/home`, 'GET')
@@ -32,15 +32,15 @@ describe('server/require-payment', async () => {
     it('should allow owing customer access to /account/*', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0, interval: 'day'})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0, interval: 'day'})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForWebhooks(2)
-      await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.waitForWebhooks(3)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -72,7 +72,7 @@ describe('server/require-payment', async () => {
       assert.notEqual(true, req.redirect)
     })
 
-    it('should redirect owing customer to the payment form', async () => {
+    it('should redirect owing customer', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
@@ -91,6 +91,27 @@ describe('server/require-payment', async () => {
       const res = TestHelper.createResponse()
       res.end = (str) => {
         assert.equal(true, req.redirect)
+      }
+      return RequirePayment.after(req, res)
+    })
+
+    it('should allow non-owing customer', async () => {
+      const administrator = await TestHelper.createAdministrator()
+      const product = await TestHelper.createProduct(administrator, {published: true})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
+      const user = await TestHelper.createUser()
+      await TestHelper.createCustomer(user)
+      await TestHelper.createCard(user)
+      await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForWebhooks(2)
+      const req = TestHelper.createRequest(`/home`, 'GET')
+      req.account = user.account
+      req.session = user.session
+      req.customer = user.customer
+      const res = TestHelper.createResponse()
+      res.end = (str) => {
+        assert.equal(null, req.redirect)
       }
       return RequirePayment.after(req, res)
     })

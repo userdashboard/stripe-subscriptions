@@ -19,8 +19,6 @@ module.exports.createRequest = (rawURL, method) => {
 }
 
 module.exports.cancelSubscription = cancelSubscription
-module.exports.changeSubscription = changeSubscription
-module.exports.changeSubscriptionWithoutPaying = changeSubscriptionWithoutPaying
 module.exports.createCard = createCard
 module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
@@ -30,8 +28,10 @@ module.exports.createPayout = createPayout
 module.exports.createPlan = createPlan
 module.exports.createProduct = createProduct
 module.exports.createRefund = createRefund
+module.exports.changeSubscription = changeSubscription
 module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
+module.exports.changeSubscriptionWithoutPaying = changeSubscriptionWithoutPaying
 module.exports.currentWebHookNumber = currentWebHookNumber
 module.exports.flagCharge = flagCharge
 module.exports.forgiveInvoice = forgiveInvoice
@@ -56,27 +56,36 @@ function setup (callback) {
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
   testNumber++
-  console.log('     # ' + testNumber)
-  return global.redisClient.flushdb(() => {
-    return global.redisClient.incrby('testNumber', testNumber, () => {
-      function wait () {
-        return setTimeout(() => {
-          return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
-            if (webhookNumber) {
-              console.log('caught webhook from previous test')
-              return process.exit(1)
-            }
-            return callback()
-          })
-        }, 10000)
-      }
-      return util.promisify(wait)()
+  return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
+    return global.redisClient.flushdb(() => {
+      return global.redisClient.incrby('testNumber', testNumber, () => {
+        console.log('     # ' + testNumber)
+        if (!webhookNumber) {
+          return callback()
+        }
+        function wait () {
+          return setTimeout(() => {
+            return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
+              if (webhookNumber) {
+                console.log(`--- caught webhook from previous test ${webhookNumber} ---`)
+                return global.redisClient.flushdb(callback)
+                // return process.exit(1)
+              }
+              return callback()
+            })
+          }, 30000)
+        }
+        return util.promisify(wait)()
+      })
     })
   })
 }
 
 let productNumber = 0
 async function createProduct (administrator, properties) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createProduct call ---')
+  }
   productNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-product', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -112,6 +121,9 @@ async function createProduct (administrator, properties) {
 
 let planNumber = 0
 async function createPlan (administrator, properties) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createPlan call ---')
+  }
   planNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-plan', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -149,6 +161,9 @@ async function createPlan (administrator, properties) {
 
 let couponNumber = 0
 async function createCoupon (administrator, properties) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createCoupon call ---')
+  }
   couponNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-coupon', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -184,6 +199,9 @@ async function createCoupon (administrator, properties) {
 }
 
 async function createRefund (administrator, charge) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createRefund call ---')
+  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${charge.id}`, 'POST')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -204,6 +222,9 @@ async function createRefund (administrator, charge) {
 }
 
 async function createSubscriptionDiscount (administrator, subscription, coupon) {
+  if (arguments.length > 3) {
+    throw new Error('--- clean up createSubscriptionDiscount call ---')
+  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-subscription-coupon?subscriptionid=${subscription.id}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -221,6 +242,9 @@ async function createSubscriptionDiscount (administrator, subscription, coupon) 
 }
 
 async function createCustomerDiscount (administrator, customer, coupon) {
+  if (arguments.length > 3) {
+    throw new Error('--- clean up createCustomerDiscount call ---')
+  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-customer-coupon?customerid=${customer.id}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -238,6 +262,9 @@ async function createCustomerDiscount (administrator, customer, coupon) {
 }
 
 async function createCustomer (user) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createCustomer call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user.account.accountid}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -253,6 +280,9 @@ async function createCustomer (user) {
 }
 
 async function createCard (user, properties) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createCard call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-card?customerid=${user.customer.id}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -288,23 +318,10 @@ async function createCard (user, properties) {
   return user.card
 }
 
-async function createSubscription (user, planid) {
-  const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${planid}`, 'POST')
-  req.session = user.session
-  req.account = user.account
-  req.customer = user.customer
-  await req.route.api.post(req)
-  req.session = await TestHelper.unlockSession(user)
-  const subscription = await req.route.api.post(req)
-  user.subscription = subscription
-  user.session = await dashboard.Session.load(user.session.sessionid)
-  if (user.session.lock || user.session.unlocked) {
-    throw new Error('session status is locked or unlocked when it should be nothing')
-  }
-  return user.subscription
-}
-
 async function loadInvoice (user, subscriptionid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up loadInvoice call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${subscriptionid}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -318,6 +335,9 @@ async function loadInvoice (user, subscriptionid) {
 }
 
 async function loadCharge (user, subscriptionid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up loadCharge call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges?subscriptionid=${subscriptionid}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -331,24 +351,33 @@ async function loadCharge (user, subscriptionid) {
 }
 
 async function changeSubscriptionWithoutPaying (user, planid) {
-  const req = TestHelper.createRequest(`/api/user/subscriptions/change-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
-  req.session = user.session
-  req.account = user.account
-  req.customer = user.customer
-  req.body = {planid}
-  await req.route.api.patch(req)
-  req.session = await TestHelper.unlockSession(user)
-  const subscription = await req.route.api.patch(req)
-  user.subscription = subscription
-  user.session = await dashboard.Session.load(user.session.sessionid)
-  if (user.session.lock || user.session.unlocked) {
-    throw new Error('session status is locked or unlocked when it should be nothing')
+  if (arguments.length > 2) {
+    throw new Error('--- clean up changeSubscriptionWithoutPaying call ---')
   }
+  // the Stripe API has to be used here directly to cause the customer
+  // to have an outstanding balance
+  const subscriptionInfo = {
+    items: [
+      {
+        quantity: 1, 
+        plan: planid
+      }
+    ]
+  }
+  const subscription = await stripe.subscriptions.update(user.subscription.id, subscriptionInfo, stripeKey)
+  user.subscription = subscription
+  const invoiceInfo = {
+    customer: user.customer.id
+  }
+  await stripe.invoices.create(invoiceInfo, stripeKey)
   return subscription
 }
 
 async function changeSubscription (user, planid) {
-  const req = TestHelper.createRequest(`/api/user/subscriptions/change-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
+  if (arguments.length > 2) {
+    throw new Error('--- clean up changeSubscription call ---')
+  }
+  const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-plan?subscriptionid=${user.subscription.id}`, 'DELETE')
   req.session = user.session
   req.account = user.account
   req.customer = user.customer
@@ -366,7 +395,7 @@ async function changeSubscription (user, planid) {
   req2.account = user.account
   req2.customer = user.customer
   const invoice = await req2.route.api.get(req2)
-  const req3 = TestHelper.createRequest(`/api/user/set-invoice-paid?invoiceid=${invoice.id}`, 'PATCH')
+  const req3 = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoice.id}`, 'PATCH')
   req3.session = user.session
   req3.account = user.account
   req3.customer = user.custome
@@ -379,7 +408,30 @@ async function changeSubscription (user, planid) {
   return user.subscription
 }
 
+
+async function createSubscription (user, planid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createSubscription call ---')
+  }
+  const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${planid}`, 'POST')
+  req.session = user.session
+  req.account = user.account
+  req.customer = user.customer
+  await req.route.api.post(req)
+  req.session = await TestHelper.unlockSession(user)
+  const subscription = await req.route.api.post(req)
+  user.subscription = subscription
+  user.session = await dashboard.Session.load(user.session.sessionid)
+  if (user.session.lock || user.session.unlocked) {
+    throw new Error('session status is locked or unlocked when it should be nothing')
+  }
+  return user.subscription
+}
+
 async function cancelSubscription (user, refund) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up cancelSubscription call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
   req.session = user.session
   req.account = user.account
@@ -399,6 +451,9 @@ async function cancelSubscription (user, refund) {
 }
 
 async function forgiveInvoice (administrator, invoiceid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up forgiveInvoice call ---')
+  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${invoiceid}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -413,6 +468,9 @@ async function forgiveInvoice (administrator, invoiceid) {
 }
 
 async function flagCharge (administrator, chargeid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up flagCharge call ---')
+  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-flagged?chargeid=${chargeid}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -427,6 +485,9 @@ async function flagCharge (administrator, chargeid) {
 }
 
 async function payInvoice (user, invoiceid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up payInvoice call ---')
+  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'PATCH')
   req.session = user.session
   req.account = user.account
@@ -441,6 +502,9 @@ async function payInvoice (user, invoiceid) {
 }
 
 async function createNextInvoice (user, subscriptionid) {
+  if (arguments.length > 2) {
+    throw new Error('--- clean up createNextInvoice call ---')
+  }
   const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
   user.invoice = invoice
   return user

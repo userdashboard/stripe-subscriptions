@@ -5,9 +5,6 @@ const TestHelper = require('../../../../test-helper.js')
 describe(`/account/subscriptions/cards`, async () => {
   describe('Cards#BEFORE', () => {
     it('should bind cards to req', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

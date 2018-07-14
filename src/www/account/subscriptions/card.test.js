@@ -21,9 +21,6 @@ describe(`/account/subscriptions/card`, async () => {
     })
 
     it('should reject other account\'s card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -43,9 +40,6 @@ describe(`/account/subscriptions/card`, async () => {
     })
 
     it('should bind card to req', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
@@ -61,9 +55,6 @@ describe(`/account/subscriptions/card`, async () => {
 
   describe('Card#GET', () => {
     it('should have row for card', async () => {
-      const administrator = await TestHelper.createAdministrator()
-      const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

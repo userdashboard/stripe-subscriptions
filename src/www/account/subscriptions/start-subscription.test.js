@@ -42,7 +42,7 @@ describe(`/account/subscriptions/start-subscription`, async () => {
     it('should reject unpublished plan', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      await TestHelper.createPlan(administrator, {productid: product.id}, {published: true, unpublished: true}, 1000, 0)
+      await TestHelper.createPlan(administrator, {productid: product.id, published: true, unpublished: true}, 1000, 0)
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

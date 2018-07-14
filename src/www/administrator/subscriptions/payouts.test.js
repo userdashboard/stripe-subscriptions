@@ -53,7 +53,7 @@ describe(`/administrator/subscriptions/payouts`, () => {
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const payout = await TestHelper.createPayout()
         payouts.unshift(payout)
-        webhook += 2
+        webhook++
         await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/payouts?offset=${offset}`, 'GET')

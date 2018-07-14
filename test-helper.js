@@ -322,16 +322,17 @@ async function loadInvoice (user, subscriptionid) {
   if (arguments.length > 2) {
     throw new Error('--- clean up loadInvoice call ---')
   }
-  const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-invoices?subscriptionid=${subscriptionid}`, 'POST')
+  const invoiceids = await dashboard.RedisList.list(`subscription:invoices:${subscriptionid}`)
+  const invoiceid = invoiceids[0]
+  // the Stripe API has to be used here directly to cause the customer
+  // to have an outstanding balance
+  const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
   req.session = user.session
   req.account = user.account
   req.customer = user.customer
-  const invoices = await req.route.api.get(req)
-  if (invoices && invoices.length) {
-    const newest = invoices[0]
-    user.invoice = newest
-    return user.invoice
-  }
+  const invoice = await req.route.api.get(req)
+  user.invoice = invoice
+  return invoice
 }
 
 async function loadCharge (user, subscriptionid) {
@@ -514,13 +515,6 @@ async function createPayout () {
   // the Stripe API has to be used here directly because this module
   // assumes payouts will be handled automatically so there aren't
   // any API endpoints to create payouts
-  const chargeInfo = {
-    amount: 2000,
-    currency: 'usd',
-    source: 'tok_bypassPending',
-    description: 'Test charge'
-  }
-  await stripe.charges.create(chargeInfo, stripeKey)
   const payoutInfo = {
     amount: 400,
     currency: 'usd'

@@ -158,7 +158,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
         req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
-          await TestHelper.waitForWebhooks(4)
+          await TestHelper.waitForWebhooks(3)
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)

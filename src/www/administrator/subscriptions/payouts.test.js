@@ -7,9 +7,9 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout1 = await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForWebhooks(1)
       const payout2 = await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -25,11 +25,9 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const administrator = await TestHelper.createAdministrator()
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPayout()
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.waitForWebhooks(i + 1)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/payouts', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -49,12 +47,10 @@ describe(`/administrator/subscriptions/payouts`, () => {
       const administrator = await TestHelper.createAdministrator()
       const offset = 1
       const payouts = []
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const payout = await TestHelper.createPayout()
         payouts.unshift(payout)
-        webhook++
-        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.waitForWebhooks(i + 1)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/payouts?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account

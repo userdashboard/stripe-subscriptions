@@ -21,7 +21,7 @@ describe('/api/administrator/subscriptions/payout', () => {
     it('should return payout data', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForWebhooks(1)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

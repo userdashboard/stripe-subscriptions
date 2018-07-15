@@ -12,7 +12,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -33,7 +32,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -56,7 +54,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -80,7 +77,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -109,7 +105,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -138,7 +133,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -166,7 +160,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(1)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session
@@ -195,7 +188,6 @@ describe(`/account/subscriptions/change-plan`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions/change-plan?subscriptionid=${user.subscription.id}`, 'POST')
       req.account = user.account
       req.session = user.session

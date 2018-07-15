@@ -26,13 +26,12 @@ describe('/api/administrator/subscriptions/charge', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const charge = await req.route.api.get(req)
-      assert.equal(charge.id, user.charge.id)
+      assert.equal(charge.id, chargeid)
     })
   })
 })

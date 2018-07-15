@@ -29,9 +29,8 @@ describe(`/api/administrator/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${chargeid}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -54,9 +53,8 @@ describe(`/api/administrator/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${chargeid}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -79,9 +77,8 @@ describe(`/api/administrator/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${chargeid}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {
@@ -104,9 +101,8 @@ describe(`/api/administrator/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${chargeid}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {

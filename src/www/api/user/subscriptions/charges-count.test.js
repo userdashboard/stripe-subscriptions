@@ -15,13 +15,13 @@ describe('/api/user/subscriptions/charges-count', async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid1)
       await TestHelper.createSubscription(user, plan3.id)
-      await TestHelper.waitForWebhooks(6)
+      const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan4.id)
-      await TestHelper.waitForWebhooks(8)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid3)
       const req = TestHelper.createRequest(`/api/user/subscriptions/charges-count?customerid=${user.customer.id}`, 'GET')
       req.account = user.account
       req.session = user.session

@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1058
+Version: 1.0.1063
 http://undefined
 Root path: /root/workspace/stripe-subscriptions/src/www
 Application path: /root/workspace/stripe-subscriptions

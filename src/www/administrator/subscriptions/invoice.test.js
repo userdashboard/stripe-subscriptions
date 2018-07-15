@@ -26,15 +26,14 @@ describe('/administrator/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoice, null)
-      assert.equal(req.data.invoice.id, user.invoice.id)
+      assert.equal(req.data.invoice.id, invoiceid)
     })
   })
 
@@ -47,15 +46,14 @@ describe('/administrator/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.invoice.id)
+        const tr = doc.getElementById(invoiceid)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)

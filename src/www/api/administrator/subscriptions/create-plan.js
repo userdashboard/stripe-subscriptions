@@ -91,6 +91,10 @@ module.exports = {
         published: dashboard.Timestamp.now
       }
     }
+    if (process.env.NODE_ENV !== 'production') {
+      planInfo.metadata = planInfo.metadata || {} 
+      planInfo.metadata.testNumber = await global.redisClient.getAsync('testNumber')
+    }
     let product
     try {
       product = await stripe.products.retrieve(req.body.productid, req.stripeKey)

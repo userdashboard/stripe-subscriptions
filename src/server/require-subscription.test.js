@@ -66,7 +66,7 @@ describe('server/require-subscription', async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan.id)
-      await TestHelper.waitForWebhooks(2)
+
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session

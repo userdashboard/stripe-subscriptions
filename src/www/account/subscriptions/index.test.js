@@ -26,7 +26,6 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -45,7 +44,6 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -67,11 +65,9 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      const invoice1 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
-      const invoice2 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null, invoiceid1)
       const req = TestHelper.createRequest('/account/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session
@@ -80,9 +76,9 @@ describe(`/account/subscriptions`, async () => {
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
-        const invoice1Row = doc.getElementById(invoice1.id)
+        const invoice1Row = doc.getElementById(invoiceid1)
         assert.notEqual(null, invoice1Row)
-        const invoice2Row = doc.getElementById(invoice2.id)
+        const invoice2Row = doc.getElementById(invoiceid2)
         assert.notEqual(null, invoice2Row)
       }
       return req.route.api.get(req, res)
@@ -118,9 +114,7 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const subscription2 = await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest('/account/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session

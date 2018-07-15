@@ -39,6 +39,7 @@ module.exports.loadCharge = loadCharge
 module.exports.loadInvoice = loadInvoice
 module.exports.payInvoice = payInvoice
 module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
+module.exports.waitForNextItem = util.promisify(waitForNextItem)
 
 beforeEach(setup)
 let testNumber = 0
@@ -56,28 +57,8 @@ function setup (callback) {
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
   testNumber++
-  return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
-    return global.redisClient.flushdb(() => {
-      return global.redisClient.incrby('testNumber', testNumber, () => {
-        console.log('     # ' + testNumber)
-        if (!webhookNumber) {
-          return callback()
-        }
-        function wait () {
-          return setTimeout(() => {
-            return global.redisClient.get('webhookNumber', (_, webhookNumber) => {
-              if (webhookNumber) {
-                console.log(`--- caught webhook from previous test ${webhookNumber} ---`)
-                return global.redisClient.flushdb(callback)
-                // return process.exit(1)
-              }
-              return callback()
-            })
-          }, 30000)
-        }
-        return util.promisify(wait)()
-      })
-    })
+  return global.redisClient.flushdb(() => {
+    return global.redisClient.incrby('testNumber', testNumber, callback)
   })
 }
 
@@ -198,21 +179,25 @@ async function createCoupon (administrator, properties) {
   return coupon
 }
 
-async function createRefund (administrator, charge) {
+async function createRefund (administrator, chargeid) {
   if (arguments.length > 2) {
     throw new Error('--- clean up createRefund call ---')
   }
-  const req = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${charge.id}`, 'POST')
+  const req = TestHelper.createRequest(`/api/administrator/subscriptions/charge?chargeid=${chargeid}`, 'GET')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
-  req.body = {
+  const charge = await req.route.api.get(req)
+  const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${charge.id}`, 'POST')
+  req2.administratorSession = req2.session = administrator.session
+  req2.administratorAccount = req2.account = administrator.account
+  req2.body = {
     chargeid: charge.id,
     amount: charge.amount,
     reason: 'requested_by_customer'
   }
-  await req.route.api.post(req)
-  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
-  const refund = await req.route.api.post(req)
+  await req2.route.api.post(req2)
+  req2.administratorSession = req2.session = await TestHelper.unlockSession(administrator)
+  const refund = await req2.route.api.post(req2)
   administrator.refund = refund
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
   if (administrator.session.lock || administrator.session.unlocked) {
@@ -335,20 +320,14 @@ async function loadInvoice (user, subscriptionid) {
   return invoice
 }
 
-async function loadCharge (user, subscriptionid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up loadCharge call ---')
-  }
-  const req = TestHelper.createRequest(`/api/user/subscriptions/subscription-charges?subscriptionid=${subscriptionid}`, 'POST')
+async function loadCharge (user, chargeid) {
+  const req = TestHelper.createRequest(`/api/user/subscriptions/charge?chargeid=${chargeid}`, 'GET')
   req.session = user.session
   req.account = user.account
   req.customer = user.customer
-  const charges = await req.route.api.get(req)
-  if (charges && charges.length) {
-    const newest = charges[0]
-    user.charge = newest
-    return user.charge
-  }
+  const charge = await req.route.api.get(req)
+  chargeid = charge
+  return charge
 }
 
 async function changeSubscriptionWithoutPaying (user, planid) {
@@ -517,10 +496,27 @@ async function createPayout () {
   // any API endpoints to create payouts
   const payoutInfo = {
     amount: 400,
-    currency: 'usd'
+    currency: 'usd',
+    metadata: {
+      testNumber: await global.redisClient.getAsync('testNumber')
+    }
   }
   const payout = await stripe.payouts.create(payoutInfo, stripeKey)
   return payout
+}
+
+async function waitForNextItem (collection, previousid, callback) {
+  async function wait () {
+    const itemids = await dashboard.RedisList.list(collection)
+    if (!itemids || !itemids.length) {
+      return setTimeout(wait, 10)
+    }
+    if (previousid && previousid === itemids[0]) {
+      return setTimeout(wait, 10)
+    }
+    return callback(null, itemids[0])
+  }
+  return setTimeout(wait, 20)
 }
 
 async function waitForWebhooks (target, callback) {

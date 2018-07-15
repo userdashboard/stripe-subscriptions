@@ -25,7 +25,6 @@ describe(`/administrator/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/administrator/subscriptions`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -99,12 +98,10 @@ describe(`/administrator/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       const subscription2 = await TestHelper.createSubscription(user2, plan2.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest('/administrator/subscriptions', 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

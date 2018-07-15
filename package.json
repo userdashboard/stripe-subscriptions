@@ -12,22 +12,26 @@
     "test": "NODE_ENV=testing mocha --recursive --timeout 180000 --slow 1"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1058",
+    "@userappstore/dashboard": "^1.0.1063",
     "@userappstore/maxmind-geoip": "^1.0.1039",
     "stripe": "^4.25.0"
   },
   "dashboard": {
     "menus": {
-      "administrator": [{
-        "href": "/administrator/subscriptions",
-        "text": "Stripe Subscriptions",
-        "object": "link"
-      }],
-      "account": [{
-        "href": "/account/subscriptions",
-        "text": "My subscriptions",
-        "object": "link"
-      }]
+      "administrator": [
+        {
+          "href": "/administrator/subscriptions",
+          "text": "Stripe Subscriptions",
+          "object": "link"
+        }
+      ],
+      "account": [
+        {
+          "href": "/account/subscriptions",
+          "text": "My subscriptions",
+          "object": "link"
+        }
+      ]
     },
     "modules": [
       "@userappstore/dashboard",

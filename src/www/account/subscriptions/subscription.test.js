@@ -28,7 +28,7 @@ describe('/account/subscriptions/subscription', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/account/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'POST')
@@ -52,7 +52,7 @@ describe('/account/subscriptions/subscription', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -73,7 +73,7 @@ describe('/account/subscriptions/subscription', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/subscription?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
       req.session = user.session

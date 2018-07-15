@@ -26,9 +26,8 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -49,12 +48,11 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      await TestHelper.forgiveInvoice(administrator, user.invoice.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      await TestHelper.forgiveInvoice(administrator, invoiceid2)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -75,17 +73,16 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoice, null)
-      assert.equal(req.data.invoice.id, user.invoice.id)
+      assert.equal(req.data.invoice.id, invoiceid2)
     })
   })
 
@@ -99,11 +96,10 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -125,17 +121,16 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.invoice.id)
+        const tr = doc.getElementById(invoiceid2)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)
@@ -152,11 +147,10 @@ describe(`/administrator/subscriptions/forgive-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${user.invoice.id}`, 'POST')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/forgive-invoice?invoiceid=${invoiceid2}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {}

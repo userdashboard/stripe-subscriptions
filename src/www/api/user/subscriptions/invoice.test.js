@@ -28,13 +28,10 @@ describe('/api/user/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const invoiceid = await dashboard.RedisList.list(`customer:invoices:${user.customer.id}`, 0, 1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      await TestHelper.createCard(user2)
-      await TestHelper.createSubscription(user2, administrator.plan.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user2.account
       req.session = user2.session
@@ -56,7 +53,7 @@ describe('/api/user/subscriptions/invoice', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const invoiceid = await dashboard.RedisList.list(`customer:invoices:${user.customer.id}`, 0, 1)
       const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account

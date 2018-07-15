@@ -30,17 +30,18 @@ describe(`/api/user/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid1)
+      const charge = await TestHelper.loadCharge(user, chargeid2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${user.charge.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${chargeid2}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
       req.body = {
-        amount: user.charge.amount
+        amount: charge.amount
       }
       let errorMessage
       try {
@@ -60,15 +61,16 @@ describe(`/api/user/subscriptions/create-refund`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${user.charge.id}`, 'POST')
+      const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid1)
+      const charge = await TestHelper.loadCharge(user, chargeid2)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/create-refund?chargeid=${chargeid2}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       req.body = {
-        amount: user.charge.amount
+        amount: charge.amount
       }
       await req.route.api.post(req)
       req.session = await TestHelper.unlockSession(user)

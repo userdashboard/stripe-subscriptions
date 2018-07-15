@@ -13,8 +13,7 @@ describe(`proxy/x-invoices-header`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -23,7 +22,7 @@ describe(`proxy/x-invoices-header`, () => {
       assert.notEqual(null, req.headers['x-invoices'])
       const invoices = JSON.parse(req.headers['x-invoices'])
       assert.equal(invoices.length, 1)
-      assert.equal(invoices[0].id, user.invoice.id)
+      assert.equal(invoices[0].id, invoiceid)
     })
   })
 })

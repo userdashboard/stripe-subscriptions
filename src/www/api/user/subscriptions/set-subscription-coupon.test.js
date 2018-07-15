@@ -36,7 +36,7 @@ describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscriptionDiscount(administrator, user.subscription, coupon1)
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?subscriptionid=${user.subscription.id}`, 'GET')
       req.account = user.account
@@ -63,7 +63,7 @@ describe(`/api/user/subscriptions/set-subscription-coupon`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-coupon?subscriptionid=${user.subscription.id}`, 'PATCH')
       req.account = user.account
       req.session = user.session

@@ -26,9 +26,8 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       let errorMessage
@@ -48,17 +47,15 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      await TestHelper.createRefund(administrator, chargeid)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.charge, null)
-      assert.equal(req.data.charge.id, user.charge.id)
+      assert.equal(req.data.charge.id, chargeid)
     })
   })
 
@@ -71,11 +68,9 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      await TestHelper.createRefund(administrator, chargeid)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
@@ -96,17 +91,15 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      await TestHelper.createRefund(administrator, chargeid)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.charge.id)
+        const tr = doc.getElementById(chargeid)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)
@@ -122,11 +115,9 @@ describe(`/administrator/subscriptions/flag-charge`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${user.charge.id}`, 'POST')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      await TestHelper.createRefund(administrator, chargeid)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/flag-charge?chargeid=${chargeid}`, 'POST')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       req.body = {

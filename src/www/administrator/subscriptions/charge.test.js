@@ -28,15 +28,14 @@ describe('/administrator/subscriptions/charge', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.charge, null)
-      assert.equal(req.data.charge.id, user.charge.id)
+      assert.equal(req.data.charge.id, chargeid)
     })
   })
 
@@ -49,15 +48,14 @@ describe('/administrator/subscriptions/charge', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/administrator/subscriptions/charge?chargeid=${user.charge.id}`, 'GET')
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/administrator/subscriptions/charge?chargeid=${chargeid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.charge.id)
+        const tr = doc.getElementById(chargeid)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)

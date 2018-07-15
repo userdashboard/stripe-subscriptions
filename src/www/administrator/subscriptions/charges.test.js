@@ -12,15 +12,14 @@ describe('/administrator/subscriptions/charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
+      const chargeid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.charges, null)
-      assert.equal(req.data.charges[0].id, user.charge.id)
+      assert.equal(req.data.charges[0].id, chargeid)
     })
   })
 
@@ -32,12 +31,10 @@ describe('/administrator/subscriptions/charges', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/charges', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -61,14 +58,11 @@ describe('/administrator/subscriptions/charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       let charges = []
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
-        await TestHelper.loadCharge(user, user.subscription.id)
-        charges.unshift(user.charge)
+        const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        charges.unshift(chargeid)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges?offset=${offset}`, 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -78,7 +72,7 @@ describe('/administrator/subscriptions/charges', () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(charges[offset + i].id))
+          assert.notEqual(null, doc.getElementById(charges[offset + i]))
         }
       }
       return req.route.api.get(req, res)

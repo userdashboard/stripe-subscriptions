@@ -41,8 +41,8 @@ async function beforeRequest (req) {
       }
     }
   }
-  let subscription = await global.api.user.subscriptions.Subscription.get(req)
-  if (subscription.status === 'canceled' || subscription.customer !== req.customer.id || subscription.cancel_at_period_end) {
+  const subscription = await global.api.user.subscriptions.Subscription.get(req)
+  if (subscription.status !== 'active') {
     throw new Error('invalid-subscription')
   }
   req.query.planid = subscription.plan.id

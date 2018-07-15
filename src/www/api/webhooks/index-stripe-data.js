@@ -24,7 +24,6 @@ module.exports = {
       webhookNumber = parseInt(webhookNumber, 10)
     }
     webhookNumber = 1 + (webhookNumber || 0)
-    console.log(`[webhook ~${webhookNumber} / ${lastTestNumber} ]`, stripeEvent.type, stripeEvent.data.object.id)
     let invoice, charge, customerid, subscriptionid, planid, productid, cardid
     switch (stripeEvent.type) {
       case 'invoice.created':
@@ -33,6 +32,9 @@ module.exports = {
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
+        if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         await dashboard.RedisList.add('invoices', invoice.id)
         await dashboard.RedisList.add(`customer:invoices:${customerid}`, invoice.id)
         await dashboard.RedisList.add(`plan:invoices:${planid}`, invoice.id)
@@ -43,6 +45,9 @@ module.exports = {
         charge = stripeEvent.data.object
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
+        if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -64,6 +69,9 @@ module.exports = {
         const refund = charge.refunds.data[0]
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
+        if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -79,6 +87,9 @@ module.exports = {
         const dispute = stripeEvent.data.object
         cardid = charge.source.id
         invoice = await stripe.invoices.retrieve(charge.invoice, req.stripeKey)
+        if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -92,10 +103,16 @@ module.exports = {
         break
       case 'payout.created':
         const payout = stripeEvent.data.object
+        if (payout.metadata.testNumber && payout.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         await dashboard.RedisList.add('payouts', payout.id)
         break
       case 'customer.subscription.deleted':
         const subscription = stripeEvent.data.object
+        if (subscription.plan.metadata.testNumber && subscription.plan.metadata.testNumber !== lastTestNumber) {
+          return
+        }
         customerid = subscription.customer
         planid = subscription.plan.id
         productid = subscription.plan.product

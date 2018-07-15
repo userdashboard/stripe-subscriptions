@@ -13,9 +13,9 @@ describe('/api/administrator/subscriptions/subscription-invoices-count', async (
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/subscription-invoices-count?subscriptionid=${user.subscription.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

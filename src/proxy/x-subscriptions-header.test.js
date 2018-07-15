@@ -13,7 +13,6 @@ describe(`proxy/x-subscriptions-header`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session

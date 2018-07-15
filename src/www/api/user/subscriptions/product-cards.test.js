@@ -12,13 +12,13 @@ describe('/api/user/subscriptions/product-cards', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const card2 = await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const card3 = await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(6)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-cards?productid=${product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -39,7 +39,7 @@ describe('/api/user/subscriptions/product-cards', () => {
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-cards?productid=${product.id}`, 'GET')
       req.account = user.account
@@ -60,8 +60,8 @@ describe('/api/user/subscriptions/product-cards', () => {
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         const card = await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
         cards.unshift(card)
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-cards?productid=${product.id}&offset=${offset}`, 'GET')
       req.account = user.account

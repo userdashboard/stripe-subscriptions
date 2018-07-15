@@ -33,13 +33,13 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
@@ -64,10 +64,10 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -92,11 +92,11 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      user.invoice = await TestHelper.forgiveInvoice(administrator, user.invoice.id)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      await TestHelper.forgiveInvoice(administrator, invoiceid2)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -121,10 +121,10 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -152,10 +152,10 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.changeSubscriptionWithoutPaying(user2, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user2.invoice.id}`, 'GET')
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user2.subscription.id}`, null)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user2.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'GET')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
@@ -181,10 +181,10 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${user.invoice.id}`, 'PATCH')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'PATCH')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer

@@ -14,21 +14,19 @@ describe('/api/user/subscriptions/product-invoices', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
-      const invoice2 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan3.id)
-      await TestHelper.waitForWebhooks(6)
-      const invoice3 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid3 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-invoices?productid=${product.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       const invoices = await req.route.api.get(req)
       assert.equal(invoices.length, 2)
-      assert.equal(invoices[0].id, invoice3.id)
-      assert.equal(invoices[1].id, invoice2.id)
+      assert.equal(invoices[0].id, invoiceid3)
+      assert.equal(invoices[1].id, invoiceid2)
     })
 
     it('should enforce page size', async () => {
@@ -41,7 +39,7 @@ describe('/api/user/subscriptions/product-invoices', () => {
       await TestHelper.createCard(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-invoices?productid=${product.id}`, 'GET')
       req.account = user.account
@@ -52,19 +50,19 @@ describe('/api/user/subscriptions/product-invoices', () => {
     })
 
     it('should enforce specified offset', async () => {
+      const offset = 1
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const offset = 1
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const invoices = []
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
-        const invoice = await TestHelper.loadInvoice(user, user.subscription.id)
-        invoices.unshift(invoice)
+        const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+        await TestHelper.cancelSubscription(user, user.subscription.id)
+        invoices.unshift(invoiceid)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/product-invoices?productid=${product.id}&offset=${offset}`, 'GET')
       req.account = user.account
@@ -72,7 +70,7 @@ describe('/api/user/subscriptions/product-invoices', () => {
       req.customer = user.customer
       const invoicesNow = await req.route.api.get(req)
       for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-        assert.equal(invoicesNow[i].id, invoices[offset + i].id)
+        assert.equal(invoicesNow[i].id, invoices[offset + i])
       }
     })
   })

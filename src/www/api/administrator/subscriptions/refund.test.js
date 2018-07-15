@@ -26,10 +26,8 @@ describe('/api/administrator/subscriptions/refund', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      await TestHelper.createRefund(administrator, chargeid)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

@@ -12,18 +12,14 @@ describe('/administrator/subscriptions/refunds', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadCharge(user, user.subscription.id)
-      const refund1 = await TestHelper.createRefund(administrator, user.charge)
-      await TestHelper.waitForWebhooks(3)
+      const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const refund1 = await TestHelper.createRefund(administrator, chargeid1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
-      await TestHelper.waitForWebhooks(5)
-      await TestHelper.loadCharge(user2, user2.subscription.id)
-      const refund2 = await TestHelper.createRefund(administrator, user2.charge)
-      await TestHelper.waitForWebhooks(6)
+      const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user2.subscription.id}`, null)
+      const refund2 = await TestHelper.createRefund(administrator, chargeid2)
       const req = TestHelper.createRequest(`/administrator/subscriptions/refunds`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -41,18 +37,13 @@ describe('/administrator/subscriptions/refunds', () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.createCustomer(user)
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
-        await TestHelper.loadCharge(user, user.subscription.id)
-        await TestHelper.createRefund(administrator, user.charge)
-        webhook++
-        await TestHelper.waitForWebhooks(webhook)
+        const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        await TestHelper.createRefund(administrator, chargeid)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/refunds', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -74,18 +65,13 @@ describe('/administrator/subscriptions/refunds', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const refunds = []
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.createCustomer(user)
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
-        await TestHelper.loadCharge(user, user.subscription.id)
-        await TestHelper.createRefund(administrator, user.charge)
-        webhook++
-        await TestHelper.waitForWebhooks(webhook)
+        const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        await TestHelper.createRefund(administrator, chargeid)
         refunds.unshift(administrator.refund)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/refunds?offset=${offset}`, 'GET')

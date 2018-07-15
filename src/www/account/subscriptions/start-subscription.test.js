@@ -151,7 +151,7 @@ describe(`/account/subscriptions/start-subscription`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/start-subscription?planid=${administrator.plan.id}`, 'POST')
       req.account = user.account
       req.session = user.session

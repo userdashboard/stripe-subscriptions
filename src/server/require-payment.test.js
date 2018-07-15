@@ -38,9 +38,9 @@ describe('server/require-payment', async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
+      await TestHelper.waitForNextItem(`subscription:invoices:${administrator.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -59,9 +59,9 @@ describe('server/require-payment', async () => {
       await TestHelper.createCustomer(administrator)
       await TestHelper.createCard(administrator)
       await TestHelper.createSubscription(administrator, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${administrator.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(administrator, plan2.id)
-      await TestHelper.waitForWebhooks(3)
+      await TestHelper.waitForNextItem(`subscription:invoices:${administrator.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -81,9 +81,9 @@ describe('server/require-payment', async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
+      await TestHelper.waitForNextItem(`subscription:invoices:${administrator.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -99,12 +99,10 @@ describe('server/require-payment', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const req = TestHelper.createRequest(`/home`, 'GET')
       req.account = user.account
       req.session = user.session

@@ -29,13 +29,12 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid2}`, 'POST')
       req.account = user2.account
       req.session = user2.session
       req.customer = user2.customer
@@ -56,9 +55,8 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
+      const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -80,18 +78,17 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.invoice, null)
-      assert.equal(req.data.invoice.id, user.invoice.id)
+      assert.equal(req.data.invoice.id, invoiceid2)
     })
   })
 
@@ -105,11 +102,10 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -132,18 +128,17 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'GET')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid2}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       const res = TestHelper.createResponse()
       res.end = async (str) => {
         const doc = TestHelper.extractDoc(str)
-        const tr = doc.getElementById(user.invoice.id)
+        const tr = doc.getElementById(invoiceid2)
         assert.notEqual(null, tr)
       }
       return req.route.api.get(req, res)
@@ -160,11 +155,10 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
-      await TestHelper.waitForWebhooks(3)
-      await TestHelper.loadInvoice(user, user.subscription.id)
-      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${user.invoice.id}`, 'POST')
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const req = TestHelper.createRequest(`/account/subscriptions/pay-invoice?invoiceid=${invoiceid2}`, 'POST')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
@@ -174,7 +168,6 @@ describe(`/account/subscriptions/pay-invoice`, async () => {
         req.session = await TestHelper.unlockSession(user)
         const res2 = TestHelper.createResponse()
         res2.end = async (str) => {
-          await TestHelper.waitForWebhooks(4)
           const doc = TestHelper.extractDoc(str)
           const messageContainer = doc.getElementById('message-container')
           assert.notEqual(null, messageContainer)

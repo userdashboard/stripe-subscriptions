@@ -12,13 +12,13 @@ describe('/api/user/subscriptions/plan-subscriptions', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createCard(user)
       const subscription2 = await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(4)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createCard(user)
       const subscription3 = await TestHelper.createSubscription(user, administrator.plan.id)
-      await TestHelper.waitForWebhooks(6)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-subscriptions?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -30,16 +30,16 @@ describe('/api/user/subscriptions/plan-subscriptions', () => {
     })
 
     it('should enforce page size', async () => {
+      global.PAGE_SIZE = 3
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      global.PAGE_SIZE = 3
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-subscriptions?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
@@ -50,10 +50,10 @@ describe('/api/user/subscriptions/plan-subscriptions', () => {
     })
 
     it('should enforce specified offset', async () => {
+      const offset = 1
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 10000})
-      const offset = 1
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       const subscriptions = []
@@ -61,7 +61,7 @@ describe('/api/user/subscriptions/plan-subscriptions', () => {
         await TestHelper.createCard(user)
         const subscription = await TestHelper.createSubscription(user, administrator.plan.id)
         subscriptions.unshift(subscription)
-        await TestHelper.waitForWebhooks(2 * (i + 1))
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-subscriptions?planid=${administrator.plan.id}&offset=${offset}`, 'GET')
       req.account = user.account

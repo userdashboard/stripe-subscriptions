@@ -13,12 +13,10 @@ describe('/administrator/subscriptions/subscriptions', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       const subscription2 = await TestHelper.createSubscription(user2, plan2.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/administrator/subscriptions/subscriptions`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -36,14 +34,11 @@ describe('/administrator/subscriptions/subscriptions', () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.createCustomer(user)
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/subscriptions', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -64,15 +59,12 @@ describe('/administrator/subscriptions/subscriptions', () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      let webhook = 0
       const subscriptions = []
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.createCustomer(user)
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
         subscriptions.unshift(user.subscription)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/subscriptions?offset=${offset}`, 'GET')

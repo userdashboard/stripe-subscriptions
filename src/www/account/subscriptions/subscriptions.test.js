@@ -13,9 +13,8 @@ describe(`/account/subscriptions/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
       const req = TestHelper.createRequest(`/account/subscriptions/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -35,12 +34,9 @@ describe(`/account/subscriptions/subscriptions`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/account/subscriptions/subscriptions', 'GET')
       req.account = user.account
@@ -65,12 +61,9 @@ describe(`/account/subscriptions/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const subscriptions = []
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
         subscriptions.push(user.subscription)
       }
       const req = TestHelper.createRequest(`/account/subscriptions/subscriptions?offset=${offset}`, 'GET')

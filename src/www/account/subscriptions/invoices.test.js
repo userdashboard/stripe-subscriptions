@@ -14,22 +14,19 @@ describe(`/account/subscriptions/invoices`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForWebhooks(2)
-      await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForWebhooks(4)
-      const invoice2 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       await TestHelper.createSubscription(user, plan3.id)
-      await TestHelper.waitForWebhooks(6)
-      const invoice3 = await TestHelper.loadInvoice(user, user.subscription.id)
+      const invoiceid3 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid2)
       const req = TestHelper.createRequest(`/account/subscriptions/invoices`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       await req.route.api.before(req)
       assert.equal(req.data.invoices.length, 2)
-      assert.equal(req.data.invoices[0].id, invoice3.id)
-      assert.equal(req.data.invoices[1].id, invoice2.id)
+      assert.equal(req.data.invoices[0].id, invoiceid3)
+      assert.equal(req.data.invoices[1].id, invoiceid2)
     })
   })
 
@@ -41,12 +38,9 @@ describe(`/account/subscriptions/invoices`, async () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
       }
       const req = TestHelper.createRequest('/account/subscriptions/invoices', 'GET')
       req.account = user.account
@@ -71,14 +65,11 @@ describe(`/account/subscriptions/invoices`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const invoices = []
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
-        webhook += 2
-        await TestHelper.waitForWebhooks(webhook)
-        const invoice = await TestHelper.loadInvoice(user, user.subscription.id)
-        invoices.push(invoice)
+        const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+        invoices.push(invoiceid)
       }
       const req = TestHelper.createRequest(`/account/subscriptions/invoices?offset=${offset}`, 'GET')
       req.account = user.account
@@ -89,7 +80,7 @@ describe(`/account/subscriptions/invoices`, async () => {
         const doc = TestHelper.extractDoc(str)
         assert.notEqual(null, doc)
         for (let i = 0, len = global.PAGE_SIZE; i < len; i++) {
-          assert.notEqual(null, doc.getElementById(invoices[offset + i].id))
+          assert.notEqual(null, doc.getElementById(invoices[offset + i]))
         }
       }
       return req.route.api.get(req, res)

@@ -32,13 +32,10 @@ module.exports.changeSubscription = changeSubscription
 module.exports.createSubscription = createSubscription
 module.exports.createSubscriptionDiscount = createSubscriptionDiscount
 module.exports.changeSubscriptionWithoutPaying = changeSubscriptionWithoutPaying
-module.exports.currentWebHookNumber = currentWebHookNumber
 module.exports.flagCharge = flagCharge
 module.exports.forgiveInvoice = forgiveInvoice
 module.exports.loadCharge = loadCharge
-module.exports.loadInvoice = loadInvoice
 module.exports.payInvoice = payInvoice
-module.exports.waitForWebhooks = util.promisify(waitForWebhooks)
 module.exports.waitForNextItem = util.promisify(waitForNextItem)
 
 beforeEach(setup)
@@ -303,23 +300,6 @@ async function createCard (user, properties) {
   return user.card
 }
 
-async function loadInvoice (user, subscriptionid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up loadInvoice call ---')
-  }
-  const invoiceids = await dashboard.RedisList.list(`subscription:invoices:${subscriptionid}`)
-  const invoiceid = invoiceids[0]
-  // the Stripe API has to be used here directly to cause the customer
-  // to have an outstanding balance
-  const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
-  req.session = user.session
-  req.account = user.account
-  req.customer = user.customer
-  const invoice = await req.route.api.get(req)
-  user.invoice = invoice
-  return invoice
-}
-
 async function loadCharge (user, chargeid) {
   const req = TestHelper.createRequest(`/api/user/subscriptions/charge?chargeid=${chargeid}`, 'GET')
   req.session = user.session
@@ -494,8 +474,15 @@ async function createPayout () {
   // the Stripe API has to be used here directly because this module
   // assumes payouts will be handled automatically so there aren't
   // any API endpoints to create payouts
+  const chargeInfo = {
+    amount: 1000,
+    currency: 'usd',
+    source: 'tok_bypassPending',
+    description: 'Payout charge'
+  }
+  await stripe.charges.create(chargeInfo, stripeKey)
   const payoutInfo = {
-    amount: 400,
+    amount: 100,
     currency: 'usd',
     metadata: {
       testNumber: await global.redisClient.getAsync('testNumber')
@@ -507,7 +494,7 @@ async function createPayout () {
 
 async function waitForNextItem (collection, previousid, callback) {
   async function wait () {
-    const itemids = await dashboard.RedisList.list(collection)
+    const itemids = await dashboard.RedisList.list(collection, 0, 1)
     if (!itemids || !itemids.length) {
       return setTimeout(wait, 10)
     }
@@ -517,29 +504,4 @@ async function waitForNextItem (collection, previousid, callback) {
     return callback(null, itemids[0])
   }
   return setTimeout(wait, 20)
-}
-
-async function waitForWebhooks (target, callback) {
-  const webhookNumber = await currentWebHookNumber()
-  if (webhookNumber >= target) {
-    return callback()
-  }
-  async function wait () {
-    const webhookNumberNow = await currentWebHookNumber()
-    if (webhookNumberNow >= target) {
-      return callback()
-    }
-    return setTimeout(wait, 20)
-  }
-  return setTimeout(wait, 20)
-}
-
-async function currentWebHookNumber () {
-  let webhookNumber = await global.redisClient.getAsync('webhookNumber')
-  if (webhookNumber && webhookNumber.length) {
-    webhookNumber = parseInt(webhookNumber, 10)
-  } else {
-    webhookNumber = 0
-  }
-  return webhookNumber
 }

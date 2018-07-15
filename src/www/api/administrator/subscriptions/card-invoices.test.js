@@ -15,7 +15,7 @@ describe('/api/administrator/subscriptions/card-invoices', () => {
       await TestHelper.createSubscription(user, plan1.id)
       const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/card-invoices?cardid=${user.card.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

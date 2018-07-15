@@ -26,6 +26,7 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions`, 'GET')
       req.account = user.account
       req.session = user.session
@@ -67,7 +68,7 @@ describe(`/account/subscriptions`, async () => {
       await TestHelper.createSubscription(user, plan1.id)
       const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
-      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null, invoiceid1)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest('/account/subscriptions', 'GET')
       req.account = user.account
       req.session = user.session

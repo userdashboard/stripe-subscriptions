@@ -9,16 +9,16 @@ describe('/administrator/subscriptions/invoices', () => {
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
       const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, trial_period_days: 0})
-      const user = await TestHelper.createUser()
-      await TestHelper.createCustomer(user)
-      await TestHelper.createCard(user)
-      await TestHelper.createSubscription(user, plan1.id)
-      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const user1 = await TestHelper.createUser()
+      await TestHelper.createCustomer(user1)
+      await TestHelper.createCard(user1)
+      await TestHelper.createSubscription(user1, plan1.id)
+      const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user1.subscription.id}`, null)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, plan2.id)
-      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user2.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/administrator/subscriptions/invoices`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -35,7 +35,6 @@ describe('/administrator/subscriptions/invoices', () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
-      let webhook = 0
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const user = await TestHelper.createUser()
         await TestHelper.createCustomer(user)

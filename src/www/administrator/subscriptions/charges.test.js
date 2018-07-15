@@ -12,7 +12,7 @@ describe('/administrator/subscriptions/charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const chargeid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

@@ -13,21 +13,23 @@ describe('/administrator/subscriptions/refunds', () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
-      const refund1 = await TestHelper.createRefund(administrator, chargeid1)
+      await TestHelper.createRefund(administrator, chargeid1)
+      const refundid1 = await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, administrator.plan.id)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user2.subscription.id}`, null)
-      const refund2 = await TestHelper.createRefund(administrator, chargeid2)
+      await TestHelper.createRefund(administrator, chargeid2)
+      const refundid2 = await TestHelper.waitForNextItem(`subscription:refunds:${user2.subscription.id}`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/refunds`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       await req.route.api.before(req)
       assert.notEqual(req.data, null)
       assert.notEqual(req.data.refunds, null)
-      assert.equal(req.data.refunds[0].id, refund2.id)
-      assert.equal(req.data.refunds[1].id, refund1.id)
+      assert.equal(req.data.refunds[0].id, refundid2)
+      assert.equal(req.data.refunds[1].id, refundid1)
     })
   })
 
@@ -44,6 +46,7 @@ describe('/administrator/subscriptions/refunds', () => {
         await TestHelper.createSubscription(user, administrator.plan.id)
         const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.createRefund(administrator, chargeid)
+        await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest('/administrator/subscriptions/refunds', 'GET')
       req.administratorAccount = req.account = administrator.account
@@ -72,6 +75,7 @@ describe('/administrator/subscriptions/refunds', () => {
         await TestHelper.createSubscription(user, administrator.plan.id)
         const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.createRefund(administrator, chargeid)
+        await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
         refunds.unshift(administrator.refund)
       }
       const req = TestHelper.createRequest(`/administrator/subscriptions/refunds?offset=${offset}`, 'GET')

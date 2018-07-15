@@ -17,13 +17,6 @@ module.exports = {
     if (!stripeEvent) {
       throw new Error('invalid-stripe-event')
     }
-    lastTestNumber = await global.redisClient.getAsync('testNumber')
-    lastTestNumber = lastTestNumber || 1
-    let webhookNumber = await global.redisClient.getAsync('webhookNumber')
-    if (webhookNumber && webhookNumber.length) {
-      webhookNumber = parseInt(webhookNumber, 10)
-    }
-    webhookNumber = 1 + (webhookNumber || 0)
     let invoice, charge, customerid, subscriptionid, planid, productid, cardid
     switch (stripeEvent.type) {
       case 'invoice.created':
@@ -39,8 +32,7 @@ module.exports = {
         await dashboard.RedisList.add(`customer:invoices:${customerid}`, invoice.id)
         await dashboard.RedisList.add(`plan:invoices:${planid}`, invoice.id)
         await dashboard.RedisList.add(`product:invoices:${productid}`, invoice.id)
-        await dashboard.RedisList.add(`subscription:invoices:${subscriptionid}`, invoice.id)
-        break
+        return dashboard.RedisList.add(`subscription:invoices:${subscriptionid}`, invoice.id)
       case 'charge.succeeded':
         charge = stripeEvent.data.object
         cardid = charge.source.id
@@ -62,8 +54,7 @@ module.exports = {
         await dashboard.RedisList.add(`plan:charges:${planid}`, charge.id)
         await dashboard.RedisList.add(`card:charges:${cardid}`, charge.id)
         await dashboard.RedisList.add(`card:invoices:${cardid}`, invoice.id)
-        await dashboard.RedisList.add(`card:subscriptions:${cardid}`, subscriptionid)
-        break
+        return dashboard.RedisList.add(`card:subscriptions:${cardid}`, subscriptionid)
       case 'charge.refunded':
         charge = stripeEvent.data.object
         const refund = charge.refunds.data[0]
@@ -81,8 +72,7 @@ module.exports = {
         await dashboard.RedisList.add(`plan:refunds:${planid}`, refund.id)
         await dashboard.RedisList.add(`product:refunds:${productid}`, refund.id)
         await dashboard.RedisList.add(`subscription:refunds:${subscriptionid}`, refund.id)
-        await dashboard.RedisList.add(`card:refunds:${cardid}`, refund.id)
-        break
+        return dashboard.RedisList.add(`card:refunds:${cardid}`, refund.id)
       case 'charge.dispute.created':
         const dispute = stripeEvent.data.object
         cardid = charge.source.id
@@ -99,15 +89,13 @@ module.exports = {
         await dashboard.RedisList.add(`plan:disputes:${planid}`, dispute.id)
         await dashboard.RedisList.add(`product:disputes:${productid}`, dispute.id)
         await dashboard.RedisList.add(`subscription:disputes:${subscriptionid}`, dispute.id)
-        await dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
-        break
+        return dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
       case 'payout.created':
         const payout = stripeEvent.data.object
         if (payout.metadata.testNumber && payout.metadata.testNumber !== lastTestNumber) {
           return
         }
-        await dashboard.RedisList.add('payouts', payout.id)
-        break
+        return dashboard.RedisList.add('payouts', payout.id)
       case 'customer.subscription.deleted':
         const subscription = stripeEvent.data.object
         if (subscription.plan.metadata.testNumber && subscription.plan.metadata.testNumber !== lastTestNumber) {
@@ -119,11 +107,7 @@ module.exports = {
         await dashboard.RedisList.remove('subscriptions', subscription.id)
         await dashboard.RedisList.remove(`customer:subscriptions:${req.customer.id}`, subscription.id)
         await dashboard.RedisList.remove(`plan:subscriptions:${planid}`, subscription.id)
-        await dashboard.RedisList.remove(`product:subscriptions:${productid}`, subscription.id)
-        break
-    }
-    if (process.env.NODE_ENV !== 'production') {
-      await global.redisClient.incrbyAsync('webhookNumber', 1)
+        return dashboard.RedisList.remove(`product:subscriptions:${productid}`, subscription.id)
     }
   }
 }

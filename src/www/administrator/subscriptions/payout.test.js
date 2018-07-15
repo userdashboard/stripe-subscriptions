@@ -21,6 +21,7 @@ describe(`/administrator/subscriptions/payout`, () => {
     it('should bind payout to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
+      await TestHelper.waitForNextItem(`payouts`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -35,6 +36,7 @@ describe(`/administrator/subscriptions/payout`, () => {
     it('should have row for payout', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout = await TestHelper.createPayout()
+      await TestHelper.waitForNextItem(`payouts`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

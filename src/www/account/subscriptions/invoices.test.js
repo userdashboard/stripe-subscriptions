@@ -41,6 +41,7 @@ describe(`/account/subscriptions/invoices`, async () => {
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
         await TestHelper.createSubscription(user, administrator.plan.id)
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest('/account/subscriptions/invoices', 'GET')
       req.account = user.account

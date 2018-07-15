@@ -6,80 +6,1991 @@
 
   proxy/x-customer-header
     Customer#AFTER
-      ✓ should set customer data in header (2396ms)
+      ✓ should set customer data in header (2105ms)
 
   proxy/x-invoices-header
     Invoices#AFTER
-      ✓ should set invoice data in header (11843ms)
+      ✓ should set invoice data in header (16255ms)
 
   proxy/x-subscriptions-header
     Subscriptions#AFTER
-      ✓ should set invoice data in header (10007ms)
+      ✓ should set invoice data in header (10724ms)
 
   server/bind-customer
     BindCustomer#AFTER
-      ✓ should bind existing customer data to req (2325ms)
+      ✓ should bind existing customer data to req (2404ms)
 
   server/bind-stripekey
     BindStripeKey#AFTER
-      ✓ should bind stripekey data to req (1666ms)
+      ✓ should bind stripekey data to req (1754ms)
 
   server/require-payment
     RequirePayment#AFTER
-      ✓ should allow non-customer through (1608ms)
-      ✓ should allow unsubscribed customer through (2034ms)
-      ✓ should allow owing customer access to /account/* (22904ms)
-      ✓ should allow owing administrator access to /administrator/ (13880ms)
-      ✓ should redirect owing customer (24413ms)
-      ✓ should allow non-owing customer (10056ms)
+      ✓ should allow non-customer through (1829ms)
+      ✓ should allow unsubscribed customer through (2223ms)
+      ✓ should allow owing customer access to /account/* (20440ms)
+      ✓ should allow owing administrator access to /administrator/ (18951ms)
+      ✓ should redirect owing customer (20798ms)
+      ✓ should allow non-owing customer (9899ms)
 
   server/require-subscription
     RequireSubscription#AFTER
-      ✓ should allow non-customer (1708ms)
-      ✓ should allow customer without subscription access to /account/* (2097ms)
-      ✓ should allow administrator without subscription access to /administrator/ (3633ms)
-      ✓ should redirect unsubscribed customer to the plans list (2148ms)
-      ✓ should allow customer with subscription to pass (10000ms)
+      ✓ should allow non-customer (1638ms)
+      ✓ should allow customer without subscription access to /account/* (2002ms)
+      ✓ should allow administrator without subscription access to /administrator/ (3652ms)
+      ✓ should redirect unsubscribed customer to the plans list (2016ms)
+      ✓ should allow customer with subscription to pass (10426ms)
 
   /account/subscriptions/cancel-subscription
     CancelSubscription#BEFORE
-      ✓ should bind subscription to req (10327ms)
+      ✓ should bind subscription to req (10923ms)
     CancelSubscription#GET
-      ✓ should present the form (10360ms)
-      ✓ should present the subscription table (10706ms)
+      ✓ should present the form (11760ms)
+      ✓ should present the subscription table (10710ms)
     CancelSubscription#POST
-      ✓ should apply after authorization (11679ms)
+      ✓ should apply after authorization (12098ms)
 
   /account/subscriptions/card
     Card#BEFORE
-      ✓ should reject invalid card (1981ms)
-      ✓ should reject other account's card (5395ms)
-      ✓ should bind card to req (3843ms)
+      ✓ should reject invalid card (2081ms)
+      ✓ should reject other account's card (6311ms)
+      ✓ should bind card to req (4377ms)
     Card#GET
-      ✓ should have row for card (4103ms)
+      ✓ should have row for card (4081ms)
 
   /account/subscriptions/cards
     Cards#BEFORE
-      ✓ should bind cards to req (7607ms)
+      ✓ should bind cards to req (7656ms)
     Cards#GET
-      ✓ should enforce page size (9636ms)
-      ✓ should enforce specified offset (9193ms)
+      ✓ should enforce page size (9910ms)
+      ✓ should enforce specified offset (9535ms)
 
   /account/subscriptions/change-plan
     ChangePlan#BEFORE
-      ✓ should bind subscription to req (11510ms)
+      ✓ should bind subscription to req (10890ms)
     ChangePlan#GET
-      ✓ should present the form (11044ms)
-      ✓ should present the subscription table (10441ms)
+      ✓ should present the form (10778ms)
+      ✓ should present the subscription table (10786ms)
     ChangePlan#POST
-      ✓ should reject same plan (11865ms)
-      ✓ should reject never published plan (12529ms)
-      ✓ should reject unpublished plan (13801ms)
-      ✓ should reject paid plan without payment information (10407ms)
-      ✓ should apply after authorization (14533ms)
+      ✓ should reject same plan (10908ms)
+      ✓ should reject never published plan (12541ms)
+      ✓ should reject unpublished plan (13368ms)
+      ✓ should reject paid plan without payment information (11119ms)
+      ✓ should apply after authorization (14712ms)
 
   /account/subscriptions/delete-card
     DeleteCard#BEFORE
-      ✓ should reject invalid cardid (6442ms)
-      ✓ should reject other account's card (9910ms)
-      ✓ should reject default payment source (7817ms)
+      ✓ should reject invalid cardid (6192ms)
+      ✓ should reject other account's card (9634ms)
+      ✓ should reject default payment source (7736ms)
+      ✓ should bind card to req (5655ms)
+    DeleteCard#GET
+      ✓ should present the form (7150ms)
+      ✓ should present the card table (6036ms)
+    DeleteCard#POST
+      ✓ should apply after authorization (7080ms)
+
+  /account/subscriptions/edit-payment-information
+    EditPaymentInformation#GET
+      ✓ should present the form (2175ms)
+    EditPaymentInformation#POST
+      ✓ should require name (2221ms)
+      ✓ should require CVC (2153ms)
+      ✓ should require card number (2185ms)
+      ✓ should require expiration month (2317ms)
+      ✓ should require expiration year (2162ms)
+      ✓ should apply after authorization (3770ms)
+
+  /account/subscriptions
+    Index#BEFORE
+      ✓ should bind cards to req (3897ms)
+      ✓ should bind invoices to req (16834ms)
+      ✓ should bind subscriptions to req (11307ms)
+    Index#GET
+      ✓ should have row for each invoice (24501ms)
+      ✓ should have row for each card (5957ms)
+      ✓ should have row for each subscription (16217ms)
+
+  /account/subscriptions/invoice
+    Invoice#BEFORE
+      ✓ should reject invalid invoice (3543ms)
+      ✓ should reject other account's invoice (12637ms)
+      ✓ should bind invoice to req (14862ms)
+    Invoice#GET
+      ✓ should have row for invoice (13833ms)
+
+  /account/subscriptions/invoices
+    Invoices#BEFORE
+      ✓ should bind invoices to req (26441ms)
+    Invoices#GET
+      ✓ should enforce page size (42978ms)
+      ✓ should enforce specified offset (46784ms)
+
+  /account/subscriptions/pay-invoice
+    PayInvoice#BEFORE
+      ✓ should reject invalid invoice (2016ms)
+      ✓ should reject other account's invoice (22367ms)
+      ✓ should reject paid invoice (16868ms)
+      ✓ should bind invoice to req (16090ms)
+    PayInvoice#GET
+      ✓ should present the form (19548ms)
+      ✓ should present the invoice table (19192ms)
+    PayInvoice#POST
+      ✓ should apply after authorization (24139ms)
+
+  /account/subscriptions/plan
+    Plan#BEFORE
+      ✓ should reject invalid plan (2427ms)
+      ✓ should reject never published plan (6244ms)
+      ✓ should reject unpublished plan (7646ms)
+      ✓ should bind plan to req (6673ms)
+    Plan#GET
+      ✓ should have row for plan (6862ms)
+
+  /account/subscriptions/plans
+    Plans#BEFORE
+      ✓ should bind plans to req (10264ms)
+    Plans#GET
+      ✓ should enforce page size (11839ms)
+      ✓ should enforce specified offset (11452ms)
+
+  /account/subscriptions/refund-invoice
+    RefundInvoice#BEFORE
+      ✓ should reject invalid invoice (3449ms)
+      ✓ should reject other account's invoice (13908ms)
+      ✓ should bind invoice to req (26658ms)
+      ✓ should bind charge to req (11606ms)
+    RefundInvoice#GET
+      ✓ should present the form (16747ms)
+      ✓ should present the invoice table (15162ms)
+    RefundInvoice#PATCH
+      ✓ should apply after authorization (15727ms)
+
+  /account/subscriptions/start-subscription
+    StartSubscription#BEFORE
+      ✓ should reject invalid plan (2126ms)
+      ✓ should reject never published plan (7723ms)
+      ✓ should reject unpublished plan (10318ms)
+      ✓ should bind plan to req (8490ms)
+    StartSubscription#GET
+      ✓ should present the form (8232ms)
+      ✓ should present the plan table (8315ms)
+    StartSubscription#POST
+      ✓ should reject customer without card (6764ms)
+      ✓ should reject duplicate subscription (11546ms)
+      ✓ should apply after authorization (10894ms)
+
+  /account/subscriptions/subscription
+    Subscription#BEFORE
+      ✓ should reject invalid subscription (2014ms)
+      ✓ should reject other account's subscription (16107ms)
+      ✓ should bind subscription to req (16172ms)
+    Subscription#GET
+      ✓ should present the subscription table (13253ms)
+
+  /account/subscriptions/subscriptions
+    Subscriptions#BEFORE
+      ✓ should bind subscriptions to req (20504ms)
+    Subscriptions#GET
+      ✓ should enforce page size (26334ms)
+      ✓ should enforce specified offset (24557ms)
+
+  /administrator/subscriptions/charge
+    Charge#BEFORE
+      ✓ should reject invalid charge (4355ms)
+      ✓ should bind charge to req (15015ms)
+    Charge#GET
+      ✓ should present the charge table (14768ms)
+
+  /administrator/subscriptions/charges
+    Charges#BEFORE
+      ✓ should bind charges to req (15412ms)
+    Charges#GET
+      ✓ should enforce page size (39654ms)
+      ✓ should enforce specified offset (38050ms)
+
+  /administrator/subscriptions/coupon
+    Coupon#BEFORE
+      ✓ should reject invalid coupon (2109ms)
+      ✓ should bind coupon to req (2812ms)
+    Coupon#GET
+      ✓ should present the coupon table (2834ms)
+
+  /administrator/subscriptions/coupons
+    Coupons#BEFORE
+      ✓ should bind coupons to req (2719ms)
+    Coupons#GET
+      ✓ should enforce page size (5817ms)
+      ✓ should enforce specified offset (5635ms)
+
+  /administrator/subscriptions/create-coupon
+    CreateCoupon#GET
+      ✓ should present the form (1748ms)
+    CreateCoupon#POST
+      ✓ should reject missing couponid (1806ms)
+      ✓ should enforce couponid length (1843ms)
+      ✓ should reject duplicate couponid (2789ms)
+      ✓ should reject missing duration (1737ms)
+      ✓ should enforce invalid duration (1711ms)
+      ✓ should require valid amount off (1701ms)
+      ✓ should require valid percent off (1689ms)
+      ✓ should require valid max redemptions (1720ms)
+      ✓ should require amount or percent off (1744ms)
+      ✓ should require valid duration in months if repeating (1699ms)
+      ✓ should require valid expires if provided (1701ms)
+      ✓ should create after authorization (2901ms)
+
+  /administrator/subscriptions/create-plan
+    CreatePlan#GET
+      ✓ should present the form (1675ms)
+    CreatePlan#POST
+      ✓ should reject missing planid (1863ms)
+      ✓ should enforce planid length (2759ms)
+      ✓ should reject missing productid (1637ms)
+      ✓ should reject never published product (3073ms)
+      ✓ should reject unpublished product (4306ms)
+      ✓ should reject missing currency (2806ms)
+      ✓ should reject invalid currency (2783ms)
+      ✓ should reject missing amount (3010ms)
+      ✓ should reject invalid amount (2750ms)
+      ✓ should reject missing interval (2946ms)
+      ✓ should reject invalid interval (2970ms)
+      ✓ should reject invalid interval_count (3187ms)
+      ✓ should reject invalid trial_period_days (3314ms)
+      ✓ should create after authorization (4810ms)
+
+  /administrator/subscriptions/create-product
+    CreateProduct#GET
+      ✓ should present the form (1628ms)
+    CreateProduct#POST
+      ✓ should reject missing name (1627ms)
+      ✓ should enforce name length (1623ms)
+      ✓ should reject missing statement_descriptor (1626ms)
+      ✓ should create after authorization (2419ms)
+
+  /administrator/subscriptions/customer
+    Customer#BEFORE
+      ✓ should reject invalid customer (3962ms)
+      ✓ should bind customer to req (4170ms)
+    Customer#GET
+      ✓ should present the customer table (4274ms)
+
+  /administrator/subscriptions/customers
+    Customers#BEFORE
+      ✓ should bind customers to req (6878ms)
+    Customers#GET
+      ✓ should enforce page size (11405ms)
+      ✓ should enforce specified offset (10753ms)
+
+  /administrator/subscriptions/delete-coupon
+    DeleteCoupon#BEFORE
+      ✓ should reject invalid couponid (1970ms)
+      ✓ should bind coupon to req (2729ms)
+    DeleteCoupon#GET
+      ✓ should present the form (2769ms)
+      ✓ should present the coupon table (2990ms)
+    DeleteCoupon#POST
+      ✓ should apply after authorization (4502ms)
+
+  /administrator/subscriptions/delete-plan
+    DeletePlan#BEFORE
+      ✓ should reject invalid planid (2067ms)
+      ✓ should bind plan to req (4393ms)
+    DeletePlan#GET
+      ✓ should present the form (4175ms)
+      ✓ should present the plan table (4666ms)
+    DeletePlan#POST
+      ✓ should apply after authorization (5800ms)
+
+  /administrator/subscriptions/delete-product
+    DeleteProduct#BEFORE
+      ✓ should reject invalid productid (1904ms)
+      ✓ should bind product to req (2963ms)
+    DeleteProduct#GET
+      ✓ should present the form (3044ms)
+      ✓ should present the product table (2744ms)
+    DeleteProduct#POST
+      ✓ should apply after authorization (4297ms)
+
+  /administrator/subscriptions/delete-subscription
+    DeleteSubscription#BEFORE
+      ✓ should reject invalid subscriptionid (1894ms)
+      ✓ should bind subscription to req (10524ms)
+    DeleteSubscription#GET
+      ✓ should present the form (10016ms)
+      ✓ should present the subscription table (10162ms)
+    DeleteSubscription#POST
+      ✓ should apply after authorization (11661ms)
+
+  /administrator/subscriptions/edit-plan
+    EditPlan#BEFORE
+      ✓ should reject invalid planid (2077ms)
+      ✓ should reject unpublished plan (5399ms)
+      ✓ should bind plan to req (4482ms)
+    EditPlan#GET
+      ✓ should present the form (4533ms)
+    EditPlan#POST
+      ✓ should reject missing productid (4558ms)
+      ✓ should reject never published product (6402ms)
+      ✓ should reject unpublished product (7642ms)
+      ✓ should reject invalid trial period (5663ms)
+      ✓ should update after authorization (7144ms)
+
+  /administrator/subscriptions/edit-product
+    EditProduct#BEFORE
+      ✓ should reject invalid productid (1910ms)
+      ✓ should reject unpublished product (3902ms)
+      ✓ should bind product to req (3024ms)
+    EditProduct#GET
+      ✓ should present the form (3126ms)
+    EditProduct#POST
+      ✓ should reject missing name (2919ms)
+      ✓ should enforce name length (2956ms)
+      ✓ should reject missing statement_descriptor (2897ms)
+      ✓ should reject invalid unit_label (2696ms)
+      ✓ should update after authorization (3932ms)
+
+  /administrator/subscriptions/flag-charge
+    FlagCharge#BEFORE
+      ✓ should reject invalid chargeid (2058ms)
+      ✓ should reject unrefunded charge (12761ms)
+      ✓ should bind charge to req (42764ms)
+    FlagCharge#GET
+      ✓ should present the form (17782ms)
+      ✓ should present the charge table (15068ms)
+    FlagCharge#POST
+      ✓ should apply after authorization (25764ms)
+
+  /administrator/subscriptions/forgive-invoice
+    ForgiveInvoice#BEFORE
+      ✓ should reject invalid invoiceid (2180ms)
+      ✓ should reject paid invoice (13201ms)
+      ✓ should reject forgiven invoice (19936ms)
+      ✓ should bind invoice to req (21116ms)
+    ForgiveInvoice#GET
+      ✓ should present the form (18391ms)
+      ✓ should present the invoice table (21492ms)
+    ForgiveInvoice#POST
+      ✓ should apply after authorization (19354ms)
+
+  /administrator/subscriptions
+    Index#BEFORE
+      ✓ should bind plans to req (4394ms)
+      ✓ should bind subscriptions to req (10955ms)
+      ✓ should bind coupons to req (2908ms)
+    Index#GET
+      ✓ should have row for each plan (6281ms)
+      ✓ should have row for each coupon (4156ms)
+      ✓ should have row for each subscription (19069ms)
+
+  /administrator/subscriptions/invoice
+    Invoice#BEFORE
+      ✓ should reject invalid invoiceid (1927ms)
+      ✓ should bind invoice to req (11855ms)
+    Invoice#GET
+      ✓ should present the invoice table (14103ms)
+
+  /administrator/subscriptions/invoices
+    Invoices#BEFORE
+      ✓ should bind invoices to req (22518ms)
+    Invoices#GET
+      ✓ should enforce page size (40803ms)
+      ✓ should enforce specified offset (47071ms)
+
+  /administrator/subscriptions/payout
+    Payout#BEFORE
+      ✓ should bind reject invalid payoutid (2116ms)
+      ✓ should bind payout to req (7675ms)
+    Payout#GET
+      ✓ should have row for payout (7464ms)
+
+  /administrator/subscriptions/payouts
+    Payouts#BEFORE
+      ✓ should bind payouts to req (8637ms)
+    Payouts#GET
+      ✓ should enforce page size (25686ms)
+      ✓ should enforce specified offset (21593ms)
+
+  /administrator/subscriptions/plan
+    Plan#BEFORE
+      ✓ should reject invalid planid (1922ms)
+      ✓ should bind plan to req (4269ms)
+    Plan#GET
+      ✓ should present the plan table (4294ms)
+
+  /administrator/subscriptions/plans
+    Plans#BEFORE
+      ✓ should bind plans to req (4530ms)
+    Plans#GET
+      ✓ should enforce page size (9628ms)
+      ✓ should enforce specified offset (10187ms)
+
+  /administrator/subscriptions/product
+    Product#BEFORE
+      ✓ should reject invalid productid (2009ms)
+      ✓ should bind product to req (2920ms)
+    Product#GET
+      ✓ should have row for product (2844ms)
+
+  /administrator/subscriptions/products
+    Products#BEFORE
+      ✓ should bind products to req (3434ms)
+    Products#GET
+      ✓ should enforce page size (6011ms)
+      ✓ should enforce specified offset (5676ms)
+
+  /administrator/subscriptions/publish-coupon
+    PublishCoupon#BEFORE
+      ✓ should reject invalid couponid (1931ms)
+      ✓ should reject published coupon (2819ms)
+      ✓ should bind coupon to req (3035ms)
+    PublishCoupon#GET
+      ✓ should present the form (2734ms)
+      ✓ should present the coupon table (2778ms)
+    PublishCoupon#POST
+      ✓ should apply after authorization (4230ms)
+
+  /administrator/subscriptions/publish-plan
+    PublishPlan#BEFORE
+      ✓ should reject invalid planid (2003ms)
+      ✓ should reject published plan (4295ms)
+      ✓ should bind plan to req (4262ms)
+    PublishPlan#GET
+      ✓ should present the form (4277ms)
+      ✓ should present the plan table (4551ms)
+    PublishPlan#POST
+      ✓ should apply after authorization (5934ms)
+
+  /administrator/subscriptions/publish-product
+    PublishProduct#BEFORE
+      ✓ should reject invalid productid (2108ms)
+      ✓ should reject published product (2872ms)
+      ✓ should bind product to req (2954ms)
+    PublishProduct#GET
+      ✓ should present the form (2869ms)
+      ✓ should present the product table (2908ms)
+    PublishProduct#POST
+      ✓ should apply after authorization (4280ms)
+
+  /administrator/subscriptions/refund-charge
+    RefundCharge#BEFORE
+      ✓ should reject invalid chargeid (1905ms)
+      ✓ should reject refunded charge (16760ms)
+      ✓ should bind charge to req (15781ms)
+    RefundCharge#GET
+      ✓ should present the form (13064ms)
+      ✓ should present the charge table (15634ms)
+    RefundCharge#POST
+      ✓ should apply after authorization (16625ms)
+
+  /administrator/subscriptions/refund
+    Refund#BEFORE
+      ✓ should reject invalid refundid (1935ms)
+      ✓ should bind refund to req (14802ms)
+    Refund#GET
+      ✓ should have row for refund (17741ms)
+
+  /administrator/subscriptions/refunds
+    Refunds#BEFORE
+      1) should bind refunds to req
+    Refunds#GET
+      ✓ should enforce page size (57457ms)
+      2) should enforce specified offset
+
+  /administrator/subscriptions/subscription
+    Subscription#BEFORE
+      ✓ should reject invalid subscriptionid (2020ms)
+      ✓ should bind subscription to req (10080ms)
+    Subscription#GET
+      ✓ should present the subscription table (10069ms)
+
+  /administrator/subscriptions/subscriptions
+    Subscriptions#BEFORE
+      ✓ should bind subscriptions to req (17409ms)
+    Subscriptions#GET
+      ✓ should enforce page size (28547ms)
+      ✓ should enforce specified offset (27432ms)
+
+  /administrator/subscriptions/unpublish-coupon
+    UnpublishCoupon#BEFORE
+      ✓ should reject invalid couponid (1919ms)
+      ✓ should reject never published coupon (2721ms)
+      ✓ should reject unpublished coupon (3921ms)
+      ✓ should bind coupon to req (2730ms)
+    UnpublishCoupon#GET
+      ✓ should present the form (2722ms)
+      ✓ should present the coupon table (2813ms)
+    UnpublishCoupon#POST
+      ✓ should apply after authorization (4383ms)
+
+  /administrator/subscriptions/unpublish-plan
+    UnpublishPlan#BEFORE
+      ✓ should reject invalid planid (2082ms)
+      ✓ should never published plan (4540ms)
+      ✓ should reject unpublished plan (5477ms)
+      ✓ should bind plan to req (4479ms)
+    UnpublishPlan#GET
+      ✓ should present the form (4282ms)
+      ✓ should present the plan table (4421ms)
+    UnpublishPlan#POST
+      ✓ should apply after authorization (5873ms)
+
+  /administrator/subscriptions/unpublish-product
+    ProductUnpublished#BEFORE
+      ✓ should reject invalid productid (1937ms)
+      ✓ should never published product (2732ms)
+      ✓ should reject unpublished product (3951ms)
+      ✓ should bind product to req (2755ms)
+    ProductUnpublished#GET
+      ✓ should present the form (2982ms)
+      ✓ should present the product table (2854ms)
+    ProductUnpublished#POST
+      ✓ should apply after authorization (4594ms)
+
+  /api/administrator/subscriptions/card-charges-count
+    CardChargesCount#GET
+      ✓ should count all charges on card (24986ms)
+
+  /api/administrator/subscriptions/card-charges
+    CardCharges#GET
+      ✓ should limit charges on card to one page (32171ms)
+
+  /api/administrator/subscriptions/card-invoices-count
+    CardInvoicesCount#GET
+      ✓ should count all invoices on card (19949ms)
+
+  /api/administrator/subscriptions/card-invoices
+    CardInvoices#GET
+      ✓ should limit invoices on card to one page (20903ms)
+
+  /api/administrator/subscriptions/card-refunds-count
+    CardRefundsCount#GET
+      3) should count all refunds on card
+
+  /api/administrator/subscriptions/card-refunds
+    CardRefunds#GET
+      4) should limit refunds on card to one page
+
+  /api/administrator/subscriptions/card
+    Card#GET
+      ✓ should reject invalid card (5581ms)
+      ✓ should return card data (5492ms)
+
+  /api/administrator/subscriptions/charge
+    Charge#GET
+      ✓ should reject invalid charge (2082ms)
+      ✓ should return charge data (11996ms)
+
+  /api/administrator/subscriptions/charges-count
+    ChargesCount#GET
+      5) should count charges
+
+  /api/administrator/subscriptions/charges
+    Charges#GET
+      ✓ should limit charges to one page (48155ms)
+
+  /api/administrator/subscriptions/coupon-customers-count
+    CouponCustomersCount#GET
+      ✓ should count all customers on coupon (13511ms)
+
+  /api/administrator/subscriptions/coupon-customers
+    CouponCustomers#GET
+      ✓ should limit customers on coupon to one page (20691ms)
+
+  /api/administrator/subscriptions/coupon-subscriptions-count
+    CouponSubscriptionsCount#GET
+      ✓ should count all subscriptions on coupon (23944ms)
+
+  /api/administrator/subscriptions/coupon-subscriptions
+    CouponSubscriptions#GET
+      ✓ should limit subscriptions on coupon to one page (32565ms)
+
+  /api/administrator/subscriptions/coupon
+    Coupon#GET
+      ✓ should reject invalid coupon (1920ms)
+      ✓ should return coupon data (2773ms)
+
+  /api/administrator/subscriptions/coupons-count
+    CouponsCount#GET
+      ✓ should count coupons (5699ms)
+
+  /api/administrator/subscriptions/coupons
+    Coupons#GET
+      ✓ should limit coupons to one page (4774ms)
+
+  /api/administrator/subscriptions/create-coupon
+    CreateCoupon#POST
+      ✓ should require alphanumeric_ id (1705ms)
+      ✓ should require percent or amount off (1612ms)
+      ✓ should require currency with amount off (1607ms)
+      ✓ should require valid percent off (1607ms)
+      ✓ should require valid duration (1605ms)
+      ✓ should require valid repeating duration (1607ms)
+      ✓ should require valid expire_meridien (1606ms)
+      ✓ should require valid expire (1607ms)
+      ✓ should create coupon (2455ms)
+      ✓ should create published coupon (2511ms)
+
+  /api/administrator/subscriptions/create-plan
+    CreatePlan#POST
+      ✓ should require alphanumeric id (2423ms)
+      ✓ should require product (2425ms)
+      ✓ should require valid product (1920ms)
+      ✓ should require amount (2791ms)
+      ✓ should require currency (2579ms)
+      ✓ should require valid interval (2982ms)
+      ✓ should require valid interval count (2849ms)
+      ✓ should require valid trial period (2737ms)
+      ✓ should create plan (4071ms)
+      ✓ should create published plan (4052ms)
+
+  /api/administrator/subscriptions/create-product
+    CreateProduct#POST
+      ✓ should require name (1634ms)
+      ✓ should require statement_descriptor (1699ms)
+      ✓ should create product (3543ms)
+      ✓ should create published product (3398ms)
+
+  /api/administrator/subscriptions/create-refund
+    CreateRefund#POST
+      ✓ should reject invalid charge (2197ms)
+      ✓ should require amount (15717ms)
+      ✓ should reject negative amount (14888ms)
+      ✓ should reject amount higher than charge (11976ms)
+      ✓ should create authorized refund (17429ms)
+
+  /api/administrator/subscriptions/customer-cards-count
+    CustomerCardsCount#GET
+      ✓ should count all cards on customer (12926ms)
+
+  /api/administrator/subscriptions/customer-cards
+    CustomerCards#GET
+      ✓ should limit cards on customer to one page (9959ms)
+
+  /api/administrator/subscriptions/customer-charges-count
+    CustomerChargesCount#GET
+      ✓ should count all charges on customer (19157ms)
+
+  /api/administrator/subscriptions/customer-charges
+    CustomerCharges#GET
+      ✓ should limit charges on customer to one page (29427ms)
+
+  /api/administrator/subscriptions/customer-invoices-count
+    CustomerInvoicesCount#GET
+      ✓ should count all invoices on customer (18836ms)
+
+  /api/administrator/subscriptions/customer-invoices
+    CustomerInvoices#GET
+      ✓ should limit invoices on customer to one page (27579ms)
+
+  /api/administrator/subscriptions/customer-refunds-count
+    CustomerRefundsCount#GET
+      6) should count all refunds on customer
+
+  /api/administrator/subscriptions/customer-refunds
+    CustomerRefunds#GET
+      7) should limit refunds on customer to one page
+
+  /api/administrator/subscriptions/customer-subscriptions-count
+    CustomerSubscriptionsCount#GET
+      ✓ should count all subscriptions on customer (13320ms)
+
+  /api/administrator/subscriptions/customer-subscriptions
+    CustomerSubscriptions#GET
+      ✓ should limit subscriptions on customer to one page (19903ms)
+
+  /api/administrator/subscriptions/customer
+    Customer#GET
+      ✓ should reject invalid customer (1926ms)
+      ✓ should return customer data (5814ms)
+
+  /api/administrator/subscriptions/customers-count
+    CustomersCount#GET
+      ✓ should count customers (5852ms)
+
+  /api/administrator/subscriptions/customers
+    Customers#GET
+      ✓ should limit customers to one page (8738ms)
+
+  /api/administrator/subscriptions/delete-coupon
+    DeleteCoupon#DELETE
+      ✓ should reject invalid couponid (1982ms)
+      ✓ should delete coupon (3753ms)
+
+  /api/administrator/subscriptions/delete-plan
+    DeletePlan#DELETE
+      ✓ should reject invalid planid (1969ms)
+      ✓ should delete plan (5093ms)
+
+  /api/administrator/subscriptions/delete-product
+    DeleteProduct#DELETE
+      ✓ should reject invalid productid (1910ms)
+      ✓ should delete product (3576ms)
+
+  /api/administrator/subscriptions/delete-subscription
+    DeleteSubscription#DELETE
+      ✓ should reject invalid subscriptionid (2148ms)
+      ✓ should require active subscription (15703ms)
+      ✓ should delete subscription at period end (13981ms)
+      ✓ should delete subscription immediately (16752ms)
+
+  /api/administrator/subscriptions/invoice
+    Invoice#GET
+      ✓ should reject invalid invoice (2169ms)
+      ✓ should return invoice data (11094ms)
+
+  /api/administrator/subscriptions/invoices-count
+    InvoicesCount#GET
+      ✓ should count invoices (18072ms)
+
+  /api/administrator/subscriptions/invoices
+    Invoices#GET
+      8) should limit invoices to one page
+
+  /api/administrator/subscriptions/payout
+    Payout#GET
+      ✓ should reject invalid payoutid (1923ms)
+      ✓ should return payout data (8481ms)
+
+  /api/administrator/subscriptions/payouts-count
+    PayoutsCount#GET
+      ✓ should count payouts (19648ms)
+
+  /api/administrator/subscriptions/payouts
+    Payouts#GET
+      9) should return limit payouts to one page
+
+  /api/administrator/subscriptions/plan-charges-count
+    PlanChargesCount#GET
+      10) should count all charges on plan
+
+  /api/administrator/subscriptions/plan-charges
+    PlanCharges#GET
+      ✓ should limit charges on plan to one page (33715ms)
+
+  /api/administrator/subscriptions/plan-customers-count
+    PlanCustomersCount#GET
+      ✓ should count all customers on plan (17316ms)
+
+  /api/administrator/subscriptions/plan-customers
+    PlanCustomers#GET
+      ✓ should limit customers on plan to one page (31041ms)
+
+  /api/administrator/subscriptions/plan-invoices-count
+    PlanInvoicesCount#GET
+      11) should count all invoices on plan
+
+  /api/administrator/subscriptions/plan-invoices
+    PlanInvoices#GET
+      ✓ should limit invoices on plan to one page (37720ms)
+
+  /api/administrator/subscriptions/plan-refunds-count
+    PlanRefundsCount#GET
+      ✓ should count all refunds on plan (34729ms)
+
+  /api/administrator/subscriptions/plan-refunds
+    PlanRefunds#GET
+      12) should limit refunds on plan to one page
+
+  /api/administrator/subscriptions/plan-subscriptions-count
+    PlanSubscriptionsCount#GET
+      ✓ should count all subscriptions on plan (13628ms)
+
+  /api/administrator/subscriptions/plan-subscriptions
+    PlanSubscriptions#GET
+      ✓ should limit subscriptions on plan to one page (26779ms)
+
+  /api/administrator/subscriptions/plan
+    Plan#GET
+      ✓ should return plan data (4438ms)
+
+  /api/administrator/subscriptions/plans-count
+    PlansCount#GET
+      ✓ should count plans (6846ms)
+
+  /api/administrator/subscriptions/plans
+    Plans#GET
+      ✓ should limit plans to one page (10508ms)
+
+  /api/administrator/subscriptions/product-charges-count
+    ProductChargesCount#GET
+      13) should count all charges on product
+
+  /api/administrator/subscriptions/product-charges
+    ProductCharges#GET
+      ✓ should limit charges on product to one page (30076ms)
+
+  /api/administrator/subscriptions/product-customers-count
+    ProductCustomersCount#GET
+      ✓ should count all customers on product (33375ms)
+
+  /api/administrator/subscriptions/product-customers
+    ProductCustomers#GET
+      ✓ should limit customers on product to one page (42574ms)
+
+  /api/administrator/subscriptions/product-invoices-count
+    ProductInvoicesCount#GET
+      14) should count all invoices on product
+
+  /api/administrator/subscriptions/product-invoices
+    ProductInvoices#GET
+      ✓ should limit invoices on product to one page (63463ms)
+
+  /api/administrator/subscriptions/product-refunds-count
+    ProductRefundsCount#GET
+      15) should count all refunds on product
+
+  /api/administrator/subscriptions/product-refunds
+    ProductRefunds#GET
+      16) should limit refunds on product to one page
+
+  /api/administrator/subscriptions/product-subscriptions-count
+    ProductSubscriptionsCount#GET
+      17) should count all subscriptions on product
+
+  /api/administrator/subscriptions/product-subscriptions
+    ProductSubscriptions#GET
+      ✓ should limit subscriptions on product to one page (24593ms)
+
+  /api/administrator/subscriptions/product
+    Product#GET
+      ✓ should return product data (2804ms)
+
+  /api/administrator/subscriptions/products-count
+    ProductsCount#GET
+      ✓ should count products (4047ms)
+
+  /api/administrator/subscriptions/products
+    Products#GET
+      ✓ should limit products to one page (6099ms)
+
+  /api/administrator/subscriptions/published-coupons-count
+    PublishedCouponsCount#GET
+      ✓ should count all published coupons (6315ms)
+
+  /api/administrator/subscriptions/published-coupons
+    PublishedCoupons#GET
+      ✓ should limit published coupons to one page (4818ms)
+
+  /api/administrator/subscriptions/published-plans-count
+    PublishedPlansCount#GET
+      ✓ should count all published plans (9567ms)
+
+  /api/administrator/subscriptions/published-plans
+    PublishedPlans#GET
+      ✓ should limit published plans to one page (7568ms)
+
+  /api/administrator/subscriptions/published-products-count
+    PublishedProductsCount#GET
+      ✓ should count all published products (6275ms)
+
+  /api/administrator/subscriptions/published-products
+    PublishedProducts#GET
+      ✓ should limit published products to one page (4749ms)
+
+  /api/administrator/subscriptions/refund
+    Refund#GET
+      ✓ should reject invalid refund (1914ms)
+      18) should return refund data
+
+  /api/administrator/subscriptions/refunds-count
+    RefundsCount#GET
+      19) should count all refunds
+
+  /api/administrator/subscriptions/refunds
+    Refunds#GET
+      20) should limit refunds to one page
+
+  /api/administrator/subscriptions/reset-customer-coupon
+    ResetCustomerCoupon#PATCH
+      ✓ should reject invalid customerid (1977ms)
+      ✓ should reject undiscounted customer (4328ms)
+      ✓ should remove customer coupon (8075ms)
+
+  /api/administrator/subscriptions/reset-subscription-coupon
+    ResetSubscriptionCoupon#PATCH
+      ✓ should reject invalid subscriptionid (2003ms)
+      ✓ should reject undiscounted subscription (11147ms)
+      ✓ should remove subscription coupon (17215ms)
+
+  /api/administrator/subscriptions/set-charge-flagged
+    SetChargeRefunded#PATCH
+      ✓ should reject invalid charge (2159ms)
+      ✓ should reject flagged charge (15244ms)
+      ✓ should require refunded charge (16414ms)
+      ✓ should update charge flagged as fraud (19323ms)
+
+  /api/administrator/subscriptions/set-coupon-published
+    SetCouponPublished#PATCH
+      ✓ should reject invalid couponid (1996ms)
+      ✓ should reject published coupon (2747ms)
+      ✓ should publish coupon (3589ms)
+
+  /api/administrator/subscriptions/set-coupon-unpublished
+    SetCouponUnpublished#PATCH
+      ✓ should reject invalid couponid (2138ms)
+      ✓ should reject never published coupon (3015ms)
+      ✓ should reject unpublished coupon (3907ms)
+      ✓ should unpublish coupon (3692ms)
+
+  /api/administrator/subscriptions/set-invoice-forgiven
+    SetInvoiceForgiven#PATCH
+      ✓ should reject invalid invoiceid (1938ms)
+      ✓ should reject paid invoice (11514ms)
+      21) should reject forgiven invoice
+      ✓ should forgive invoice (21471ms)
+
+  /api/administrator/subscriptions/set-plan-published
+    SetPlanPublished#PATCH
+      ✓ should reject invalid planid (1908ms)
+      ✓ should reject published plan (4306ms)
+      ✓ should publish plan (5243ms)
+
+  /api/administrator/subscriptions/set-plan-unpublished
+    SetPlanUnpublished#PATCH
+      ✓ should reject invalid planid (1981ms)
+      ✓ should reject never published plan (4533ms)
+      ✓ should reject unpublished plan (5708ms)
+      ✓ should unpublish plan (5086ms)
+
+  /api/administrator/subscriptions/set-product-published
+    SetProductPublished#PATCH
+      ✓ should reject invalid productid (2893ms)
+      ✓ should reject published product (2716ms)
+      ✓ should publish product (3878ms)
+
+  /api/administrator/subscriptions/set-product-unpublished
+    SetProductUnpublished#PATCH
+      ✓ should reject invalid productid (2725ms)
+      ✓ should reject never published product (2793ms)
+      ✓ should reject unpublished product (3922ms)
+      ✓ should unpublish product (3842ms)
+
+  /api/administrator/subscriptions/subscription-charges-count
+    SubscriptionChargesCount#GET
+      22) should count all charges on subscription
+
+  /api/administrator/subscriptions/subscription-charges
+    SubscriptionCharges#GET
+      23) should limit charges on subscription to one page
+
+  /api/administrator/subscriptions/subscription-invoices-count
+    SubscriptionInvoicesCount#GET
+      24) should count all invoices on subscription
+
+  /api/administrator/subscriptions/subscription-invoices
+    SubscriptionInvoices#GET
+      25) should limit invoices on subscription to one page
+
+  /api/administrator/subscriptions/subscription-refunds-count
+    SubscriptionRefundsCount#GET
+      26) should count all refunds on subscription
+
+  /api/administrator/subscriptions/subscription-refunds
+    SubscriptionRefunds#GET
+      27) should limit refunds on subscription to one page
+
+  /api/administrator/subscriptions/subscription
+    Subscription#GET
+      ✓ should reject invalid subscriptionid (2086ms)
+      ✓ should return subscription data (14290ms)
+
+  /api/administrator/subscriptions/subscriptions-count
+    SubscriptionsCount#GET
+      ✓ should count all subscriptions (27734ms)
+
+  /api/administrator/subscriptions/subscriptions
+    Subscriptions#GET
+      ✓ should limit subscriptions to one page (20798ms)
+
+  /api/administrator/subscriptions/unpublished-coupons-count
+    UnpublishedCouponsCount#GET
+      ✓ should count all unpublished coupons (8526ms)
+
+  /api/administrator/subscriptions/unpublished-coupons
+    UnpublishedCoupons#GET
+      ✓ should limit unpublished coupons to one page (8274ms)
+
+  /api/administrator/subscriptions/unpublished-plans-count
+    UnpublishedPlansCount#GET
+      ✓ should count all unpublished plans (12528ms)
+
+  /api/administrator/subscriptions/unpublished-plans
+    UnpublishedPlans#GET
+      ✓ should limit unpublished plans to one page (11383ms)
+
+  /api/administrator/subscriptions/unpublished-products-count
+    UnpublishedProductsCount#GET
+      ✓ should count all unpublished products (7637ms)
+
+  /api/administrator/subscriptions/unpublished-products
+    UnpublishedProducts#GET
+      ✓ should limit unpublished products to one page (8433ms)
+
+  /api/administrator/subscriptions/update-plan
+    UpdatePlan#PATCH
+      ✓ should reject invalid planid (5276ms)
+      ✓ should reject invalid productid (4673ms)
+      ✓ should reject unpublished plan (6360ms)
+      ✓ should reject unpublished product (6726ms)
+      ✓ should reject never published product (5612ms)
+      ✓ should reject invalid trial (6851ms)
+      ✓ should update plan (6361ms)
+
+  /api/administrator/subscriptions/update-product
+    UpdateProduct#PATCH
+      ✓ should reject invalid productid (2749ms)
+      ✓ should reject invalid name (2953ms)
+      ✓ should reject invalid name length (2699ms)
+      ✓ should reject invalid statement_descriptor (2752ms)
+      ✓ should reject invalid unit_label (2759ms)
+      ✓ should update product (3916ms)
+
+  /api/user/subscriptions/card-charges-count
+    CardChargesCount#GET
+      ✓ should count all charges on card (17769ms)
+
+  /api/user/subscriptions/card-charges
+    CardCharges#GET
+      ✓ should limit card's charges to one page (28778ms)
+      ✓ should enforce page size (41441ms)
+      ✓ should enforce specified offset (44597ms)
+
+  /api/user/subscriptions/card-invoices-count
+    CardInvoicesCount#GET
+      28) should count all invoices on card
+
+  /api/user/subscriptions/card-invoices
+    CardInvoices#GET
+      29) should limit invoices on card to one page
+
+  /api/user/subscriptions/card-refunds-count
+    CardRefundsCount#GET
+      30) should count all refunds on card
+
+  /api/user/subscriptions/card-refunds
+    CardRefunds#GET
+      31) should limit refunds on card to one page
+
+  /api/user/subscriptions/card-subscriptions-count
+    CardSubscriptionsCount#GET
+      ✓ should count all subscriptions on card (34106ms)
+
+  /api/user/subscriptions/card-subscriptions
+    CardSubscriptions#GET
+      32) should limit subscriptions on card to one page
+
+  /api/user/subscriptions/card
+    Card#GET
+      ✓ should reject invalid card (2274ms)
+      ✓ should reject other account's card (5761ms)
+      ✓ should return card data (4026ms)
+
+  /api/user/subscriptions/cards-count
+    CardsCount#GET
+      ✓ should count account's cards (7064ms)
+
+  /api/user/subscriptions/cards
+    Cards#GET
+      ✓ should limit cards to one page (7542ms)
+      ✓ should enforce page size (9569ms)
+      ✓ should enforce specified offset (9232ms)
+
+  /api/user/subscriptions/charge
+    Charge#GET
+      ✓ should reject invalid charge (1604ms)
+      33) should reject other account's charge
+      34) should return charge data
+
+  /api/user/subscriptions/charges-count
+    Charges#GET
+      35) should count charges
+
+  /api/user/subscriptions/charges
+    Charges#GET
+      ✓ should limit charges to one page (25324ms)
+
+  /api/user/subscriptions/create-card
+    CreateCard#POST
+      ✓ should require name, cvc, number, exp_month and exp_year (2015ms)
+      ✓ should create card (3928ms)
+
+  /api/user/subscriptions/create-customer
+    CreateCustomer#POST
+      ✓ should reject other accountid (3228ms)
+      ✓ should reject existing customer (2513ms)
+      ✓ should create customer (2089ms)
+
+  /api/user/subscriptions/create-refund
+    CreateRefund#POST
+      ✓ should reject invalid charge (1606ms)
+      36) should reject other account's charge
+      37) should create refund
+
+  /api/user/subscriptions/create-subscription
+    CreateSubscription#POST
+      ✓ should reject invalid planid (4070ms)
+      ✓ should reject never-published planid (7785ms)
+      ✓ should reject unpublished plan (9073ms)
+      ✓ should allow customer without card on free plan (8075ms)
+      ✓ should reject customer without card (6524ms)
+      ✓ should create authorized subscription (9781ms)
+
+  /api/user/subscriptions/customer
+    Customer#GET
+      ✓ should reject invalid customerid (2515ms)
+      ✓ should reject other account's customerid (6293ms)
+      ✓ should return customer data (4263ms)
+
+  /api/user/subscriptions/delete-card
+    DeleteCard#DELETE
+      ✓ should reject invalid cardid (1825ms)
+      ✓ should reject other account's card (7363ms)
+      ✓ should delete card (4854ms)
+
+  /api/user/subscriptions/delete-subscription
+    DeleteSubscription#DELETE
+      ✓ should reject invalid subscriptionid (1821ms)
+      ✓ should reject other account's subscription (12591ms)
+      ✓ should require active subscription (12106ms)
+      ✓ should delete subscription at period end (12535ms)
+      ✓ should delete subscription immediately (15426ms)
+
+  /api/user/subscriptions/invoice
+    Invoice#GET
+      ✓ should reject invalid invoice (1616ms)
+      ✓ should reject other account's invoice (12953ms)
+      ✓ should return invoice data (14954ms)
+
+  /api/user/subscriptions/charges-count
+    InvoicesCount#GET
+      38) should count charges
+
+  /api/user/subscriptions/invoices
+    Invoices#GET
+      ✓ should limit invoices to one page (32312ms)
+
+  /api/user/subscriptions/plan-cards-count
+    PlanCardsCount#GET
+      ✓ should count all cards on plan (29957ms)
+
+  /api/user/subscriptions/plan-cards
+    PlanCards#GET
+      ✓ should limit cards to one page (33706ms)
+      ✓ should enforce page size (63363ms)
+      39) should enforce specified offset
+
+  /api/user/subscriptions/plan-charges-count
+    PlanChargesCount#GET
+      ✓ should count all charges on plan (24195ms)
+
+  /api/user/subscriptions/plan-charges
+    PlanCharges#GET
+      ✓ should limit charges to one page (35862ms)
+      40) should enforce page size
+      41) should enforce specified offset
+
+  /api/user/subscriptions/plan-invoices-count
+    PlanInvoicesCount#GET
+      ✓ should count all invoices on plan (32147ms)
+
+  /api/user/subscriptions/plan-invoices
+    PlanInvoices#GET
+      42) should limit invoices to one page
+      ✓ should enforce page size (23377ms)
+      ✓ should enforce specified offset (36598ms)
+
+  /api/user/subscriptions/plan-subscriptions-count
+    PlanSubscriptionsCount#GET
+      ✓ should count all subscriptions on plan (15823ms)
+
+  /api/user/subscriptions/plan-subscriptions
+    PlanSubscriptions#GET
+      ✓ should limit subscriptions to one page (30800ms)
+      ✓ should enforce page size (43149ms)
+      ✓ should enforce specified offset (38085ms)
+
+  /api/user/subscriptions/product-cards-count
+    ProductCardsCount#GET
+      ✓ should count all cards on product (33027ms)
+
+  /api/user/subscriptions/product-cards
+    ProductCards#GET
+      ✓ should limit cards to one page (33285ms)
+      ✓ should enforce page size (41367ms)
+      ✓ should enforce specified offset (36296ms)
+
+  /api/user/subscriptions/product-charges-count
+    ProductChargesCount#GET
+      ✓ should count all charges on product (31888ms)
+
+  /api/user/subscriptions/product-charges
+    ProductCharges#GET
+      43) should limit charges to one page
+      ✓ should enforce page size (43215ms)
+      ✓ should enforce specified offset (47476ms)
+
+  /api/user/subscriptions/product-invoices-count
+    ProductInvoicesCount#GET
+      ✓ should count all invoices on product (26336ms)
+
+  /api/user/subscriptions/product-invoices
+    ProductInvoices#GET
+      ✓ should limit invoices to one page (24408ms)
+      ✓ should enforce page size (35359ms)
+      ✓ should enforce specified offset (36500ms)
+
+  /api/user/subscriptions/product-subscriptions-count
+    ProductSubscriptionsCount#GET
+      ✓ should count all subscriptions on product (16086ms)
+
+  /api/user/subscriptions/product-subscriptions
+    ProductSubscriptions#GET
+      ✓ should limit subscriptions to one page (21979ms)
+      ✓ should enforce page size (25972ms)
+      ✓ should enforce specified offset (25154ms)
+
+  /api/user/subscriptions/published-plan
+    PublishedPlan#GET
+      ✓ should not require account (4562ms)
+      ✓ should reject never published plan (6004ms)
+      ✓ should reject unpublished plan (6925ms)
+      ✓ should return plan data (5983ms)
+
+  /api/user/subscriptions/published-plans-count
+    PublishedPlansCount#GET
+      ✓ should count published plans (8506ms)
+
+  /api/user/subscriptions/published-plans
+    PublishedPlans#GET
+      ✓ should not require account (4519ms)
+      ✓ should exclude never published plans (6060ms)
+      ✓ should exclude unpublished plan (8774ms)
+      ✓ should return plan list (11153ms)
+
+  /api/user/subscriptions/published-product
+    PublishedProduct#GET
+      ✓ should not require account (4610ms)
+      ✓ should reject never published product (4568ms)
+      ✓ should reject unpublished product (5929ms)
+      ✓ should return product data (4391ms)
+
+  /api/user/subscriptions/published-products-count
+    PublishedProductsCount#GET
+      ✓ should count published products (5395ms)
+
+  /api/user/subscriptions/published-products
+    PublishedProducts#GET
+      ✓ should not require account (5247ms)
+      ✓ should exclude never published products (5647ms)
+      ✓ should exclude unpublished product (6646ms)
+      ✓ should limit product list to one page (6700ms)
+
+  /api/user/subscriptions/refund
+    Refund#GET
+      ✓ should reject invalid refund (2032ms)
+      44) should reject other account's refund
+      45) should return refund data
+
+  /api/user/subscriptions/refunds-count
+    RefundsCount#GET
+      46) should count refunds
+
+  /api/user/subscriptions/refunds
+    Refunds#GET
+      47) should enforce page size
+      48) should enforce specified offset
+
+  /api/user/subscriptions/set-customer-coupon
+    SetCustomerCoupon#PATCH
+      ✓ should reject invalid customerid (6072ms)
+      ✓ should reject account with coupon (7325ms)
+      ✓ should apply coupon (6026ms)
+
+  /api/user/subscriptions/set-invoice-paid
+    SetInvoicePaid#PATCH
+      ✓ should reject invalid invoiceid (3586ms)
+      49) should reject other account's invoice
+      50) should reject paid invoice
+      ✓ should reject forgiven invoice (24465ms)
+      ✓ should reject invalid source (20927ms)
+      51) should reject other account's source
+      ✓ should pay invoice (23902ms)
+
+  /api/user/subscriptions/set-subscription-coupon
+    SetSubscriptionCoupon#PATCH
+      ✓ should reject invalid subscriptionid (6148ms)
+      ✓ should reject subscription with coupon (16965ms)
+      ✓ should apply coupon (13267ms)
+
+  /api/user/subscriptions/set-subscription-plan
+    SetSubscriptionPlan#PATCH
+      ✓ should reject invalid subscriptionid (1818ms)
+      ✓ should reject other account's subscription (16973ms)
+      ✓ should reject same planid (14667ms)
+      ✓ should require user add card (9493ms)
+      ✓ should change plan (14839ms)
+
+  /api/user/subscriptions/subscription-cards-count
+    SubscriptionCardsCount#GET
+      52) should count all cards on subscriptions
+
+  /api/user/subscriptions/subscription-cards
+    SubscriptionCards#GET
+      53) should limit cards to one page
+      54) should enforce page size
+      55) should enforce specified offset
+
+  /api/user/subscriptions/subscription-charges-count
+    SubscriptionChargesCount#GET
+      56) should count all charges on subscription
+
+  /api/user/subscriptions/subscription-charges
+    SubscriptionCharges#GET
+      57) should limit charges on subscription to one page
+
+  /api/user/subscriptions/subscription-invoices-count
+    SubscriptionInvoicesCount#GET
+      58) should count subscription's invoices
+
+  /api/user/subscriptions/subscription-invoices
+    SubscriptionInvoices#GET
+      59) should limit invoices on subscription to one page
+
+  /api/user/subscriptions/subscription-refunds-count
+    SubscriptionRefundsCount#GET
+      60) should count all refunds on subscription
+
+  /api/user/subscriptions/subscription-refunds
+    SubscriptionRefunds#GET
+      61) should limit refunds on subscription to one page
+
+  /api/user/subscriptions/subscription
+    Subscription#GET
+      ✓ should reject invalid subscriptionid (1610ms)
+      ✓ should reject other account's subscription (15637ms)
+      ✓ should return subscription data (15671ms)
+
+  /api/user/subscriptions/subscriptions-count
+    SubscriptionsCount#GET
+      ✓ should count published subscriptions (15928ms)
+
+  /api/user/subscriptions/subscriptions
+    Subscriptions#GET
+      ✓ should return subscription list (14635ms)
+
+  /api/user/subscriptions/upcoming-invoice
+    Upcominginvoice#GET
+      ✓ should reject invalid subscriptionid (1612ms)
+      ✓ should reject other account's subscription (16417ms)
+      ✓ should return upcoming invoice for subscription (11806ms)
+
+  /api/user/subscriptions/upcoming-invoices-count
+    UpcominginvoicesCount#GET
+      ✓ should count upcoming invoices (19090ms)
+
+  /api/user/subscriptions/upcoming-invoices
+    UpcomingInvoices#GET
+      ✓ should return upcoming invoice for each subscription (15374ms)
+
+
+  555 passing (2h)
+  61 failing
+cnpm ts
+  1) /administrator/subscriptions/refunds
+       Refunds#BEFORE
+         should bind refunds to req:
+
+      AssertionError [ERR_ASSERTION]: 're_1CoH6WJJXlWQOaGKZ4WSfqKi' == 're_1CoH6jJJXlWQOaGKWOOBWIWk'
+      + expected - actual
+
+      -re_1CoH6WJJXlWQOaGKZ4WSfqKi
+      +re_1CoH6jJJXlWQOaGKWOOBWIWk
+      
+      at it (src/www/administrator/subscriptions/refunds.test.js:29:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  2) /administrator/subscriptions/refunds
+       Refunds#GET
+         should enforce specified offset:
+     AssertionError [ERR_ASSERTION]: null != undefined
+      at Object.res.end (src/www/administrator/subscriptions/refunds.test.js:85:18)
+      at compress (node_modules/@userappstore/dashboard/src/response.js:111:16)
+      at Object.end (node_modules/@userappstore/dashboard/src/response.js:64:12)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  3) /api/administrator/subscriptions/card-refunds-count
+       CardRefundsCount#GET
+         should count all refunds on card:
+
+      AssertionError [ERR_ASSERTION]: 1 == 2
+      + expected - actual
+
+      -1
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/card-refunds-count.test.js:25:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  4) /api/administrator/subscriptions/card-refunds
+       CardRefunds#GET
+         should limit refunds on card to one page:
+
+      AssertionError [ERR_ASSERTION]: 're_1CoHDlJJXlWQOaGKB7vsm7mf' == 're_1CoHDuJJXlWQOaGKW5cikPFE'
+      + expected - actual
+
+      -re_1CoHDlJJXlWQOaGKB7vsm7mf
+      +re_1CoHDuJJXlWQOaGKW5cikPFE
+      
+      at it (src/www/api/administrator/subscriptions/card-refunds.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  5) /api/administrator/subscriptions/charges-count
+       ChargesCount#GET
+         should count charges:
+
+      AssertionError [ERR_ASSERTION]: 2 == 3
+      + expected - actual
+
+      -2
+      +3
+      
+      at it (src/www/api/administrator/subscriptions/charges-count.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  6) /api/administrator/subscriptions/customer-refunds-count
+       CustomerRefundsCount#GET
+         should count all refunds on customer:
+
+      AssertionError [ERR_ASSERTION]: 0 == 2
+      + expected - actual
+
+      -0
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/customer-refunds-count.test.js:25:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  7) /api/administrator/subscriptions/customer-refunds
+       CustomerRefunds#GET
+         should limit refunds on customer to one page:
+
+      AssertionError [ERR_ASSERTION]: 're_1CoHMLJJXlWQOaGK704kTQOR' == 're_1CoHMWJJXlWQOaGKyH5kRT7i'
+      + expected - actual
+
+      -re_1CoHMLJJXlWQOaGK704kTQOR
+      +re_1CoHMWJJXlWQOaGKyH5kRT7i
+      
+      at it (src/www/api/administrator/subscriptions/customer-refunds.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  8) /api/administrator/subscriptions/invoices
+       Invoices#GET
+         should limit invoices to one page:
+
+      AssertionError [ERR_ASSERTION]: 'sub_DEkvCkz7oejKg4' == 'sub_DEkvhVvyrzFMKs'
+      + expected - actual
+
+      -sub_DEkvCkz7oejKg4
+      +sub_DEkvhVvyrzFMKs
+      
+      at it (src/www/api/administrator/subscriptions/invoices.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  9) /api/administrator/subscriptions/payouts
+       Payouts#GET
+         should return limit payouts to one page:
+
+      AssertionError [ERR_ASSERTION]: 1 == 2
+      + expected - actual
+
+      -1
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/payouts.test.js:17:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  10) /api/administrator/subscriptions/plan-charges-count
+       PlanChargesCount#GET
+         should count all charges on plan:
+
+      AssertionError [ERR_ASSERTION]: 1 == 2
+      + expected - actual
+
+      -1
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/plan-charges-count.test.js:25:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  11) /api/administrator/subscriptions/plan-invoices-count
+       PlanInvoicesCount#GET
+         should count all invoices on plan:
+
+      AssertionError [ERR_ASSERTION]: 3 == 2
+      + expected - actual
+
+      -3
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/plan-invoices-count.test.js:27:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  12) /api/administrator/subscriptions/plan-refunds
+       PlanRefunds#GET
+         should limit refunds on plan to one page:
+
+      AssertionError [ERR_ASSERTION]: 're_1CoHTsJJXlWQOaGK4kDG27Zg' == 're_1CoHU5JJXlWQOaGKLaA9OjKa'
+      + expected - actual
+
+      -re_1CoHTsJJXlWQOaGK4kDG27Zg
+      +re_1CoHU5JJXlWQOaGKLaA9OjKa
+      
+      at it (src/www/api/administrator/subscriptions/plan-refunds.test.js:34:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  13) /api/administrator/subscriptions/product-charges-count
+       ProductChargesCount#GET
+         should count all charges on product:
+
+      AssertionError [ERR_ASSERTION]: 2 == 3
+      + expected - actual
+
+      -2
+      +3
+      
+      at it (src/www/api/administrator/subscriptions/product-charges-count.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  14) /api/administrator/subscriptions/product-invoices-count
+       ProductInvoicesCount#GET
+         should count all invoices on product:
+     TypeError: Cannot read property 'api' of undefined
+      at it (src/www/api/administrator/subscriptions/product-invoices-count.test.js:29:37)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  15) /api/administrator/subscriptions/product-refunds-count
+       ProductRefundsCount#GET
+         should count all refunds on product:
+
+      AssertionError [ERR_ASSERTION]: 2 == 3
+      + expected - actual
+
+      -2
+      +3
+      
+      at it (src/www/api/administrator/subscriptions/product-refunds-count.test.js:33:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  16) /api/administrator/subscriptions/product-refunds
+       ProductRefunds#GET
+         should limit refunds on product to one page:
+     Error: invalid-charge
+      at before (src/www/api/administrator/subscriptions/create-refund.js:22:13)
+      at <anonymous>
+
+  17) /api/administrator/subscriptions/product-subscriptions-count
+       ProductSubscriptionsCount#GET
+         should count all subscriptions on product:
+
+      AssertionError [ERR_ASSERTION]: 3 == 2
+      + expected - actual
+
+      -3
+      +2
+      
+      at it (src/www/api/administrator/subscriptions/product-subscriptions-count.test.js:30:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  18) /api/administrator/subscriptions/refund
+       Refund#GET
+         should return refund data:
+     TypeError: Cannot read property 'id' of undefined
+      at it (src/www/api/administrator/subscriptions/refund.test.js:31:107)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  19) /api/administrator/subscriptions/refunds-count
+       RefundsCount#GET
+         should count all refunds:
+
+      AssertionError [ERR_ASSERTION]: 2 == 3
+      + expected - actual
+
+      -2
+      +3
+      
+      at it (src/www/api/administrator/subscriptions/refunds-count.test.js:33:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  20) /api/administrator/subscriptions/refunds
+       Refunds#GET
+         should limit refunds to one page:
+     Error: invalid-charge
+      at before (src/www/api/administrator/subscriptions/create-refund.js:22:13)
+      at <anonymous>
+
+  21) /api/administrator/subscriptions/set-invoice-forgiven
+       SetInvoiceForgiven#PATCH
+         should reject forgiven invoice:
+     Error: invalid-invoice
+      at before (src/www/api/administrator/subscriptions/set-invoice-forgiven.js:18:13)
+      at <anonymous>
+
+  22) /api/administrator/subscriptions/subscription-charges-count
+       SubscriptionChargesCount#GET
+         should count all charges on subscription:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  23) /api/administrator/subscriptions/subscription-charges
+       SubscriptionCharges#GET
+         should limit charges on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  24) /api/administrator/subscriptions/subscription-invoices-count
+       SubscriptionInvoicesCount#GET
+         should count all invoices on subscription:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  25) /api/administrator/subscriptions/subscription-invoices
+       SubscriptionInvoices#GET
+         should limit invoices on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  26) /api/administrator/subscriptions/subscription-refunds-count
+       SubscriptionRefundsCount#GET
+         should count all refunds on subscription:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  27) /api/administrator/subscriptions/subscription-refunds
+       SubscriptionRefunds#GET
+         should limit refunds on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  28) /api/user/subscriptions/card-invoices-count
+       CardInvoicesCount#GET
+         should count all invoices on card:
+
+      AssertionError [ERR_ASSERTION]: 1 == 2
+      + expected - actual
+
+      -1
+      +2
+      
+      at it (src/www/api/user/subscriptions/card-invoices-count.test.js:26:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  29) /api/user/subscriptions/card-invoices
+       CardInvoices#GET
+         should limit invoices on card to one page:
+
+      AssertionError [ERR_ASSERTION]: 'in_1CoHoXJJXlWQOaGK2HP33Bjb' == 'in_1CoHocJJXlWQOaGKRVVCEUiK'
+      + expected - actual
+
+      -in_1CoHoXJJXlWQOaGK2HP33Bjb
+      +in_1CoHocJJXlWQOaGKRVVCEUiK
+      
+      at it (src/www/api/user/subscriptions/card-invoices.test.js:28:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  30) /api/user/subscriptions/card-refunds-count
+       CardRefundsCount#GET
+         should count all refunds on card:
+     ReferenceError: chargeid3 is not defined
+      at it (src/www/api/user/subscriptions/card-refunds-count.test.js:23:106)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  31) /api/user/subscriptions/card-refunds
+       CardRefunds#GET
+         should limit refunds on card to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  32) /api/user/subscriptions/card-subscriptions
+       CardSubscriptions#GET
+         should limit subscriptions on card to one page:
+     Error: Timeout of 180000ms exceeded. For async tests and hooks, ensure "done()" is called; if returning a Promise, ensure it resolves. (/root/workspace/stripe-subscriptions/src/www/api/user/subscriptions/card-subscriptions.test.js)
+  
+
+  33) /api/user/subscriptions/charge
+       Charge#GET
+         should reject other account's charge:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  34) /api/user/subscriptions/charge
+       Charge#GET
+         should return charge data:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  35) /api/user/subscriptions/charges-count
+       Charges#GET
+         should count charges:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  36) /api/user/subscriptions/create-refund
+       CreateRefund#POST
+         should reject other account's charge:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  37) /api/user/subscriptions/create-refund
+       CreateRefund#POST
+         should create refund:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  38) /api/user/subscriptions/charges-count
+       InvoicesCount#GET
+         should count charges:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  39) /api/user/subscriptions/plan-cards
+       PlanCards#GET
+         should enforce specified offset:
+
+      AssertionError [ERR_ASSERTION]: 'card_1CoI1eJJXlWQOaGKscGhDsje' == 'card_1CoI1lJJXlWQOaGKU32tGurT'
+      + expected - actual
+
+      -card_1CoI1eJJXlWQOaGKscGhDsje
+      +card_1CoI1lJJXlWQOaGKU32tGurT
+      
+      at it (src/www/api/user/subscriptions/plan-cards.test.js:72:16)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  40) /api/user/subscriptions/plan-charges
+       PlanCharges#GET
+         should enforce page size:
+     ReferenceError: user3 is not defined
+      at it (src/www/api/user/subscriptions/plan-charges.test.js:46:66)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  41) /api/user/subscriptions/plan-charges
+       PlanCharges#GET
+         should enforce specified offset:
+     AssertionError [ERR_ASSERTION]: 'ch_1CoI3NJJXlWQOaGKbRxRRrHk' == Promise { 'ch_1CoI3TJJXlWQOaGKURqouNZo' }
+      at it (src/www/api/user/subscriptions/plan-charges.test.js:76:16)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  42) /api/user/subscriptions/plan-invoices
+       PlanInvoices#GET
+         should limit invoices to one page:
+     AssertionError [ERR_ASSERTION]: 'in_1CoI4SJJXlWQOaGKFl7dlTh2' == undefined
+      at it (src/www/api/user/subscriptions/plan-invoices.test.js:29:14)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  43) /api/user/subscriptions/product-charges
+       ProductCharges#GET
+         should limit charges to one page:
+     TypeError: Cannot read property 'accountid' of undefined
+      at Object.createCustomer (test-helper.js:250:105)
+      at it (src/www/api/user/subscriptions/product-charges.test.js:20:24)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  44) /api/user/subscriptions/refund
+       Refund#GET
+         should reject other account's refund:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  45) /api/user/subscriptions/refund
+       Refund#GET
+         should return refund data:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  46) /api/user/subscriptions/refunds-count
+       RefundsCount#GET
+         should count refunds:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  47) /api/user/subscriptions/refunds
+       Refunds#GET
+         should enforce page size:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  48) /api/user/subscriptions/refunds
+       Refunds#GET
+         should enforce specified offset:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  49) /api/user/subscriptions/set-invoice-paid
+       SetInvoicePaid#PATCH
+         should reject other account's invoice:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  50) /api/user/subscriptions/set-invoice-paid
+       SetInvoicePaid#PATCH
+         should reject paid invoice:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  51) /api/user/subscriptions/set-invoice-paid
+       SetInvoicePaid#PATCH
+         should reject other account's source:
+     TypeError: Cannot read property 'id' of undefined
+      at Object.changeSubscriptionWithoutPaying (test-helper.js:327:75)
+      at it (src/www/api/user/subscriptions/set-invoice-paid.test.js:156:24)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  52) /api/user/subscriptions/subscription-cards-count
+       SubscriptionCardsCount#GET
+         should count all cards on subscriptions:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  53) /api/user/subscriptions/subscription-cards
+       SubscriptionCards#GET
+         should limit cards to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  54) /api/user/subscriptions/subscription-cards
+       SubscriptionCards#GET
+         should enforce page size:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  55) /api/user/subscriptions/subscription-cards
+       SubscriptionCards#GET
+         should enforce specified offset:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  56) /api/user/subscriptions/subscription-charges-count
+       SubscriptionChargesCount#GET
+         should count all charges on subscription:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  57) /api/user/subscriptions/subscription-charges
+       SubscriptionCharges#GET
+         should limit charges on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  58) /api/user/subscriptions/subscription-invoices-count
+       SubscriptionInvoicesCount#GET
+         should count subscription's invoices:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  59) /api/user/subscriptions/subscription-invoices
+       SubscriptionInvoices#GET
+         should limit invoices on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  60) /api/user/subscriptions/subscription-refunds-count
+       SubscriptionRefundsCount#GET
+         should count all refunds on subscription:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+  61) /api/user/subscriptions/subscription-refunds
+       SubscriptionRefunds#GET
+         should limit refunds on subscription to one page:
+     Error: invalid-invoiceid
+      at before (src/www/api/user/subscriptions/set-invoice-paid.js:15:13)
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:169:7)
+
+
+

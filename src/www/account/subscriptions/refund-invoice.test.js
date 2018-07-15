@@ -53,6 +53,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account
@@ -72,6 +73,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account
@@ -93,6 +95,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account
@@ -116,6 +119,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account
@@ -140,6 +144,7 @@ describe(`/account/subscriptions/refund-invoice`, async () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/subscriptions/refund-invoice?invoiceid=${invoiceid}`, 'POST')
       req.account = user.account

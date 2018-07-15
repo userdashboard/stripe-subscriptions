@@ -4,5 +4,82 @@
 
 
 
-  /api/user/subscriptions/card-charges
-    CardCharges#GET
+  proxy/x-customer-header
+    Customer#AFTER
+      ✓ should set customer data in header (2396ms)
+
+  proxy/x-invoices-header
+    Invoices#AFTER
+      ✓ should set invoice data in header (11843ms)
+
+  proxy/x-subscriptions-header
+    Subscriptions#AFTER
+      ✓ should set invoice data in header (10007ms)
+
+  server/bind-customer
+    BindCustomer#AFTER
+      ✓ should bind existing customer data to req (2325ms)
+
+  server/bind-stripekey
+    BindStripeKey#AFTER
+      ✓ should bind stripekey data to req (1666ms)
+
+  server/require-payment
+    RequirePayment#AFTER
+      ✓ should allow non-customer through (1608ms)
+      ✓ should allow unsubscribed customer through (2034ms)
+      ✓ should allow owing customer access to /account/* (22904ms)
+      ✓ should allow owing administrator access to /administrator/ (13880ms)
+      ✓ should redirect owing customer (24413ms)
+      ✓ should allow non-owing customer (10056ms)
+
+  server/require-subscription
+    RequireSubscription#AFTER
+      ✓ should allow non-customer (1708ms)
+      ✓ should allow customer without subscription access to /account/* (2097ms)
+      ✓ should allow administrator without subscription access to /administrator/ (3633ms)
+      ✓ should redirect unsubscribed customer to the plans list (2148ms)
+      ✓ should allow customer with subscription to pass (10000ms)
+
+  /account/subscriptions/cancel-subscription
+    CancelSubscription#BEFORE
+      ✓ should bind subscription to req (10327ms)
+    CancelSubscription#GET
+      ✓ should present the form (10360ms)
+      ✓ should present the subscription table (10706ms)
+    CancelSubscription#POST
+      ✓ should apply after authorization (11679ms)
+
+  /account/subscriptions/card
+    Card#BEFORE
+      ✓ should reject invalid card (1981ms)
+      ✓ should reject other account's card (5395ms)
+      ✓ should bind card to req (3843ms)
+    Card#GET
+      ✓ should have row for card (4103ms)
+
+  /account/subscriptions/cards
+    Cards#BEFORE
+      ✓ should bind cards to req (7607ms)
+    Cards#GET
+      ✓ should enforce page size (9636ms)
+      ✓ should enforce specified offset (9193ms)
+
+  /account/subscriptions/change-plan
+    ChangePlan#BEFORE
+      ✓ should bind subscription to req (11510ms)
+    ChangePlan#GET
+      ✓ should present the form (11044ms)
+      ✓ should present the subscription table (10441ms)
+    ChangePlan#POST
+      ✓ should reject same plan (11865ms)
+      ✓ should reject never published plan (12529ms)
+      ✓ should reject unpublished plan (13801ms)
+      ✓ should reject paid plan without payment information (10407ms)
+      ✓ should apply after authorization (14533ms)
+
+  /account/subscriptions/delete-card
+    DeleteCard#BEFORE
+      ✓ should reject invalid cardid (6442ms)
+      ✓ should reject other account's card (9910ms)
+      ✓ should reject default payment source (7817ms)

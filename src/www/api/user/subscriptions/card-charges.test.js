@@ -23,7 +23,7 @@ describe('/api/user/subscriptions/card-charges', () => {
       assert.equal(chargesNow.length, 2)
     })
 
-    it.only('should enforce page size', async () => {
+    it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})

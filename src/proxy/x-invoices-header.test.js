@@ -5,7 +5,7 @@ const TestHelper = require('../../test-helper.js')
 
 describe(`proxy/x-invoices-header`, () => {
   describe('Invoices#AFTER', () => {
-    it.only('should set invoice data in header', async () => {
+    it('should set invoice data in header', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})
@@ -13,6 +13,7 @@ describe(`proxy/x-invoices-header`, () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/account/change-username`, 'GET')
       req.account = user.account

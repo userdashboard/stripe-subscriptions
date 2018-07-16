@@ -15,9 +15,11 @@ describe('/api/administrator/subscriptions/customer-refunds-count', async () => 
       await TestHelper.createSubscription(user, administrator.plan.id)
       const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, administrator.plan.id)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid2)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/customer-refunds-count?customerid=${user.customer.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

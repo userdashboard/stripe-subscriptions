@@ -16,15 +16,15 @@ describe('/api/administrator/subscriptions/customer-refunds', () => {
       await TestHelper.createSubscription(user, plan1.id)
       const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
-      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscripton.id}`, null)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const refund2 = await TestHelper.createRefund(administrator, chargeid2)
-      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscripton.id}`, null)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan3.id)
       const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const refund3 = await TestHelper.createRefund(administrator, chargeid3)
-      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscripton.id}`, null)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/customer-refunds?customerid=${user.customer.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

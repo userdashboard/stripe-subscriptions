@@ -7,9 +7,9 @@ describe('/api/administrator/subscriptions/subscription-refunds', () => {
     it('should limit refunds on subscription to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
-      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000})
-      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000})
-      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 3000})
+      const plan1 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, interval: 'day'})
+      const plan2 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 2000, interval: 'week'})
+      const plan3 = await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 3000, interval: 'month'})
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)

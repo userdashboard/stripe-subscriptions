@@ -40,9 +40,6 @@ module.exports = {
     if (invoice.forgiven || invoice.paid) {
       throw new Error('invalid-invoice')
     }
-    if (!invoice.closed) {
-      req.body.closed = true
-    }
   },
   patch: async (req) => {
     try {

@@ -23,7 +23,6 @@ module.exports.createCard = createCard
 module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
 module.exports.createCustomerDiscount = createCustomerDiscount
-module.exports.createNextInvoice = createNextInvoice
 module.exports.createPayout = createPayout
 module.exports.createPlan = createPlan
 module.exports.createProduct = createProduct
@@ -61,9 +60,6 @@ function setup (callback) {
 
 let productNumber = 0
 async function createProduct (administrator, properties) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createProduct call ---')
-  }
   productNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-product', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -99,9 +95,6 @@ async function createProduct (administrator, properties) {
 
 let planNumber = 0
 async function createPlan (administrator, properties) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createPlan call ---')
-  }
   planNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-plan', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -139,9 +132,6 @@ async function createPlan (administrator, properties) {
 
 let couponNumber = 0
 async function createCoupon (administrator, properties) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createCoupon call ---')
-  }
   couponNumber++
   const req = TestHelper.createRequest('/api/administrator/subscriptions/create-coupon', 'POST')
   req.administratorSession = req.session = administrator.session
@@ -177,9 +167,6 @@ async function createCoupon (administrator, properties) {
 }
 
 async function createRefund (administrator, chargeid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createRefund call ---')
-  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/charge?chargeid=${chargeid}`, 'GET')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -204,9 +191,6 @@ async function createRefund (administrator, chargeid) {
 }
 
 async function createSubscriptionDiscount (administrator, subscription, coupon) {
-  if (arguments.length > 3) {
-    throw new Error('--- clean up createSubscriptionDiscount call ---')
-  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-subscription-coupon?subscriptionid=${subscription.id}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -224,9 +208,6 @@ async function createSubscriptionDiscount (administrator, subscription, coupon) 
 }
 
 async function createCustomerDiscount (administrator, customer, coupon) {
-  if (arguments.length > 3) {
-    throw new Error('--- clean up createCustomerDiscount call ---')
-  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-customer-coupon?customerid=${customer.id}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -262,9 +243,6 @@ async function createCustomer (user) {
 }
 
 async function createCard (user, properties) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createCard call ---')
-  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-card?customerid=${user.customer.id}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -311,9 +289,6 @@ async function loadCharge (user, chargeid) {
 }
 
 async function changeSubscriptionWithoutPaying (user, planid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up changeSubscriptionWithoutPaying call ---')
-  }
   // the Stripe API has to be used here directly to cause the customer
   // to have an outstanding balance
   const subscriptionInfo = {
@@ -334,9 +309,6 @@ async function changeSubscriptionWithoutPaying (user, planid) {
 }
 
 async function changeSubscription (user, planid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up changeSubscription call ---')
-  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/set-subscription-plan?subscriptionid=${user.subscription.id}`, 'DELETE')
   req.session = user.session
   req.account = user.account
@@ -350,25 +322,11 @@ async function changeSubscription (user, planid) {
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-  const req3 = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'PATCH')
-  req3.session = user.session
-  req3.account = user.account
-  req3.customer = user.custome
-  req3.body = {
-    cardid: user.customer.default_source
-  }
-  await req3.route.api.patch(req3)
-  req3.session = await TestHelper.unlockSession(user)
-  await req3.route.api.patch(req3)
   return user.subscription
 }
 
 
 async function createSubscription (user, planid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createSubscription call ---')
-  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${planid}`, 'POST')
   req.session = user.session
   req.account = user.account
@@ -385,9 +343,6 @@ async function createSubscription (user, planid) {
 }
 
 async function cancelSubscription (user, refund) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up cancelSubscription call ---')
-  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/delete-subscription?subscriptionid=${user.subscription.id}`, 'DELETE')
   req.session = user.session
   req.account = user.account
@@ -407,9 +362,6 @@ async function cancelSubscription (user, refund) {
 }
 
 async function forgiveInvoice (administrator, invoiceid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up forgiveInvoice call ---')
-  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-invoice-forgiven?invoiceid=${invoiceid}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -424,9 +376,6 @@ async function forgiveInvoice (administrator, invoiceid) {
 }
 
 async function flagCharge (administrator, chargeid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up flagCharge call ---')
-  }
   const req = TestHelper.createRequest(`/api/administrator/subscriptions/set-charge-flagged?chargeid=${chargeid}`, 'PATCH')
   req.administratorSession = req.session = administrator.session
   req.administratorAccount = req.account = administrator.account
@@ -441,9 +390,6 @@ async function flagCharge (administrator, chargeid) {
 }
 
 async function payInvoice (user, invoiceid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up payInvoice call ---')
-  }
   const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'PATCH')
   req.session = user.session
   req.account = user.account
@@ -455,15 +401,6 @@ async function payInvoice (user, invoiceid) {
   req.session = await TestHelper.unlockSession(user)
   const invoice = await req.route.api.patch(req)
   return invoice
-}
-
-async function createNextInvoice (user, subscriptionid) {
-  if (arguments.length > 2) {
-    throw new Error('--- clean up createNextInvoice call ---')
-  }
-  const invoice = await stripe.invoices.create({customer: user.customer.id}, stripeKey)
-  user.invoice = invoice
-  return user
 }
 
 async function createPayout () {
@@ -489,6 +426,10 @@ async function createPayout () {
 }
 
 async function waitForNextItem (collection, previousid, callback) {
+  callback = callback || previousid
+  if (callback === previousid) {
+    previousid = null
+  }
   async function wait () {
     const itemids = await dashboard.RedisList.list(collection, 0, 1)
     if (!itemids || !itemids.length) {

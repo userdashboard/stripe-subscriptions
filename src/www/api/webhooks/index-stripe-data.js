@@ -17,6 +17,10 @@ module.exports = {
     if (!stripeEvent) {
       throw new Error('invalid-stripe-event')
     }
+    if (process.env.NODE_ENV !== 'production') {
+      lastTestNumber = await global.redisClient.getAsync('testNumber')
+    }
+    console.log('[webhook]', stripeEvent.type, stripeEvent.data.object.id)
     let invoice, charge, customerid, subscriptionid, planid, productid, cardid
     switch (stripeEvent.type) {
       case 'invoice.created':

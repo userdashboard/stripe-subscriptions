@@ -26,6 +26,7 @@ describe('/api/administrator/subscriptions/refund', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid)
       const refundid = await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)

@@ -42,8 +42,10 @@ describe('/api/user/subscriptions/refunds', () => {
       const refunds = []
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, plan1.id)
+        const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
         const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.changeSubscription(user, plan2.id)
+        const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
         const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid1)
         const refund = await TestHelper.createRefund(administrator, chargeid2)
         refunds.unshift(refund)

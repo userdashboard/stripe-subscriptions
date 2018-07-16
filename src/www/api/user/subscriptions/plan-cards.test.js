@@ -61,6 +61,7 @@ describe('/api/user/subscriptions/plan-cards', () => {
         const card = await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
         await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        await TestHelper.cancelSubscription(user, administrator.plan.id)
         cards.unshift(card)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-cards?planid=${administrator.plan.id}&offset=${offset}`, 'GET')

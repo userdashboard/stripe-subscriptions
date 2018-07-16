@@ -16,18 +16,21 @@ describe('/api/user/subscriptions/card-refunds-count', async () => {
       await TestHelper.createSubscription(user, plan2.id)
       const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid2)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan3.id)
-      const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid3)
+      const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid3)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-refunds-count?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
       const result = await req.route.api.get(req)
-      assert.equal(result, 2)
+      assert.equal(result, 3)
     })
   })
 })

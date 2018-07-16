@@ -350,12 +350,8 @@ async function changeSubscription (user, planid) {
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
-  const req2 = TestHelper.createRequest(`/api/user/subscriptions/upcoming-invoice?subscriptionid=${user.subscription.id}`, 'GET')
-  req2.session = user.session
-  req2.account = user.account
-  req2.customer = user.customer
-  const invoice = await req2.route.api.get(req2)
-  const req3 = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoice.id}`, 'PATCH')
+  const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+  const req3 = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid}`, 'PATCH')
   req3.session = user.session
   req3.account = user.account
   req3.customer = user.custome

@@ -15,9 +15,9 @@ describe('/api/user/subscriptions/card-subscriptions', () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
-      await TestHelper.createSubscription(user, plan2.id)
+      const subscription2 = await TestHelper.createSubscription(user, plan2.id)
       await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
-      await TestHelper.createSubscription(user, plan3.id)
+      const subscription3 = await TestHelper.createSubscription(user, plan3.id)
       await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-subscriptions?cardid=${user.card.id}`, 'GET')
       req.account = user.account
@@ -25,8 +25,8 @@ describe('/api/user/subscriptions/card-subscriptions', () => {
       req.customer = user.customer
       const subscriptions = await req.route.api.get(req)
       assert.equal(subscriptions.length, 2)
-      assert.equal(subscriptions[0].plan.id, plan3.id)
-      assert.equal(subscriptions[1].plan.id, plan2.id)
+      assert.equal(subscriptions[0].id, subscription3.id)
+      assert.equal(subscriptions[1].id, subscription2.id)
     })
   })
 })

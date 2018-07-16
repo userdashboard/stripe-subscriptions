@@ -23,7 +23,7 @@ describe('/api/administrator/subscriptions/product-invoices-count', async () => 
       await TestHelper.createCard(user3)
       await TestHelper.createSubscription(user3, administrator.plan.id)
       await TestHelper.waitForNextItem(`subscription:invoices:${user3.subscription.id}`, null)
-      const req = TestHelper.createRequest(`/api/administrator/subsciptions/product-invoices-count?productid=${administrator.product.id}`, 'GET')
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-invoices-count?productid=${administrator.product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const result = await req.route.api.get(req)

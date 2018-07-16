@@ -27,7 +27,7 @@ describe('/api/administrator/subscriptions/product-subscriptions-count', async (
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const result = await req.route.api.get(req)
-      assert.equal(result, 2)
+      assert.equal(result, 3)
     })
   })
 })

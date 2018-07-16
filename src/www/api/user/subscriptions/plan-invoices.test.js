@@ -15,10 +15,10 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const invoice2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
-      const invoice3 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      const invoiceid3 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-invoices?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
@@ -26,8 +26,8 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       req.customer = user.customer
       const invoices = await req.route.api.get(req)
       assert.equal(invoices.length, 2)
-      assert.equal(invoices[0].id, invoice3.id)
-      assert.equal(invoices[1].id, invoice2.id)
+      assert.equal(invoices[0].id, invoiceid3)
+      assert.equal(invoices[1].id, invoiceid2)
     })
 
     it('should enforce page size', async () => {

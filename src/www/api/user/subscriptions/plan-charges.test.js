@@ -43,7 +43,8 @@ describe('/api/user/subscriptions/plan-charges', () => {
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        await TestHelper.waitForNextItem(`subscription:charges:${user3.subscription.id}`, null)
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        await TestHelper.cancelSubscription(user, user.subscription.id)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-charges?planid=${administrator.plan.id}`, 'GET')
       req.account = user.account
@@ -65,6 +66,7 @@ describe('/api/user/subscriptions/plan-charges', () => {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
         const chargeid = TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        await TestHelper.cancelSubscription(user, user.subscription.id)
         charges.unshift(chargeid)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-charges?planid=${administrator.plan.id}&offset=${offset}`, 'GET')

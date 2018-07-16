@@ -14,12 +14,14 @@ describe('/api/administrator/subscriptions/product-refunds', () => {
       await TestHelper.createSubscription(user, plan.id)
       const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, plan.id)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user2.subscription.id}`, null)
       const refund2 = await TestHelper.createRefund(administrator, chargeid2)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user2.subscription.id}`, null)
       const user3 = await TestHelper.createUser()
       await TestHelper.createCustomer(user3)
       await TestHelper.createCard(user3)
@@ -27,6 +29,7 @@ describe('/api/administrator/subscriptions/product-refunds', () => {
       const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user3.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
       const refund3 = await TestHelper.createRefund(administrator, chargeid3)
+      await TestHelper.waitForNextItem(`subscription:refunds:${user3.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/product-refunds?productid=${product.id}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

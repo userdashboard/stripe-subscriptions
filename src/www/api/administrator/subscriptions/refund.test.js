@@ -28,11 +28,12 @@ describe('/api/administrator/subscriptions/refund', () => {
       await TestHelper.createSubscription(user, administrator.plan.id)
       const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid)
-      const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund?refundid=${user.refund.id}`, 'GET')
+      const refundid = await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
+      const req = TestHelper.createRequest(`/api/administrator/subscriptions/refund?refundid=${refundid}`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
       const refund = await req.route.api.get(req)
-      assert.equal(refund.id, user.refund.id)
+      assert.equal(refund.id, refundid)
     })
   })
 })

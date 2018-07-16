@@ -7,9 +7,11 @@ describe(`/api/administrator/subscriptions/payouts`, () => {
     it('should return limit payouts to one page', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createPayout()
-      
+      const payoutid1 = await TestHelper.waitForNextItem(`payouts`, null)
       const payout2 = await TestHelper.createPayout()
+      const payoutid2 = await TestHelper.waitForNextItem(`payouts`, payoutid1)
       const payout3 = await TestHelper.createPayout()
+      await TestHelper.waitForNextItem(`payouts`, payoutid2)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/payouts`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session

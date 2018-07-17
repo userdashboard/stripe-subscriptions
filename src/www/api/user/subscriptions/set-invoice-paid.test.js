@@ -34,7 +34,7 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-      await TestHelper.changeSubscription(user, plan2.id)
+      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
       const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
@@ -153,7 +153,7 @@ describe(`/api/user/subscriptions/set-invoice-paid`, () => {
       await TestHelper.createCard(user2)
       await TestHelper.createSubscription(user2, plan1.id)
       const invoiceid1 = await TestHelper.waitForNextItem(`subscription:invoices:${user2.subscription.id}`, null)
-      await TestHelper.changeSubscriptionWithoutPaying(user, plan2.id)
+      await TestHelper.changeSubscriptionWithoutPaying(user2, plan2.id)
       const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user2.subscription.id}`, invoiceid1)
       const req = TestHelper.createRequest(`/api/user/subscriptions/set-invoice-paid?invoiceid=${invoiceid2}`, 'GET')
       req.account = user2.account

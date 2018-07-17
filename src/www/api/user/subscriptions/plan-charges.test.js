@@ -65,7 +65,7 @@ describe('/api/user/subscriptions/plan-charges', () => {
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createCard(user)
         await TestHelper.createSubscription(user, administrator.plan.id)
-        const chargeid = TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.cancelSubscription(user, user.subscription.id)
         charges.unshift(chargeid)
       }

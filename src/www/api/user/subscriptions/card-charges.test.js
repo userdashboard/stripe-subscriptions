@@ -13,6 +13,7 @@ describe('/api/user/subscriptions/card-charges', () => {
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
         await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
@@ -33,6 +34,7 @@ describe('/api/user/subscriptions/card-charges', () => {
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
         await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
@@ -54,6 +56,7 @@ describe('/api/user/subscriptions/card-charges', () => {
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
         const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         charges.unshift(chargeid)
       }

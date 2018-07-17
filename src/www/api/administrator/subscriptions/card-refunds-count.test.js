@@ -14,7 +14,7 @@ describe('/api/administrator/subscriptions/card-refunds-count', async () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
       await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+      const chargeid1 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createRefund(administrator, chargeid1)
       const refundid1 = await TestHelper.waitForNextItem(`subscription:refunds:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)

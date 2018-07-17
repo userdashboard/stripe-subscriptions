@@ -392,3 +392,119 @@
 
   /administrator/subscriptions/invoices
     Invoices#BEFORE
+      ✓ should bind invoices to req (30615ms)
+    Invoices#GET
+      ✓ should enforce page size (39803ms)
+      ✓ should enforce specified offset (39643ms)
+
+  /administrator/subscriptions/payout
+    Payout#BEFORE
+      ✓ should bind reject invalid payoutid (1929ms)
+      ✓ should bind payout to req (5126ms)
+    Payout#GET
+      ✓ should have row for payout (4655ms)
+
+  /administrator/subscriptions/payouts
+    Payouts#BEFORE
+      ✓ should bind payouts to req (9820ms)
+    Payouts#GET
+      ✓ should enforce page size (25851ms)
+      ✓ should enforce specified offset (26810ms)
+
+  /administrator/subscriptions/plan
+    Plan#BEFORE
+      ✓ should reject invalid planid (1959ms)
+      ✓ should bind plan to req (4400ms)
+    Plan#GET
+      ✓ should present the plan table (4364ms)
+
+  /administrator/subscriptions/plans
+    Plans#BEFORE
+      ✓ should bind plans to req (4261ms)
+    Plans#GET
+      ✓ should enforce page size (9493ms)
+      ✓ should enforce specified offset (9519ms)
+
+  /administrator/subscriptions/product
+    Product#BEFORE
+      ✓ should reject invalid productid (2296ms)
+      ✓ should bind product to req (2894ms)
+    Product#GET
+      ✓ should have row for product (2888ms)
+
+  /administrator/subscriptions/products
+    Products#BEFORE
+      ✓ should bind products to req (2753ms)
+    Products#GET
+      ✓ should enforce page size (6191ms)
+      ✓ should enforce specified offset (5742ms)
+
+  /administrator/subscriptions/publish-coupon
+    PublishCoupon#BEFORE
+      ✓ should reject invalid couponid (1994ms)
+      ✓ should reject published coupon (2739ms)
+      ✓ should bind coupon to req (3027ms)
+    PublishCoupon#GET
+      ✓ should present the form (2933ms)
+      ✓ should present the coupon table (3230ms)
+    PublishCoupon#POST
+      ✓ should apply after authorization (4834ms)
+
+  /administrator/subscriptions/publish-plan
+    PublishPlan#BEFORE
+      ✓ should reject invalid planid (2009ms)
+      ✓ should reject published plan (4393ms)
+      ✓ should bind plan to req (4410ms)
+    PublishPlan#GET
+      ✓ should present the form (4526ms)
+      ✓ should present the plan table (4644ms)
+    PublishPlan#POST
+      ✓ should apply after authorization (6364ms)
+
+  /administrator/subscriptions/publish-product
+    PublishProduct#BEFORE
+      ✓ should reject invalid productid (1944ms)
+      ✓ should reject published product (2888ms)
+      ✓ should bind product to req (3003ms)
+    PublishProduct#GET
+      ✓ should present the form (3042ms)
+      ✓ should present the product table (2973ms)
+    PublishProduct#POST
+      ✓ should apply after authorization (4345ms)
+
+  /administrator/subscriptions/refund-charge
+    RefundCharge#BEFORE
+      ✓ should reject invalid chargeid (1939ms)
+      ✓ should reject refunded charge (17536ms)
+      ✓ should bind charge to req (14144ms)
+    RefundCharge#GET
+      ✓ should present the form (13125ms)
+      ✓ should present the charge table (15304ms)
+    RefundCharge#POST
+      ✓ should apply after authorization (15649ms)
+
+  /administrator/subscriptions/refund
+    Refund#BEFORE
+      ✓ should reject invalid refundid (1936ms)
+      ✓ should bind refund to req (16425ms)
+    Refund#GET
+      ✓ should have row for refund (16319ms)
+
+  /administrator/subscriptions/refunds
+    Refunds#BEFORE
+      ✓ should bind refunds to req (47194ms)
+    Refunds#GET
+      ✓ should enforce page size (69968ms)
+      ✓ should enforce specified offset (67281ms)
+
+  /administrator/subscriptions/subscription
+    Subscription#BEFORE
+      ✓ should reject invalid subscriptionid (1991ms)
+      ✓ should bind subscription to req (10362ms)
+    Subscription#GET
+      ✓ should present the subscription table (10116ms)
+
+  /administrator/subscriptions/subscriptions
+    Subscriptions#BEFORE
+      ✓ should bind subscriptions to req (17854ms)
+    Subscriptions#GET

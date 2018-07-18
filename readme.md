@@ -1,7 +1,7 @@
 # Stripe subscriptions for Dashboard
-Dashboard is a NodeJS project that accompanies a web app you build and provides a complete account system for your users and administration tools.  The dashboard divides your application into two components: a header with account and administrative menus and a navigation bar; and a frame for serving content.
+Dashboard is a NodeJS project that accompanies a web app you build and provides a complete account system for your users and administration tools.  Dashboard divides your application into two components: a header with account and administrative menus and navigation bar; and a frame for serving content.
 
-The content can come from the dashboard, dashboard modules, a NodeJS app you build alongside the dashboard software, or an app you built in any other language hosted separately.
+The content can come from Dashboard, Dashboard modules, content you added to Dashboard, or an app you built in any other language hosted separately.
 
 This module adds a complete user and administrator `Private API` and `Web UI` for [Stripe subscriptions](https://stripe.com).
 

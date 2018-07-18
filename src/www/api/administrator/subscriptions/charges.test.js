@@ -14,10 +14,13 @@ describe('/api/administrator/subscriptions/charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, plan1.id)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan2.id)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const chargeid2 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.createSubscription(user, plan3.id)
+      await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       const chargeid3 = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const req = TestHelper.createRequest(`/api/administrator/subscriptions/charges`, 'GET')
       req.administratorAccount = req.account = administrator.account

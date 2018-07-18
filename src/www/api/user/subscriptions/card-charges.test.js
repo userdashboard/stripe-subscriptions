@@ -16,7 +16,6 @@ describe('/api/user/subscriptions/card-charges', () => {
         await TestHelper.createSubscription(user, plan.id)
         invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid)
         chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid)
-
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account

@@ -36,7 +36,8 @@ Your main.js should contain:
 Your package.json should contain:
 
     "dashboard": {
-      "dashboard-modules": [
+      "modules": [
+        "@userappstore/maxmind-geoip",
         "@userappstore/stripe-subscriptions"
       ]
     }

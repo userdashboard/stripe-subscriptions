@@ -12,6 +12,11 @@ branches:
 before_script:
    - npm install standard
    - npm install mocha
+   - curl -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+   - unzip ngrok.zip
+   - ./ngrok authtoken $NGROK_AUTH_TOKEN
+   - ngrok http 8000 &
+   - node main.js &
 
 script: 
    - node node_modules/standard/bin/cmd.js backend core || exit 1

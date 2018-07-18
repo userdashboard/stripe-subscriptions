@@ -3,7 +3,7 @@ const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 const util = require('util')
 
-process.env.STRIPE_KEY = process.env.STRIPE_KEY || 'sk_test_HoN4G3zkt9WV91nfRtacpw8V'
+process.env.STRIPE_KEY = process.env.STRIPE_KEY
 process.env.NODE_ENV = 'testing'
 const stripeKey = {api_key: process.env.STRIPE_KEY}
 

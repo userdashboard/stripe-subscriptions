@@ -5,7 +5,7 @@ const TestHelper = require('../../test-helper.js')
 
 describe(`proxy/x-invoices-header`, () => {
   describe('Invoices#AFTER', () => {
-    it.only('should set invoice data in header', async () => {
+    it('should set invoice data in header', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})
       await TestHelper.createPlan(administrator, {productid: product.id, published: true, amount: 1000, trial_period_days: 0})

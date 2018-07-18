@@ -2,7 +2,7 @@
 const assert = require('assert')
 const TestHelper = require('../../../../../test-helper.js')
 
-describe('/api/user/subscriptions/charges-count', async () => {
+describe('/api/user/subscriptions/invoices-count', async () => {
   describe('InvoicesCount#GET', () => {
     it('should count charges', async () => {
       const administrator = await TestHelper.createAdministrator()

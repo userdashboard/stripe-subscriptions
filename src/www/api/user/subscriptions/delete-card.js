@@ -29,7 +29,7 @@ module.exports = {
       await stripe.customers.deleteSource(req.customer.id, req.query.cardid, req.stripeKey)
       await dashboard.RedisList.remove('cards', req.query.cardid)
       await dashboard.RedisList.remove(`customer:cards:${req.customer.id}`, req.query.cardid)
-      await global.redisClient.hdelAsync(`map:cardid:customerid`, req.query.cardid, req.query.customerid)
+      await global.redisClient.hdelAsync(`map:cardid:customerid`, req.query.cardid)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

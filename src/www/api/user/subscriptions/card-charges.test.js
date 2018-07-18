@@ -10,11 +10,13 @@ describe('/api/user/subscriptions/card-charges', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
+      let invoiceid, chargeid
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
-        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid)
+        chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid)
+
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account
@@ -31,11 +33,12 @@ describe('/api/user/subscriptions/card-charges', () => {
       const user = await TestHelper.createUser()
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
+      let invoiceid, chargeid
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
-        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid)
+        chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}`, 'GET')
       req.account = user.account
@@ -53,11 +56,12 @@ describe('/api/user/subscriptions/card-charges', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const charges = []
+      let invoiceid, chargeid
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {
         const plan = await TestHelper.createPlan(administrator, {productid: product.id, published: true, trial_period_days: 0, amount: 1000})
         await TestHelper.createSubscription(user, plan.id)
-        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-        const chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
+        invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, invoiceid)
+        chargeid = await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, chargeid)
         charges.unshift(chargeid)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-charges?cardid=${user.card.id}&offset=${offset}`, 'GET')

@@ -5,6 +5,8 @@ The content can come from Dashboard, Dashboard modules, content you added to Das
 
 This module adds a complete user and administrator `Private API` and `Web UI` for [Stripe subscriptions](https://stripe.com).
 
+[![Build Status](https://travis-ci.org/userappstore/stripe-subscriptions.svg?branch=release)](https://travis-ci.org/userappstore/stripe-subscriptions)
+
 #### Dashboard documentation
 - [Introduction](https://github.com/userappstore/dashboard/wiki)
 - [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)

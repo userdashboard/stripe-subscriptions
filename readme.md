@@ -1,20 +1,43 @@
-# Stripe Subscriptions for Dashboard
+# Stripe subscriptions for Dashboard
+Dashboard is a NodeJS project that accompanies a web app you build and provides a complete account system for your users and administration tools.  The dashboard divides your application into two components: a header with account and administrative menus and a navigation bar; and a frame for serving content.
 
-This module adds subscription billing functionality to [userappstore/dashboard](https://github.com/userappstore/dashboard).  It adds an account menu for your users to manage their billing information and subscriptions, and an administrator menu to manage your plans, coupons, customers etc.
+The content can come from the dashboard, dashboard modules, a NodeJS app you build alongside the dashboard software, or an app you built in any other language hosted separately.
 
-# License
+This module adds a complete user and administrator `Private API` and `Web UI` for [Stripe subscriptions](https://stripe.com).
+
+#### Dashboard documentation
+- [Introduction](https://github.com/userappstore/dashboard/wiki)
+- [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
+- [Contributing to Dashboard](https://github.com/userappstore/dashboard/wiki/Contributing-to-Dashboard)
+- [Dashboard code structure](https://github.com/userappstore/dashboard/wiki/Dashboard-code-structure)
+- [Server request lifecycle](https://github.com/userappstore/dashboard/wiki/Server-Request-Lifecycle)
+
+#### License
 
 This is free and unencumbered software released into the public domain.  The MIT License is provided for countries that have not established a public domain.
 
-## 1) Install the module in your dashboard project
+## Installation
 
-    `npm install @userappstore/stripe-subscriptions`
+    $ mkdir project
+    $ cd project
+    $ npm init
+    $ npm install @userappstore/dashboard
+    $ npm install @userappstore/stripe-subscriptions
+    # create a  main.js
+    $ node main.js
 
-## 2) Include the module in your package.json configuration
+Your main.js should contain:
 
-    "dashboard-modules": [
-      "@userappstore/stripe-subscriptions"
-    ]
+    const dashboard = require('./index.js')
+    dashboard.start(__dirname)
+
+Your package.json should contain:
+
+    "dashboard": {
+      "dashboard-modules": [
+        "@userappstore/stripe-subscriptions"
+      ]
+    }
     
 ## Roadmap
 
@@ -23,56 +46,7 @@ This module currently only supports basic subscriptions with 1x a product.
 This module currently does not apply any form of tax.
 
 This module has WIP or incomplete API + UI for:
-- disputes (currently there's no way for a customer to file a dispute either).
+- disputes
 - transaction objects
-- invoice line items
-
-## APIs
-
-The code is partitioned into three groups.
-
-### Browser interface
-
-These HTML pages are paired with a NodeJS handler that responds to HTTP requests on GET and POST requests.  The user and administrator interfaces are both formed out of these pages.
-
-### Internal API
-
-The Stripe API is the internal API for the Stripe Subscriptions module.
-
-### Private / Public API
-
-These NodeJS files are only accessible to dashboard modules and code running on your server.  They compose operations out of the `Internal API` and other parts of the `Private API` for user and administrator operations.  
-
-The `Private API` can be exposed to HTTP requests by client-side JavaScript and user's web browser extensions.  These requests are authenticated by the web browser cookie created when signing in, the same as when a user is opening pages in their browser.
-
-    process.env.ALLOW_PUBLIC_API = true
-
-The `Private API` is accessible to your and module code, remapped to a NodeJS global object that recieves a HTTP request or similar and returns data or performs operations.
-
-    const req = {
-      body: { 
-        planid: 'a-plan'
-      }
-    }
-    const subscription = await global.api.user.subscriptions.CreateSubscription.post(req)
-
-## Unit tests
-
-Each NodeJS file for the APIs and Browser Interface have an accompanying .test.js file that run via `mocha`:
-
-    $ npm install mocha -g
-    $ npm test
-
-## Privacy
-
-This module includes no client-side JavaScript so browsing the application shares no data with any third parties.
-
-On the server-side a Stripe customer object is created and the dashboard  stores the IP and User Agent whenever data is created.
-
-Only your Stripe customer id is stored in the dashboard database.
-
-Your account id is stored in the Stripe database attached to your customer object.
-
-## Security
-
-All user and administration create, delete and update API endpoints require authorization.
+- invoice line item objects
+- modifying invoices

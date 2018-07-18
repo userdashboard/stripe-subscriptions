@@ -15,7 +15,7 @@ before_script:
    - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
    - unzip ngrok.zip
    - ./ngrok authtoken $NGROK_AUTH_TOKEN
-   - ngrok http 8000 &
+   - ./ngrok http 8000 &
    - node main.js &
 
 script: 

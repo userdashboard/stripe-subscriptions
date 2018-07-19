@@ -2,11 +2,16 @@
   "name": "@userappstore/stripe-subscriptions",
   "version": "1.0.1058",
   "main": "index.js",
-  "deprecated": false,
+  "description": "Stripe subscriptions module for Dashboard",
   "engine": {
     "node": "8.1.14",
     "npm": "5.0.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://gitlab.com/userappstore/organizations.git"
+  },
+  "license": "MIT and Unlicense",
   "scripts": {
     "start": "node main.js",
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 1"

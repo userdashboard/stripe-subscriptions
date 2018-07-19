@@ -39,5 +39,9 @@ jobs:
       - run: node node_modules/standard/bin/cmd.js backend core || exit 1
       - run: npm test
 
+  test:
+    parallelism: 1
 
-
+machine:
+  services:
+    - redis

@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: node:8.1.4
-      - image: redis/latest
+      - image: redis/4.0.10
     working_directory: ~/repo
     steps:
       - checkout

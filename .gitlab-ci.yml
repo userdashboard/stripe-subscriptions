@@ -1,27 +1,29 @@
-language: node_js
-
-node_js:
-  - "8.1.4"
-  
-services: redis-server
-
-branches:
-  only:
-   - release
-
-before_script:
-   - npm install standard
-   - npm install mocha
-   - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
-   - unzip ngrok.zip
-   - ./ngrok authtoken $NGROK_AUTH_TOKEN
-   - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
-   - node main.js &
-
-script: 
-   - node node_modules/standard/bin/cmd.js backend core || exit 1
-   - npm test
+image: node:8.1.4
 
 cache:
-  directories:
-    - node_modules
+  paths:
+  - node_modules/
+
+stages:
+  - test
+
+standardjs_tests:
+  before_script:
+    - npm install standard -g
+  script:
+    - standard src || exit 1
+
+mocha_tests:
+  services:
+    - redis
+  before_script:
+    - npm install 
+    - npm install mocha -g
+    - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+    - unzip ngrok.zip
+    - ./ngrok authtoken $NGROK_AUTH_TOKEN
+    - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
+    - node main.js &
+  script:
+    - npm test
+    

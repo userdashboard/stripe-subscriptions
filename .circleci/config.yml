@@ -21,7 +21,7 @@ jobs:
       
       - run: npm install -g mocha
       
-      - run: npm install -g standard
+      - run: npm install standard
       
       - run: wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
       

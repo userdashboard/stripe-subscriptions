@@ -19,7 +19,7 @@ jobs:
       
       - run: npm install
       
-      - run: npm install -g mocha
+      - run: npm install mocha
       
       - run: npm install standard
       
@@ -44,4 +44,4 @@ jobs:
     
       - run: node node_modules/standard/bin/cmd.js backend core || exit 1
       
-      - run: npm test
+      - run: node node_modules/mocha/bin/mocha src

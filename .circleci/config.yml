@@ -6,27 +6,15 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: node:8.1.4
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: redis/stable
-      
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run: npm install
       - run: npm install -g mocha
       - run: npm install -g standard
@@ -35,13 +23,12 @@ jobs:
       - run: ./ngrok authtoken $NGROK_AUTH_TOKEN
       - run: ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
       - run: node main.js &
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
+      - run: node --version
+      - run: npm --version
       - run: node node_modules/standard/bin/cmd.js backend core || exit 1
       - run: npm test
 

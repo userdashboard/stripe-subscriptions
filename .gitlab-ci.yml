@@ -20,6 +20,7 @@ mocha_tests:
     - npm install 
     - npm install mocha -g
     - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+    - apt install unzip
     - unzip ngrok.zip
     - ./ngrok authtoken $NGROK_AUTH_TOKEN
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &

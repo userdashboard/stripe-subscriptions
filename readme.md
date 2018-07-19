@@ -25,7 +25,7 @@ This is free and unencumbered software released into the public domain.  The MIT
     $ npm init
     $ npm install @userappstore/dashboard
     $ npm install @userappstore/stripe-subscriptions
-    # create a  main.js
+    # create a main.js
     $ node main.js
 
 Your main.js should contain:

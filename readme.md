@@ -5,8 +5,6 @@ The content can come from Dashboard, Dashboard modules, content you added to Das
 
 This module adds a complete user and administrator `Private API` and `Web UI` for [Stripe subscriptions](https://stripe.com).
 
-[![Build Status](https://gitlab.com/userappstore/stripe-subscriptions/badges/release/build.svg)](https://gitlab.com/userappstore/stripe-subscriptions/pipelines)
-
 #### Dashboard documentation
 - [Introduction](https://github.com/userappstore/dashboard/wiki)
 - [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)

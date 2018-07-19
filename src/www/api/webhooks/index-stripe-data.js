@@ -4,7 +4,7 @@ const stripe = require('stripe')()
 // The creation of objects like charges and invoices that happen
 // without user actions are indexed as this webhook is notifed.  All
 // other types of data are indexed as created by the user.
-let lastTestNumber 
+let lastTestNumber
 module.exports = {
   auth: false,
   post: async (req) => {

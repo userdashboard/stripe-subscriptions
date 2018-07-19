@@ -12,8 +12,8 @@
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 1"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1064",
-    "@userappstore/maxmind-geoip": "^1.0.1039",
+    "@userappstore/dashboard": "^1.0.1067",
+    "@userappstore/maxmind-geoip": "^1.0.1067",
     "stripe": "^4.25.0"
   },
   "dashboard": {

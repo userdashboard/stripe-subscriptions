@@ -29,6 +29,11 @@ jobs:
       - run: npm install
       - run: npm install -g mocha
       - run: npm install -g standard
+      - run: wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+      - run: unzip ngrok.zip
+      - run: ./ngrok authtoken $NGROK_AUTH_TOKEN
+      - run: ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
+      - run: node main.js &
 
       - save_cache:
           paths:

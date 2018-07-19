@@ -6,7 +6,7 @@ stages:
 standardjs_tests:
 cache:
   paths:
-  - node_modules/
+    - /usr/local/lib/node_modules/
   before_script:
     - npm install standard -g
   script:

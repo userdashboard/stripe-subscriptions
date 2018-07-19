@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: node:8.1.4
-      - image: redis/stable
+      - image: redis/latest
     working_directory: ~/repo
     steps:
       - checkout
@@ -41,8 +41,7 @@ jobs:
       - run: node --version
       
       - run: npm --version
-      
-      
+    
       - run: node node_modules/standard/bin/cmd.js backend core || exit 1
       
       - run: npm test

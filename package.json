@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git://gitlab.com/userappstore/stripe-subscriptions.git"
   },
-  "license": "MIT and Unlicense",
+  "license": "SPDX(MIT OR Unlicense)",
   "scripts": {
     "start": "node main.js",
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 1"

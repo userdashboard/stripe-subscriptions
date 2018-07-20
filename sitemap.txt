@@ -1,8 +1,8 @@
 @userappstore/dashboard
-Version: 1.0.1064
-http://undefined
-Root path: /root/workspace/stripe-subscriptions/src/www
-Application path: /root/workspace/stripe-subscriptions
+Version: 1.0.1067
+Address: http://localhost:8000
+Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
+Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
 
 Administrator menu:
 /administrator/subscriptions "Stripe Subscriptions"

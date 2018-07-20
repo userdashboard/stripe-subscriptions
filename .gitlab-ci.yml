@@ -35,4 +35,4 @@ mocha:
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
     - node main.js &
   script:
-    - node node_modules/.bin/mocha src --recursive --timeout 60000 --slow 60000
+    - node node_modules/.bin/mocha src --recursive --timeout 180000 --slow 180000

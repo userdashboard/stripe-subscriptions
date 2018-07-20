@@ -1,28 +1,30 @@
 image: node:8.1.4
 
 stages:
-  - lint
-  - test
+  - standardjs
+  - mocha
 
-lint_tests:
-  stage: lint
-  cache:
-     paths:
-       - /usr/local/lib/node_modules/
+cache:
+    paths:
+      - node_modules/
+
+standardjs:
+  stage: standardjs
   before_script:
-    - npm install standard -g
+    - npm install standard
   script:
-    - standard src || exit 1
+    - node node_modules/standard/bin/cmd.js src || exit 1
   
-mocha_tests:
-  stage: test
+mocha:
+  stage: mocha
   services:
     - redis
-  cache:
-    paths:
-      - /usr/local/lib/node_modules/
-      - node_modules/
   before_script:
+    - npm install 
+    - npm install mocha
+    - export ALLOW_PUBLIC_API=true
+    - export SILENT_START=true
+    - export REDIS_URL=redis://redis:6379
     - npm install 
     - npm install mocha -g
     - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
@@ -32,4 +34,4 @@ mocha_tests:
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
     - node main.js &
   script:
-    - npm test
+    - node node_modules/.bin/mocha src --recursive --recursive --timeout 30000 --slow 60000

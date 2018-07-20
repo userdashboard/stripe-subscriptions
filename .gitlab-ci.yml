@@ -5,8 +5,8 @@ stages:
   - mocha
 
 cache:
-    paths:
-      - node_modules/
+  paths:
+    - node_modules/
 
 standardjs:
   stage: standardjs

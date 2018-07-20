@@ -23,6 +23,7 @@ module.exports.createCard = createCard
 module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
 module.exports.createCustomerDiscount = createCustomerDiscount
+module.exports.createExternalAccount = createExternalAccount
 module.exports.createPayout = createPayout
 module.exports.createPlan = createPlan
 module.exports.createProduct = createProduct
@@ -128,6 +129,16 @@ async function createPlan (administrator, properties) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
   return plan
+}
+
+async function createExternalAccount (administrator, properties) {
+  properties.object = 'bank_account'
+  const stripeData = {
+    external_account: properties
+  }
+  const stripeid = await stripe.accounts.retrieve(stripeKey)
+  const stripeAccount = await stripe.accounts.update(stripeid, stripeData, stripeKey)
+  return stripeAccount
 }
 
 let couponNumber = 0
@@ -294,7 +305,7 @@ async function changeSubscriptionWithoutPaying (user, planid) {
   const subscriptionInfo = {
     items: [
       {
-        quantity: 1, 
+        quantity: 1,
         plan: planid
       }
     ]
@@ -324,7 +335,6 @@ async function changeSubscription (user, planid) {
   }
   return user.subscription
 }
-
 
 async function createSubscription (user, planid) {
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${planid}`, 'POST')

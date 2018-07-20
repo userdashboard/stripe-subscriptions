@@ -136,8 +136,8 @@ async function createExternalAccount (administrator, properties) {
   const stripeData = {
     external_account: properties
   }
-  const stripeid = await stripe.accounts.retrieve(stripeKey)
-  const stripeAccount = await stripe.accounts.update(stripeid, stripeData, stripeKey)
+  let stripeAccount = await stripe.accounts.retrieve(stripeKey)
+  stripeAccount = await stripe.accounts.update(stripeAccount.id, stripeData, stripeKey)
   return stripeAccount
 }
 

@@ -132,13 +132,13 @@ async function createPlan (administrator, properties) {
 }
 
 async function createExternalAccount (administrator, properties) {
-  properties.object = 'bank_account'
-  const stripeData = {
-    external_account: properties
-  }
-  let stripeAccount = await stripe.accounts.retrieve(stripeKey)
-  stripeAccount = await stripe.accounts.update(stripeAccount.id, stripeData, stripeKey)
-  return stripeAccount
+  // properties.object = 'bank_account'
+  // const stripeData = {
+  //   external_account: properties
+  // }
+  // let stripeAccount = await stripe.accounts.retrieve(stripeKey)
+  // stripeAccount = await stripe.accounts.update(stripeAccount.id, stripeData, stripeKey)
+  // return stripeAccount
 }
 
 let couponNumber = 0

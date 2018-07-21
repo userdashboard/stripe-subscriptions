@@ -23,7 +23,6 @@ module.exports.createCard = createCard
 module.exports.createCoupon = createCoupon
 module.exports.createCustomer = createCustomer
 module.exports.createCustomerDiscount = createCustomerDiscount
-module.exports.createExternalAccount = createExternalAccount
 module.exports.createPayout = createPayout
 module.exports.createPlan = createPlan
 module.exports.createProduct = createProduct
@@ -129,16 +128,6 @@ async function createPlan (administrator, properties) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }
   return plan
-}
-
-async function createExternalAccount (administrator, properties) {
-  // properties.object = 'bank_account'
-  // const stripeData = {
-  //   external_account: properties
-  // }
-  // let stripeAccount = await stripe.accounts.retrieve(stripeKey)
-  // stripeAccount = await stripe.accounts.update(stripeAccount.id, stripeData, stripeKey)
-  // return stripeAccount
 }
 
 let couponNumber = 0
@@ -414,9 +403,18 @@ async function payInvoice (user, invoiceid) {
 }
 
 async function createPayout () {
-  // the Stripe API has to be used here directly because this module
+  // The Stripe API has to be used here directly because this module
   // assumes payouts will be handled automatically so there aren't
-  // any API endpoints to create payouts
+  // any API endpoints to create payouts.
+  //
+  // For the payout to be created you must attach a test bank account
+  // inside the Stripe dashboard for the account of your API key:
+  // currency: 'usd'
+  // country: 'US'
+  // account_holder_name: 'Person'
+  // account_type: 'individual'
+  // account_number: '000123456789'
+  // routing_number: '110000000'
   const chargeInfo = {
     amount: 1000,
     currency: 'usd',

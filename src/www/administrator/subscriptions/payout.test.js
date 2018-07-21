@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions/payout`, () => {
   describe('Payout#BEFORE', () => {
-    it.only('should bind reject invalid payoutid', async () => {
+    it('should bind reject invalid payoutid', async () => {
       const administrator = await TestHelper.createAdministrator()
       await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=invalid`, 'GET')

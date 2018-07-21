@@ -448,7 +448,9 @@ async function waitForNextItem (collection, previousid, callback) {
     if (previousid && previousid === itemids[0]) {
       return setTimeout(wait, 10)
     }
-    return callback(null, itemids[0])
+    return setTimeout(() => {
+      callback(null, itemids[0])
+    }, 10)
   }
   return setTimeout(wait, 20)
 }

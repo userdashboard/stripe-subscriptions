@@ -39,6 +39,18 @@ Your package.json should contain:
         "@userappstore/stripe-subscriptions"
       ]
     }
+
+## Testing
+
+To test this module you will need:
+
+1) Create an account at https://stripe.com/
+2) Add test bank account details to your Stripe account
+3) Instance of `node main.js` running to receive webhooks, [ngrok](http://ngrok.com) can provide a publicly accessible URL for it
+3) Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`
+4) `npm test`
+
+The server and the tests will share the same Redis database so as the tests cause webhooks to be created the server will receive them and index them within the test database.
     
 ## Roadmap
 

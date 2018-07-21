@@ -6,7 +6,6 @@ describe(`/administrator/subscriptions/payouts`, () => {
   describe('Payouts#BEFORE', () => {
     it('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const payout1 = await TestHelper.createPayout()
       await TestHelper.waitForNextItem(`payouts`, null)
       const payout2 = await TestHelper.createPayout()
@@ -26,7 +25,6 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should enforce page size', async () => {
       global.PAGE_SIZE = 3
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       let lastid
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         const payout = await TestHelper.createPayout()
@@ -50,7 +48,6 @@ describe(`/administrator/subscriptions/payouts`, () => {
     it('should enforce specified offset', async () => {
       const offset = 1
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const payouts = []
       let lastid
       for (let i = 0, len = global.PAGE_SIZE + offset + 1; i < len; i++) {

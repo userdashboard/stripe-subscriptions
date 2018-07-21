@@ -6,7 +6,6 @@ describe(`/administrator/subscriptions/payout`, () => {
   describe('Payout#BEFORE', () => {
     it('should bind reject invalid payoutid', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=invalid`, 'GET')
       req.administratorAccount = req.account = administrator.account
       req.administratorSession = req.session = administrator.session
@@ -21,7 +20,6 @@ describe(`/administrator/subscriptions/payout`, () => {
 
     it('should bind payout to req', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const payout = await TestHelper.createPayout()
       await TestHelper.waitForNextItem(`payouts`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')
@@ -37,7 +35,6 @@ describe(`/administrator/subscriptions/payout`, () => {
   describe('Payout#GET', () => {
     it('should have row for payout', async () => {
       const administrator = await TestHelper.createAdministrator()
-      await TestHelper.createExternalAccount(administrator, {currency: 'usd', country: 'US', account_holder_name: 'Person', account_type: 'individual', account_number: '000123456789', routing_number: '110000000'})
       const payout = await TestHelper.createPayout()
       await TestHelper.waitForNextItem(`payouts`, null)
       const req = TestHelper.createRequest(`/administrator/subscriptions/payout?payoutid=${payout.id}`, 'GET')

@@ -5,8 +5,6 @@ The content can come from Dashboard, Dashboard modules, content you added to Das
 
 This module adds a complete user and administrator `Private API` and `Web UI` for [Stripe subscriptions](https://stripe.com).
 
-[![Build Status](https://travis-ci.org/userappstore/stripe-subscriptions.svg?branch=release)](https://travis-ci.org/userappstore/stripe-subscriptions)
-
 #### Dashboard documentation
 - [Introduction](https://github.com/userappstore/dashboard/wiki)
 - [Configuring Dashboard](https://github.com/userappstore/dashboard/wiki/Configuring-Dashboard)
@@ -41,6 +39,19 @@ Your package.json should contain:
         "@userappstore/stripe-subscriptions"
       ]
     }
+
+## Testing
+
+To test this module you will need:
+
+1) Create an account at [Stripe](https://stripe.com/)
+2) Add real bank account details to your Stripe account, as the test bank account numbers are only supported when you are using Stripe Connect.
+3) Enable 'Process payments unsafely' in Integrations, within Business settings
+4) Instance of `node main.js` running to receive webhooks, [ngrok](https://ngrok.com) can provide a publicly accessible URL for it
+5) Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`
+6) `npm test`
+
+The server and the tests will share the same Redis database so as the tests cause webhooks to be created the server will receive them and index them within the test database.
     
 ## Roadmap
 

@@ -13,11 +13,14 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid2 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       await TestHelper.createSubscription(user, administrator.plan.id)
+      await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
       const invoiceid3 = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
       await TestHelper.cancelSubscription(user, user.subscription.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-invoices?planid=${administrator.plan.id}`, 'GET')
@@ -40,6 +43,8 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       await TestHelper.createCard(user)
       for (let i = 0, len = global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, administrator.plan.id)
+        await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.cancelSubscription(user, administrator.plan.id)
       }
       const req = TestHelper.createRequest(`/api/user/subscriptions/plan-invoices?planid=${administrator.plan.id}`, 'GET')
@@ -62,6 +67,7 @@ describe('/api/user/subscriptions/plan-invoices', () => {
       for (let i = 0, len = offset + global.PAGE_SIZE + 1; i < len; i++) {
         await TestHelper.createSubscription(user, administrator.plan.id)
         const invoiceid = await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
+        await TestHelper.waitForNextItem(`subscription:charges:${user.subscription.id}`, null)
         await TestHelper.cancelSubscription(user, administrator.plan.id)
         invoices.unshift(invoiceid)
       }

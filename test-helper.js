@@ -294,7 +294,7 @@ async function changeSubscriptionWithoutPaying (user, planid) {
   const subscriptionInfo = {
     items: [
       {
-        quantity: 1, 
+        quantity: 1,
         plan: planid
       }
     ]
@@ -324,7 +324,6 @@ async function changeSubscription (user, planid) {
   }
   return user.subscription
 }
-
 
 async function createSubscription (user, planid) {
   const req = TestHelper.createRequest(`/api/user/subscriptions/create-subscription?planid=${planid}`, 'POST')
@@ -404,9 +403,18 @@ async function payInvoice (user, invoiceid) {
 }
 
 async function createPayout () {
-  // the Stripe API has to be used here directly because this module
+  // The Stripe API has to be used here directly because this module
   // assumes payouts will be handled automatically so there aren't
-  // any API endpoints to create payouts
+  // any API endpoints to create payouts.
+  //
+  // For the payout to be created you must attach a test bank account
+  // inside the Stripe dashboard for the account of your API key:
+  // currency: 'usd'
+  // country: 'US'
+  // account_holder_name: 'Person'
+  // account_type: 'individual'
+  // account_number: '000123456789'
+  // routing_number: '110000000'
   const chargeInfo = {
     amount: 1000,
     currency: 'usd',
@@ -438,7 +446,9 @@ async function waitForNextItem (collection, previousid, callback) {
     if (previousid && previousid === itemids[0]) {
       return setTimeout(wait, 10)
     }
-    return callback(null, itemids[0])
+    return setTimeout(() => {
+      callback(null, itemids[0])
+    }, 10)
   }
   return setTimeout(wait, 20)
 }

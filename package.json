@@ -1,19 +1,24 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.0.1058",
+  "version": "1.0.1059",
   "main": "index.js",
-  "deprecated": false,
+  "description": "Stripe subscriptions module for Dashboard",
   "engine": {
     "node": "8.1.14",
     "npm": "5.0.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://gitlab.com/userappstore/stripe-subscriptions.git"
+  },
+  "license": "SPDX(MIT OR Unlicense)",
   "scripts": {
     "start": "node main.js",
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 1"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1064",
-    "@userappstore/maxmind-geoip": "^1.0.1039",
+    "@userappstore/dashboard": "^1.0.1067",
+    "@userappstore/maxmind-geoip": "^1.0.1067",
     "stripe": "^4.25.0"
   },
   "dashboard": {

@@ -22,7 +22,7 @@ mocha:
   before_script:
     - npm install 
     - npm install mocha
-    - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+    - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
     - apt-get update && apt-get install -y unzip
     - unzip ngrok.zip
     - ./ngrok authtoken $NGROK_AUTH_TOKEN

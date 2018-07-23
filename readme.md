@@ -45,7 +45,7 @@ Your package.json should contain:
 To test this module you will need:
 
 1) Create an account at [Stripe](https://stripe.com/)
-2) Add test bank account details to your Stripe account in Settings, within Payouts
+2) Add real bank account details to your Stripe account, as the test bank account numbers are only supported when you are using Stripe Connect.
 3) Enable 'Process payments unsafely' in Integrations, within Business settings
 4) Instance of `node main.js` running to receive webhooks, [ngrok](https://ngrok.com) can provide a publicly accessible URL for it
 5) Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`

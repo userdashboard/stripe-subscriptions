@@ -4,7 +4,7 @@ const TestHelper = require('../../../../test-helper.js')
 
 describe(`/administrator/subscriptions/payouts`, () => {
   describe('Payouts#BEFORE', () => {
-    it('should bind payouts to req', async () => {
+    it.only('should bind payouts to req', async () => {
       const administrator = await TestHelper.createAdministrator()
       const payout1 = await TestHelper.createPayout()
       await TestHelper.waitForNextItem(`payouts`, null)

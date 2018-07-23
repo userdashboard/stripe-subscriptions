@@ -44,10 +44,10 @@ Your package.json should contain:
 
 To test this module you will need:
 
-1. Create an account at [Stripe](https://stripe.com/), you will need your `STRIPE_KEY` in your server env
+1. Create an account at [Stripe](https://stripe.com/), you will need your `STRIPE_KEY` in your server dashboard configuration
 2. Add real bank account details to your Stripe account, as the test bank account numbers are only supported when you are using Stripe Connect
 3. Enable 'Process payments unsafely' in Integrations, within Business settings, required to send test cards without browser JS tokenization
-4. Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`, you will need the `ENDPOINT_SECRET` in your server ENV
+4. Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`, you will need the `ENDPOINT_SECRET` in your dashboard configuration
 5. Instance of `node main.js` running to receive webhooks, on your computer and in testing [ngrok](https://ngrok.com) may provide a publicly-accessible https://*.ngrok.io domain
 6. `npm test`
 

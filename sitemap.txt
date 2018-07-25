@@ -1,5 +1,5 @@
 @userappstore/dashboard
-Version: 1.0.1067
+Version: 1.1.0
 Address: http://localhost:8000
 Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
 Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
@@ -16,9 +16,9 @@ Account menu:
 Dashboard modules:
 @userappstore/maxmind-geoip
 
-Template handlers:
-@userappstore/dashboard/src/template/session-impersonation-header.js
-@userappstore/dashboard/src/template/session-unlocked-header.js
+Content handlers:
+@userappstore/dashboard/src/content/session-impersonation-header.js
+@userappstore/dashboard/src/content/session-unlocked-header.js
 
 Server handlers:
 @userappstore/dashboard/src/server/bind-urlpath.js
@@ -376,5 +376,5 @@ URL --------------------------------------------------------- AUTH ---- LOCK ---
 /api/user/subscriptions/upcoming-invoices                                                       GET             /src/www                                                   
 /api/user/subscriptions/upcoming-invoices-count                                                 GET             /src/www                                                   
 /api/user/update-profile                                                LOCK                    PATCH           @userappstore/dashboard                                    
-/api/webhooks/index-stripe-data                               GUEST                             POST            /src/www                                                   
+/api/webhooks/subscriptions/index-stripe-data                 GUEST                             POST            /src/www                                                   
 /home                                                                                           GET                                             @userappstore/dashboard    

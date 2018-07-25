@@ -18,24 +18,24 @@ This is free and unencumbered software released into the public domain.  The MIT
 
 ## Installation
 
+You must install [Redis](https://redis.io) and [NodeJS](https://nodejs.org) 8.1.4+ prior to these steps, and create a [Stripe](https://stripe.com) account.
+
     $ mkdir project
     $ cd project
     $ npm init
-    $ npm install @userappstore/dashboard
     $ npm install @userappstore/stripe-subscriptions
     # create a main.js
-    $ node main.js
+    $ STRIPE_KEY= ENDPOINT_SECRET= node main.js
 
 Your main.js should contain:
 
     const dashboard = require('./index.js')
     dashboard.start(__dirname)
 
-Your package.json should contain:
+Your package.json should include the module:
 
     "dashboard": {
       "modules": [
-        "@userappstore/maxmind-geoip",
         "@userappstore/stripe-subscriptions"
       ]
     }

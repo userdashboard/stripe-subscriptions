@@ -2,7 +2,8 @@ image: node:8.1.4
 
 stages:
   - standardjs
-  - mocha
+  - mocha_basic
+  - mocha_encrypted
 
 cache:
   paths:
@@ -15,8 +16,8 @@ standardjs:
   script:
     - node node_modules/standard/bin/cmd.js src || exit 1
   
-mocha:
-  stage: mocha
+mocha_basic:
+  stage: mocha_basic
   services:
     - redis
   before_script:
@@ -29,6 +30,28 @@ mocha:
     - export SILENT_START=true
     - export REDIS_URL=redis://redis:6379
     - export NODE_ENV=testing
+    - node main.js &
+    - ./ngrok authtoken $NGROK_AUTH_TOKEN
+    - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
+  script:
+    - node node_modules/.bin/mocha src --recursive --timeout 180000 --slow 180000
+  
+mocha_encrypted:
+  stage: mocha_encrypted
+  services:
+    - redis
+  before_script:
+    - npm install 
+    - npm install mocha
+    - wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
+    - apt-get update && apt-get install -y unzip
+    - unzip ngrok.zip 
+    - export ALLOW_PUBLIC_API=true
+    - export SILENT_START=true
+    - export REDIS_URL=redis://redis:6379
+    - export NODE_ENV=testing
+    - export REDIS_ENCRYPTION_KEY="Test encryption key"
+    - export REDIS_KEY_HASH="Another test encryption key"
     - node main.js &
     - ./ngrok authtoken $NGROK_AUTH_TOKEN
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &

@@ -38,8 +38,7 @@ module.exports.payInvoice = payInvoice
 module.exports.waitForNextItem = util.promisify(waitForNextItem)
 
 beforeEach(setup)
-let testNumber = 0
-function setup (callback) {
+async function setup () {
   global.MINIMUM_COUPON_LENGTH = 1
   global.MAXIMUM_COUPON_LENGTH = 100
   global.MINIMUM_PLAN_LENGTH = 1
@@ -52,10 +51,6 @@ function setup (callback) {
   global.MEMBERSHIP_FIELDS = [ 'name', 'email' ]
   global.MINIMUM_STRIPE_TIMESTAMP = dashboard.Timestamp.now
   global.PAGE_SIZE = 2
-  testNumber++
-  return global.redisClient.flushdb(() => {
-    return global.redisClient.incrby('testNumber', testNumber, callback)
-  })
 }
 
 let productNumber = 0
@@ -426,7 +421,7 @@ async function createPayout () {
     amount: 100,
     currency: 'usd',
     metadata: {
-      testNumber: await global.redisClient.getAsync('testNumber')
+      testNumber: global.testNumber
     }
   }
   const payout = await stripe.payouts.create(payoutInfo, stripeKey)

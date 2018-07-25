@@ -1,0 +1,4 @@
+# 1.1.0
+- updated dependency dashboard 
+- replaced inline testNumber with global.testNumber 
+- added encrypted version of tests

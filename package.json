@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.0.1059",
+  "version": "1.1.0",
   "main": "index.js",
   "description": "Stripe subscriptions module for Dashboard",
   "engine": {
@@ -17,7 +17,7 @@
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 1"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^1.0.1067",
+    "@userappstore/dashboard": "^1.1.0",
     "@userappstore/maxmind-geoip": "^1.0.1067",
     "stripe": "^4.25.0"
   },

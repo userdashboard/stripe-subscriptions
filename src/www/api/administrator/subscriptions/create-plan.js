@@ -92,8 +92,8 @@ module.exports = {
       }
     }
     if (process.env.NODE_ENV !== 'production') {
-      planInfo.metadata = planInfo.metadata || {} 
-      planInfo.metadata.testNumber = await global.redisClient.getAsync('testNumber')
+      planInfo.metadata = planInfo.metadata || {}
+      planInfo.metadata.testNumber = global.testNumber
     }
     let product
     try {

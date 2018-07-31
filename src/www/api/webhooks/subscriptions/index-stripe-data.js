@@ -10,7 +10,7 @@ module.exports = {
   post: async (req) => {
     let stripeEvent
     try {
-      stripeEvent = stripe.webhooks.constructEvent(req.bodyRaw, req.headers['stripe-signature'], process.env.ENDPOINT_SECRET)
+      stripeEvent = stripe.webhooks.constructEvent(req.bodyRaw, req.headers['stripe-signature'], process.env.SUBSCRIPTIONS_ENDPOINT_SECRET)
     } catch (error) {
       throw new Error('invalid-stripe-signature')
     }

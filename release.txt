@@ -1,3 +1,7 @@
+# 1.2.0
+- renamed ENDPOINT_SECRET to SUBSCRIPTIONS_ENDPOINT_SECRET
+- updated Dashboard to 1.2.0
+
 # 1.1.0
 - updated dependency dashboard 
 - replaced inline testNumber with global.testNumber 

@@ -18,27 +18,40 @@ This is free and unencumbered software released into the public domain.  The MIT
 
 ## Installation
 
-You must install [Redis](https://redis.io) and [NodeJS](https://nodejs.org) 8.1.4+ prior to these steps, and create a [Stripe](https://stripe.com) account.
+You must install [Redis](https://redis.io) and [NodeJS](https://nodejs.org) 8.1.4+ prior to these steps.
+
+1. Create an account at [Stripe](https://stripe.com/), you will need their API key for the STRIPE_KEY
+2. If you require sending credit card numbers to your server enable 'Process payments unsafely' in Integrations, within Business settings, otherwise client-side JavaScript will post directly to Stripe
+4. Setup a webhook in your Stripe account to `/api/webhooks/subscriptions/index-stripe-data`, you will need the signing secret for `SUBSCRIPTIONS_ENDPOINT_SECRET`
 
     $ mkdir project
     $ cd project
     $ npm init
     $ npm install @userappstore/stripe-subscriptions
     # create a main.js
-    $ STRIPE_KEY= ENDPOINT_SECRET= node main.js
+    $ STRIPE_KEY=abc \
+      SUBSCRIPTIONS_ENDPOINT_SECRET=xyz \
+      node main.js
 
-Your main.js should contain:
+Your `main.js` should contain:
 
     const dashboard = require('./index.js')
     dashboard.start(__dirname)
 
-Your package.json should include the module:
+Add this code to require the module in your `package.json`:
 
     "dashboard": {
       "modules": [
         "@userappstore/stripe-subscriptions"
       ]
     }
+
+Your sitemap will output the server address, by default you can access it at:
+
+    http://localhost:8000
+
+The first account to register will be  the owner and an administrator.
+
 
 ## Testing
 
@@ -47,7 +60,7 @@ To test this module you will need:
 1. Create an account at [Stripe](https://stripe.com/), you will need your `STRIPE_KEY` in your server dashboard configuration
 2. Add real bank account details to your Stripe account, as the test bank account numbers are only supported when you are using Stripe Connect
 3. Enable 'Process payments unsafely' in Integrations, within Business settings, required to send test cards without browser JS tokenization
-4. Setup a webhook to your Stripe account to `https://your_url/api/webhooks/index-stripe-data`, you will need the `ENDPOINT_SECRET` in your dashboard configuration
+4. Setup a webhook in your Stripe account to `/api/webhooks/subscriptions/index-stripe-data`, you will need the signing secret for `SUBSCRIPTIONS_ENDPOINT_SECRET`
 5. Instance of `node main.js` running to receive webhooks, on your computer and in testing [ngrok](https://ngrok.com) may provide a publicly-accessible https://*.ngrok.io domain
 6. `npm test`
 

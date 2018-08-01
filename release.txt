@@ -1,5 +1,7 @@
 # 1.3.0 
 - no pagination when dataset is one page
+- updated Dashboard to 1.3.0
+- updated Maxmind GeoIP to 1.3.0
 
 # 1.2.0
 - renamed ENDPOINT_SECRET to SUBSCRIPTIONS_ENDPOINT_SECRET

@@ -21,7 +21,7 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.refunds && req.data.refunds.length) {
     dashboard.HTML.renderTable(doc, req.data.refunds, 'refund-row', 'refunds-table')
-    if (req.data.count < global.PAGE_SIZE) {
+    if (req.data.count <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {

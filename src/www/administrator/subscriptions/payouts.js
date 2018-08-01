@@ -21,7 +21,7 @@ async function renderPage (req, res, messageTemplate) {
         dashboard.HTML.renderTemplate(doc, null, payout.failure_code, `status-${payout.id}`)
       }
     }
-    if (req.data.count < global.PAGE_SIZE) {
+    if (req.data.count <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {

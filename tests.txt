@@ -1,5 +1,5 @@
 
-> @userappstore/stripe-subscriptions@1.1.0 test /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
+> @userappstore/stripe-subscriptions@1.3.0 test /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
 > NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 180000
 
 

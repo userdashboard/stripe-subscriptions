@@ -57,7 +57,7 @@ async function renderPage (req, res) {
         }
       }
     }
-    if (req.data.count < global.PAGE_SIZE) {
+    if (req.data.count <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {

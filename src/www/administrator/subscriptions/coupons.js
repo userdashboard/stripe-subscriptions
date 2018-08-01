@@ -46,7 +46,7 @@ async function renderPage (req, res) {
         unpublishedCoupon.parentNode.removeChild(unpublishedCoupon)
       }
     }
-    if (req.data.count < global.PAGE_SIZE) {
+    if (req.data.count <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {

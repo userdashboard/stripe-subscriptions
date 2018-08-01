@@ -56,11 +56,11 @@ async function renderPage (req, res) {
         }
       }
     }
-    if (req.data.count <= global.PAGE_SIZE) {
+    if (req.data.total <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
     }
   } else {
     const subscriptionsTable = doc.getElementById('subscriptions-table')

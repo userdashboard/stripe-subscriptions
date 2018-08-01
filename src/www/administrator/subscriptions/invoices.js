@@ -26,11 +26,11 @@ async function renderPage (req, res) {
   const doc = dashboard.HTML.parse(req.route.html)
   if (req.data.invoices && req.data.invoices.length) {
     dashboard.HTML.renderTable(doc, req.data.invoices, 'invoice-row', 'invoices-table')
-    if (req.data.count <= global.PAGE_SIZE) {
+    if (req.data.total <= global.PAGE_SIZE) {
       const pageLinks = doc.getElementById('page-links')
       pageLinks.parentNode.removeChild(pageLinks)
     } else {
-      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.count)
+      dashboard.HTML.renderPagination(doc, req.data.offset, req.data.total)
     }
   }
   return dashboard.Response.end(req, res, doc)

@@ -1,6 +1,5 @@
 const dashboard = require('@userappstore/dashboard')
 const statuses = ['active', 'trialing', 'past_due', 'canceled', 'unpaid']
-const intervals = ['day', 'week', 'month', 'year']
 
 module.exports = {
   before: beforeRequest,

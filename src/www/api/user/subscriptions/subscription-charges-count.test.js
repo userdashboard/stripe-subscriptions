@@ -26,8 +26,8 @@ describe('/api/user/subscriptions/subscription-charges-count', async () => {
       req.account = user.account
       req.session = user.session
       req.customer = user.customer
-      const count = await req.route.api.get(req)
-      assert.equal(count, 3)
+      const total = await req.route.api.get(req)
+      assert.equal(total, 3)
     })
   })
 })

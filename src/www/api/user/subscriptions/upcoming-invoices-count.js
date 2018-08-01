@@ -8,7 +8,6 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-customer')
     }
-    const total = await dashboard.RedisList.count(`customer:subscriptions:${req.query.customerid}`)
-    return total
+    return dashboard.RedisList.count(`customer:subscriptions:${req.query.customerid}`)
   }
 }

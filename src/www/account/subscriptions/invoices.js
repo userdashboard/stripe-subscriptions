@@ -8,7 +8,7 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.customerid = req.customer.id
-  const count = await global.api.user.subscriptions.InvoicesCount.get(req)
+  const total = await global.api.user.subscriptions.InvoicesCount.get(req)
   const invoices = await global.api.user.subscriptions.Invoices.get(req)
   const offset = req.query.offset || 0
   if (invoices && invoices.length) {
@@ -22,7 +22,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {invoices, count, offset}
+  req.data = {invoices, total, offset}
 }
 
 async function renderPage (req, res) {

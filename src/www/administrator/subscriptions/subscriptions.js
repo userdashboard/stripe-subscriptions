@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.SubscriptionsCount.get(req)
+  const total = await global.api.administrator.subscriptions.SubscriptionsCount.get(req)
   const subscriptions = await global.api.administrator.subscriptions.Subscriptions.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (subscriptions && subscriptions.length) {
@@ -21,7 +21,7 @@ async function beforeRequest (req) {
       subscription.currentPeriodEndFormatted = dashboard.Format.date(subscription.currentPeriodEnd)
     }
   }
-  req.data = {subscriptions, count, offset}
+  req.data = {subscriptions, total, offset}
 }
 
 async function renderPage (req, res) {

@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.ChargesCount.get(req)
+  const total = await global.api.administrator.subscriptions.ChargesCount.get(req)
   const charges = await global.api.administrator.subscriptions.Charges.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (charges && charges.length) {
@@ -16,7 +16,7 @@ async function beforeRequest (req) {
       charge.date = dashboard.Timestamp.date(charge.created)
     }
   }
-  req.data = {charges, count, offset}
+  req.data = {charges, total, offset}
 }
 
 async function renderPage (req, res) {

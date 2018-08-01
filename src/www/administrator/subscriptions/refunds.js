@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.RefundsCount.get(req)
+  const total = await global.api.administrator.subscriptions.RefundsCount.get(req)
   const refunds = await global.api.administrator.subscriptions.Refunds.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (refunds && refunds.length) {
@@ -14,7 +14,7 @@ async function beforeRequest (req) {
       refund.amountFormatted = dashboard.Format.money(refund.amount || 0, refund.currency)
     }
   }
-  req.data = {refunds, count, offset}
+  req.data = {refunds, total, offset}
 }
 
 async function renderPage (req, res) {

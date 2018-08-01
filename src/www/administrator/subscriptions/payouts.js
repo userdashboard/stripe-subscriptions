@@ -6,10 +6,10 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.PayoutsCount.get(req)
+  const total = await global.api.administrator.subscriptions.PayoutsCount.get(req)
   const payouts = await global.api.administrator.subscriptions.Payouts.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
-  req.data = {payouts, count, offset}
+  req.data = {payouts, total, offset}
 }
 
 async function renderPage (req, res, messageTemplate) {

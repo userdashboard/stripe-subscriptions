@@ -8,10 +8,10 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.customerid = req.customer.id
-  const count = await global.api.user.subscriptions.CardsCount.get(req)
+  const total = await global.api.user.subscriptions.CardsCount.get(req)
   const cards = await global.api.user.subscriptions.Cards.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
-  req.data = {cards, count, offset}
+  req.data = {cards, total, offset}
 }
 
 async function renderPage (req, res) {

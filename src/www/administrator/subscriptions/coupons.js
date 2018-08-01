@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.CouponsCount.get(req)
+  const total = await global.api.administrator.subscriptions.CouponsCount.get(req)
   const coupons = await global.api.administrator.subscriptions.Coupons.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (coupons && coupons.length) {
@@ -24,7 +24,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {coupons, count, offset}
+  req.data = {coupons, total, offset}
 }
 
 async function renderPage (req, res) {

@@ -9,7 +9,7 @@ module.exports = {
 async function beforeRequest (req) {
   req.query = req.query || {}
   req.query.customerid = req.customer.id
-  const count = await global.api.user.subscriptions.SubscriptionsCount.get(req)
+  const total = await global.api.user.subscriptions.SubscriptionsCount.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   const subscriptions = await global.api.user.subscriptions.Subscriptions.get(req)
   if (subscriptions && subscriptions.length) {
@@ -30,7 +30,7 @@ async function beforeRequest (req) {
       }
     }
   }
-  req.data = {subscriptions, count, offset}
+  req.data = {subscriptions, total, offset}
 }
 
 async function renderPage (req, res) {

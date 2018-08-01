@@ -13,7 +13,6 @@ module.exports = {
     if (!owned) {
       throw new Error('invalid-account')
     }
-    const count = await dashboard.RedisList.count(`subscription:refunds:${req.query.subscriptionid}`)
-    return count
+    return dashboard.RedisList.count(`subscription:refunds:${req.query.subscriptionid}`)
   }
 }

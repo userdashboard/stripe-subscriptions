@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.InvoicesCount.get(req)
+  const total = await global.api.administrator.subscriptions.InvoicesCount.get(req)
   const invoices = await global.api.administrator.subscriptions.Invoices.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (invoices && invoices.length) {
@@ -19,7 +19,7 @@ async function beforeRequest (req) {
       invoice.planid = invoice.lines.data[0].plan.id
     }
   }
-  req.data = {invoices, count, offset}
+  req.data = {invoices, total, offset}
 }
 
 async function renderPage (req, res) {

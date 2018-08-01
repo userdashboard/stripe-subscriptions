@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.PlansCount.get(req)
+  const total = await global.api.administrator.subscriptions.PlansCount.get(req)
   const plans = await global.api.administrator.subscriptions.Plans.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (plans && plans.length) {
@@ -16,7 +16,7 @@ async function beforeRequest (req) {
       plan.priceFormatted = plan.currency === 'usd' ? '$' + (plan.amount / 100) : plan.amount
     }
   }
-  req.data = {plans, count, offset}
+  req.data = {plans, total, offset}
 }
 
 async function renderPage (req, res) {

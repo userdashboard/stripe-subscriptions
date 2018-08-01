@@ -6,7 +6,7 @@ module.exports = {
 }
 
 async function beforeRequest (req) {
-  const count = await global.api.administrator.subscriptions.CustomersCount.get(req)
+  const total = await global.api.administrator.subscriptions.CustomersCount.get(req)
   const customers = await global.api.administrator.subscriptions.Customers.get(req)
   const offset = req.query ? req.query.offset || 0 : 0
   if (customers && customers.length) {
@@ -20,7 +20,7 @@ async function beforeRequest (req) {
       customer.delinquentFormatted = customer.delinquent ? 'Yes' : 'No'
     }
   }
-  req.data = {customers, count, offset}
+  req.data = {customers, total, offset}
 }
 
 async function renderPage (req, res) {

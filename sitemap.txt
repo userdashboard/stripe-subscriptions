@@ -1,6 +1,6 @@
 http://localhost:8000
 @userappstore/dashboard
-Version: 1.2.0
+Version: 1.4.1
 Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
 Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
 
@@ -14,9 +14,9 @@ Account menu:
 @userappstore/dashboard/src/www/account/signout "Sign out"
 
 Special HTML files:
-/node_modules/@userappstore/dashboard/src/template.html
-/node_modules/@userappstore/dashboard/src/error.html
-/node_modules/@userappstore/dashboard/src/redirect.html
+@userappstore/dashboard/src/template.html
+@userappstore/dashboard/src/error.html
+@userappstore/dashboard/src/redirect.html
 
 Dashboard modules:
 @userappstore/maxmind-geoip

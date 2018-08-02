@@ -1,3 +1,6 @@
+# 1.4.2
+- updated Dashboard to 1.4.3
+
 # 1.4.1
 - renamed 'count' to 'total' for pagination
 

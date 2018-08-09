@@ -1,4 +1,6 @@
-# 1.4.8
+# 1.4.9
+- updated Dashboard to 1.4.13
+
 - updated MaxMind GeoIP to 1.4.5
 
 # 1.4.7

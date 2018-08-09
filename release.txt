@@ -1,3 +1,9 @@
+# 1.4.6
+- updated Dashboard to 1.4.11
+
+# 1.4.5
+- updated Dashboard to 1.4.10
+
 # 1.4.4
 - updated Dashboard to 1.4.9
 

@@ -1,17 +1,14 @@
+@userappstore/dashboard 1.4.9
 http://localhost:8000
-@userappstore/dashboard
-Version: 1.4.1
-Root path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions/src/www
-Application path: /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
 
 Administrator menu:
-/administrator/subscriptions "Stripe Subscriptions"
-@userappstore/dashboard/src/www/administrator "Dashboard administration"
+/administrator/subscriptions "Stripe Subscriptions module"
+/administrator "Dashboard administration"
 
 Account menu:
-/account/subscriptions "My subscriptions"
-@userappstore/dashboard/src/www/account "My account"
-@userappstore/dashboard/src/www/account/signout "Sign out"
+/account/subscriptions "Manage subscriptions"
+/account "My account"
+/account/signout "Sign out"
 
 Special HTML files:
 @userappstore/dashboard/src/template.html
@@ -19,6 +16,7 @@ Special HTML files:
 @userappstore/dashboard/src/redirect.html
 
 Dashboard modules:
+
 @userappstore/maxmind-geoip
 
 Content handlers:
@@ -42,7 +40,6 @@ Server handlers:
 /src/server/require-payment.js
 
 URL --------------------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----- HTTP REQUESTS - NODEJS ------------------------ HTML ----------------------
-
 /                                                             GUEST              FULLSCREEN     GET                                             @userappstore/dashboard    
 /account                                                                                        GET                                             @userappstore/dashboard    
 /account/authorize                                                               FULLSCREEN     GET POST        @userappstore/dashboard         @userappstore/dashboard    

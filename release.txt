@@ -1,3 +1,7 @@
+# 1.4.11
+- made bind-customer server handler create customers
+- made require-subscription server handler optional
+
 # 1.4.10
 - updated wording
 

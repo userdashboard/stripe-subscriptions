@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "main": "index.js",
   "description": "Stripe Subscription module for Dashboard",
   "engine": {
@@ -44,9 +44,7 @@
     ],
     "server": [
       "/src/server/bind-stripekey.js",
-      "/src/server/bind-customer.js",
-      "/src/server/require-subscription.js",
-      "/src/server/require-payment.js"
+      "/src/server/bind-customer.js"
     ]
   }
 }

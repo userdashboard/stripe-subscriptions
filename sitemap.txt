@@ -1,4 +1,4 @@
-@userappstore/dashboard 1.4.9
+@userappstore/dashboard 2018.8.22-1
 http://localhost:8000
 
 Administrator menu:
@@ -36,8 +36,6 @@ Server handlers:
 @userappstore/maxmind-geoip/src/server/bind-country.js
 /src/server/bind-stripekey.js
 /src/server/bind-customer.js
-/src/server/require-subscription.js
-/src/server/require-payment.js
 
 URL --------------------------------------------------------- AUTH ---- LOCK --- TEMPLATE ----- HTTP REQUESTS - NODEJS ------------------------ HTML ----------------------
 /                                                             GUEST              FULLSCREEN     GET                                             @userappstore/dashboard    

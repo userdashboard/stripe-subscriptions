@@ -1,3 +1,6 @@
+# 2018.8.23-1
+- updated Dashboard to 2018.8.23-2
+
 # 2018.8.22-1
 - updated Dashboard to 2018.8.22-1
 

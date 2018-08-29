@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "2018.8.23-1",
+  "version": "2018.8.29-1",
   "main": "index.js",
   "description": "Stripe Subscription module for Dashboard",
   "engine": {

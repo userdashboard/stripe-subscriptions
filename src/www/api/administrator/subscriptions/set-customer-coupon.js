@@ -10,11 +10,11 @@ module.exports = {
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
+    const couponExists = await dashboard.RedisList.exists(`${req.appid}:coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }
-    const customerExists = await dashboard.RedisList.exists(`customers`, req.query.customerid)
+    const customerExists = await dashboard.RedisList.exists(`${req.appid}:customers`, req.query.customerid)
     if (!customerExists) {
       throw new Error('invalid-customerid')
     }
@@ -48,8 +48,8 @@ module.exports = {
     try {
       const customer = await stripe.customers.update(req.query.customerid, customerInfo, req.stripeKey)
       req.success = true
-      await dashboard.RedisList.add(`customer:coupons:${customer.id}`, req.body.couponid)
-      await dashboard.RedisList.add(`coupon:customers:${req.body.couponid}`, customer.id)
+      await dashboard.RedisList.add(`${req.appid}:customer:coupons:${customer.id}`, req.body.couponid)
+      await dashboard.RedisList.add(`${req.appid}:coupon:customers:${req.body.couponid}`, customer.id)
       return customer
     } catch (error) {
       throw new Error('unknown-error')

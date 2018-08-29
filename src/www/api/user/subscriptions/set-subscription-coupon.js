@@ -7,18 +7,18 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    const exists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+    const exists = await dashboard.RedisList.exists(`${req.appid}:subscriptions`, req.query.subscriptionid)
     if (!exists) {
       throw new Error('invalid-subscriptionid')
     }
-    const owned = await dashboard.RedisList.exists(`customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
+    const owned = await dashboard.RedisList.exists(`${req.appid}:customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
     if (!owned) {
       throw new Error('invalid-account')
     }
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
+    const couponExists = await dashboard.RedisList.exists(`${req.appid}:coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }

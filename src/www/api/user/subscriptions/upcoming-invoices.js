@@ -10,7 +10,7 @@ module.exports = {
       throw new Error('invalid-customer')
     }
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`customer:subscriptions:${req.query.customerid}`, offset)
+    const itemids = await dashboard.RedisList.list(`${req.appid}:customer:subscriptions:${req.query.customerid}`, offset)
     const invoices = []
     for (const subscriptionid of itemids) {
       const invoice = await stripe.invoices.retrieveUpcoming(req.query.customerid, subscriptionid, req.stripeKey)

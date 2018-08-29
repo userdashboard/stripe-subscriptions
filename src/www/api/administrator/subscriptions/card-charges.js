@@ -7,7 +7,7 @@ module.exports = {
       throw new Error('invalid-cardid')
     }
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const chargeids = await dashboard.RedisList.list(`card:charges:${req.query.cardid}`, offset)
+    const chargeids = await dashboard.RedisList.list(`${req.appid}:card:charges:${req.query.cardid}`, offset)
     if (!chargeids || !chargeids.length) {
       return null
     }

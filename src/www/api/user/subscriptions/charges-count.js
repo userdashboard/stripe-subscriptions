@@ -8,6 +8,6 @@ module.exports = {
     if (req.customer.id !== req.query.customerid) {
       throw new Error('invalid-customer')
     }
-    return dashboard.RedisList.count(`customer:charges:${req.query.customerid}`, req.stripeKey)
+    return dashboard.RedisList.count(`${req.appid}:customer:charges:${req.query.customerid}`, req.stripeKey)
   }
 }

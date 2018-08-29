@@ -7,7 +7,7 @@ module.exports = {
       throw new Error('invalid-customerid')
     }
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`customer:invoices:${req.query.customerid}`, offset)
+    const itemids = await dashboard.RedisList.list(`${req.appid}:customer:invoices:${req.query.customerid}`, offset)
     if (!itemids || !itemids.length) {
       return null
     }

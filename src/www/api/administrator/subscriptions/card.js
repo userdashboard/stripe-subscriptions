@@ -6,7 +6,7 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-cardid')
     }
-    const exists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
+    const exists = await dashboard.RedisList.exists(`${req.appid}:cards`, req.query.cardid)
     if (!exists) {
       throw new Error('invalid-cardid')
     }

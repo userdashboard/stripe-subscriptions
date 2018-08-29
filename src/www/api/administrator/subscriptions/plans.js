@@ -4,7 +4,7 @@ const stripe = require('stripe')()
 module.exports = {
   get: async (req) => {
     const offset = req.query && req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`plans`, offset)
+    const itemids = await dashboard.RedisList.list(`${req.appid}:plans`, offset)
     if (!itemids || !itemids.length) {
       return null
     }

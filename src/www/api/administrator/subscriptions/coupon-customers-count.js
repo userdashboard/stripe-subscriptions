@@ -5,6 +5,6 @@ module.exports = {
     if (!req.query || !req.query.couponid) {
       throw new Error('invalid-couponid')
     }
-    return dashboard.RedisList.count(`coupon:customers:${req.query.couponid}`)
+    return dashboard.RedisList.count(`${req.appid}:coupon:customers:${req.query.couponid}`)
   }
 }

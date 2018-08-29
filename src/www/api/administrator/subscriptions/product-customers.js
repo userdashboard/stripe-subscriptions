@@ -7,7 +7,7 @@ module.exports = {
       throw new Error('invalid-productid')
     }
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const itemids = await dashboard.RedisList.list(`product:customers:${req.query.productid}`, offset)
+    const itemids = await dashboard.RedisList.list(`${req.appid}:product:customers:${req.query.productid}`, offset)
     if (!itemids || !itemids.length) {
       return null
     }

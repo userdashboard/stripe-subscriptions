@@ -29,7 +29,7 @@ describe('/api/user/subscriptions/invoice', () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-      const invoiceid = await dashboard.RedisList.list(`customer:invoices:${user.customer.id}`, 0, 1)
+      const invoiceid = await dashboard.RedisList.list(`${req.appid}:customer:invoices:${user.customer.id}`, 0, 1)
       const user2 = await TestHelper.createUser()
       await TestHelper.createCustomer(user2)
       const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
@@ -54,7 +54,7 @@ describe('/api/user/subscriptions/invoice', () => {
       await TestHelper.createCard(user)
       await TestHelper.createSubscription(user, administrator.plan.id)
       await TestHelper.waitForNextItem(`subscription:invoices:${user.subscription.id}`, null)
-      const invoiceid = await dashboard.RedisList.list(`customer:invoices:${user.customer.id}`, 0, 1)
+      const invoiceid = await dashboard.RedisList.list(`${req.appid}:customer:invoices:${user.customer.id}`, 0, 1)
       const req = TestHelper.createRequest(`/api/user/subscriptions/invoice?invoiceid=${invoiceid}`, 'GET')
       req.account = user.account
       req.session = user.session

@@ -33,10 +33,10 @@ module.exports = {
         }
         await stripe.invoices.update(invoice.id, {appid: invoice.lines.data[0].plan.metadata.appid})
         await dashboard.RedisList.add('invoices', invoice.id)
-        await dashboard.RedisList.add(`customer:invoices:${customerid}`, invoice.id)
-        await dashboard.RedisList.add(`plan:invoices:${planid}`, invoice.id)
-        await dashboard.RedisList.add(`product:invoices:${productid}`, invoice.id)
-        return dashboard.RedisList.add(`subscription:invoices:${subscriptionid}`, invoice.id)
+        await dashboard.RedisList.add(`${req.appid}:customer:invoices:${customerid}`, invoice.id)
+        await dashboard.RedisList.add(`${req.appid}:plan:invoices:${planid}`, invoice.id)
+        await dashboard.RedisList.add(`${req.appid}:product:invoices:${productid}`, invoice.id)
+        return dashboard.RedisList.add(`${req.appid}:subscription:invoices:${subscriptionid}`, invoice.id)
       case 'charge.succeeded':
         charge = stripeEvent.data.object
         cardid = charge.source.id
@@ -50,16 +50,16 @@ module.exports = {
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
         await dashboard.RedisList.add('charges', charge.id)
-        await dashboard.RedisList.add(`customer:charges:${customerid}`, charge.id)
-        await dashboard.RedisList.add(`subscription:charges:${subscriptionid}`, charge.id)
-        await dashboard.RedisList.add(`subscription:cards:${subscriptionid}`, cardid)
-        await dashboard.RedisList.add(`product:charges:${productid}`, charge.id)
-        await dashboard.RedisList.add(`product:cards:${productid}`, cardid)
-        await dashboard.RedisList.add(`plan:cards:${planid}`, cardid)
-        await dashboard.RedisList.add(`plan:charges:${planid}`, charge.id)
-        await dashboard.RedisList.add(`card:charges:${cardid}`, charge.id)
-        await dashboard.RedisList.add(`card:invoices:${cardid}`, invoice.id)
-        return dashboard.RedisList.add(`card:subscriptions:${cardid}`, subscriptionid)
+        await dashboard.RedisList.add(`${req.appid}:customer:charges:${customerid}`, charge.id)
+        await dashboard.RedisList.add(`${req.appid}:subscription:charges:${subscriptionid}`, charge.id)
+        await dashboard.RedisList.add(`${req.appid}:subscription:cards:${subscriptionid}`, cardid)
+        await dashboard.RedisList.add(`${req.appid}:product:charges:${productid}`, charge.id)
+        await dashboard.RedisList.add(`${req.appid}:product:cards:${productid}`, cardid)
+        await dashboard.RedisList.add(`${req.appid}:plan:cards:${planid}`, cardid)
+        await dashboard.RedisList.add(`${req.appid}:plan:charges:${planid}`, charge.id)
+        await dashboard.RedisList.add(`${req.appid}:card:charges:${cardid}`, charge.id)
+        await dashboard.RedisList.add(`${req.appid}:card:invoices:${cardid}`, invoice.id)
+        return dashboard.RedisList.add(`${req.appid}:card:subscriptions:${cardid}`, subscriptionid)
       case 'charge.refunded':
         charge = stripeEvent.data.object
         const refund = charge.refunds.data[0]
@@ -73,11 +73,11 @@ module.exports = {
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
         await dashboard.RedisList.add('refunds', refund.id)
-        await dashboard.RedisList.add(`customer:refunds:${customerid}`, refund.id)
-        await dashboard.RedisList.add(`plan:refunds:${planid}`, refund.id)
-        await dashboard.RedisList.add(`product:refunds:${productid}`, refund.id)
-        await dashboard.RedisList.add(`subscription:refunds:${subscriptionid}`, refund.id)
-        return dashboard.RedisList.add(`card:refunds:${cardid}`, refund.id)
+        await dashboard.RedisList.add(`${req.appid}:customer:refunds:${customerid}`, refund.id)
+        await dashboard.RedisList.add(`${req.appid}:plan:refunds:${planid}`, refund.id)
+        await dashboard.RedisList.add(`${req.appid}:product:refunds:${productid}`, refund.id)
+        await dashboard.RedisList.add(`${req.appid}:subscription:refunds:${subscriptionid}`, refund.id)
+        return dashboard.RedisList.add(`${req.appid}:card:refunds:${cardid}`, refund.id)
       case 'charge.dispute.created':
         const dispute = stripeEvent.data.object
         cardid = charge.source.id
@@ -91,11 +91,11 @@ module.exports = {
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
         await dashboard.RedisList.add('disputes', dispute.id)
-        await dashboard.RedisList.add(`customer:disputes:${customerid}`, dispute.id)
-        await dashboard.RedisList.add(`plan:disputes:${planid}`, dispute.id)
-        await dashboard.RedisList.add(`product:disputes:${productid}`, dispute.id)
-        await dashboard.RedisList.add(`subscription:disputes:${subscriptionid}`, dispute.id)
-        return dashboard.RedisList.add(`card:disputes:${cardid}`, dispute.id)
+        await dashboard.RedisList.add(`${req.appid}:customer:disputes:${customerid}`, dispute.id)
+        await dashboard.RedisList.add(`${req.appid}:plan:disputes:${planid}`, dispute.id)
+        await dashboard.RedisList.add(`${req.appid}:product:disputes:${productid}`, dispute.id)
+        await dashboard.RedisList.add(`${req.appid}:subscription:disputes:${subscriptionid}`, dispute.id)
+        return dashboard.RedisList.add(`${req.appid}:card:disputes:${cardid}`, dispute.id)
       case 'payout.created':
         const payout = stripeEvent.data.object
         if (payout.metadata.testNumber && payout.metadata.testNumber !== lastTestNumber) {
@@ -111,9 +111,9 @@ module.exports = {
         planid = subscription.plan.id
         productid = subscription.plan.product
         await dashboard.RedisList.remove('subscriptions', subscription.id)
-        await dashboard.RedisList.remove(`customer:subscriptions:${req.customer.id}`, subscription.id)
-        await dashboard.RedisList.remove(`plan:subscriptions:${planid}`, subscription.id)
-        return dashboard.RedisList.remove(`product:subscriptions:${productid}`, subscription.id)
+        await dashboard.RedisList.remove(`${req.appid}:customer:subscriptions:${req.customer.id}`, subscription.id)
+        await dashboard.RedisList.remove(`${req.appid}:plan:subscriptions:${planid}`, subscription.id)
+        return dashboard.RedisList.remove(`${req.appid}:product:subscriptions:${productid}`, subscription.id)
     }
   }
 }

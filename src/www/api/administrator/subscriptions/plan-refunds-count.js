@@ -5,6 +5,6 @@ module.exports = {
     if (!req.query || !req.query.planid) {
       throw new Error('invalid-planid')
     }
-    return dashboard.RedisList.count(`plan:refunds:${req.query.planid}`)
+    return dashboard.RedisList.count(`${req.appid}:plan:refunds:${req.query.planid}`)
   }
 }

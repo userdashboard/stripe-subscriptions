@@ -5,6 +5,6 @@ module.exports = {
     if (!req.query || !req.query.productid) {
       throw new Error('invalid-productid')
     }
-    return dashboard.RedisList.count(`product:refunds:${req.query.productid}`)
+    return dashboard.RedisList.count(`${req.appid}:product:refunds:${req.query.productid}`)
   }
 }

@@ -6,11 +6,11 @@ module.exports = {
     if (!req.query || !req.query.invoiceid) {
       throw new Error('invalid-invoiceid')
     }
-    const exists = await dashboard.RedisList.exists(`invoices`, req.query.invoiceid)
+    const exists = await dashboard.RedisList.exists(`${req.appid}:invoices`, req.query.invoiceid)
     if (!exists) {
       throw new Error('invalid-invoiceid')
     }
-    const owned = await dashboard.RedisList.exists(`customer:invoices:${req.customer.id}`, req.query.invoiceid)
+    const owned = await dashboard.RedisList.exists(`${req.appid}:customer:invoices:${req.customer.id}`, req.query.invoiceid)
     if (!owned) {
       throw new Error('invalid-account')
     }

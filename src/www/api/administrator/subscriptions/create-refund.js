@@ -36,7 +36,7 @@ module.exports = {
       amount: req.body.amount,
       reason: 'requested_by_customer',
       metadata: {
-        appid: req.headers['x-appid'] || process.env.APPID
+        appid: req.appid
       }
     }
     try {

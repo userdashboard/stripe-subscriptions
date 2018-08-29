@@ -7,11 +7,11 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    const exists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+    const exists = await dashboard.RedisList.exists(`${req.appid}:subscriptions`, req.query.subscriptionid)
     if (!exists) {
       throw new Error('invalid-subscriptionid')
     }
-    const owned = await dashboard.RedisList.exists(`customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
+    const owned = await dashboard.RedisList.exists(`${req.appid}:customer:subscriptions:${req.customer.id}`, req.query.subscriptionid)
     if (!owned) {
       throw new Error('invalid-account')
     }
@@ -39,10 +39,10 @@ module.exports = {
     }
     try {
       const subscription = await stripe.subscriptions.del(req.query.subscriptionid, deleteOptions, req.stripeKey)
-      await dashboard.RedisList.remove(`subscriptions`, req.subscription.id)
-      await dashboard.RedisList.remove(`customer:subscriptions:${req.customer.id}`, req.subscription.id)
-      await dashboard.RedisList.remove(`plan:subscriptions:${req.subscription.plan.id}`, req.subscription.id)
-      await dashboard.RedisList.remove(`product:subscriptions:${req.subscription.plan.product}`, req.subscription.id)
+      await dashboard.RedisList.remove(`${req.appid}:subscriptions`, req.subscription.id)
+      await dashboard.RedisList.remove(`${req.appid}:customer:subscriptions:${req.customer.id}`, req.subscription.id)
+      await dashboard.RedisList.remove(`${req.appid}:plan:subscriptions:${req.subscription.plan.id}`, req.subscription.id)
+      await dashboard.RedisList.remove(`${req.appid}:product:subscriptions:${req.subscription.plan.product}`, req.subscription.id)
       req.success = true
       return subscription
     } catch (error) {

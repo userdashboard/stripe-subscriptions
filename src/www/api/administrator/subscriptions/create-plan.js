@@ -86,7 +86,7 @@ module.exports = {
       interval_count: req.body.interval_count || 0,
       trial_period_days: req.body.trial_period_days || 0,
       metadata: {
-        appid: req.headers['x-appid'] || process.env.APPID
+        appid: req.appid
       }
     }
     if (req.body.published) {

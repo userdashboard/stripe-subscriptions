@@ -16,7 +16,7 @@ module.exports = {
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
+    const couponExists = await dashboard.RedisList.exists(`${req.appid}:coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }

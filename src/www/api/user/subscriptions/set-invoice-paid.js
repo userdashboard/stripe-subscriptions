@@ -10,19 +10,19 @@ module.exports = {
     if (!req.body || !req.body.cardid) {
       throw new Error('invalid-cardid')
     }
-    const invoiceExists = await dashboard.RedisList.exists(`invoices`, req.query.invoiceid)
+    const invoiceExists = await dashboard.RedisList.exists(`${req.appid}:invoices`, req.query.invoiceid)
     if (!invoiceExists) {
       throw new Error('invalid-invoiceid')
     }
-    const ownInvoiceExists = await dashboard.RedisList.exists(`customer:invoices:${req.customer.id}`, req.query.invoiceid)
+    const ownInvoiceExists = await dashboard.RedisList.exists(`${req.appid}:customer:invoices:${req.customer.id}`, req.query.invoiceid)
     if (!ownInvoiceExists) {
       throw new Error('invalid-account')
     }
-    const cardExists = await dashboard.RedisList.exists(`cards`, req.body.cardid)
+    const cardExists = await dashboard.RedisList.exists(`${req.appid}:cards`, req.body.cardid)
     if (!cardExists) {
       throw new Error('invalid-cardid')
     }
-    const ownCardExists = await dashboard.RedisList.exists(`customer:cards:${req.customer.id}`, req.body.cardid)
+    const ownCardExists = await dashboard.RedisList.exists(`${req.appid}:customer:cards:${req.customer.id}`, req.body.cardid)
     if (!ownCardExists) {
       throw new Error('invalid-account')
     }

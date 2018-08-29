@@ -5,6 +5,6 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-cardid')
     }
-    return dashboard.RedisList.count(`card:charges:${req.query.cardid}`)
+    return dashboard.RedisList.count(`${req.appid}:card:charges:${req.query.cardid}`)
   }
 }

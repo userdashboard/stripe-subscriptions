@@ -19,9 +19,9 @@ module.exports = {
   delete: async (req) => {
     try {
       await stripe.coupons.del(req.query.couponid, req.stripeKey)
-      await dashboard.RedisList.remove(`coupons`, req.query.couponid)
-      await dashboard.RedisList.remove(`published:coupons`, req.query.couponid)
-      await dashboard.RedisList.remove(`unpublished:coupons`, req.query.couponid)
+      await dashboard.RedisList.remove(`${req.appid}:coupons`, req.query.couponid)
+      await dashboard.RedisList.remove(`${req.appid}:published:coupons`, req.query.couponid)
+      await dashboard.RedisList.remove(`${req.appid}:unpublished:coupons`, req.query.couponid)
       req.success = true
       return
     } catch (error) {

@@ -7,7 +7,7 @@ module.exports = {
       throw new Error('invalid-planid')
     }
     const offset = req.query.offset ? parseInt(req.query.offset, 10) : 0
-    const invoiceids = await dashboard.RedisList.list(`plan:invoices:${req.query.planid}`, offset)
+    const invoiceids = await dashboard.RedisList.list(`${req.appid}:plan:invoices:${req.query.planid}`, offset)
     if (!invoiceids || !invoiceids.length) {
       return null
     }

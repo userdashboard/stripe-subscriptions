@@ -2,6 +2,6 @@ const dashboard = require('@userappstore/dashboard')
 
 module.exports = {
   get: async (req) => {
-    return dashboard.RedisList.count(`charges`)
+    return dashboard.RedisList.count(`${req.appid}:charges`)
   }
 }

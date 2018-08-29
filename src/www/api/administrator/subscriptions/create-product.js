@@ -25,7 +25,7 @@ module.exports = {
       statement_descriptor: req.body.statement_descriptor,
       unit_label: req.body.unit_label,
       metadata: {
-        appid: req.headers['x-appid'] || process.env.APPID
+        appid: req.appid
       }
     }
     if (req.body.published) {

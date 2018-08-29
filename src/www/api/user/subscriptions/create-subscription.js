@@ -38,7 +38,7 @@ module.exports = {
         plan: req.query.planid
       }],
       metadata: {
-        appid: req.headers['x-appid'] || process.env.APPID
+        appid: req.appid
       }
     }
     const plan = req.plan || await global.api.user.subscriptions.PublishedPlan.get(req)
@@ -47,12 +47,12 @@ module.exports = {
     }
     try {
       const subscription = await stripe.subscriptions.create(subscriptionInfo, req.stripeKey)
-      await dashboard.RedisList.add(`subscriptions`, subscription.id)
-      await dashboard.RedisList.add(`customer:subscriptions:${req.customer.id}`, subscription.id)
-      await dashboard.RedisList.add(`plan:subscriptions:${req.query.planid}`, subscription.id)
-      await dashboard.RedisList.add(`product:subscriptions:${plan.product}`, subscription.id)
-      await dashboard.RedisList.add(`plan:customers:${req.query.planid}`, req.customer.id)
-      await dashboard.RedisList.add(`product:customers:${plan.product}`, req.customer.id)
+      await dashboard.RedisList.add(`${req.appid}:subscriptions`, subscription.id)
+      await dashboard.RedisList.add(`${req.appid}:customer:subscriptions:${req.customer.id}`, subscription.id)
+      await dashboard.RedisList.add(`${req.appid}:plan:subscriptions:${req.query.planid}`, subscription.id)
+      await dashboard.RedisList.add(`${req.appid}:product:subscriptions:${plan.product}`, subscription.id)
+      await dashboard.RedisList.add(`${req.appid}:plan:customers:${req.query.planid}`, req.customer.id)
+      await dashboard.RedisList.add(`${req.appid}:product:customers:${plan.product}`, req.customer.id)
       req.success = true
       return subscription
     } catch (error) {

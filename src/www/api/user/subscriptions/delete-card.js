@@ -7,11 +7,11 @@ module.exports = {
     if (!req.query || !req.query.cardid) {
       throw new Error('invalid-subscriptionid')
     }
-    const exists = await dashboard.RedisList.exists(`cards`, req.query.cardid)
+    const exists = await dashboard.RedisList.exists(`${req.appid}:cards`, req.query.cardid)
     if (!exists) {
       throw new Error('invalid-cardid')
     }
-    const owned = await dashboard.RedisList.exists(`customer:cards:${req.customer.id}`, req.query.cardid)
+    const owned = await dashboard.RedisList.exists(`${req.appid}:customer:cards:${req.customer.id}`, req.query.cardid)
     if (!owned) {
       throw new Error('invalid-account')
     }
@@ -28,7 +28,7 @@ module.exports = {
     try {
       await stripe.customers.deleteSource(req.customer.id, req.query.cardid, req.stripeKey)
       await dashboard.RedisList.remove('cards', req.query.cardid)
-      await dashboard.RedisList.remove(`customer:cards:${req.customer.id}`, req.query.cardid)
+      await dashboard.RedisList.remove(`${req.appid}:customer:cards:${req.customer.id}`, req.query.cardid)
       await global.redisClient.hdelAsync(`map:cardid:customerid`, req.query.cardid)
       req.success = true
     } catch (error) {

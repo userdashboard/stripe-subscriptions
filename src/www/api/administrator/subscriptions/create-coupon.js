@@ -106,7 +106,7 @@ module.exports = {
       duration: req.body.duration || null,
       redeem_by: req.body.expires,
       metadata: {
-        appid: req.headers['x-appid'] || process.env.APPID
+        appid: req.appid
       }
     }
     if (req.body.amount_off) {

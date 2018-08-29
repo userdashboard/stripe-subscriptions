@@ -7,14 +7,14 @@ module.exports = {
     if (!req.query || !req.query.subscriptionid) {
       throw new Error('invalid-subscriptionid')
     }
-    const subscriptionExists = await dashboard.RedisList.exists(`subscriptions`, req.query.subscriptionid)
+    const subscriptionExists = await dashboard.RedisList.exists(`${req.appid}:subscriptions`, req.query.subscriptionid)
     if (!subscriptionExists) {
       throw new Error('invalid-subscriptionid')
     }
     if (!req.body || !req.body.couponid) {
       throw new Error('invalid-couponid')
     }
-    const couponExists = await dashboard.RedisList.exists(`coupons`, req.body.couponid)
+    const couponExists = await dashboard.RedisList.exists(`${req.appid}:coupons`, req.body.couponid)
     if (!couponExists) {
       throw new Error('invalid-couponid')
     }
@@ -48,8 +48,8 @@ module.exports = {
     try {
       const subscription = await stripe.subscriptions.update(req.query.subscriptionid, subscriptionInfo, req.stripeKey)
       req.success = true
-      await dashboard.RedisList.add(`subscription:coupons:${req.query.subscriptionid}`, req.body.couponid)
-      await dashboard.RedisList.add(`coupon:subscriptions:${req.body.couponid}`, req.query.subscriptionid)
+      await dashboard.RedisList.add(`${req.appid}:subscription:coupons:${req.query.subscriptionid}`, req.body.couponid)
+      await dashboard.RedisList.add(`${req.appid}:coupon:subscriptions:${req.body.couponid}`, req.query.subscriptionid)
       return subscription
     } catch (error) {
       throw new Error('unknown-error')

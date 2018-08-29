@@ -31,6 +31,7 @@ module.exports = {
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
+        await stripe.invoices.update(invoice.id, {appid: invoice.lines.data[0].plan.metadata.appid})
         await dashboard.RedisList.add('invoices', invoice.id)
         await dashboard.RedisList.add(`customer:invoices:${customerid}`, invoice.id)
         await dashboard.RedisList.add(`plan:invoices:${planid}`, invoice.id)
@@ -43,6 +44,7 @@ module.exports = {
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
+        await stripe.charges.update(charge.id, {appid: invoice.metadata.appid})
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
@@ -83,6 +85,7 @@ module.exports = {
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
+        await stripe.disputes.update(dispute.id, {appid: invoice.metadata.appid})
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id

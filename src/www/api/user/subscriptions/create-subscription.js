@@ -36,8 +36,11 @@ module.exports = {
       customer: req.customer.id,
       items: [{
         plan: req.query.planid
-      }]
-    }    
+      }],
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.APPID
+      }
+    }
     const plan = req.plan || await global.api.user.subscriptions.PublishedPlan.get(req)
     if (!req.customer.default_source && plan.amount) {
       throw new Error('invalid-cardid')

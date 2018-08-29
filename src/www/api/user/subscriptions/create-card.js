@@ -25,6 +25,9 @@ module.exports = {
         cvc: req.body.cvc,
         exp_month: req.body.exp_month,
         exp_year: req.body.exp_year
+      },
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.appid
       }
     }
     for (const field of ['address_line1', 'address_line2', 'address_city', 'address_state', 'address_zip', 'address_country']) {

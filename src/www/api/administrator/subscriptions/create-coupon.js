@@ -104,7 +104,10 @@ module.exports = {
     const couponInfo = {
       id: req.body.couponid,
       duration: req.body.duration || null,
-      redeem_by: req.body.expires
+      redeem_by: req.body.expires,
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.APPID
+      }
     }
     if (req.body.amount_off) {
       couponInfo.amount_off = req.body.amount_off
@@ -119,9 +122,7 @@ module.exports = {
       couponInfo.max_redemptions = req.body.max_redemptions
     }
     if (req.body.published) {
-      couponInfo.metadata = {
-        published: dashboard.Timestamp.now
-      }
+      couponInfo.metadata.published = dashboard.Timestamp.now
     }
     const coupon = await stripe.coupons.create(couponInfo, req.stripeKey)
     req.success = true

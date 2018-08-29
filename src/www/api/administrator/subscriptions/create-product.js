@@ -23,12 +23,13 @@ module.exports = {
       type: `service`,
       name: req.body.name,
       statement_descriptor: req.body.statement_descriptor,
-      unit_label: req.body.unit_label
+      unit_label: req.body.unit_label,
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.APPID
+      }
     }
     if (req.body.published) {
-      productInfo.metadata = {
-        published: dashboard.Timestamp.now
-      }
+      productInfo.metadata.published = dashboard.Timestamp.now
     }
     const product = await stripe.products.create(productInfo, req.stripeKey)
     await dashboard.RedisList.add('products', product.id)

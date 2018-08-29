@@ -84,12 +84,13 @@ module.exports = {
       amount: req.body.amount || 0,
       interval: req.body.interval,
       interval_count: req.body.interval_count || 0,
-      trial_period_days: req.body.trial_period_days || 0
+      trial_period_days: req.body.trial_period_days || 0,
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.APPID
+      }
     }
     if (req.body.published) {
-      planInfo.metadata = {
-        published: dashboard.Timestamp.now
-      }
+      planInfo.metadata.published = dashboard.Timestamp.now
     }
     if (process.env.NODE_ENV !== 'production') {
       planInfo.metadata = planInfo.metadata || {}

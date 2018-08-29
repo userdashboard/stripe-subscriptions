@@ -34,7 +34,10 @@ module.exports = {
     const refundInfo = {
       charge: req.query.chargeid,
       amount: req.body.amount,
-      reason: 'requested_by_customer'
+      reason: 'requested_by_customer',
+      metadata: {
+        appid: req.headers['x-appid'] || process.env.APPID
+      }
     }
     try {
       const refund = await stripe.refunds.create(refundInfo, req.stripeKey)

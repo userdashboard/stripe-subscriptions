@@ -14,6 +14,7 @@ module.exports = {
       email: profile.email,
       description: `${profile.firstName} ${profile.lastName}`,
       metadata: {
+        appid: req.headers['x-appid'] || process.env.appid,
         accountid: req.account.accountid,
         created: req.account.created,
         ip: req.ip,

@@ -57,7 +57,7 @@ describe('server/require-subscription', async () => {
       assert.equal(true, req.redirect)
       assert.equal(true, responseEnded)
     })
-    
+
     it('should allow customer with subscription to pass', async () => {
       const administrator = await TestHelper.createAdministrator()
       const product = await TestHelper.createProduct(administrator, {published: true})

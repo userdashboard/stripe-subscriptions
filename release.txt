@@ -1,3 +1,8 @@
+# 2018.9.6-1
+- updated Dashboard to 2018.9.4-1
+- internalized test web server
+- finished data segregation by 'appid'
+
 # 2018.8.29-1
 - added 'appid' to segregate Stripe data when a Connect account has multiple apps
 

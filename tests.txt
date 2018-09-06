@@ -1,5 +1,5 @@
 
-> @userappstore/stripe-subscriptions@1.3.0 test /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
+> @userappstore/stripe-subscriptions@2018.9.5-1 test /Users/benlowry/CloudStation/workspaces/dashboard/stripe-subscriptions
 > NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 180000
 
 
@@ -14,7 +14,7 @@
 
   proxy/x-subscriptions-header
     Subscriptions#AFTER
-      ✓ should set invoice data in header
+      ✓ should set subscription data in header
 
   server/bind-customer
     BindCustomer#AFTER
@@ -495,7 +495,7 @@
       ✓ should bind refunds to req
     Refunds#GET
       ✓ should enforce page size
-      ✓ should enforce specified offset (136234ms)
+      ✓ should enforce specified offset
 
   /administrator/subscriptions/subscription
     Subscription#BEFORE
@@ -1093,86 +1093,86 @@
   /api/user/subscriptions/cards
     Cards#GET
       ✓ should limit cards to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
+      1) should enforce page size
+      2) should enforce specified offset
 
   /api/user/subscriptions/charge
     Charge#GET
       ✓ should reject invalid charge
-      ✓ should reject other account's charge
-      ✓ should return charge data
+      3) should reject other account's charge
+      4) should return charge data
 
   /api/user/subscriptions/charges-count
     ChargesCount#GET
-      ✓ should count charges
+      5) should count charges
 
   /api/user/subscriptions/charges
     Charges#GET
-      ✓ should limit charges to one page
+      6) should limit charges to one page
 
   /api/user/subscriptions/create-card
     CreateCard#POST
-      ✓ should require name, cvc, number, exp_month and exp_year
-      ✓ should create card
+      7) should require name, cvc, number, exp_month and exp_year
+      8) should create card
 
   /api/user/subscriptions/create-customer
     CreateCustomer#POST
       ✓ should reject other accountid
-      ✓ should reject existing customer
-      ✓ should create customer
+      9) should reject existing customer
+      10) should create customer
 
   /api/user/subscriptions/create-refund
     CreateRefund#POST
       ✓ should reject invalid charge
-      ✓ should reject other account's charge
-      ✓ should create refund
+      11) should reject other account's charge
+      12) should create refund
 
   /api/user/subscriptions/create-subscription
     CreateSubscription#POST
-      ✓ should reject invalid planid
-      ✓ should reject never-published planid
-      ✓ should reject unpublished plan
-      ✓ should allow customer without card on free plan
-      ✓ should reject customer without card
-      ✓ should create authorized subscription
+      13) should reject invalid planid
+      14) should reject never-published planid
+      15) should reject unpublished plan
+      16) should allow customer without card on free plan
+      17) should reject customer without card
+      18) should create authorized subscription
 
   /api/user/subscriptions/customer
     Customer#GET
-      ✓ should reject invalid customerid
-      ✓ should reject other account's customerid
-      ✓ should return customer data
+      19) should reject invalid customerid
+      20) should reject other account's customerid
+      21) should return customer data
 
   /api/user/subscriptions/delete-card
     DeleteCard#DELETE
       ✓ should reject invalid cardid
-      ✓ should reject other account's card
-      ✓ should delete card
+      22) should reject other account's card
+      23) should delete card
 
   /api/user/subscriptions/delete-subscription
     DeleteSubscription#DELETE
       ✓ should reject invalid subscriptionid
-      ✓ should reject other account's subscription
-      ✓ should require active subscription
-      ✓ should delete subscription at period end
-      ✓ should delete subscription immediately
+      24) should reject other account's subscription
+      25) should require active subscription
+      26) should delete subscription at period end
+      27) should delete subscription immediately
 
   /api/user/subscriptions/invoice
     Invoice#GET
       ✓ should reject invalid invoice
-      ✓ should reject other account's invoice
-      ✓ should return invoice data
+      28) should reject other account's invoice
+      29) should return invoice data
 
   /api/user/subscriptions/invoices-count
     InvoicesCount#GET
-      ✓ should count charges
+      30) should count charges
 
   /api/user/subscriptions/invoices
     Invoices#GET
-      ✓ should limit invoices to one page
+      31) should limit invoices to one page
 
   /api/user/subscriptions/plan-cards-count
     PlanCardsCount#GET
-      ✓ should count all cards on plan
+      32) should count all cards on plan
 
   /api/user/subscriptions/plan-cards
     PlanCards#GET
@@ -1236,163 +1236,3 @@
 
   /api/user/subscriptions/product-invoices
     ProductInvoices#GET
-      ✓ should limit invoices to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-
-  /api/user/subscriptions/product-subscriptions-count
-    ProductSubscriptionsCount#GET
-      ✓ should count all subscriptions on product
-
-  /api/user/subscriptions/product-subscriptions
-    ProductSubscriptions#GET
-      ✓ should limit subscriptions to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-
-  /api/user/subscriptions/published-plan
-    PublishedPlan#GET
-      ✓ should not require account
-      ✓ should reject never published plan
-      ✓ should reject unpublished plan
-      ✓ should return plan data
-
-  /api/user/subscriptions/published-plans-count
-    PublishedPlansCount#GET
-      ✓ should count published plans
-
-  /api/user/subscriptions/published-plans
-    PublishedPlans#GET
-      ✓ should not require account
-      ✓ should exclude never published plans
-      ✓ should exclude unpublished plan
-      ✓ should return plan list
-
-  /api/user/subscriptions/published-product
-    PublishedProduct#GET
-      ✓ should not require account
-      ✓ should reject never published product
-      ✓ should reject unpublished product
-      ✓ should return product data
-
-  /api/user/subscriptions/published-products-count
-    PublishedProductsCount#GET
-      ✓ should count published products
-
-  /api/user/subscriptions/published-products
-    PublishedProducts#GET
-      ✓ should not require account
-      ✓ should exclude never published products
-      ✓ should exclude unpublished product
-      ✓ should limit product list to one page
-
-  /api/user/subscriptions/refund
-    Refund#GET
-      ✓ should reject invalid refund
-      ✓ should reject other account's refund
-      ✓ should return refund data
-
-  /api/user/subscriptions/refunds-count
-    RefundsCount#GET
-      ✓ should count refunds
-
-  /api/user/subscriptions/refunds
-    Refunds#GET
-      ✓ should enforce page size
-      ✓ should enforce specified offset
-
-  /api/user/subscriptions/set-customer-coupon
-    SetCustomerCoupon#PATCH
-      ✓ should reject invalid customerid
-      ✓ should reject account with coupon
-      ✓ should apply coupon
-
-  /api/user/subscriptions/set-invoice-paid
-    SetInvoicePaid#PATCH
-      ✓ should reject invalid invoiceid
-      ✓ should reject other account's invoice
-      ✓ should reject paid invoice
-      ✓ should reject forgiven invoice
-      ✓ should reject invalid source
-      ✓ should reject other account's source
-      ✓ should pay invoice
-
-  /api/user/subscriptions/set-subscription-coupon
-    SetSubscriptionCoupon#PATCH
-      ✓ should reject invalid subscriptionid
-      ✓ should reject subscription with coupon
-      ✓ should apply coupon
-
-  /api/user/subscriptions/set-subscription-plan
-    SetSubscriptionPlan#PATCH
-      ✓ should reject invalid subscriptionid
-      ✓ should reject other account's subscription
-      ✓ should reject same planid
-      ✓ should require user add card
-      ✓ should change plan
-
-  /api/user/subscriptions/subscription-cards-count
-    SubscriptionCardsCount#GET
-      ✓ should count all cards on subscriptions
-
-  /api/user/subscriptions/subscription-cards
-    SubscriptionCards#GET
-      ✓ should limit cards to one page
-      ✓ should enforce page size
-      ✓ should enforce specified offset (98777ms)
-
-  /api/user/subscriptions/subscription-charges-count
-    SubscriptionChargesCount#GET
-      ✓ should count all charges on subscription
-
-  /api/user/subscriptions/subscription-charges
-    SubscriptionCharges#GET
-      ✓ should limit charges on subscription to one page
-
-  /api/user/subscriptions/subscription-invoices-count
-    SubscriptionInvoicesCount#GET
-      ✓ should count subscription's invoices
-
-  /api/user/subscriptions/subscription-invoices
-    SubscriptionInvoices#GET
-      ✓ should limit invoices on subscription to one page
-
-  /api/user/subscriptions/subscription-refunds-count
-    SubscriptionRefundsCount#GET
-      ✓ should count all refunds on subscription
-
-  /api/user/subscriptions/subscription-refunds
-    SubscriptionRefunds#GET
-      ✓ should limit refunds on subscription to one page
-
-  /api/user/subscriptions/subscription
-    Subscription#GET
-      ✓ should reject invalid subscriptionid
-      ✓ should reject other account's subscription
-      ✓ should return subscription data
-
-  /api/user/subscriptions/subscriptions-count
-    SubscriptionsCount#GET
-      ✓ should count published subscriptions
-
-  /api/user/subscriptions/subscriptions
-    Subscriptions#GET
-      ✓ should return subscription list
-
-  /api/user/subscriptions/upcoming-invoice
-    Upcominginvoice#GET
-      ✓ should reject invalid subscriptionid
-      ✓ should reject other account's subscription
-      ✓ should return upcoming invoice for subscription
-
-  /api/user/subscriptions/upcoming-invoices-count
-    UpcominginvoicesCount#GET
-      ✓ should count upcoming invoices
-
-  /api/user/subscriptions/upcoming-invoices
-    UpcomingInvoices#GET
-      ✓ should return upcoming invoice for each subscription
-
-
-  616 passing (3h)
-

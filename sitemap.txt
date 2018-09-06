@@ -1,4 +1,4 @@
-@userappstore/dashboard 2018.8.22-1
+@userappstore/dashboard 2018.9.5-1
 http://localhost:8000
 
 Administrator menu:
@@ -24,16 +24,18 @@ Content handlers:
 @userappstore/dashboard/src/content/session-unlocked-header.js
 
 Server handlers:
-@userappstore/dashboard/src/server/bind-urlpath.js
 @userappstore/dashboard/src/server/bind-route.js
 @userappstore/dashboard/src/server/bind-ip.js
-@userappstore/dashboard/src/server/bind-extension.js
 @userappstore/dashboard/src/server/bind-useragent.js
 @userappstore/dashboard/src/server/bind-query.js
 @userappstore/dashboard/src/server/bind-body.js
 @userappstore/dashboard/src/server/bind-cookie.js
 @userappstore/dashboard/src/server/bind-impersonated-session.js
+@userappstore/dashboard/src/server/clear-expired-unlock.js
+@userappstore/dashboard/src/server/restrict-locked-session-url.js
+@userappstore/dashboard/src/server/restore-locked-session-data.js
 @userappstore/maxmind-geoip/src/server/bind-country.js
+/src/server/bind-appid.js
 /src/server/bind-stripekey.js
 /src/server/bind-customer.js
 

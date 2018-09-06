@@ -1,6 +1,6 @@
 {
   "name": "@userappstore/stripe-subscriptions",
-  "version": "2018.8.29-1",
+  "version": "2018.9.6-1",
   "main": "index.js",
   "description": "Stripe Subscription module for Dashboard",
   "engine": {
@@ -17,8 +17,8 @@
     "test": "NODE_ENV=testing mocha src --recursive --timeout 180000 --slow 180000"
   },
   "dependencies": {
-    "@userappstore/dashboard": "^2018.8.23-2",
-    "@userappstore/maxmind-geoip": "^2018.8.23-2",
+    "@userappstore/dashboard": "^2018.9.5-1",
+    "@userappstore/maxmind-geoip": "^2018.9.5-1",
     "stripe": "^4.25.0"
   },
   "dashboard": {
@@ -43,6 +43,7 @@
       "@userappstore/maxmind-geoip"
     ],
     "server": [
+      "/src/server/bind-appid.js",
       "/src/server/bind-stripekey.js",
       "/src/server/bind-customer.js"
     ]

@@ -29,7 +29,6 @@ mocha_basic:
     - export SILENT_START=true
     - export REDIS_URL=redis://redis:6379
     - export NODE_ENV=testing
-    - node main.js &
     - ./ngrok authtoken $NGROK_AUTH_TOKEN
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
   script:
@@ -50,7 +49,6 @@ mocha_encrypted:
     - export NODE_ENV=testing
     - export REDIS_ENCRYPTION_KEY="Test encryption key"
     - export REDIS_KEY_HASH="Another test encryption key"
-    - node main.js &
     - ./ngrok authtoken $NGROK_AUTH_TOKEN
     - ./ngrok http 8000 -subdomain=$NGROK_SUBDOMAIN &
   script:

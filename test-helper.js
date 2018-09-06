@@ -1,19 +1,24 @@
 /* eslint-env mocha */
+process.env.NODE_ENV = 'testing'
+process.env.SILENT_START = 'true'
+process.env.ALLOW_PUBLIC_API = 'true'
+process.env.PORT = 8000
+process.env.APPID = 'app'
+
 const dashboard = require('@userappstore/dashboard')
 const stripe = require('stripe')()
 const util = require('util')
-
-process.env.STRIPE_KEY = process.env.STRIPE_KEY
-process.env.NODE_ENV = 'testing'
-const stripeKey = {api_key: process.env.STRIPE_KEY}
+const stripeKey = {
+  api_key: process.env.STRIPE_KEY
+}
 
 const TestHelper = module.exports = dashboard.loadTestHelper()
-dashboard.setup(__dirname)
-global.redisClient.select(4)
+dashboard.start(__dirname)
 
 const createRequestWas = module.exports.createRequest
 module.exports.createRequest = (rawURL, method) => {
   const req = createRequestWas(rawURL, method)
+  req.appid = 'app'
   req.stripeKey = stripeKey
   return req
 }
@@ -53,6 +58,10 @@ async function setup () {
   global.PAGE_SIZE = 2
 }
 
+after(() => {
+  dashboard.stop()
+})
+
 let productNumber = 0
 async function createProduct (administrator, properties) {
   productNumber++
@@ -74,10 +83,10 @@ async function createProduct (administrator, properties) {
   let product = await req.route.api.post(req)
   if (properties && properties.unpublished) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-product-unpublished?productid=${product.id}`, 'PATCH')
-    req2.administratorSession = req2.session = administrator.session
-    req2.administratorAccount = req2.account = administrator.account
+    req2.administratorSession = req2.session = req.session
+    req2.administratorAccount = req2.account = req.account
     await req2.route.api.patch(req2)
-    req.session = await TestHelper.unlockSession(administrator)
+    req2.administratorSession = req2.session = await TestHelper.unlockSession(administrator)
     product = await req2.route.api.patch(req2)
   }
   administrator.session = await dashboard.Session.load(administrator.session.sessionid)
@@ -107,14 +116,15 @@ async function createPlan (administrator, properties) {
     }
   }
   await req.route.api.post(req)
-  req.session = await TestHelper.unlockSession(administrator)
+  req.administratorSession = req.session = await TestHelper.unlockSession(administrator)
   let plan = await req.route.api.post(req)
+  req.administratorSession = req.session = await dashboard.Session.load(administrator.session.sessionid)
   if (properties && properties.unpublished) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-plan-unpublished?planid=${plan.id}`, 'PATCH')
-    req2.administratorSession = req2.session = administrator.session
-    req2.administratorAccount = req2.account = administrator.account
+    req2.administratorSession = req2.session = req.session
+    req2.administratorAccount = req2.account = req.account
     await req2.route.api.patch(req2)
-    req.session = await TestHelper.unlockSession(administrator)
+    req2.administratorSession = req2.session = await TestHelper.unlockSession(administrator)
     plan = await req2.route.api.patch(req2)
   }
   administrator.plan = plan
@@ -147,10 +157,10 @@ async function createCoupon (administrator, properties) {
   let coupon = await req.route.api.post(req)
   if (properties && properties.unpublished) {
     const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/set-coupon-unpublished?couponid=${coupon.id}`, 'PATCH')
-    req2.administratorSession = req2.session = administrator.session
-    req2.administratorAccount = req2.account = administrator.account
+    req2.administratorSession = req2.session = req.session
+    req2.administratorAccount = req2.account = req.account
     await req2.route.api.patch(req2)
-    req2.session = await TestHelper.unlockSession(administrator)
+    req2.administratorSession = req2.session = await TestHelper.unlockSession(administrator)
     coupon = await req2.route.api.patch(req2)
   }
   administrator.coupon = coupon
@@ -167,8 +177,8 @@ async function createRefund (administrator, chargeid) {
   req.administratorAccount = req.account = administrator.account
   const charge = await req.route.api.get(req)
   const req2 = TestHelper.createRequest(`/api/administrator/subscriptions/create-refund?chargeid=${charge.id}`, 'POST')
-  req2.administratorSession = req2.session = administrator.session
-  req2.administratorAccount = req2.account = administrator.account
+  req2.administratorSession = req2.session = req.session
+  req2.administratorAccount = req2.account = req.account
   req2.body = {
     chargeid: charge.id,
     amount: charge.amount,
@@ -434,7 +444,7 @@ async function waitForNextItem (collection, previousid, callback) {
     previousid = null
   }
   async function wait () {
-    const itemids = await dashboard.RedisList.list(collection, 0, 1)
+    const itemids = await dashboard.RedisList.list(`app:${collection}`, 0, 1)
     if (!itemids || !itemids.length) {
       return setTimeout(wait, 10)
     }

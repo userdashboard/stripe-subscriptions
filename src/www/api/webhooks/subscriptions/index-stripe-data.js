@@ -26,13 +26,16 @@ module.exports = {
         invoice = stripeEvent.data.object
         customerid = invoice.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
+        if (subscriptionid.id) {
+          subscriptionid = subscriptionid.id
+        }
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
-        await stripe.invoices.update(invoice.id, {appid: invoice.lines.data[0].plan.metadata.appid}, req.stripeKey)
-        await dashboard.RedisList.add('invoices', invoice.id)
+        await stripe.invoices.update(invoice.id, {metadata: {appid: req.appid}}, req.stripeKey)
+        await dashboard.RedisList.add(`${req.appid}:invoices`, invoice.id)
         await dashboard.RedisList.add(`${req.appid}:customer:invoices:${customerid}`, invoice.id)
         await dashboard.RedisList.add(`${req.appid}:plan:invoices:${planid}`, invoice.id)
         await dashboard.RedisList.add(`${req.appid}:product:invoices:${productid}`, invoice.id)
@@ -44,12 +47,12 @@ module.exports = {
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
-        await stripe.charges.update(charge.id, {appid: invoice.metadata.appid}, req.stripeKey)
+        await stripe.charges.update(charge.id, {metadata: {appid: req.appid}}, req.stripeKey)
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
-        await dashboard.RedisList.add('charges', charge.id)
+        await dashboard.RedisList.add(`${req.appid}:charges`, charge.id)
         await dashboard.RedisList.add(`${req.appid}:customer:charges:${customerid}`, charge.id)
         await dashboard.RedisList.add(`${req.appid}:subscription:charges:${subscriptionid}`, charge.id)
         await dashboard.RedisList.add(`${req.appid}:subscription:cards:${subscriptionid}`, cardid)
@@ -72,7 +75,7 @@ module.exports = {
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
-        await dashboard.RedisList.add('refunds', refund.id)
+        await dashboard.RedisList.add(`${req.appid}:refunds`, refund.id)
         await dashboard.RedisList.add(`${req.appid}:customer:refunds:${customerid}`, refund.id)
         await dashboard.RedisList.add(`${req.appid}:plan:refunds:${planid}`, refund.id)
         await dashboard.RedisList.add(`${req.appid}:product:refunds:${productid}`, refund.id)
@@ -85,12 +88,12 @@ module.exports = {
         if (invoice.lines.data[0].plan.metadata.testNumber && invoice.lines.data[0].plan.metadata.testNumber !== lastTestNumber) {
           return
         }
-        await stripe.disputes.update(dispute.id, {appid: invoice.metadata.appid}, req.stripeKey)
+        await stripe.disputes.update(dispute.id, {metadata: {appid: req.appid}}, req.stripeKey)
         customerid = charge.customer
         subscriptionid = invoice.subscription || invoice.lines.data[0].subscription
         planid = invoice.lines.data[0].plan.id
         productid = invoice.lines.data[0].plan.product
-        await dashboard.RedisList.add('disputes', dispute.id)
+        await dashboard.RedisList.add(`${req.appid}:disputes`, dispute.id)
         await dashboard.RedisList.add(`${req.appid}:customer:disputes:${customerid}`, dispute.id)
         await dashboard.RedisList.add(`${req.appid}:plan:disputes:${planid}`, dispute.id)
         await dashboard.RedisList.add(`${req.appid}:product:disputes:${productid}`, dispute.id)
@@ -101,7 +104,7 @@ module.exports = {
         if (payout.metadata.testNumber && payout.metadata.testNumber !== lastTestNumber) {
           return
         }
-        return dashboard.RedisList.add('payouts', payout.id)
+        return dashboard.RedisList.add(`${req.appid}:payouts`, payout.id)
       case 'customer.subscription.deleted':
         const subscription = stripeEvent.data.object
         if (subscription.plan.metadata.testNumber && subscription.plan.metadata.testNumber !== lastTestNumber) {
@@ -110,7 +113,7 @@ module.exports = {
         customerid = subscription.customer
         planid = subscription.plan.id
         productid = subscription.plan.product
-        await dashboard.RedisList.remove('subscriptions', subscription.id)
+        await dashboard.RedisList.remove(`${req.appid}subscriptions`, subscription.id)
         await dashboard.RedisList.remove(`${req.appid}:customer:subscriptions:${req.customer.id}`, subscription.id)
         await dashboard.RedisList.remove(`${req.appid}:plan:subscriptions:${planid}`, subscription.id)
         return dashboard.RedisList.remove(`${req.appid}:product:subscriptions:${productid}`, subscription.id)

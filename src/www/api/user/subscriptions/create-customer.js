@@ -23,7 +23,7 @@ module.exports = {
     }
     const customer = await stripe.customers.create(customerInfo, req.stripeKey)
     await dashboard.RedisObject.setProperty(req.account.accountid, `customerid`, customer.id)
-    await dashboard.RedisList.add('customers', customer.id)
+    await dashboard.RedisList.add(`${req.appid}:customers`, customer.id)
     req.success = true
     return customer
   }

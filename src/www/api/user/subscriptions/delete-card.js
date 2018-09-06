@@ -27,7 +27,7 @@ module.exports = {
   delete: async (req) => {
     try {
       await stripe.customers.deleteSource(req.customer.id, req.query.cardid, req.stripeKey)
-      await dashboard.RedisList.remove('cards', req.query.cardid)
+      await dashboard.RedisList.remove(`${req.appid}:cards`, req.query.cardid)
       await dashboard.RedisList.remove(`${req.appid}:customer:cards:${req.customer.id}`, req.query.cardid)
       await global.redisClient.hdelAsync(`map:cardid:customerid`, req.query.cardid)
       req.success = true

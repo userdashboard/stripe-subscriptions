@@ -20,7 +20,7 @@ module.exports = {
     } catch (error) {
     }
     if (!card) {
-      throw new Error('invalid-cardid')
+      throw new Error('invalid-cardi')
     }
     if (card.customer !== req.customer.id) {
       throw new Error('invalid-account')

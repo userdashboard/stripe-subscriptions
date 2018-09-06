@@ -110,9 +110,9 @@ module.exports = {
     try {
       const plan = await stripe.plans.create(planInfo, req.stripeKey)
       req.success = true
-      await dashboard.RedisList.add('plans', plan.id)
+      await dashboard.RedisList.add(`${req.appid}:plans`, plan.id)
       if (plan.metadata.published) {
-        await dashboard.RedisList.add('published:plans', plan.id)
+        await dashboard.RedisList.add(`${req.appid}:published:plans`, plan.id)
       }
       return plan
     } catch (error) {

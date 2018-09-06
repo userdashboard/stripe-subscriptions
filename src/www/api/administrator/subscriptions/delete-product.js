@@ -19,9 +19,9 @@ module.exports = {
   delete: async (req) => {
     try {
       await stripe.products.del(req.query.productid, req.stripeKey)
-      await dashboard.RedisList.remove('products', req.query.productid)
-      await dashboard.RedisList.remove('published:products', req.query.productid)
-      await dashboard.RedisList.remove('unpublished:products', req.query.productid)
+      await dashboard.RedisList.remove(`${req.appid}:products`, req.query.productid)
+      await dashboard.RedisList.remove(`${req.appid}:published:products`, req.query.productid)
+      await dashboard.RedisList.remove(`${req.appid}:unpublished:products`, req.query.productid)
       req.success = true
     } catch (error) {
       throw new Error('unknown-error')

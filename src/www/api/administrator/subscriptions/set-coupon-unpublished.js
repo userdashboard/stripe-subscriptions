@@ -27,8 +27,8 @@ module.exports = {
     }
     try {
       const coupon = await stripe.coupons.update(req.query.couponid, updateInfo, req.stripeKey)
-      await dashboard.RedisList.remove('published:coupons', req.query.couponid)
-      await dashboard.RedisList.add('unpublished:coupons', req.query.couponid)
+      await dashboard.RedisList.remove(`${req.appid}:published:coupons`, req.query.couponid)
+      await dashboard.RedisList.add(`${req.appid}:unpublished:coupons`, req.query.couponid)
       req.success = true
       return coupon
     } catch (error) {

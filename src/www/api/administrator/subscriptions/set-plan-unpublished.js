@@ -27,8 +27,8 @@ module.exports = {
     }
     try {
       const plan = await stripe.plans.update(req.query.planid, updateInfo, req.stripeKey)
-      await dashboard.RedisList.remove('published:plans', req.query.planid)
-      await dashboard.RedisList.add('unpublished:plans', req.query.planid)
+      await dashboard.RedisList.remove(`${req.appid}:published:plans`, req.query.planid)
+      await dashboard.RedisList.add(`${req.appid}:unpublished:plans`, req.query.planid)
       req.success = true
       return plan
     } catch (error) {

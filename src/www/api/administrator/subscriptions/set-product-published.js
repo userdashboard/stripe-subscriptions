@@ -27,7 +27,7 @@ module.exports = {
     }
     try {
       const product = await stripe.products.update(req.query.productid, updateInfo, req.stripeKey)
-      await dashboard.RedisList.add('published:products', req.query.productid)
+      await dashboard.RedisList.add(`${req.appid}:published:products`, req.query.productid)
       req.success = true
       return product
     } catch (error) {

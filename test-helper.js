@@ -241,6 +241,7 @@ async function createCustomer (user) {
   const customer = await req.route.api.post(req)
   user.customer = customer
   user.session = await dashboard.Session.load(user.session.sessionid)
+  user.account = await dashboard.Account.load(user.account.accountid)
   if (user.session.lock || user.session.unlocked) {
     throw new Error('session status is locked or unlocked when it should be nothing')
   }

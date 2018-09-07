@@ -25,7 +25,6 @@ describe(`/api/user/subscriptions/create-customer`, () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user.account.accountid}`, 'POST')
       req.account = user.account
       req.session = user.session
-      await req.route.api.post(req)
       let errorMessage
       try {
         await req.route.api.post(req)
@@ -40,8 +39,8 @@ describe(`/api/user/subscriptions/create-customer`, () => {
       const req = TestHelper.createRequest(`/api/user/subscriptions/create-customer?accountid=${user.account.accountid}`, 'POST')
       req.account = user.account
       req.session = user.session
-      await req.route.api.post(req)
-      assert.notEqual(null, req.account.customerid)
+      const customer = await req.route.api.post(req)
+      assert.notEqual(null, customer)
     })
   })
 })

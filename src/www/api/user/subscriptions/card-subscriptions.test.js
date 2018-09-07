@@ -14,11 +14,11 @@ describe('/api/user/subscriptions/card-subscriptions', () => {
       await TestHelper.createCustomer(user)
       await TestHelper.createCard(user)
       const subscription1 = await TestHelper.createSubscription(user, plan1.id)
-      await TestHelper.waitForNextItem(`subscription:cards:${subscription1.id}`, null)
+      await TestHelper.waitForNextItem(`card:subscriptions:${user.card.id}`, null)
       const subscription2 = await TestHelper.createSubscription(user, plan2.id)
-      await TestHelper.waitForNextItem(`subscription:cards:${subscription2.id}`, null)
+      await TestHelper.waitForNextItem(`card:subscriptions:${user.card.id}`, subscription1.id)
       const subscription3 = await TestHelper.createSubscription(user, plan3.id)
-      await TestHelper.waitForNextItem(`subscription:cards:${subscription3.id}`, null)
+      await TestHelper.waitForNextItem(`card:subscriptions:${user.card.id}`, subscription2.id)
       const req = TestHelper.createRequest(`/api/user/subscriptions/card-subscriptions?cardid=${user.card.id}`, 'GET')
       req.account = user.account
       req.session = user.session

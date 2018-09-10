@@ -1,5 +1,5 @@
 @userappstore/dashboard 2018.9.5-1
-http://localhost:8000
+http://stripe-subscriptions-ci.ngrok.io
 
 Administrator menu:
 /administrator/subscriptions "Stripe Subscriptions module"

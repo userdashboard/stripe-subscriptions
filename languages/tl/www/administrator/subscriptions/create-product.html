@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Lumikha ng produkto</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Lumikha ng produkto</h1>
+  <p translate="yes">Inilarawan ng mga produkto ang mga nilalaman ng mga plano.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Pangalan</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Label ng yunit (halimbawa, tao, pangkat, upuan)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Paglalarawan ng singilin sa mga pahayag sa bangko</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Error! Hindi wastong pangalan ng produkto
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Error! Ang pangalan ng produkto ay masyadong maikli o masyadong mahaba
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Error! Hindi wastong paglalarawan sa singil
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Error! Hindi wasto o nawawalang label ng yunit
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Tagumpay! Ang produkto ay nilikha
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Error! May naganap na error sa pagsusumite ng produkto
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Төлемді қайтаруды сұраңыз ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Төлемді қайтаруды сұраңыз ${invoice.id}</h1>
+  <p translate="yes">Қайтарулар қайта қаралуы керек және шығындарға байланысты берілуі немесе қабылданбауы мүмкін.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Себеп</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Сіздің қайтару сұрауыңыз қабылданбады
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Қате! Жарамсыз немесе жоқ себеп келтірілген
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Жетістік! Қайтару туралы сұрау жіберілді
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Қате! Қайтаруды сұрау кезінде қате орын алды
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      Қате! Жарамсыз төлем таңдалды
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      Қате! Жарамсыз төлем таңдалды
+    </div>
+  </template>
+</body>
+</html>

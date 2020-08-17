@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ফেরতের অনুরোধ</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ফেরতের অনুরোধ</h1>
+  <p translate="yes">ব্যবহারকারীরা কোনও অনুগ্রহকালীন সময়ে নিজেকে ফেরত দিতে পারে, তারপরে প্রশাসক-অনুমোদিত রিফান্ডগুলির জন্য অনুরোধ করে।</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">কোনও ফেরতের অনুরোধ এখনও আসে নি।</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">ক্রেতা</th>
+        <th translate="yes">চার্জের তারিখ</th>
+        <th translate="yes">পরিমাণ</th>
+        <th translate="yes">কারণ</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>${charge.dateFormatted}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.metadata.refundReason}</td>
+    </tr>
+  </template>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-invoices.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">發票</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">發票</h1>
+  <p translate="yes">創建訂閱和隨後的開票期間會生成發票。</p>
+  <div id="no-invoices">
+    <p translate="yes">尚未產生任何客戶。</p>
+  </div>
+  <table id="invoices-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">顧客</th>
+        <th translate="yes">訂閱</th>
+        <th translate="yes">結算期</th>
+        <th translate="yes">總</th>
+        <th translate="yes">日期</th>
+        <th translate="yes">狀態</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/invoices?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/administrator/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${invoice.customer}">${invoice.customer}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.lines.data[invoice.lines.data.length - 1].period.startFormatted} - ${invoice.lines.data[invoice.lines.data.length - 1].period.endFormatted}</td>
+      <td>${invoice.totalFormatted}</td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+</body>
+</html>

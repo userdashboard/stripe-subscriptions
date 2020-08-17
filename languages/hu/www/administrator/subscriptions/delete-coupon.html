@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupon.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Töröl ${coupon.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Töröl ${coupon.id}</h1>
+  <p translate="yes">A kupon azonnal törlődik, és nem állítható helyre.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/delete-coupon?couponid=${coupon.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Delete coupon</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Siker! A terv kupont törölték
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hiba! Hiba történt a kupon törlésekor
+    </div>
+  </template>
+</body>
+</html>

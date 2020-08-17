@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Aniraa i te refund no ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Aniraa i te refund no ${invoice.id}</h1>
+  <p translate="yes">Te Refunds nei te mau taata ia hiopoa e ia horoahia mai te tahi e aore ra, ia huna i te mau aitarahu e pau.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Tumu</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Ua faaerehia ta oe aniraa refund
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Hape! Ua horoahia mai te hoe faaitehia aore ra te hoe tumu
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Manuiaraa! Ua te te aniraa refund
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Hape! Ua titau te hoe hape ocurred i te hoe refund
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      Hape! Ua maitihia te hoe faaueraa faaitehia
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      Hape! Ua maitihia te hoe faaueraa faaitehia
+    </div>
+  </template>
+</body>
+</html>

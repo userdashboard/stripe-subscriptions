@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Fausia oloa</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Fausia oloa</h1>
+  <p translate="yes">Oloa faʻamatala faʻamatalaga o mea i totonu o fuafuaga.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Igoa</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Vaega igoa (eg tagata, 'au, nofoa)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Totogi faʻamatalaga i totonu o tusi tupe</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Sese! Lē saʻo le igoa oloa
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Sese! Ole igoa ole igoa e puʻupuʻu pe umi foi
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Sese! Le saʻo le faʻamatalaga faʻapitoa
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Sese! E le saʻo pe leai se igoa o iunite
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Manuia! O le oloa na faia
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Sese! O se mea sese na tupu auina mai o oloa
+    </div>
+  </template>
+</body>
+</html>

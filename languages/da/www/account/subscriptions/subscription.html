@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-subscription.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Udsigt ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Udsigt ${subscription.id}</h1>
+  <table id="subscriptions-table" class="pure-table data-table">
+    <tbody id="${subscription.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/account/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">status</th>
+        <td id="active-subscription-${subscription.id}">Active</td>
+        <td id="trial-subscription-${subscription.id}">Active (trial)</td>
+        <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+        <td id="past_due-subscription-${subscription.id}">Past due</td>
+        <td id="canceled-subscription-${subscription.id}">Canceled</td>
+        <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      </tr>
+      <tr>
+        <th translate="yes">Plan</th>
+        <td>${subscription.plan.id}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Fakturering</th>
+        <td id="day-singular-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / day</td>
+        <td id="day-multiple-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / ${subscription.interval_count} days</td>
+        <td id="week-singular-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / week</td>
+        <td id="week-multiple-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / ${subscription.interval_count} weeks</td>
+        <td id="month-singular-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / month</td>
+        <td id="month-multiple-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / ${subscription.interval_count} months</td>
+        <td id="year-singular-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / year</td>
+        <td id="year-multiple-interval-${subscription.id}">${subscription.amountFormatted} ${subscription.plan.currency} / ${subscription.interval_count} years</td>
+      </tr>
+      <tr>
+        <th translate="yes">lavet</th>
+        <td>${subscription.createdFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Næste ladning</th>
+        <td>${subscription.nextCharge}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="invoices-container">
+    <h2 translate="yes">Fakturaer</h2>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Faktura nummer</th>
+          <th translate="yes">Total</th>
+          <th translate="yes">Plan</th>
+          <th translate="yes">Erklæring beskrivelse</th>
+          <th translate="yes">Opladningsdato</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/account/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>${invoice.number}</td>
+      <td>${invoice.totalFormatted}</td>
+      <td>${invoice.lines.data[invoice.lines.data.length - 1].plan.id}</td>
+      <td>${invoice.statement_descriptor}</td>
+      <td>${invoice.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

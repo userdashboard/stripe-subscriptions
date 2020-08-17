@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" />
+  <title translate="yes">සඳහා මුදල් ආපසු දීම ප්u200dරතික්ෂේප කරන්න ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">සඳහා මුදල් ආපසු දීම ප්u200dරතික්ෂේප කරන්න ${charge.id}</h1>
+  <p translate="yes">ඔබ වැරැද්දක් කර ඇති බව පරිශීලකයාට හැඟේ නම් පරිශීලකයා මෙය ඔවුන්ගේ බැංකුව සමඟ තීව්u200dර කළ හැකිය.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/deny-refund?chargeid=${charge.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">හේතුව</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Deny refund</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      සාර්ථකත්වය! මුදල් ආපසු ගෙවීම ප්u200dරතික්ෂේප කර ඇත
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      දෝෂයකි! මුදල් ආපසු යැවීමේදී දෝෂයක් ඇතිවිය
+    </div>
+  </template>
+</body>
+</html>

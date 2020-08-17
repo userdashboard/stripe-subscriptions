@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Kho kom raug ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Kho kom raug ${product.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-product?productid=${product.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Lub npe</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Tsev ntawv (yam li cov neeg neeg, pab neeg no, lub rooj)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Thawj tswj hauj lwm nyob rau hauv nqe lus sij</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update product</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev tau zoo! Qhov khoom muaj tshiab lawm
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho kev ua yuam kev tshwm sim muab kho dua cov khoom ntawv
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid khoom lub npe
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Yuam kev! Khoom npe hu ua luv luv dhau lawm los yog mus ntev lawm
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Yuam kev! Hauj lwm lawm xwb invalid
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Yuam kev! Invalid los yog pawv tsev lo cim
+    </div>
+  </template>
+</body>
+</html>

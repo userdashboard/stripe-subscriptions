@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-setup-intent.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Tirohia ${setup_intent.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Tirohia ${setup_intent.id}</h1>P
+  <table id="setup_intents-table" class="pure-table data-table">
+    <tbody id="${setup_intent.id}">
+      <tr>
+        <th>ID</th>
+        <td>${setup_intent.id}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Kaihoko</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?setupintentid=${setup_intent.customer}">${setup_intent.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Pūkete</th>
+        <td>
+          <a href="/administrator/account?accountid=${setup_intent.metadata.accountid}">${setup_intent.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Te mana</th>
+        <td id="requires_capture" translated="yes">Requires capture</td>
+        <td id="requires_setup_method" translated="yes">Requires setup method</td>
+        <td id="requires_payment_method" translated="yes">Requires payment method</td>
+        <td id="processing"></td>
+        <td id="requires_confirmation" translated="yes">Requires confirmation</td>
+        <td id="requires_action" translated="yes">Requires action</td>
+        <td id="canceled" translated="yes">Canceled</td>
+        <td id="succeeded" translated="yes">Succeeded</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

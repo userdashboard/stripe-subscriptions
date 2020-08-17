@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plans.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Mahere</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Mahere</h1>
+  <p translate="yes">Ka hangaia e nga kaiwhakamahi he ohaurunga ki nga mahere kua whakaputaina.</p>
+  <p><a href="/administrator/subscriptions/create-plan" class="pure-button pure-button-primary" translate="yes">Hanga mahere</a></p>
+  <div id="no-plans">
+    <p translate="yes">Kaore ano kia whanaketia he mahere.</p>
+  </div>
+  <table id="plans-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Hua</th>
+        <th translate="yes">Tau</th>
+        <th translate="yes">Tauhokohoko</th>
+        <th translate="yes">Te mana</th>
+        <th translate="yes">I hanga</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?plans=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${plan.product}">${plan.product}</a>
+      </td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted}</td>
+      <td id="draft-plan-${plan.id}">Draft</td>
+      <td id="published-plan-${plan.id}">Published</td>
+      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td>${plan.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

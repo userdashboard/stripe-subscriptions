@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Veisau na ituvatuva ni ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Veisau na ituvatuva ni ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" action="/account/subscriptions/change-plan?subscriptionid=${subscription.id}" class="pure-form pure-form-stacked" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Ituvatuva oqo</label> 
+      <span id="plan-name" class="next-charge"></span>
+    </div>
+    <div class="pure-control-group">
+      <label for="source" translate="yes">Ituvatuva vou</label> 
+      <select id="planid" name="planid">
+        <option value="" translate="yes">
+          Digitaka na ituvatuva
+        </option>
+      </select>
+    </div>
+    <div id="payment-method-container" class="pure-control-group">
+      <label for="source" translate="yes">Iwalewale ni sausaumi</label>
+      <select id="paymentmethodid" name="paymentmethodid">
+        <option value="" translate="yes">
+          Digitaka na iwalewale ni sausaumi
+        </option>
+      </select>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Change plan</button>
+    </div>
+  </form>
+  <template id="plan-option-template">
+    <option value="${plan.id}">
+      ${plan.id}
+    </option>
+  </template>
+  <template id="payment-method-option-template">
+    <option value="${payment_method.id}">
+      ${payment_method.id}
+    </option>
+  </template>
+  <template id="plan-name-template">
+    <span>${plan.id}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Qaqa! Sa vakavoui na nomu saumi ka
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      Cala! E dodonu mo vakuria na itukutuku ni sausaumi taumada
+    </div>
+  </template>
+  <template id="no-plans">
+    <div class="error message" translate="yes">
+      Cala! E sega ni dua na ituvatuva e tabaki me veisau kina na
+    </div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" translate="yes">
+      Cala! A digitaki e dua na ituvatuva ni sega ni vakabau
+    </div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" translate="yes">
+      Cala! A digitaki e dua na ituvatuva ni sega ni vakabau
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Cala! A yaco e dua na cala ena vakavoui ni nomu saumi
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Mau faanahoraa</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Mau faanahoraa</h1>
+  <div id="no-plans">
+    <p translate="yes">Aita e faanahoraa e atu no te tapaoraa ia outou.</p>
+  </div>
+  <table id="plans-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Ioa</th>
+        <th translate="yes">Hoo</th>
+        <th translate="yes">Tamataraa</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/account/subscriptions/plans?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td>
+        <a href="/account/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+      </td>
+      <td>${plan.id}</td>
+      <td>${plan.price}</td>
+      <td>${plan.trial_period_days}</td>
+    </tr>
+  </template>
+</body>
+</html>

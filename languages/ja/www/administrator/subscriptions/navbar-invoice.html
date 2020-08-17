@@ -1,0 +1,8 @@
+
+<a href="/home"><img src="/public/home.svg" alt="Application home"><span translate="yes">ホーム</span></a>
+<a href="/administrator" translate="yes">行政</a>
+<a href="/administrator/subscriptions" translate="yes">サブスクリプション管理</a>
+<a href="/administrator/subscriptions/invoices" translate="yes">請求書</a>
+<a href="/administrator/subscriptions/invoice?invoiceid=${invoice.id}" translate="yes">見る ${invoice.id}</a>
+<a id="navbar-forgive-link" href="/administrator/subscriptions/forgive-invoice?invoiceid=${invoice.id}" translate="yes">請求書を許してください</a>
+<a id="navbar-refund-link" href="/administrator/subscriptions/refund-charge?chargeid=${invoice.charge}" translate="yes">請求書の払い戻し</a>

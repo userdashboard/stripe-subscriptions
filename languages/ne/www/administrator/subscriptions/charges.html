@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charges.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">शुल्क</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">शुल्क</h1>
+  <p translate="yes">रकमको साथ प्रत्येक इनभ्वाइसले चार्ज उत्पन्न गर्दछ।</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">कुनै शुल्क आएको छैन।</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">ग्राहक</th>
+        <th translate="yes">चलानी</th>
+        <th translate="yes">भुक्तान गरिएको</th>
+        <th translate="yes">रकम</th>
+        <th translate="yes">रकम फिर्ता गरियो</th>
+        <th translate="yes">मिति</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/invoice?invoiceid=${charge.invoice}">${charge.invoice}</a>
+      </td>
+      <td>${charge.paid}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.amountRefundedFormatted}</td>
+      <td>${charge.dateFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

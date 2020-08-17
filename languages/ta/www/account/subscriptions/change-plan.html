@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">திட்டத்தை மாற்றவும் ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">திட்டத்தை மாற்றவும் ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" action="/account/subscriptions/change-plan?subscriptionid=${subscription.id}" class="pure-form pure-form-stacked" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">தற்போதைய திட்டம்</label> 
+      <span id="plan-name" class="next-charge"></span>
+    </div>
+    <div class="pure-control-group">
+      <label for="source" translate="yes">புதிய திட்டம்</label> 
+      <select id="planid" name="planid">
+        <option value="" translate="yes">
+          திட்டத்தைத் தேர்ந்தெடுக்கவும்
+        </option>
+      </select>
+    </div>
+    <div id="payment-method-container" class="pure-control-group">
+      <label for="source" translate="yes">கட்டணம் செலுத்தும் முறை</label>
+      <select id="paymentmethodid" name="paymentmethodid">
+        <option value="" translate="yes">
+          கட்டண முறையைத் தேர்ந்தெடுக்கவும்
+        </option>
+      </select>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Change plan</button>
+    </div>
+  </form>
+  <template id="plan-option-template">
+    <option value="${plan.id}">
+      ${plan.id}
+    </option>
+  </template>
+  <template id="payment-method-option-template">
+    <option value="${payment_method.id}">
+      ${payment_method.id}
+    </option>
+  </template>
+  <template id="plan-name-template">
+    <span>${plan.id}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      வெற்றி! உங்கள் சந்தா புதுப்பிக்கப்பட்டது
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      பிழை! நீங்கள் முதலில் கட்டணத் தகவலைச் சேர்க்க வேண்டும்
+    </div>
+  </template>
+  <template id="no-plans">
+    <div class="error message" translate="yes">
+      பிழை! மாற்ற எந்த வெளியிடப்பட்ட திட்டங்களும் இல்லை
+    </div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" translate="yes">
+      பிழை! தவறான திட்டம் தேர்ந்தெடுக்கப்பட்டது
+    </div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" translate="yes">
+      பிழை! தவறான திட்டம் தேர்ந்தெடுக்கப்பட்டது
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      பிழை! உங்கள் சந்தாவை புதுப்பிப்பதில் பிழை ஏற்பட்டது
+    </div>
+  </template>
+</body>
+</html>

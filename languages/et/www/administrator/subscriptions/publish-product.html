@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Avalda ${product.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base target="_top">
+</head>
+<body>
+  <h1 translate="yes">Avalda ${product.id}</h1>
+  <p translate="yes">Plaane saab luua avaldatud toodete abil.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/publish-product?productid=${product.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Publish product</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Edu! Toode on avaldatud
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Viga! Toote avaldamisel ilmnes viga
+    </div>
+  </template>
+</body>
+</html>

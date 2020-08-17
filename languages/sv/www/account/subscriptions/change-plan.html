@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Ändra plan för ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Ändra plan för ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" action="/account/subscriptions/change-plan?subscriptionid=${subscription.id}" class="pure-form pure-form-stacked" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Nuvarande plan</label> 
+      <span id="plan-name" class="next-charge"></span>
+    </div>
+    <div class="pure-control-group">
+      <label for="source" translate="yes">Ny plan</label> 
+      <select id="planid" name="planid">
+        <option value="" translate="yes">
+          Välj plan
+        </option>
+      </select>
+    </div>
+    <div id="payment-method-container" class="pure-control-group">
+      <label for="source" translate="yes">Betalningsmetod</label>
+      <select id="paymentmethodid" name="paymentmethodid">
+        <option value="" translate="yes">
+          Välj betalningsmetod
+        </option>
+      </select>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Change plan</button>
+    </div>
+  </form>
+  <template id="plan-option-template">
+    <option value="${plan.id}">
+      ${plan.id}
+    </option>
+  </template>
+  <template id="payment-method-option-template">
+    <option value="${payment_method.id}">
+      ${payment_method.id}
+    </option>
+  </template>
+  <template id="plan-name-template">
+    <span>${plan.id}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Framgång! Din prenumeration har uppdaterats
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      Fel! Du måste lägga till betalningsinformation först
+    </div>
+  </template>
+  <template id="no-plans">
+    <div class="error message" translate="yes">
+      Fel! Det finns inga publicerade planer att ändra till
+    </div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" translate="yes">
+      Fel! En ogiltig plan valdes
+    </div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" translate="yes">
+      Fel! En ogiltig plan valdes
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Fel! Ett fel uppstod vid uppdatering av ditt prenumeration
+    </div>
+  </template>
+</body>
+</html>

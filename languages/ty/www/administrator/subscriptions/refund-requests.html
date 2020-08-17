@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Refund te mau titauraa</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Refund te mau titauraa</h1>
+  <p translate="yes">E nehenehe ta e taata e refund ia ratou iho i roto i te hoe pue tau maitai, i reira te aniraa i te faatere-refunds.</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">Aita e titauraa refund tei tupu.</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Hoani</th>
+        <th translate="yes">Te ohipa taio mahana</th>
+        <th translate="yes">Faito</th>
+        <th translate="yes">Tumu</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>${charge.dateFormatted}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.metadata.refundReason}</td>
+    </tr>
+  </template>
+</body>
+</html>

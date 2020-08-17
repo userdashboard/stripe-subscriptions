@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">सदस्यता बिलिंग</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">सदस्यता बिलिंग</h1>
+  <div id="message-container"></div>
+  <div id="subscriptions-container">
+    <h2 translate="yes">सदस्यता</h2>
+    <div id="no-subscriptions">
+      <p translate="yes">आपके पास कोई सदस्यता नहीं है।</p>
+    </div>
+    <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">स्थिति</th>
+          <th translate="yes">योजना</th>
+          <th translate="yes">कीमत</th>
+          <th translate="yes">शुरू कर दिया है</th>
+          <th translate="yes">अगला शुल्क</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="invoices-container">
+    <h2 translate="yes">हाल ही में चालान</h2>
+    <p translate="yes">जब भी किसी सदस्यता की बिलिंग अवधि होती है, तब भी चालान बनाए जाते हैं, भले ही वे मुफ़्त हों।</p>
+    <div id="no-invoices">
+      <p translate="yes">आपका कोई चालान नहीं है।</p>
+    </div>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">संपूर्ण</th>
+          <th translate="yes">अंशदान</th>
+          <th translate="yes">चार्ज की तारीख</th>
+          <th translate="yes">स्थिति</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="customers-container">
+    <h2 translate="yes">बिलिंग प्रोफ़ाइल</h2>
+    <p translate="yes">विभिन्न बिलिंग जानकारी के साथ सदस्यता के लिए भुगतान करें।</p>
+    <div id="no-customers">
+      <p translate="yes">आपके पास कोई बिलिंग प्रोफ़ाइल नहीं है।</p>
+    </div>
+    <table id="customers-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">कार्ड</th>
+          <th translate="yes">अंतिम 4</th>
+          <th translate="yes">समय-सीमा समाप्त</th>
+          <th translate="yes">स्थिति</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td>
+        <a href="/account/subscriptions/billing-profile?customerid=${customer.id}">${customer.id}</a>
+      </td>
+      <td>
+        <a href="mailto:${customer.email}">${customer.email}</a>
+      </td>
+      <td>${customer.description}</td>
+      <td>${customer.sources.data[0].exp_month} / ${customer.sources.data[0].exp_year}</td>
+      <td>${customer.sources.data[0].brand} ${customer.sources.data[0].last4}</td>
+    </tr>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.plan.id}</td>
+      <td id="day-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / day</td>
+      <td id="day-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">दिन</span></td>
+      <td id="week-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / week</td>
+      <td id="week-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">सप्ताह</span></td>
+      <td id="month-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / month</td>
+      <td id="month-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">महीने</span></td>
+      <td id="year-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / year</td>
+      <td id="year-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">वर्षों</span></td>
+      <td>${subscription.createdFormatted}</td>
+      <td>${subscription.nextChargeFormatted}</td>
+    </tr>
+  </template>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/account/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>${invoice.totalFormatted}</td>
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+</body>
+</html>

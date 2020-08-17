@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ليدعت ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ليدعت ${plan.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-plan?planid=${plan.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="productid" translate="yes">جتنملا</label>
+      <select name="productid" id="productid">
+        <option value="" translate="yes">
+          جتنملا ددح
+        </option>
+      </select>
+    </div>
+    <div class="pure-control-group">
+      <label for="trial_period_days" translate="yes">)027 ىصقأ دحب( ةيناجم ةيبيرجت مايأ</label>
+      <input required="" id="trial_period_days" name="trial_period_days" type="text" maxlength="3" size="3">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update plan</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ةطخلا ثيدحت مت !حاجن
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ةطخلا تامولعم ثيدحت ءانثأ أطخ ثدح !أطخ
+    </div>
+  </template>
+  <template id="product-option-template">
+    <option value="${product.id}">
+      ${product.name}
+    </option>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      ةحلاص ريغ مسا ةميق !أطخ
+    </div>
+  </template>
+  <template id="invalid-productid">
+    <div class="error message" translate="yes">
+      ةحلاص ريغ جتنملا فرعم ةميق !أطخ
+    </div>
+  </template>
+  <template id="invalid-product">
+    <div class="error message" translate="yes">
+      طق رشني مل وأ روشنم ريغ وأ حلاص ريغ جتنم !أطخ
+    </div>
+  </template>
+  <template id="invalid-trial_period_days">
+    <div class="error message" translate="yes">
+      ةحلاص ريغ ةبرجتلا ةرتف ةميق !أطخ
+    </div>
+  </template>
+</body>
+</html>

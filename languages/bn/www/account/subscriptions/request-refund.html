@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">জন্য ফেরত অনুরোধ ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">জন্য ফেরত অনুরোধ ${invoice.id}</h1>
+  <p translate="yes">ফেরতগুলি পর্যালোচনা সাপেক্ষে এবং ব্যয়ভার উপর নির্ভর করে মঞ্জুর বা অস্বীকৃত হতে পারে।</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">কারণ</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      আপনার ফেরতের অনুরোধ অস্বীকৃত হয়েছিল
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      ত্রুটি! একটি অবৈধ বা অনুপস্থিত কারণ সরবরাহ করা হয়েছিল
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      সফল! ফেরতের অনুরোধটি জমা দেওয়া হয়েছে
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ত্রুটি! ফেরতের অনুরোধে একটি ত্রুটি ঘটেছে
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      ত্রুটি! একটি অবৈধ চার্জ নির্বাচন করা হয়েছিল
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      ত্রুটি! একটি অবৈধ চার্জ নির্বাচন করা হয়েছিল
+    </div>
+  </template>
+</body>
+</html>

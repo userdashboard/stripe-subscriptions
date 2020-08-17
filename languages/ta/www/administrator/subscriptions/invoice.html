@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">காண்க ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">காண்க ${invoice.id}</h1>
+  <table id="invoices-table" class="pure-table data-table">
+    <tbody id="${invoice.id}">
+      <tr>
+        <th>ID</th>
+        <td>${invoice.id}</td>
+      </tr>
+      <tr>
+        <th translate="yes">வாடிக்கையாளர்</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?customerid=${invoice.customer}">${invoice.customer}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">சந்தா</th>
+        <td>
+          <a href="/administrator/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">எண்</th>
+        <td>${invoice.number}</td>
+      </tr>
+      <tr>
+        <th translate="yes">காலம்</th>
+        <td>${invoice.lines.data[invoice.lines.data.length - 1].period.startFormatted} - ${invoice.lines.data[invoice.lines.data.length - 1].period.endFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">செலுத்த வேண்டிய தொகை</th>
+        <td>${invoice.amount_dueFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">பணம் செலுத்தப்பட்டது</th>
+        <td>${invoice.amount_paidFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">மொத்தம்</th>
+        <td>${invoice.totalFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">தேதி</th>
+        <td>${invoice.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

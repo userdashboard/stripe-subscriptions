@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-subscription.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Amharc ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Amharc ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <table id="subscriptions-table" class="pure-table data-table">
+    <tbody id="${subscription.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Custaiméir</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?customerid=${subscription.customer.id || subscription.customer}">${subscription.customer.id || subscription.customer}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Tréimhse</th>
+        <td>${subscription.current_period_startFormatted} - ${subscription.current_period_endFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Lascaine</th>
+        <td>${subscription.discount.coupon.id}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Plean</th>
+        <td>${subscription.plan.id}</td>
+      </tr>
+      <tr id="active-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td translate="yes">Gníomhach</td>
+      </tr>
+      <tr id="canceling-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td>Active (canceling)</td>
+      </tr>
+      <tr id="trialing-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td>Trial ending ${subscription.trial_endFormatted}</td>
+      </tr>
+      <tr id="past_due-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td translate="yes">Sonrasc caite mar gheall</td>
+      </tr>
+      <tr id="canceled-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td translate="yes">Cealaithe</td>
+      </tr>
+      <tr id="unpaid-subscription-${subscription.id}">
+        <th translate="yes">Stádas</th>
+        <td translate="yes">Gan phá</td>
+      </tr>
+      <tr>
+        <th translate="yes">Cruthaithe</th>
+        <td>${subscription.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

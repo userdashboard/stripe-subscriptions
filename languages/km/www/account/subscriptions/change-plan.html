@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ផ្លាស់ប្តូរផែនការសម្រាប់ ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ផ្លាស់ប្តូរផែនការសម្រាប់ ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" action="/account/subscriptions/change-plan?subscriptionid=${subscription.id}" class="pure-form pure-form-stacked" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">ផែនការបច្ចុប្បន្ន</label> 
+      <span id="plan-name" class="next-charge"></span>
+    </div>
+    <div class="pure-control-group">
+      <label for="source" translate="yes">ផែនការថ្មី</label> 
+      <select id="planid" name="planid">
+        <option value="" translate="yes">
+          ជ្រើសរើសគំរោង
+        </option>
+      </select>
+    </div>
+    <div id="payment-method-container" class="pure-control-group">
+      <label for="source" translate="yes">វិធីសាស្រ្តទូទាត់</label>
+      <select id="paymentmethodid" name="paymentmethodid">
+        <option value="" translate="yes">
+          ជ្រើសរើសវិធីសាស្ត្រទូទាត់
+        </option>
+      </select>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Change plan</button>
+    </div>
+  </form>
+  <template id="plan-option-template">
+    <option value="${plan.id}">
+      ${plan.id}
+    </option>
+  </template>
+  <template id="payment-method-option-template">
+    <option value="${payment_method.id}">
+      ${payment_method.id}
+    </option>
+  </template>
+  <template id="plan-name-template">
+    <span>${plan.id}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ជោគជ័យ! ការជាវរបស់អ្នកត្រូវបានធ្វើបច្ចុប្បន្នភាព
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      កំហុស! អ្នកត្រូវតែបន្ថែមព័ត៌មានអំពីការបង់ប្រាក់ជាមុនសិន
+    </div>
+  </template>
+  <template id="no-plans">
+    <div class="error message" translate="yes">
+      កំហុស! មិនមានផែនការដែលបានបោះពុម្ពផ្សាយដើម្បីផ្លាស់ប្តូរ
+    </div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" translate="yes">
+      កំហុស! ផែនការមិនត្រឹមត្រូវត្រូវបានជ្រើសរើស
+    </div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" translate="yes">
+      កំហុស! ផែនការមិនត្រឹមត្រូវត្រូវបានជ្រើសរើស
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      កំហុស! កំហុសមួយបានកើតឡើងធ្វើឱ្យទាន់សម័យការជាវរបស់អ្នក
+    </div>
+  </template>
+</body>
+</html>

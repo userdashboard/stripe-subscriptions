@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" />
+  <title translate="yes">ಇದಕ್ಕಾಗಿ ಮರುಪಾವತಿಯನ್ನು ನಿರಾಕರಿಸಿ ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ಇದಕ್ಕಾಗಿ ಮರುಪಾವತಿಯನ್ನು ನಿರಾಕರಿಸಿ ${charge.id}</h1>
+  <p translate="yes">ನೀವು ತಪ್ಪಾಗಿದೆ ಎಂದು ಭಾವಿಸಿದರೆ ಬಳಕೆದಾರರು ಇದನ್ನು ತಮ್ಮ ಬ್ಯಾಂಕಿನೊಂದಿಗೆ ಹೆಚ್ಚಿಸಬಹುದು.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/deny-refund?chargeid=${charge.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">ಕಾರಣ</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Deny refund</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ಯಶಸ್ಸು! ಮರುಪಾವತಿಯನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ದೋಷ! ಮರುಪಾವತಿಯನ್ನು ಕಳುಹಿಸುವಲ್ಲಿ ದೋಷ ಸಂಭವಿಸಿದೆ
+    </div>
+  </template>
+</body>
+</html>

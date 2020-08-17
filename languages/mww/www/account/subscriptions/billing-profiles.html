@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-billing-profiles.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Teeb profiles</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Teeb profiles</h1>
+  <p><a href="/account/subscriptions/create-billing-profile" class="pure-button pure-button-primary" translate="yes">Tsim es profile</a></p>
+  <div id="no-customers">
+    <p translate="yes">Koj muaj tsis ntxiv kev faib ntaub ntawv tau.</p>
+  </div>
+  <table id="customers-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Tug</th>
+        <th translate="yes">Hauj lwm lawm</th>
+        <th translate="yes">Subscriptions them</th>
+        <th translate="yes">Dawb subscriptions</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/account/subscriptions/billing-profiles?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td>
+        <a href="/account/subscriptions/billing-profile?customerid=${customer.id}">${customer.id}</a>
+      </td>
+      <td>
+        <a href="mailto:${customer.email}">${customer.email}</a>
+      </td>
+      <td>${customer.description}</td>
+      <td>
+        <a href="/account/subscriptions/billing-profile-subscriptions?customerid=${customer.id}">${customer.paid}</a>
+      </td>
+      <td>
+        <a href="/account/subscriptions/billing-profile-subscriptions?customerid=${customer.id}">${customer.free}</a>
+      </td>
+    </tr>
+  </template>
+</body>
+</html>

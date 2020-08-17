@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupon.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Не објавувајте ${coupon.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Не објавувајте ${coupon.id}</h1>
+  <p translate="yes">Купонот веднаш ќе стане неупотреблив од кој било друг.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/unpublish-coupon?couponid=${coupon.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Необјавување на купон</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Успех! Купонот е необјавен
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Грешка! Се појави грешка при објавувањето на купонот
+    </div>
+  </template>
+</body>
+</html>

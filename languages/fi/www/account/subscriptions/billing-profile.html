@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-billing-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">näkymä ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">näkymä ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th translate="yes">Sähköposti</th>
+        <td>${customer.email}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Alennus</th>
+        <td>${customer.discount}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Tilin saldo</th>
+        <td>${customer.accountBalanceFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Vahingollinen määrä</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Tilaukset</th>
+        <td>${customer.numSubscriptions}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Luotu</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

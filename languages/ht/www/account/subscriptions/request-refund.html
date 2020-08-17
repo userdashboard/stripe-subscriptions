@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Mande ranbousman pou ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Mande ranbousman pou ${invoice.id}</h1>
+  <p translate="yes">Ranbousman yo sijè a revize epi yo ka akòde oswa refize depann de depans ki fèt.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Rezon</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Demann ranbousman ou te refize
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Erè! Yo te bay yon rezon valab oswa ki manke
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Siksè! Demann ranbousman an te pase nwit lan
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Erè! Yon erè ki te fèt pou mande yon ranbousman
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      Erè! Yo te chwazi yon chaj ki pa valab
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      Erè! Yo te chwazi yon chaj ki pa valab
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">માટે યોજના બદલો ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">માટે યોજના બદલો ${subscription.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" action="/account/subscriptions/change-plan?subscriptionid=${subscription.id}" class="pure-form pure-form-stacked" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">વર્તમાન યોજના</label> 
+      <span id="plan-name" class="next-charge"></span>
+    </div>
+    <div class="pure-control-group">
+      <label for="source" translate="yes">નવી યોજના</label> 
+      <select id="planid" name="planid">
+        <option value="" translate="yes">
+          યોજના પસંદ કરો
+        </option>
+      </select>
+    </div>
+    <div id="payment-method-container" class="pure-control-group">
+      <label for="source" translate="yes">ચુકવણી પદ્ધતિ</label>
+      <select id="paymentmethodid" name="paymentmethodid">
+        <option value="" translate="yes">
+          ચુકવણી પદ્ધતિ પસંદ કરો
+        </option>
+      </select>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Change plan</button>
+    </div>
+  </form>
+  <template id="plan-option-template">
+    <option value="${plan.id}">
+      ${plan.id}
+    </option>
+  </template>
+  <template id="payment-method-option-template">
+    <option value="${payment_method.id}">
+      ${payment_method.id}
+    </option>
+  </template>
+  <template id="plan-name-template">
+    <span>${plan.id}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      સફળતા! તમારું સબ્સ્ક્રિપ્શન અપડેટ કરવામાં આવ્યું છે
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      ભૂલ! તમારે પહેલા ચુકવણીની માહિતી ઉમેરવી આવશ્યક છે
+    </div>
+  </template>
+  <template id="no-plans">
+    <div class="error message" translate="yes">
+      ભૂલ! તેમાં બદલવાની કોઈ પ્રકાશિત યોજના નથી
+    </div>
+  </template>
+  <template id="invalid-planid">
+    <div class="error message" translate="yes">
+      ભૂલ! અમાન્ય યોજના પસંદ કરવામાં આવી હતી
+    </div>
+  </template>
+  <template id="invalid-plan">
+    <div class="error message" translate="yes">
+      ભૂલ! અમાન્ય યોજના પસંદ કરવામાં આવી હતી
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ભૂલ! તમારું સબ્સ્ક્રિપ્શન અપડેટ કરવામાં ભૂલ આવી
+    </div>
+  </template>
+</body>
+</html>

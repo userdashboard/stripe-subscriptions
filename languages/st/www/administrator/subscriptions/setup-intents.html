@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-setup-intents.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Morero oa ho qala</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Morero oa ho qala</h1>
+  <div id="message-container"></div>
+  <div id="no-setup-intents">
+    <p translate="yes">Ha ho e-so ikemisetse ho hlophisa.</p>
+  </div>
+  <table id="setup-intents-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Moreki</th>
+        <th translate="yes">Palo</th>
+        <th translate="yes">Boemo</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/setup-intents?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="setup-intent-row">
+    <tr id="${setup_intent.id}">
+      <td>
+        <a href="/administrator/subscriptions/setup-intent?setupintentid=${setup_intent.id}">${setup_intent.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${setup_intent.customer}">${setup_intent.stripeid}</a>
+      </td>
+      <td>${setup_intent.amountFormatted} ${setup_intent.currency}</td>
+      <td id="${setup_intent.id}-status"></td>
+    </tr>
+  </template>
+  <template id="requires_payment_method">
+    <span translate="yes">E hloka mokhoa oa ho patala</span>
+  </template>
+  <template id="requires_confirmation">
+    <span translate="yes">E hloka netefatso</span>
+  </template>
+  <template id="requires_action">
+    <span translate="yes">E hloka ketso</span>
+  </template>
+  <template id="processing">
+    <span translate="yes">E ntse e sebetsa</span>
+  </template>
+  <template id="canceled">
+    <span translate="yes">E felisitsoe</span>
+  </template>
+  <template id="succeeded">
+    <span translate="yes">E atlehile</span>
+  </template>
+</body>
+</html>

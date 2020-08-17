@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">សំណើសងប្រាក់វិញ</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">សំណើសងប្រាក់វិញ</h1>
+  <p translate="yes">អ្នកប្រើអាចសងប្រាក់វិញក្នុងកំឡុងពេលអនុគ្រោះបន្ទាប់មកស្នើសុំការសងប្រាក់វិញដែលអនុម័តដោយអ្នកគ្រប់គ្រង។</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">មិនទាន់មានសំណើសងប្រាក់វិញនៅឡើយទេ។</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">អតិថិជន</th>
+        <th translate="yes">កាលបរិច្ឆេទគិតថ្លៃ</th>
+        <th translate="yes">ចំនួនទឹកប្រាក់</th>
+        <th translate="yes">ហេតុផល</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>${charge.dateFormatted}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.metadata.refundReason}</td>
+    </tr>
+  </template>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Neman kuɗi don ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Neman kuɗi don ${invoice.id}</h1>
+  <p translate="yes">Za a sake duba kudade kuma ana iya ba su ko a musanta su dangane da halin kaka.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Dalili</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      An hana amsoshinku
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Kuskure! An bayar da dalili mara inganci ko ɓace
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Nasara! An gabatar da bukatar maida
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Kuskure! An sami kuskure wajen neman maida
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      Kuskure! An zaɓi cajin da bai dace ba
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      Kuskure! An zaɓi cajin da bai dace ba
+    </div>
+  </template>
+</body>
+</html>

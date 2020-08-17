@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Poništi objavljivanje ${plan.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Poništi objavljivanje ${plan.id}</h1>
+  <p translate="yes">Korisnici će odmah postati neuobičajeni za plan.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/unpublish-plan?planid=${plan.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Unpublish plan</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Uspeh! Plan je neobjavljen
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Greška! Došlo je do pogreške prilikom objavljivanja plana
+    </div>
+  </template>
+</body>
+</html>

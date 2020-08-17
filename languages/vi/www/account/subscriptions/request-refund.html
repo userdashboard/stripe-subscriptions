@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Yêu cầu hoàn lại tiền cho ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Yêu cầu hoàn lại tiền cho ${invoice.id}</h1>
+  <p translate="yes">Hoàn lại tiền có thể được xem xét và có thể được cấp hoặc từ chối tùy thuộc vào chi phí phát sinh.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Lý do</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Yêu cầu hoàn lại tiền của bạn đã bị từ chối
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Lỗi! Một lý do không hợp lệ hoặc thiếu đã được cung cấp
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Sự thành công! Yêu cầu hoàn trả đã được nộp
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Lỗi! Xảy ra lỗi yêu cầu hoàn lại tiền
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      Lỗi! Một khoản phí không hợp lệ đã được chọn
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      Lỗi! Một khoản phí không hợp lệ đã được chọn
+    </div>
+  </template>
+</body>
+</html>

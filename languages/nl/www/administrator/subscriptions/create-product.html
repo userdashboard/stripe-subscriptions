@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Product maken</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Product maken</h1>
+  <p translate="yes">Producten beschrijven de inhoud van plannen.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Naam</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Eenheidslabel (bijv. Persoon, team, stoel)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Kostenbeschrijving in bankafschriften</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Fout! Ongeldige productnaam
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Fout! Productnaam is te kort of te lang
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Fout! Ongeldige kostenbeschrijving
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Fout! Ongeldig of ontbrekend unitlabel
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Succes! Het product is gemaakt
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Fout! Er is een fout opgetreden bij het verzenden van het product
+    </div>
+  </template>
+</body>
+</html>

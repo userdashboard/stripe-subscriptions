@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">创建产品</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">创建产品</h1>
+  <p translate="yes">产品描述计划的内容。</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">名称</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">单位标签（例如人员，团队，座位）</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">银行对帐单中的费用说明</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      错误！产品名称无效
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      错误！产品名称太短或太长
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      错误！无效的费用说明
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      错误！无效或缺少单位标签
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      成功！产品已创建
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      错误！提交产品时发生错误
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-billing-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">មើល ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">មើល ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th translate="yes">អ៊ីមែល</th>
+        <td>${customer.email}</td>
+      </tr>
+      <tr>
+        <th translate="yes">ការបញ្ចុះតម្លៃ</th>
+        <td>${customer.discount}</td>
+      </tr>
+      <tr>
+        <th translate="yes">សមតុល្យគណនី</th>
+        <td>${customer.accountBalanceFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">ចំនួនទឹកប្រាក់ដែលត្រូវលុបចោល</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">ការជាវ</th>
+        <td>${customer.numSubscriptions}</td>
+      </tr>
+      <tr>
+        <th translate="yes">បានបង្កើត</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

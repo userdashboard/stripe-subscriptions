@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Nā huahana</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Nā huahana</h1>
+  <p translate="yes">Pono nā hoʻolālā i nā huahana e wehewehe i kā lākou mau mea.</p>
+  <p><a href="/administrator/subscriptions/create-product" class="pure-button pure-button-primary" translate="yes">Hana i ka huahana</a></p>
+  <div id="no-products">
+    <p translate="yes">ʻAʻole i hana ʻia nā huahana.</p>
+  </div>
+  <table id="products-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Tagu inoa</th>
+        <th translate="yes">ʻO ka wehewehe ʻōlelo</th>
+        <th translate="yes">Ke kūlana</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/products?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="product-row">
+    <tr id="${product.id}">
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${product.id}">${product.id}</a>
+      </td>
+      <td>${product.name}</td>
+      <td>${product.statement_descriptor}</td>
+      <td id="not-published-${product.id}">Not published yet</td>
+      <td id="published-${product.id}">Published</td>
+      <td id="unpublished-${product.id}">Unpublished</td>
+    </tr>
+  </template>
+</body>
+</html>

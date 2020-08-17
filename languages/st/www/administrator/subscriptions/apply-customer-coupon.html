@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-customer.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Kenya kopo ho ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Kenya kopo ho ${customer.id}</h1>
+  <p translate="yes">Khoutu e tla lula e sebetsa ho fihlela e felloa ke nako kapa e tlosoa.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-customer-coupon?customerid=${customer.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="couponid" translate="yes">Khetha setlankane</label>
+      <select id="couponid" name="couponid">
+        <option value="" translate="yes">
+          Khetha setlankane
+        </option>
+      </select>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+  </form>
+  <template id="coupon-option">
+    <option value="${coupon.id}">
+      ${coupon.id}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Katleho! Setlankane se se se sebelisitsoe
+    </div>
+  </template>
+  <template id="invalid-couponid">
+    <div class="error message" translate="yes">
+      Phoso! Ho fanoa ka setlankane se sa sebetseng
+    </div>
+  </template>
+  <template id="invalid-coupon">
+    <div class="error message" translate="yes">
+      Phoso! Ho fanoa ka setlankane se sa sebetseng
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Phoso! Ho bile le phoso ha ho sebelisoa setlankane
+    </div>
+  </template>
+</body>
+</html>

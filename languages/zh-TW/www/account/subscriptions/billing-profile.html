@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-billing-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">視圖 ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">視圖 ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th translate="yes">電子郵件</th>
+        <td>${customer.email}</td>
+      </tr>
+      <tr>
+        <th translate="yes">折扣</th>
+        <td>${customer.discount}</td>
+      </tr>
+      <tr>
+        <th translate="yes">賬戶餘額</th>
+        <td>${customer.accountBalanceFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">欠款額</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">訂閱內容</th>
+        <td>${customer.numSubscriptions}</td>
+      </tr>
+      <tr>
+        <th translate="yes">已建立</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

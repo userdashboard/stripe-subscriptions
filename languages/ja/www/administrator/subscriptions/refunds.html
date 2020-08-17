@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-refunds.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">払い戻し</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">払い戻し</h1>
+  <p translate="yes">料金が払い戻されるたびに、払い戻しが作成されます。</p>
+  <div id="no-refunds">
+    <p translate="yes">払い戻しはまだ作成されていません。</p>
+  </div>
+  <table id="refunds-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">量</th>
+        <th translate="yes">充電</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/refunds?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="refund-row">
+    <tr id="${refund.id}">
+      <td>
+        <a href="/administrator/subscriptions/refund?refundid=${refund.id}">${refund.id}</a>
+      </td>
+      <td>${refund.amountFormatted} ${refund.currency}</td>
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${refund.charge}">${refund.charge}</a>
+      </td>
+    </tr>
+  </template>
+</body>
+</html>

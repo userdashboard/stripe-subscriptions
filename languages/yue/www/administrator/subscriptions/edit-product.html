@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">編輯 ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">編輯 ${product.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-product?productid=${product.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">名</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">單位標籤(如人員、團隊、座位)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">銀行對單中嘅收費說明</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update product</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      成功! 產品已更新
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      錯誤! 更新產品信息時出錯
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      錯誤! 無效產品名稱
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      錯誤! 產品名稱太短或太長
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      錯誤! 無效費用描述
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      錯誤! 無效或缺少單位標籤
+    </div>
+  </template>
+</body>
+</html>

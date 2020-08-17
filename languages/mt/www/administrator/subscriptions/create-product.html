@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Oħloq prodott</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Oħloq prodott</h1>
+  <p translate="yes">Prodotti jiddeskrivu l-kontenut tal-pjanijiet.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Isem</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Tikketta ta 'l-unità (eż. Persuna, tim, sedil)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Deskrizzjoni tal-ħlas fid-dikjarazzjonijiet tal-bank</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Żball! Isem tal-prodott mhux validu
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Żball! L-isem tal-prodott huwa qasir jew twil wisq
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Żball! Deskrizzjoni tal-ħlas mhux valida
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Żball! Tikketta tal-unità mhux valida jew nieqsa
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Suċċess! Il-prodott inħoloq
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Żball! Sar żball meta tissottometti l-prodott
+    </div>
+  </template>
+</body>
+</html>

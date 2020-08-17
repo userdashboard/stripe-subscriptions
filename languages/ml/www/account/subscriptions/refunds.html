@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">റീഫണ്ടുകൾ</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">റീഫണ്ടുകൾ</h1>
+  <p translate="yes">ഓരോ തവണയും ചാർജ് റീഫണ്ട് ചെയ്യുമ്പോൾ ഒരു റീഫണ്ട് സൃഷ്ടിക്കപ്പെടുന്നു.</p>
+  <div id="no-refunds">
+    <p translate="yes">റീഫണ്ടുകളൊന്നും ഇതുവരെ സൃഷ്ടിച്ചിട്ടില്ല.</p>
+  </div>
+  <table id="refunds-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">തുക</th>
+        <th translate="yes">ചാർജ്ജ്</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/account/subscriptions/refunds?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="refund-row">
+    <tr id="${refund.id}">
+      <td>
+        <a href="/account/subscriptions/refund?refundid=${refund.id}">${refund.id}</a>
+      </td>
+      <td>${refund.amountFormatted} ${refund.currency}</td>
+      <td>
+        <a href="/account/subscriptions/charge?chargeid=${refund.charge}">${refund.charge}</a>
+      </td>
+    </tr>
+  </template>
+</body>
+</html>

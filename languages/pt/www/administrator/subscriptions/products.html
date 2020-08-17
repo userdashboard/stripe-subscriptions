@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Produtos</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Produtos</h1>
+  <p translate="yes">Os planos requerem produtos que definam seu conteúdo.</p>
+  <p><a href="/administrator/subscriptions/create-product" class="pure-button pure-button-primary" translate="yes">Criar produto</a></p>
+  <div id="no-products">
+    <p translate="yes">Nenhum produto foi criado ainda.</p>
+  </div>
+  <table id="products-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Nome</th>
+        <th translate="yes">Descrição da declaração</th>
+        <th translate="yes">Status</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/products?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="product-row">
+    <tr id="${product.id}">
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${product.id}">${product.id}</a>
+      </td>
+      <td>${product.name}</td>
+      <td>${product.statement_descriptor}</td>
+      <td id="not-published-${product.id}">Not published yet</td>
+      <td id="published-${product.id}">Published</td>
+      <td id="unpublished-${product.id}">Unpublished</td>
+    </tr>
+  </template>
+</body>
+</html>

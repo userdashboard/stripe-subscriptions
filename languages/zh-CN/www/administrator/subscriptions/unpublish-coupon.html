@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupon.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">取消发布 ${coupon.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">取消发布 ${coupon.id}</h1>
+  <p translate="yes">优惠券将立即被其他任何人使用。</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/unpublish-coupon?couponid=${coupon.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">取消发布优惠券</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      成功！优惠券尚未发布
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      错误！发布优惠券时发生错误
+    </div>
+  </template>
+</body>
+</html>

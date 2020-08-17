@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-template="false">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Cadarnhau tanysgrifiad</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <style>
+    h1 {
+      text-align: left
+    }
+
+    h2,
+    .pure-button-group,
+    .pure-control-group {
+      text-align: left;
+      margin-bottom: 0
+    }
+
+    h2 {
+      font-weight: bold;
+      font-size: 1rem
+    }
+
+    form {
+      margin-bottom: 0
+    }
+
+    select {
+      width: 100%
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.5rem
+    }
+
+    .entry-form p {
+      text-align: left
+    }
+
+    .pure-controls {
+      text-align: left
+    }
+
+    .entry-form .submit {
+      margin: 0
+    }
+
+    .summary {
+      width: 100%;
+      margin-top: 1rem
+    }
+
+    .summary th {
+      font-size: 0.9rem;
+      text-align: left
+    }
+
+    .new-profile {
+      margin: 1rem 0
+    }
+
+    .new-profile a.pure-button {
+      margin: 0;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem
+    }
+
+    th,
+    p,
+    h2 {
+      color: #FFF
+    }
+
+    td {
+      color: rgba(255, 255, 255, 0.75)
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="entry">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked entry-form" action="/account/subscriptions/confirm-subscription?planid=${plan.id}" name="submit-form">
+    <fieldset>
+      <h1 translate="yes">Cadarnhau tanysgrifiad</h1>
+      <div id="message-container"></div>
+      <h2 translate="yes">Proffil bilio</h2>
+      <div id="existing-container" class="pure-control-group">
+        <label for="customerid" translate="yes">Proffil presennol</label> 
+        <select name="customerid" id="customerid">
+          <option value="" translate="yes">
+            Dewis proffil
+          </option>
+        </select>
+      </div>
+      <div class="pure-control-group new-profile">
+        <a id="create-link" href="/account/subscriptions/create-billing-profile?return-url=/account/subscriptions/confirm-subscription?planid=${plan.id}" class="pure-button">Add new profile</a>
+      </div>
+      <table id="plan-table" class="summary">
+        <tr>
+          <th translate="yes">Cynllun</th>
+          <th translate="yes">Pris</th>
+          <th translate="yes">Cyfnod</th>
+        </tr>
+      </table>
+      <div id="charge"></div>
+      <div class="pure-controls">
+        <button id="submit-button" class="pure-button pure-button-primary submit" type="submit">Start subscription</button>
+      </div>
+    </fieldset>
+  </form>
+  <template id="customer-option">
+    <option value="${customer.id}">
+      ${customer.description}
+    </option>
+  </template>
+  <template id="charge-now">
+    <p translate="yes">Byddwch yn cael bil ${plan.amountFormatted} now and each ${plan.interval}.</p>
+  </template>
+  <template id="charge-later">
+    <p translate="yes">Taliadau cylchol o ${plan.amountFormatted} begin in ${plan.trial_period_days} days.</p>
+  </template>
+  <template id="plan-row">
+    <tr>
+      <td>${plan.id}</td>
+      <td>${plan.amountFormatted}</td>
+      <td>${plan.interval_count}x ${plan.interval}</td>
+    </tr>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Gwall! Digwyddodd gwall wrth osod yr ap
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      Gwall! Nid ydych wedi ychwanegu gwybodaeth dalu
+    </div>
+  </template>
+  <template id="invalid-customerid">
+    <div class="error message" translate="yes">
+      Gwall! Dewiswyd proffil bilio annilys
+    </div>
+  </template>
+</body>
+</html>

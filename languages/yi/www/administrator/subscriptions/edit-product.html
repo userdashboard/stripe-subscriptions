@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ןריגַאדער ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ןריגַאדער ${product.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-product?productid=${product.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">ןעמָאנ</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">)ןצעזקעווַא ,טֿפַאשנַאמ ,שטנעמ לשמל( עמריפ טַארַאּפַא</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">ץנַאמטייטס קנַאב ןיא גנובַיירשַאב גנוקידלושַאב</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update product</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      טקיטנַייהרעד זיא טקודָארּפ יד !החלצה
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      עיצַאמרָאֿפניא טקודָארּפ יד גניטיידּפַא ייב תועט א !תועט
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      ןעמָאנ טקודָארּפ טלּפירקרַאפ !תועט
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      גנַאל רעדָא ץרוק ךיוא זיא ןעמָאנ טקודָארּפ !תועט
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      גנובַיירשַאב גנוקידלושַאב טלּפירקרַאפ !תועט
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      עמריפ טַארַאּפַא קידנלעפ רעדָא טלּפירקרַאפ !תועט
+    </div>
+  </template>
+</body>
+</html>

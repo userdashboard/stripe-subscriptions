@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">: tlntu ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">: tlntu ${invoice.id}</h1>
+  <p translate="yes">: tlntu</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/refund-invoice?invoiceid=${invoice.id}" name="submit-form">
+    <div id="refund-container">
+      <div class="pure-control-group">
+        <label translate="yes">: tlntu</label>
+        <span id="refund-now" class="next-charge"></span>
+        <p class="refund-note">Refunds may take 5 - 10 business days for funds to return to your bank account.</p>
+      </div>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Refund invoice</button>
+    </div>
+  </form>
+  <template id="refund-template">
+    <span>${charge.amountFormatted} ${charge.currency}</span>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      : tlntu
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      : tlntu
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      : tlntu
+    </div>
+  </template>
+</body>
+</html>

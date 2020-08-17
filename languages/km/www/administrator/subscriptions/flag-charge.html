@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ទង់ ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ទង់ ${charge.id}</h1>
+  <p translate="yes">ប្រសិនបើអ្នកគិតថាការចោទប្រកាន់មួយកំពុងបន្លំទង់ទង់វាអាចជួយ Stripe រារាំងការចោទប្រកាន់ស្រដៀងគ្នានៅពេលក្រោយ។</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/flag-charge?chargeid=${charge.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Flag charge</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ជោគជ័យ! ការចោទប្រកាន់ត្រូវបានដាក់ទង់
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      កំហុស! កំហុសមួយបានកើតឡើងដោយដាក់ទង់ការចោទប្រកាន់
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">கோரிக்கைகளைத் திருப்பித் தரவும்</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">கோரிக்கைகளைத் திருப்பித் தரவும்</h1>
+  <p translate="yes">சலுகைக் காலத்தில் பயனர்கள் தங்களைத் திருப்பிச் செலுத்தலாம், பின்னர் நிர்வாகி-அங்கீகரிக்கப்பட்ட பணத்தைத் திரும்பப்பெறுமாறு கோரலாம்.</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">பணத்தைத் திரும்பப்பெறும் கோரிக்கைகள் எதுவும் இதுவரை ஏற்படவில்லை.</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">வாடிக்கையாளர்</th>
+        <th translate="yes">கட்டணம் தேதி</th>
+        <th translate="yes">தொகை</th>
+        <th translate="yes">காரணம்</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>${charge.dateFormatted}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.metadata.refundReason}</td>
+    </tr>
+  </template>
+</body>
+</html>

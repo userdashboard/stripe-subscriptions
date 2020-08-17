@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-payment-intent.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Raica ${payment_intent.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Raica ${payment_intent.id}</h1>
+  <table id="payment_intents-table" class="pure-table data-table">
+    <tbody id="${payment_intent.id}">
+      <tr>
+        <th>ID</th>
+        <td>${payment_intent.id}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Kasitama</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?paymentintentid=${payment_intent.customer}">${payment_intent.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Inivosi</th>
+        <td>
+          <a href="/administrator/subscriptions/invoice?invoiceid=${payment_intent.invoice}">${payment_intent.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Akaude</th>
+        <td>
+          <a href="/administrator/account?accountid=${payment_intent.metadata.accountid}">${payment_intent.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Ilavo</th>
+        <td>${payment_intent.amountFormatted} ${payment_intent.currency}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Ituvaki</th>
+        <td id="requires_payment_method" translated="yes">Requires payment method</td>
+        <td id="requires_confirmation" translated="yes">Requires confirmation</td>
+        <td id="requires_action" translated="yes">Requires action</td>
+        <td id="requires_source" translated="yes">Requires source</td>
+        <td id="processing" translated="yes">Processing</td>
+        <td id="requires_capture" translated="yes">Requires capture</td>
+        <td id="canceled" translated="yes">Canceled</td>
+        <td id="succeeded" translated="yes">Succeeded</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

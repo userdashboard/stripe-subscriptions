@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Ṣẹda ọja</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Ṣẹda ọja</h1>
+  <p translate="yes">Awọn ọja ṣe apejuwe awọn akoonu ti awọn ero.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Orukọ</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Aami aami (fun apẹẹrẹ eniyan, ẹgbẹ, ijoko)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Apejuwe agbara ni awọn alaye banki</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Aṣiṣe! Orukọ ọja ti ko tọna
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Aṣiṣe! Orukọ ọja jẹ kukuru tabi gun ju
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Aṣiṣe! Ijuwe idiyele idiyele
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Aṣiṣe! Aṣiṣe tabi aami ẹya sonu
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Aṣeyọri! A ti ṣẹda ọja naa
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Aṣiṣe! Aṣiṣe kan waye nipa fifi ọja silẹ
+    </div>
+  </template>
+</body>
+</html>

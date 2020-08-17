@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Them ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Them ${invoice.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/pay-invoice?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label translate="yes">Nqi</label> 
+      <span id="amount-now" class="next-charge">${invoice.totalFormatted} ${invoice.currency}</span>
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Pay invoice</button>
+      <a class="pure-button" href="/account/subscriptions/add-payment-method?customerid=${invoice.customer}" translate="yes">Ntxiv rau txoj kev them nqi</a>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev tau zoo! Tus invoice them tag
+    </div>
+  </template>
+  <template id="invalid-paymentmethodid">
+    <div class="error message" translate="yes">
+      Yuam kev! Txoj kev them invalid los yog uas ploj lawm
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib qho kev ua yuam kev ocurred them tus invoice
+    </div>
+  </template>
+</body>
+</html>

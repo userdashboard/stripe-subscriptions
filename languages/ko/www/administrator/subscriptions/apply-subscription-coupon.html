@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-subscription.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">쿠폰 적용 ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">쿠폰 적용 ${subscription.id}</h1>
+  <p translate="yes">쿠폰은 만료 또는 제거 될 때까지 유효합니다.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-subscription-coupon?subscriptionid=${subscription.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="couponid" translate="yes">쿠폰 선택</label>
+      <select id="couponid" name="couponid">
+        <option value="" translate="yes">
+          쿠폰 선택
+        </option>
+      </select>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+  </form>
+  <template id="coupon-option">
+    <option value="${coupon.id}">
+      ${coupon.id}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      성공! 쿠폰이 적용되었습니다
+    </div>
+  </template>
+  <template id="invalid-couponid">
+    <div class="error message" translate="yes">
+      오류! 유효하지 않은 쿠폰이 제공되었습니다
+    </div>
+  </template>
+  <template id="invalid-coupon">
+    <div class="error message" translate="yes">
+      오류! 유효하지 않은 쿠폰이 제공되었습니다
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      오류! 쿠폰을 적용하는 중에 오류가 발생했습니다
+    </div>
+  </template>
+</body>
+</html>

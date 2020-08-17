@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Cov nyiaj ua se ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Cov nyiaj ua se ${charge.id}</h1>
+  <p translate="yes">Qhov no yuav rov qhov nyiaj los qhov ntawm 5-10 hnub ua hauj lwm.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/refund-charge?chargeid=${charge.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="amount" translate="yes">Nqi</label>
+      <input required="" id="amount" name="amount" type="text" size="5">
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Refund charge</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev tau zoo! Tus nqi ntawd muaj refunded lawm
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam kev! Ib ocurred refunding rau cov thawj tswj kev ua yuam kev
+    </div>
+  </template>
+  <template id="invalid-amount">
+    <div class="error message" translate="yes">
+      Yuam kev! Nyiaj ua se tau los tsis tau yuav tsis zoo los yog tshaj tshuav xwb
+    </div>
+  </template>
+</body>
+</html>

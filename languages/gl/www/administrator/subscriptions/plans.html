@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plans.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Plans</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Plans</h1>
+  <p translate="yes">Os usuarios crean subscricións a plans publicados.</p>
+  <p><a href="/administrator/subscriptions/create-plan" class="pure-button pure-button-primary" translate="yes">Crear un plan</a></p>
+  <div id="no-plans">
+    <p translate="yes">Aínda non se crearon plans.</p>
+  </div>
+  <table id="plans-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Produto</th>
+        <th translate="yes">Prezo</th>
+        <th translate="yes">Proba</th>
+        <th translate="yes">Estado</th>
+        <th translate="yes">Creada</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?plans=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${plan.product}">${plan.product}</a>
+      </td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted}</td>
+      <td id="draft-plan-${plan.id}">Draft</td>
+      <td id="published-plan-${plan.id}">Published</td>
+      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td>${plan.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

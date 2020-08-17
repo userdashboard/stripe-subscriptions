@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">တည်းဖြတ်ပါ ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">တည်းဖြတ်ပါ ${product.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-product?productid=${product.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">နာမည်</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">ယူနစ်တံဆိပ် (ဥပမာလူ၊ အသင်း၊ ထိုင်ခုံ)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">ဘဏ်ထုတ်ပြန်ချက်များတွင်တာဝန်ခံဖော်ပြချက်</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update product</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      အောင်မြင်ပြီ ထုတ်ကုန်ကိုအဆင့်မြှင့်လိုက်ပြီ
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      အမှား! ထုတ်ကုန်သတင်းအချက်အလက်ကို update လုပ်ရန်အမှားတစ်ခုဖြစ်ပွားခဲ့သည်
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      အမှား! မမှန်ကန်သောထုတ်ကုန်အမည်
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      အမှား! ကုန်ပစ္စည်းနာမည်သည်တိုလွန်းသည် (သို့) ရှည်လွန်းသည်
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      အမှား! မမှန်ကန်သောတာဝန်ခံဖော်ပြချက်
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      အမှား! မမှန်ကန်သောသို့မဟုတ်ပျောက်ဆုံးနေသောယူနစ်တံဆိပ်
+    </div>
+  </template>
+</body>
+</html>

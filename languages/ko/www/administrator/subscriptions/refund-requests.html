@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">환불 요청</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">환불 요청</h1>
+  <p translate="yes">유예 기간 동안 사용자는 스스로 환불 한 다음 관리자 승인 환불을 요청할 수 있습니다.</p>
+  <div id="message-container"></div>
+  <div id="no-charges">
+    <p translate="yes">환불 요청이 아직 발생하지 않았습니다.</p>
+  </div>
+  <table id="charges-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">고객</th>
+        <th translate="yes">청구 날짜</th>
+        <th translate="yes">양</th>
+        <th translate="yes">이유</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="charge-row">
+    <tr id="${charge.id}">
+      <td>
+        <a href="/administrator/subscriptions/charge?chargeid=${charge.id}">${charge.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${charge.customer}">${charge.customer}</a>
+      </td>
+      <td>${charge.dateFormatted}</td>
+      <td>${charge.amountFormatted}</td>
+      <td>${charge.metadata.refundReason}</td>
+    </tr>
+  </template>
+</body>
+</html>

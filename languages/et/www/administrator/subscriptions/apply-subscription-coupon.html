@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-subscription.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Kupongi rakendamine ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Kupongi rakendamine ${subscription.id}</h1>
+  <p translate="yes">Kupong kehtib kuni selle aegumiseni või eemaldamiseni.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-subscription-coupon?subscriptionid=${subscription.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="couponid" translate="yes">Valige kupong</label>
+      <select id="couponid" name="couponid">
+        <option value="" translate="yes">
+          Valige kupong
+        </option>
+      </select>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+  </form>
+  <template id="coupon-option">
+    <option value="${coupon.id}">
+      ${coupon.id}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Edu! Kupong on rakendatud
+    </div>
+  </template>
+  <template id="invalid-couponid">
+    <div class="error message" translate="yes">
+      Viga! Esitati kehtetu kupong
+    </div>
+  </template>
+  <template id="invalid-coupon">
+    <div class="error message" translate="yes">
+      Viga! Esitati kehtetu kupong
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Viga! Kupongi rakendamisel ilmnes viga
+    </div>
+  </template>
+</body>
+</html>

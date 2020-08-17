@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ઉત્પાદન બનાવો</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ઉત્પાદન બનાવો</h1>
+  <p translate="yes">ઉત્પાદનો યોજનાઓની સામગ્રીનું વર્ણન કરે છે.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">નામ</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">એકમનું લેબલ (દા.ત. વ્યક્તિ, ટીમ, બેઠક)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">બેંક સ્ટેટમેન્ટમાં ચાર્જ વર્ણન</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      ભૂલ! અમાન્ય ઉત્પાદન નામ
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      ભૂલ! ઉત્પાદનનું નામ ખૂબ નાનું અથવા ખૂબ લાંબું છે
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      ભૂલ! અમાન્ય ચાર્જ વર્ણન
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      ભૂલ! અમાન્ય અથવા ગુમ થયેલ એકમનું લેબલ
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      સફળતા! ઉત્પાદન બનાવવામાં આવ્યું છે
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ભૂલ! ઉત્પાદન સબમિટ કરતી વખતે ભૂલ આવી
+    </div>
+  </template>
+</body>
+</html>

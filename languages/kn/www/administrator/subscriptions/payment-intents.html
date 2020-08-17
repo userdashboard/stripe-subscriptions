@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-payment-intents.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ಪಾವತಿ ಉದ್ದೇಶಗಳು</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ಪಾವತಿ ಉದ್ದೇಶಗಳು</h1>
+  <div id="message-container"></div>
+  <div id="no-payment-intents">
+    <p translate="yes">ಯಾವುದೇ ಪಾವತಿ ಉದ್ದೇಶಗಳನ್ನು ಇನ್ನೂ ರಚಿಸಲಾಗಿಲ್ಲ.</p>
+  </div>
+  <table id="payment-intents-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">ಗ್ರಾಹಕ</th>
+        <th translate="yes">ಮೊತ್ತ</th>
+        <th translate="yes">ಸ್ಥಿತಿ</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/payment-intents?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="payment-intent-row">
+    <tr id="${payment_intent.id}">
+      <td>
+        <a href="/administrator/subscriptions/payment-intent?paymentintentid=${payment_intent.id}">${payment_intent.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${payment_intent.customer}">${payment_intent.stripeid}</a>
+      </td>
+      <td>${payment_intent.amountFormatted} ${payment_intent.currency}</td>
+      <td id="${payment_intent.id}-status"></td>
+    </tr>
+  </template>
+  <template id="requires_payment_method">
+    <span translate="yes">ಪಾವತಿ ವಿಧಾನದ ಅಗತ್ಯವಿದೆ</span>
+  </template>
+  <template id="requires_confirmation">
+    <span translate="yes">ದೃ mation ೀಕರಣದ ಅಗತ್ಯವಿದೆ</span>
+  </template>
+  <template id="requires_source">
+    <span translate="yes">ಮೂಲ ಅಗತ್ಯವಿದೆ</span>
+  </template>
+  <template id="requires_action">
+    <span translate="yes">ಕ್ರಿಯೆಯ ಅಗತ್ಯವಿದೆ</span>
+  </template>
+  <template id="processing">
+    <span translate="yes">ಸಂಸ್ಕರಣೆ</span>
+  </template>
+  <template id="requires_capture">
+    <span translate="yes">ಕ್ಯಾಪ್ಚರ್ ಅಗತ್ಯವಿದೆ</span>
+  </template>
+  <template id="canceled">
+    <span translate="yes">ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</span>
+  </template>
+  <template id="succeeded">
+    <span translate="yes">ಯಶಸ್ವಿಯಾಗಿದೆ</span>
+  </template>
+</body>
+</html>

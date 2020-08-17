@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-customers.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ಗ್ರಾಹಕರು</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ಗ್ರಾಹಕರು</h1>
+  <p translate="yes">ಚಂದಾದಾರಿಕೆಗಳಿಗಾಗಿ ವಿಭಿನ್ನ ಬಿಲ್ಲಿಂಗ್ ಮಾಹಿತಿಯನ್ನು ಬಳಸಲು ಬಳಕೆದಾರರು ಬಿಲ್ಲಿಂಗ್ ಪ್ರೊಫೈಲ್u200cಗಳನ್ನು ರಚಿಸುತ್ತಾರೆ.</p>
+  <div id="message-container"></div>
+  <div id="no-customers">
+    <p translate="yes">ಯಾವುದೇ ಗ್ರಾಹಕರನ್ನು ಇನ್ನೂ ರಚಿಸಲಾಗಿಲ್ಲ.</p>
+  </div>
+  <table id="customers-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">ಇಮೇಲ್</th>
+        <th translate="yes">ಅಪರಾಧ</th>
+        <th translate="yes">ಚಂದಾದಾರಿಕೆಗಳು</th>
+        <th translate="yes">ರಚಿಸಲಾಗಿದೆ</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/customers?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${customer.id}">${customer.id}</a>
+      </td>
+      <td>${customer.email}</td>
+      <td>${customer.delinquentFormatted}</td>
+      <td>${customer.numSubscriptions}</td>
+      <td>${customer.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

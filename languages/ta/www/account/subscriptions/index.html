@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">சந்தா பில்லிங்</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">சந்தா பில்லிங்</h1>
+  <div id="message-container"></div>
+  <div id="subscriptions-container">
+    <h2 translate="yes">சந்தாக்கள்</h2>
+    <div id="no-subscriptions">
+      <p translate="yes">உங்களிடம் எந்த சந்தாக்களும் இல்லை.</p>
+    </div>
+    <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">நிலை</th>
+          <th translate="yes">திட்டம்</th>
+          <th translate="yes">விலை</th>
+          <th translate="yes">தொடங்கியது</th>
+          <th translate="yes">அடுத்த கட்டணம்</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="invoices-container">
+    <h2 translate="yes">சமீபத்திய விலைப்பட்டியல்</h2>
+    <p translate="yes">இலவசமாக இருந்தாலும் கூட, சந்தாவின் பில்லிங் காலம் நிகழும் ஒவ்வொரு முறையும் விலைப்பட்டியல்கள் உருவாக்கப்படுகின்றன.</p>
+    <div id="no-invoices">
+      <p translate="yes">உங்களிடம் எந்த விலைப்பட்டியலும் இல்லை.</p>
+    </div>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">மொத்தம்</th>
+          <th translate="yes">சந்தா</th>
+          <th translate="yes">கட்டணம் தேதி</th>
+          <th translate="yes">நிலை</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="customers-container">
+    <h2 translate="yes">பில்லிங் சுயவிவரங்கள்</h2>
+    <p translate="yes">வெவ்வேறு பில்லிங் தகவலுடன் சந்தாக்களுக்கு பணம் செலுத்துங்கள்.</p>
+    <div id="no-customers">
+      <p translate="yes">உங்களிடம் பில்லிங் சுயவிவரங்கள் எதுவும் இல்லை.</p>
+    </div>
+    <table id="customers-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">அட்டை</th>
+          <th translate="yes">கடைசி 4</th>
+          <th translate="yes">காலாவதியாகிறது</th>
+          <th translate="yes">நிலை</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td>
+        <a href="/account/subscriptions/billing-profile?customerid=${customer.id}">${customer.id}</a>
+      </td>
+      <td>
+        <a href="mailto:${customer.email}">${customer.email}</a>
+      </td>
+      <td>${customer.description}</td>
+      <td>${customer.sources.data[0].exp_month} / ${customer.sources.data[0].exp_year}</td>
+      <td>${customer.sources.data[0].brand} ${customer.sources.data[0].last4}</td>
+    </tr>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.plan.id}</td>
+      <td id="day-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / day</td>
+      <td id="day-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">நாட்கள்</span></td>
+      <td id="week-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / week</td>
+      <td id="week-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">வாரங்கள்</span></td>
+      <td id="month-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / month</td>
+      <td id="month-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">மாதங்கள்</span></td>
+      <td id="year-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / year</td>
+      <td id="year-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">ஆண்டுகள்</span></td>
+      <td>${subscription.createdFormatted}</td>
+      <td>${subscription.nextChargeFormatted}</td>
+    </tr>
+  </template>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/account/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>${invoice.totalFormatted}</td>
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Saib ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Saib ${plan.id}</h1>
+  <table id="plans-table" class="pure-table data-table">
+    <tbody id="${plan.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Khoom muag</th>
+        <td>
+          <a href="/administrator/subscriptions/product?productid=${plan.product}">${plan.product}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Nqe</th>
+        <td>${plan.priceFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Lub sij hawm mus sib</th>
+        <td>${plan.trialFormatted} day(s)</td>
+      </tr>
+      <tr>
+        <th translate="yes">Teeb luv</th>
+        <td>${plan.interval_count} ${plan.interval}(s)</td>
+      </tr>
+      <tr>
+        <th translate="yes">Raws li txoj cai</th>
+        <td id="published" translated="yes">Published</td>
+        <td id="unpublished" translated="yes">Unpublished</td>
+        <td id="not-published" translated="yes">Not yet published</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

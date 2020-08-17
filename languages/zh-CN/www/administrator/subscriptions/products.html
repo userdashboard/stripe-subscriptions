@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">产品展示</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">产品展示</h1>
+  <p translate="yes">计划要求产品定义其内容。</p>
+  <p><a href="/administrator/subscriptions/create-product" class="pure-button pure-button-primary" translate="yes">创建产品</a></p>
+  <div id="no-products">
+    <p translate="yes">尚未创建任何产品。</p>
+  </div>
+  <table id="products-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">名称</th>
+        <th translate="yes">声明说明</th>
+        <th translate="yes">状态</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/products?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="product-row">
+    <tr id="${product.id}">
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${product.id}">${product.id}</a>
+      </td>
+      <td>${product.name}</td>
+      <td>${product.statement_descriptor}</td>
+      <td id="not-published-${product.id}">Not published yet</td>
+      <td id="published-${product.id}">Published</td>
+      <td id="unpublished-${product.id}">Unpublished</td>
+    </tr>
+  </template>
+</body>
+</html>

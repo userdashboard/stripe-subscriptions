@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Devolucións</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Devolucións</h1>
+  <p translate="yes">Cada vez que se reembolsa unha carga créase un reembolso.</p>
+  <div id="no-refunds">
+    <p translate="yes">Non se crearon ningún reembolso.</p>
+  </div>
+  <table id="refunds-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Cantidade</th>
+        <th translate="yes">Cargar</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/account/subscriptions/refunds?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="refund-row">
+    <tr id="${refund.id}">
+      <td>
+        <a href="/account/subscriptions/refund?refundid=${refund.id}">${refund.id}</a>
+      </td>
+      <td>${refund.amountFormatted} ${refund.currency}</td>
+      <td>
+        <a href="/account/subscriptions/charge?chargeid=${refund.charge}">${refund.charge}</a>
+      </td>
+    </tr>
+  </template>
+</body>
+</html>

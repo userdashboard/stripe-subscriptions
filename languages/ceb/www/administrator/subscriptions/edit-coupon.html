@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupon.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">I-edit ${coupon.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">I-edit ${coupon.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-coupon?couponid=${coupon.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Ngalan</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update coupon</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kalampusan! Gi-update na ang kupon
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Sayop! Adunay usa ka sayup nga nahitabo sa pag-update sa kasayuran sa kupon
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Sayop! Dili husto nga ngalan nga kupon
+    </div>
+  </template>
+</body>
+</html>

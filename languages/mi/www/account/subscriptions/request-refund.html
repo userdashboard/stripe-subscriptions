@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Tono whakahoki mo te ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Tono whakahoki mo te ${invoice.id}</h1>
+  <p translate="yes">Ko nga utu ka whakahokia mai ki te arotake ka taea te whakawhiwhia, i te whakakahore ranei i runga i nga utu kua puta.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Te take</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+    </div>
+  </form>
+  <template id="refund-requested">
+    <span>You previously requested a refund.</span>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      Kua whakakahoretia to tono whakahoki
+    </div>
+    <p>${charge.metadata.refundDenied}</p>
+  </template>
+  <template id="refund-denied">
+    <div class="error message" translate="yes">
+      He hapa! He take korekore, he ngaro ranei
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Ka angitu! Kua tohaina te tono whakahoki
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      He hapa! Kua puta he hapa e tono ana ki te whakahoki
+    </div>
+  </template>
+  <template id="invalid-chargeid">
+    <div class="error message" translate="yes">
+      He hapa! I tautuhia he utu kaore e tika
+    </div>
+  </template>
+  <template id="invalid-charge">
+    <div class="error message" translate="yes">
+      He hapa! I tautuhia he utu kaore e tika
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-customer.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Muuqaal ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Muuqaal ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?customerid=${customer.id}">${customer.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Boostada macmiilka</th>
+        <td>
+          <a href="mailto:${customer.email}">${customer.email}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Aqoonsiga Koontada</th>
+        <td>
+          <a href="/administrator/account?accountid=${customer.metadata.accountid}">${customer.metadata.accountid}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Koontada</th>
+        <td>${customer.account.firstName} ${customer.account.lastName}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Cinwaanka emaylka</th>
+        <td>
+          <a href="mailto:${customer.account.email}">${customer.account.email}</a>
+        </td>
+      </tr>
+      <tr id="discount">
+        <th translate="yes">Qiimo dhimis</th>
+        <td>${customer.discount.coupon.id}</td>
+      </tr>
+      <tr id="account-balance">
+        <th translate="yes">Hadhaagga xisaabta</th>
+        <td>${customer.account_balanceFormatted}</td>
+      </tr>
+      <tr id="delinquent-amount">
+        <th translate="yes">Qaddar go'an</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">La abuuray</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="subscriptions-container">
+    <h2 translate="yes">Macaamiisha</h2>
+    <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Macaamiil</th>
+          <th translate="yes">Xilliga xaadirka ah</th>
+          <th translate="yes">Qiimo dhimis</th>
+          <th translate="yes">Qorshe</th>
+          <th translate="yes">Xaaladda</th>
+          <th translate="yes">La abuuray</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="invoices-container">
+    <h2 translate="yes">Xaashiyaha</h2>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Macaamiil</th>
+          <th translate="yes">Diiwaan-gelinta</th>
+          <th translate="yes">Muddada biilasha</th>
+          <th translate="yes">Wadarta</th>
+          <th translate="yes">Taariikh</th>
+          <th translate="yes">Xaaladda</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/administrator/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${invoice.customer}">${invoice.customer}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.lines.data[invoice.lines.data.length - 1].period.startFormatted} - ${invoice.lines.data[invoice.lines.data.length - 1].period.endFormatted}</td>
+      <td>${invoice.totalFormatted}</td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${subscription.customer.id || subscription.customer}">${subscription.customer.id || subscription.customer}</a>
+      </td>
+      <td>${subscription.current_period_startFormatted} - ${subscription.current_period_endFormatted}</td>
+      <td>${subscription.discount}</td>
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${subscription.plan}">${subscription.plan.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

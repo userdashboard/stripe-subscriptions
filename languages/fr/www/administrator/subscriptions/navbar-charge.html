@@ -1,0 +1,8 @@
+<a href="/home"><img src="/public/home.svg" alt="Application home"><span translate="yes">Accueil</span></a>
+<a href="/administrator" translate="yes">Administration</a>
+<a href="/administrator/subscriptions" translate="yes">Administration des abonnements</a>
+<a href="/administrator/subscriptions/charges" translate="yes">Des charges</a>
+<a href="/administrator/subscriptions/charge?chargeid=${charge.id}" translate="yes">Vue ${charge.id}</a>
+<a id="navbar-flag-fraud-link" href="/administrator/subscriptions/flag-charge?chargeid=${charge.id}" translate="yes">Signaler la fraude</a>
+<a id="navbar-refund-link" href="/administrator/subscriptions/refund-charge?chargeid=${charge.id}" translate="yes">Frais de remboursement</a>
+<a id="navbar-deny-refund-link" href="/administrator/subscriptions/deny-refund?chargeid=${charge.id}" translate="yes">Refuser le remboursement</a>

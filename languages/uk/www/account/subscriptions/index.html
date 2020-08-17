@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Підписка на оплату</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Підписка на оплату</h1>
+  <div id="message-container"></div>
+  <div id="subscriptions-container">
+    <h2 translate="yes">Підписки</h2>
+    <div id="no-subscriptions">
+      <p translate="yes">У вас немає підписок.</p>
+    </div>
+    <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Статус</th>
+          <th translate="yes">План</th>
+          <th translate="yes">Ціна</th>
+          <th translate="yes">Почав</th>
+          <th translate="yes">Наступна плата</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="invoices-container">
+    <h2 translate="yes">Останні рахунки-фактури</h2>
+    <p translate="yes">Рахунки створюються щоразу, коли настає розрахунковий період передплати, навіть коли він безкоштовний.</p>
+    <div id="no-invoices">
+      <p translate="yes">У вас немає рахунків-фактур.</p>
+    </div>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Всього</th>
+          <th translate="yes">Підписка</th>
+          <th translate="yes">Дата зарядки</th>
+          <th translate="yes">Статус</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="customers-container">
+    <h2 translate="yes">Платіжні профілі</h2>
+    <p translate="yes">Оплачуйте підписки з різною платіжною інформацією.</p>
+    <div id="no-customers">
+      <p translate="yes">У вас немає жодних платіжних профілів.</p>
+    </div>
+    <table id="customers-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Картка</th>
+          <th translate="yes">Останні 4</th>
+          <th translate="yes">Закінчується</th>
+          <th translate="yes">Статус</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="customer-row">
+    <tr id="${customer.id}">
+      <td>
+        <a href="/account/subscriptions/billing-profile?customerid=${customer.id}">${customer.id}</a>
+      </td>
+      <td>
+        <a href="mailto:${customer.email}">${customer.email}</a>
+      </td>
+      <td>${customer.description}</td>
+      <td>${customer.sources.data[0].exp_month} / ${customer.sources.data[0].exp_year}</td>
+      <td>${customer.sources.data[0].brand} ${customer.sources.data[0].last4}</td>
+    </tr>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.plan.id}</td>
+      <td id="day-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / day</td>
+      <td id="day-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">днів</span></td>
+      <td id="week-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / week</td>
+      <td id="week-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">тижнів</span></td>
+      <td id="month-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / month</td>
+      <td id="month-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">місяців</span></td>
+      <td id="year-singular-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / year</td>
+      <td id="year-multiple-interval-${subscription.id}">${subscription.plan.amountFormatted} ${subscription.plan.currency} / ${subscription.plan.interval_count} <span translate="yes">років</span></td>
+      <td>${subscription.createdFormatted}</td>
+      <td>${subscription.nextChargeFormatted}</td>
+    </tr>
+  </template>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/account/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>${invoice.totalFormatted}</td>
+      <td>
+        <a href="/account/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+</body>
+</html>

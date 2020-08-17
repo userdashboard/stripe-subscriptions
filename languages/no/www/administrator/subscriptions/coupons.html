@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupons.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">kuponger</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">kuponger</h1>
+  <p translate="yes">Kuponger gjør det mulig å bruke rabatter på kunder og abonnement.</p>
+  <div id="message-container"></div>
+  <p><a href="/administrator/subscriptions/create-coupon" class="pure-button pure-button-primary" translate="yes">Lag kupong</a></p>
+  <div id="no-coupons">
+    <p translate="yes">Ingen kuponger er opprettet ennå.</p>
+  </div>
+  <table id="coupons-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Rabatt</th>
+        <th translate="yes">Status</th>
+        <th translate="yes">laget</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/coupons?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="coupon-row">
+    <tr id="${coupon.id}">
+      <td>
+        <a href="/administrator/subscriptions/coupon?couponid=${coupon.id}">${coupon.id}</a>
+      </td>
+      <td id="amount_off-${coupon.id}">${coupon.amount_offFormatted} ${coupon.currency}</td>
+      <td id="percent_off-${coupon.id}">${coupon.percent_off}%</td>
+      <td id="draft-coupon-${coupon.id}">Draft</td>
+      <td id="published-coupon-${coupon.id}">Published</td>
+      <td id="unpublished-coupon-${coupon.id}">Unpublished</td>
+      <td>${coupon.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

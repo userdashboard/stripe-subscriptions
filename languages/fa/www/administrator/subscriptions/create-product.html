@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">لوصحم داجیا</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">لوصحم داجیا</h1>
+  <p translate="yes">.دننک یم فیصوت ار اه همانرب یاوتحم تالوصحم</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">مان</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">)یلدنص ، میت ، صخش لاثم ناونع هب( دحاو بسچرب</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">یکناب یاهتروص رد ژراش حرش</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      تسا ربتعمان لوصحم مان !اطخ
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      تسا ینالوط یلیخ ای هاتوک یلیخ لوصحم مان !اطخ
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      تسا ربتعمان هنیزه حرش !اطخ
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      درادن دوجو ای تسا ربتعمان دحاو بسچرب !اطخ
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      تسا هدش داجیا لوصحم !تیقفوم
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      داد یور ییاطخ لوصحم لاسرا ماگنه !اطخ
+    </div>
+  </template>
+</body>
+</html>

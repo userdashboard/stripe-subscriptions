@@ -1,0 +1,51 @@
+name: test-fs
+
+on: [push]
+
+jobs:
+  test-fs:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Set up as module
+      run: |
+        HERE=`pwd`
+        mkdir /tmp/project
+        cd /tmp/project
+        npm init -y
+        npm install ngrok faker puppeteer@2.1.1 @userdashboard/dashboard @userdashboard/stripe-subscriptions
+        npm install -g mocha
+        rm node_modules/@userdashboard/stripe-subscriptions/*.js
+        rm -rf node_modules/@userdashboard/stripe-subscriptions/src
+        rm -rf node_modules/@userdashboard/stripe-subscriptions/languages
+        cp /home/runner/work/stripe-subscriptions/stripe-subscriptions/*.js node_modules/@userdashboard/stripe-subscriptions
+        cp -R /home/runner/work/stripe-subscriptions/stripe-subscriptions/src/ node_modules/@userdashboard/stripe-subscriptions/src/
+        cp -R /home/runner/work/stripe-subscriptions/stripe-subscriptions/languages/ node_modules/@userdashboard/stripe-subscriptions/languages/
+        echo "global.applicationPath = __dirname" > main.js
+        PACKAGE=`cat package.json`
+        PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
+        echo $PACKAGE > package.json
+    - name: Test encrypted file-system storage
+      run: mocha --retries 2 --file main.js --bail --exit --full-trace --recursive --timeout 90000000 "./node_modules/@userdashboard/**/{,!(public)}/*.test.js"
+      working-directory: "/tmp/project"
+      env:
+        NODE_ENV: testing
+        FAST_START: true
+        DASHBOARD_SERVER: "http://localhost:9000"
+        DOMAIN: "localhost"
+        GENERATE_SITEMAP_TXT: false
+        GENERATE_API_TXT: false
+        STRIPE_KEY: ${{ secrets.STRIPE_KEY_2 }}
+        STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_2 }}
+        STRIPE_JS: false
+        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: "replaced-at-runtime"
+        NGROK: true
+        ENCRYPTION_SECRET: "12345678901234567890123456789012"
+        ENCRYPTION_SECRET_IV: "1234123412341234"
+        DISABLE_PAYOUT_TESTS: "true"

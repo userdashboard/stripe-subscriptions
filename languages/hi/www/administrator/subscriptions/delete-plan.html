@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">हटाएं ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">हटाएं ${plan.id}</h1>
+  <p translate="yes">योजना को तुरंत हटा दिया जाएगा और पुनर्प्राप्त नहीं किया जा सकता है।</p>
+  <div id="message-container"></div>
+  <table id="plans-table" class="pure-table object-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">उत्पाद</th>
+        <th translate="yes">कीमत</th>
+        <th translate="yes">मुफ्त आज़माइश</th>
+        <th translate="yes">मध्यान्तर</th>
+      </tr>
+    </thead>
+    <tr id="${plan.id}">
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${plan.product}">${plan.product}</a>
+      </td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted} day(s)</td>
+      <td>${plan.interval_count} ${plan.interval}(s)</td>
+    </tr>
+  </table>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/delete-plan?planid=${plan.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Delete plan</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      सफलता! योजना को हटा दिया गया है
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      त्रुटि! योजना को हटाने में त्रुटि हुई
+    </div>
+  </template>
+</body>
+</html>

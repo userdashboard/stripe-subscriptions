@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-subscriptions.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">구독</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">구독</h1>
+  <p translate="yes">사용자는 게시 된 계획에 대한 구독을 만듭니다.</p>
+  <div id="message-container"></div>
+  <div id="no-subscriptions">
+    <p translate="yes">아직 가입이 생성되지 않았습니다.</p>
+  </div>
+  <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">고객</th>
+        <th translate="yes">현재 기간</th>
+        <th translate="yes">할인</th>
+        <th translate="yes">계획</th>
+        <th translate="yes">상태</th>
+        <th translate="yes">만들어진</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/subscriptions?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${subscription.customer.id || subscription.customer}">${subscription.customer.id || subscription.customer}</a>
+      </td>
+      <td>${subscription.current_period_startFormatted} - ${subscription.current_period_endFormatted}</td>
+      <td>${subscription.discount}</td>
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${subscription.plan}">${subscription.plan.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

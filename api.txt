@@ -1,0 +1,1560 @@
+@userdashboard/dashboard 1.0.302
+http://localhost:9000
+
+|---------------------------------------------------------------|
+| /account/subscriptions/cancel-subscription                    |
+| EXCEPTIONS----------------------------------------------------|
+| undefined                                                     |
+|  * should reject missing subscription                         |
+|  * should reject invalid subscription                         |
+|  * should reject canceled subscription                        |
+|  * should reject other account's subscription                 |
+| before                                                        |
+|  * should bind data to req                                    |
+| view                                                          |
+|  * should present the form                                    |
+|  * should show fields for free plan cancelations              |
+|  * should show fields for free trial cancelations             |
+|  * should show fields for cancelation with credit or refund   |
+| submit                                                        |
+|  * should cancel free subscription immediately (screenshots)  |
+|  * should cancel free subscription at period end              |
+|  * should cancel free trial immediately                       |
+|  * should cancel free trial at period end                     |
+|  * should cancel paid subscription and credit account         |
+|  * should cancel paid subscription and show refund            |
+|---------------------------------------------------------------|
+
+|----------------------------------------------|
+| /account/subscriptions/confirm-subscription  |
+| EXCEPTIONS-----------------------------------|
+| undefined                                    |
+|  * invalid-planid (165ms)                    |
+|  * invalid-plan                              |
+| before                                       |
+|  * should bind data to req                   |
+| view                                         |
+|  * should present the form                   |
+| submit                                       |
+|  * should start subscription (screenshots)   |
+| errors                                       |
+|  * invalid-paymentmethodid                   |
+|----------------------------------------------|
+
+|-------------------------------------------------|
+| /account/subscriptions/delete-billing-profile   |
+| EXCEPTIONS--------------------------------------|
+| undefined                                       |
+|  * invalid-customerid                           |
+|  * invalid-account                              |
+| before                                          |
+|  * should bind data to req                      |
+| view                                            |
+|  * should present the form                      |
+| submit                                          |
+|  * should delete billing profile (screenshots)  |
+|-------------------------------------------------|
+
+|-----------------------------------------------|
+| /account/subscriptions/invoice                |
+| EXCEPTIONS------------------------------------|
+| undefined                                     |
+|  * invalid-invoiceid                          |
+|  * invalid-account                            |
+| before                                        |
+|  * should bind data to req                    |
+| view                                          |
+|  * should have row for invoice (screenshots)  |
+|-----------------------------------------------|
+
+|--------------------------------------|
+| /account/subscriptions/pay-invoice   |
+| EXCEPTIONS---------------------------|
+| undefined                            |
+|  * should reject invalid invoice     |
+|  * invalid-account                   |
+|  * should reject paid invoice        |
+| before                               |
+|  * should bind data to req           |
+| view                                 |
+|  * should present the form           |
+| submit                               |
+|  * should pay invoice (screenshots)  |
+|--------------------------------------|
+
+|----------------------------------------------|
+| /account/subscriptions/refund-invoice        |
+| EXCEPTIONS-----------------------------------|
+| undefined                                    |
+|  * invalid-invoiceid                         |
+|  * invalid-account                           |
+| before                                       |
+|  * should bind data to req                   |
+| view                                         |
+|  * should present the form                   |
+| submit                                       |
+|  * should cancel subscription (screenshots)  |
+|----------------------------------------------|
+
+|------------------------------------------------|
+| /account/subscriptions/request-refund          |
+| EXCEPTIONS-------------------------------------|
+| undefined                                      |
+|  * invalid-invoice                             |
+|  * invalid-account                             |
+| before                                         |
+|  * should bind data to req                     |
+| view                                           |
+|  * should present the form                     |
+| submit                                         |
+|  * should create refund request (screenshots)  |
+|------------------------------------------------|
+
+|---------------------------------------------------------|
+| /account/subscriptions/subscription                     |
+| EXCEPTIONS----------------------------------------------|
+| undefined                                               |
+|  * invalid-subscriptionid (1127ms)                      |
+|  * invalid-account                                      |
+| before                                                  |
+|  * should bind data to req                              |
+| view                                                    |
+|  * should present the subscription table (screenshots)  |
+|---------------------------------------------------------|
+
+|-----------------------------------------------------|
+| /administrator/subscriptions/apply-customer-coupon  |
+| EXCEPTIONS------------------------------------------|
+| undefined                                           |
+|  * should reject invalid customer (152ms)           |
+|  * should reject customer with coupon (1759ms)      |
+| before                                              |
+|  * should bind data to req (791ms)                  |
+| view                                                |
+|  * should present the form (1480ms)                 |
+| submit                                              |
+|  * should apply coupon (screenshots) (71642ms)      |
+|-----------------------------------------------------|
+
+|---------------------------------------------------------|
+| /administrator/subscriptions/apply-subscription-coupon  |
+| EXCEPTIONS----------------------------------------------|
+| undefined                                               |
+|  * should reject invalid subscription (154ms)           |
+|  * should reject canceling subscription (7996ms)        |
+|  * should reject free subscription (5827ms)             |
+|  * should reject subscription with coupon (8681ms)      |
+| before                                                  |
+|  * should bind data to req (7533ms)                     |
+| view                                                    |
+|  * should present the form (8015ms)                     |
+| submit                                                  |
+|  * should apply coupon (screenshots) (78306ms)          |
+|---------------------------------------------------------|
+
+|--------------------------------------------------|
+| /administrator/subscriptions/delete-coupon       |
+| EXCEPTIONS---------------------------------------|
+| undefined                                        |
+|  * should reject invalid couponid (154ms)        |
+| before                                           |
+|  * should bind data to req (323ms)               |
+| view                                             |
+|  * should present the form (813ms)               |
+| submit                                           |
+|  * should delete coupon (screenshots) (68440ms)  |
+|--------------------------------------------------|
+
+|------------------------------------------------|
+| /administrator/subscriptions/delete-plan       |
+| EXCEPTIONS-------------------------------------|
+| undefined                                      |
+|  * should reject invalid planid (159ms)        |
+| before                                         |
+|  * should bind data to req (706ms)             |
+| view                                           |
+|  * should present the form (1194ms)            |
+| submit                                         |
+|  * should delete plan (screenshots) (69041ms)  |
+|------------------------------------------------|
+
+|---------------------------------------------------|
+| /administrator/subscriptions/delete-product       |
+| EXCEPTIONS----------------------------------------|
+| undefined                                         |
+|  * should reject invalid productid (157ms)        |
+| before                                            |
+|  * should bind data to req (352ms)                |
+| view                                              |
+|  * should present the form (777ms)                |
+| submit                                            |
+|  * should delete product (screenshots) (65989ms)  |
+|---------------------------------------------------|
+
+|-------------------------------------------------------------------------|
+| /administrator/subscriptions/delete-subscription                        |
+| EXCEPTIONS--------------------------------------------------------------|
+| undefined                                                               |
+|  * should reject missing subscription                                   |
+|  * should reject invalid subscription                                   |
+|  * should reject canceled subscription                                  |
+| before                                                                  |
+|  * should bind data to req                                              |
+| view                                                                    |
+|  * should present the form                                              |
+|  * should show fields for free plan cancelations                        |
+|  * should show fields for free trial cancelations                       |
+|  * should show fields for cancelation with credit or refund             |
+| submit                                                                  |
+|  * should cancel free subscription immediately (screenshots) (13054ms)  |
+|  * should cancel free subscription at period end                        |
+|  * should cancel free trial immediately                                 |
+|  * should cancel free trial at period end                               |
+|  * should cancel paid subscription and credit account                   |
+|  * should cancel paid subscription and show refund                      |
+|-------------------------------------------------------------------------|
+
+|----------------------------------------------------------|
+| /administrator/subscriptions/deny-refund                 |
+| EXCEPTIONS-----------------------------------------------|
+| undefined                                                |
+|  * should reject invalid chargeid (155ms)                |
+|  * should reject charge without refund request (8060ms)  |
+|  * should reject denied refund (8592ms)                  |
+| before                                                   |
+|  * should bind data to req (9532ms)                      |
+| view                                                     |
+|  * should present the form (8939ms)                      |
+| submit                                                   |
+|  * should deny refund (screenshots) (86593ms)            |
+|----------------------------------------------------------|
+
+|--------------------------------------------|
+| /administrator/subscriptions/flag-charge   |
+| EXCEPTIONS---------------------------------|
+| undefined                                  |
+|  * should reject invalid chargeid (153ms)  |
+|  * should reject flagged charge            |
+| before                                     |
+|  * should bind data to req                 |
+| view                                       |
+|  * should present the form                 |
+| submit                                     |
+|  * should flag charge (screenshots)        |
+|--------------------------------------------|
+
+|----------------------------------------------------|
+| /administrator/subscriptions/forgive-invoice       |
+| EXCEPTIONS-----------------------------------------|
+| undefined                                          |
+|  * should reject invalid invoiceid (141ms)         |
+|  * should reject paid invoice (7020ms)             |
+|  * should reject uncollectible invoice (3335ms)    |
+| before                                             |
+|  * should bind data to req (2250ms)                |
+| view                                               |
+|  * should present the form (2875ms)                |
+| submit                                             |
+|  * should forgive invoice (screenshots) (65927ms)  |
+|----------------------------------------------------|
+
+|---------------------------------------------------|
+| /administrator/subscriptions/publish-coupon       |
+| EXCEPTIONS----------------------------------------|
+| undefined                                         |
+|  * should reject invalid couponid (146ms)         |
+|  * should reject published coupon (322ms)         |
+| before                                            |
+|  * should bind data to req (325ms)                |
+| view                                              |
+|  * should present the form (776ms)                |
+| submit                                            |
+|  * should publish coupon (screenshots) (68467ms)  |
+|---------------------------------------------------|
+
+|-------------------------------------------------|
+| /administrator/subscriptions/publish-plan       |
+| EXCEPTIONS--------------------------------------|
+| undefined                                       |
+|  * should reject invalid planid (153ms)         |
+|  * should reject published plan (691ms)         |
+| before                                          |
+|  * should bind data to req (698ms)              |
+| view                                            |
+|  * should present the form (1228ms)             |
+| submit                                          |
+|  * should publish plan (screenshots) (68861ms)  |
+|-------------------------------------------------|
+
+|----------------------------------------------------|
+| /administrator/subscriptions/publish-product       |
+| EXCEPTIONS-----------------------------------------|
+| undefined                                          |
+|  * should reject invalid productid (152ms)         |
+|  * should reject published product (338ms)         |
+| before                                             |
+|  * should bind data to req (495ms)                 |
+| view                                               |
+|  * should present the form (790ms)                 |
+| submit                                             |
+|  * should publish product (screenshots) (65615ms)  |
+|----------------------------------------------------|
+
+|---------------------------------------------|
+| /administrator/subscriptions/refund-charge  |
+| EXCEPTIONS----------------------------------|
+| undefined                                   |
+|  * should reject invalid chargeid (156ms)   |
+|  * should reject refunded charge            |
+| before                                      |
+|  * should bind data to req                  |
+| view                                        |
+|  * should present the form                  |
+| submit                                      |
+|  * should refund charge (screenshots)       |
+|---------------------------------------------|
+
+|------------------------------------------------------|
+| /administrator/subscriptions/revoke-customer-coupon  |
+| EXCEPTIONS-------------------------------------------|
+| undefined                                            |
+|  * should reject invalid customer (154ms)            |
+|  * should reject customer without discount (1063ms)  |
+| before                                               |
+|  * should bind data to req (1428ms)                  |
+| view                                                 |
+|  * should present the form (2010ms)                  |
+| submit                                               |
+|  * should remove coupon (screenshots) (64209ms)      |
+|------------------------------------------------------|
+
+|----------------------------------------------------------|
+| /administrator/subscriptions/revoke-subscription-coupon  |
+| EXCEPTIONS-----------------------------------------------|
+| undefined                                                |
+|  * should reject invalid subscription (158ms)            |
+|  * should reject subscription without discount (8711ms)  |
+| before                                                   |
+|  * should bind data to req (9870ms)                      |
+| view                                                     |
+|  * should present the form (9972ms)                      |
+| submit                                                   |
+|  * should remove coupon (screenshots) (78342ms)          |
+|----------------------------------------------------------|
+
+|-----------------------------------------------------|
+| /administrator/subscriptions/unpublish-coupon       |
+| EXCEPTIONS------------------------------------------|
+| undefined                                           |
+|  * should reject invalid couponid (169ms)           |
+|  * should reject never published coupon (343ms)     |
+|  * should reject unpublished coupon (702ms)         |
+| before                                              |
+|  * should bind data to req (332ms)                  |
+| view                                                |
+|  * should present the form (791ms)                  |
+| submit                                              |
+|  * should unpublish coupon (screenshots) (68041ms)  |
+|-----------------------------------------------------|
+
+|---------------------------------------------------|
+| /administrator/subscriptions/unpublish-plan       |
+| EXCEPTIONS----------------------------------------|
+| undefined                                         |
+|  * should reject invalid planid (159ms)           |
+|  * should never published plan (675ms)            |
+|  * should reject unpublished plan (928ms)         |
+| before                                            |
+|  * should bind data to req (632ms)                |
+| view                                              |
+|  * should present the form (1140ms)               |
+| submit                                            |
+|  * should unpublish plan (screenshots) (68291ms)  |
+|---------------------------------------------------|
+
+|------------------------------------------------------|
+| /administrator/subscriptions/unpublish-product       |
+| EXCEPTIONS-------------------------------------------|
+| undefined                                            |
+|  * should reject invalid productid (207ms)           |
+|  * should never published product (301ms)            |
+|  * should reject unpublished product (526ms)         |
+| before                                               |
+|  * should bind data to req (310ms)                   |
+| view                                                 |
+|  * should present the form (804ms)                   |
+| submit                                               |
+|  * should unpublish product (screenshots) (65722ms)  |
+|------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/charge                                                      |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS-------------------------------|
+| required querystring chargeid  | object (9932ms)  | invalid-chargeid                         |
+|                                |                  |  * missing querystring chargeid          |
+|                                |                  |  * invalid querystring chargeid (153ms)  |
+|--------------------------------|------------------|------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/charges                                   |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-------------------------------------------------|
+| /api/administrator/subscriptions/charges-count  |
+| RETURNS-----------------------------------------|
+| integer (29759ms)                               |
+|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/coupon                                                     |
+| RECEIVES-----------------------| RETURNS---------| EXCEPTIONS-------------------------------|
+| required querystring couponid  | object (317ms)  | invalid-couponid                         |
+|                                |                 |  * missing querystring couponid          |
+|                                |                 |  * invalid querystring couponid (163ms)  |
+|--------------------------------|-----------------|------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/coupons                                   |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-------------------------------------------------|
+| /api/administrator/subscriptions/coupons-count  |
+| RETURNS-----------------------------------------|
+| integer (544ms)                                 |
+|-------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/create-cancelation-refund                                                               |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-----------------------------------------------------|
+| required querystring subscriptionid  | object (8473ms)  | invalid-subscriptionid                                         |
+|                                      |                  |  * missing querystring subscriptionid                          |
+|                                      |                  |  * invalid querystring subscriptionid (152ms)                  |
+|                                      |                  | invalid-subscription                                           |
+|                                      |                  |  * ineligible querystring subscription is not active (8584ms)  |
+|--------------------------------------|------------------|----------------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/create-coupon                                                                                               |
+| RECEIVES---------------------------------------------------------| RETURNS---------| EXCEPTIONS----------------------------------------------|
+| required posted duration_in_months                               | object (195ms)  | invalid-couponid                                        |
+| required posted currency                                         |                 |  * missing posted couponid (71ms)                       |
+| required posted amount_off                                       |                 |  * invalid posted couponid is not alphanumeric_ (91ms)  |
+| required posted couponid (71ms)                                  |                 | invalid-amount_off                                      |
+| required posted duration                                         |                 |  * missing posted amount_off                            |
+| optionally-required posted amount_off (integer, or percent_off)  |                 |  * invalid posted amount_off                            |
+| optionally-required posted currency (string, if amount_off)      |                 | invalid-currency                                        |
+| optionally-required posted percent_off (integer, or amount_off)  |                 |  * missing posted currency                              |
+| optionally-required posted expire date                           |                 |  * invalid posted currency                              |
+| optionally-required posted duration_in_months                    |                 | invalid-percent_off                                     |
+|                                                                  |                 |  * invalid posted percent_off                           |
+|                                                                  |                 | invalid-duration                                        |
+|                                                                  |                 |  * invalid posted duration                              |
+|                                                                  |                 | invalid-duration_in_months                              |
+|                                                                  |                 |  * missing posted duration_in_months                    |
+|                                                                  |                 |  * invalid posted duration_in_months                    |
+|                                                                  |                 | invalid-redeem_by_meridiem                              |
+|                                                                  |                 |  * invalid posted redeem_by_meridiem                    |
+|                                                                  |                 | invalid-redeem_by                                       |
+|                                                                  |                 |  * invalid posted redeem_by                             |
+|------------------------------------------------------------------|-----------------|---------------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/create-plan                                                                                                                                   |
+| RECEIVES-----------------------------------------------| RETURNS---------| EXCEPTIONS---------------------------------------------| CONFIGURATION------------------------------|
+| required posted interval_count (335ms)                 | object (553ms)  | invalid-planid                                         | environment MINIMUM_PLANID_LENGTH (176ms)  |
+| required posted interval (301ms)                       |                 |  * invalid posted planid is not alphanumeric_ (325ms)  | environment MAXIMUM_PLANID_LENGTH (224ms)  |
+| required posted currency (180ms)                       |                 | invalid-planid-length                                  |                                            |
+| required posted amount (312ms)                         |                 |  * posted planid is too short (219ms)                  |                                            |
+| required posted productid (207ms)                      |                 |  * posted planid is too long (206ms)                   |                                            |
+| optional posted published (boolean) (521ms)            |                 | invalid-productid                                      |                                            |
+| optional posted trial_period_days (integer) (774ms)    |                 |  * missing posted productid (207ms)                    |                                            |
+| optional posted usage_type (licensed|metered) (634ms)  |                 |  * invalid posted productid (328ms)                    |                                            |
+|                                                        |                 | invalid-product                                        |                                            |
+|                                                        |                 |  * ineligible posted product is not published (314ms)  |                                            |
+|                                                        |                 | invalid-amount                                         |                                            |
+|                                                        |                 |  * missing posted amount (312ms)                       |                                            |
+|                                                        |                 |  * invalid posted amount (352ms)                       |                                            |
+|                                                        |                 | invalid-currency                                       |                                            |
+|                                                        |                 |  * missing posted currency (180ms)                     |                                            |
+|                                                        |                 |  * invalid posted currency (201ms)                     |                                            |
+|                                                        |                 | invalid-interval                                       |                                            |
+|                                                        |                 |  * missing posted interval (301ms)                     |                                            |
+|                                                        |                 |  * invalid posted interval (331ms)                     |                                            |
+|                                                        |                 | invalid-interval-count                                 |                                            |
+|                                                        |                 |  * missing posted interval_count (335ms)               |                                            |
+|                                                        |                 |  * invalid posted interval_count (324ms)               |                                            |
+|                                                        |                 | invalid-trial_period                                   |                                            |
+|                                                        |                 |  * invalid posted trial_period (320ms)                 |                                            |
+|                                                        |                 | invalid-usage_type                                     |                                            |
+|                                                        |                 |  * invalid posted usage_type (340ms)                   |                                            |
+|--------------------------------------------------------|-----------------|--------------------------------------------------------|--------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/create-product                                                                                                     |
+| RECEIVES-------------------------------------| RETURNS---------| EXCEPTIONS------------------------------| CONFIGURATION----------------------------|
+| required posted statement_descriptor         | object (375ms)  | invalid-name                            | environment MINIMUM_PRODUCT_NAME_LENGTH  |
+| required posted name                         |                 |  * missing posted name                  | environment MAXIMUM_PRODUCT_NAME_LENGTH  |
+| optional posted published (boolean) (376ms)  |                 | invalid-product-name-length             |                                          |
+|                                              |                 |  * posted name too short                |                                          |
+|                                              |                 |  * posted name too long                 |                                          |
+|                                              |                 | invalid-statement_descriptor            |                                          |
+|                                              |                 |  * missing posted statement_descriptor  |                                          |
+|----------------------------------------------|-----------------|-----------------------------------------|------------------------------------------|
+
+|--------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/create-refund                                       |
+| RECEIVES-----------------------| RETURNS--| EXCEPTIONS-------------------------------|
+| required posted amount         | object   | invalid-chargeid                         |
+| required querystring chargeid  |          |  * missing querystring chargeid          |
+|                                |          |  * invalid querystring chargeid (147ms)  |
+|                                |          | invalid-amount                           |
+|                                |          |  * missing posted amount                 |
+|                                |          |  * invalid posted amount                 |
+|                                |          |  * invalid posted amount is negative     |
+|                                |          |  * invalid posted amount exceeds charge  |
+|--------------------------------|----------|------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/customer                                                        |
+| RECEIVES-------------------------| RETURNS----------| EXCEPTIONS---------------------------------|
+| required querystring customerid  | object (3043ms)  | invalid-customerid                         |
+|                                  |                  |  * missing querystring customerid          |
+|                                  |                  |  * invalid querystring customerid (154ms)  |
+|----------------------------------|------------------|--------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/customers                                 |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|---------------------------------------------------|
+| /api/administrator/subscriptions/customers-count  |
+| RETURNS-------------------------------------------|
+| integer (474ms)                                   |
+|---------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/delete-coupon                                               |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS-------------------------------|
+| required querystring couponid  | boolean (547ms)  | invalid-couponid                         |
+|                                |                  |  * missing querystring couponid          |
+|                                |                  |  * invalid querystring couponid (142ms)  |
+|--------------------------------|------------------|------------------------------------------|
+
+|------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/delete-plan                                             |
+| RECEIVES---------------------| RETURNS----------| EXCEPTIONS-----------------------------|
+| required querystring planid  | boolean (915ms)  | invalid-planid                         |
+|                              |                  |  * missing querystring planid          |
+|                              |                  |  * invalid querystring planid (157ms)  |
+|------------------------------|------------------|----------------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/delete-product                                                |
+| RECEIVES------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring productid  | boolean (498ms)  | invalid-productid                         |
+|                                 |                  |  * missing querystring productid          |
+|                                 |                  |  * invalid querystring productid (143ms)  |
+|---------------------------------|------------------|-------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/delete-subscription                                                                      |
+| RECEIVES-----------------------------| RETURNS-----------| EXCEPTIONS-----------------------------------------------------|
+| required querystring subscriptionid  | boolean (7293ms)  | invalid-subscriptionid                                         |
+|                                      |                   |  * missing querystring subscriptionid                          |
+|                                      |                   |  * invalid querystring subscriptionid (166ms)                  |
+|                                      |                   | invalid-subscription                                           |
+|                                      |                   |  * ineligible querystring subscription is not active (8845ms)  |
+|--------------------------------------|-------------------|----------------------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/invoice                                                       |
+| RECEIVES------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring invoiceid  | object (7074ms)  | invalid-invoiceid                         |
+|                                 |                  |  * missing querystring invoiceid          |
+|                                 |                  |  * invalid querystring invoiceid (142ms)  |
+|---------------------------------|------------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/invoices                                  |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|--------------------------------------------------|
+| /api/administrator/subscriptions/invoices-count  |
+| RETURNS------------------------------------------|
+| integer (30018ms)                                |
+|--------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/payment-intent                                                    |
+| RECEIVES------------------------------| RETURNS----------| EXCEPTIONS------------------------------|
+| required querystring paymentintentid  | object (1674ms)  | invalid-paymentintentid                 |
+|                                       |                  |  * missing querystring paymentintentid  |
+|                                       |                  |  * invalid querystring paymentintentid  |
+|---------------------------------------|------------------|-----------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/payment-intents                           |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|---------------------------------------------------------|
+| /api/administrator/subscriptions/payment-intents-count  |
+| RETURNS-------------------------------------------------|
+| integer (5227ms)                                        |
+|---------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/payment-method                                                    |
+| RECEIVES------------------------------| RETURNS----------| EXCEPTIONS------------------------------|
+| required querystring paymentmethodid  | object (1584ms)  | invalid-paymentmethodid                 |
+|                                       |                  |  * missing querystring paymentmethodid  |
+|                                       |                  |  * invalid querystring paymentmethodid  |
+|---------------------------------------|------------------|-----------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/payment-methods                           |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|---------------------------------------------------------|
+| /api/administrator/subscriptions/payment-methods-count  |
+| RETURNS-------------------------------------------------|
+| integer (4236ms)                                        |
+|---------------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/plan                                                   |
+| RECEIVES---------------------| RETURNS---------| EXCEPTIONS-----------------------------|
+| required querystring planid  | object (705ms)  | invalid-planid                         |
+|                              |                 |  * missing querystring planid          |
+|                              |                 |  * invalid querystring planid (149ms)  |
+|------------------------------|-----------------|----------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/plans                                     |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-----------------------------------------------|
+| /api/administrator/subscriptions/plans-count  |
+| RETURNS---------------------------------------|
+| integer (1291ms)                              |
+|-----------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/product                                                      |
+| RECEIVES------------------------| RETURNS---------| EXCEPTIONS--------------------------------|
+| required querystring productid  | object (309ms)  | invalid-productid                         |
+|                                 |                 |  * missing querystring productid          |
+|                                 |                 |  * invalid querystring productid (159ms)  |
+|---------------------------------|-----------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/products                                  |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|--------------------------------------------------|
+| /api/administrator/subscriptions/products-count  |
+| RETURNS------------------------------------------|
+| integer (545ms)                                  |
+|--------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/refund                                                              |
+| RECEIVES-------------------------------| RETURNS----------| EXCEPTIONS-------------------------------|
+| required querystring refundid (163ms)  | object (8654ms)  | undefined                                |
+|                                        |                  |  * invalid querystring refundid          |
+|                                        |                  |  * missing querystring refundid (163ms)  |
+|----------------------------------------|------------------|------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/refund-requests                           |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|---------------------------------------------------------|
+| /api/administrator/subscriptions/refund-requests-count  |
+| RETURNS-------------------------------------------------|
+| integer (22714ms)                                       |
+|---------------------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/refunds                                   |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-------------------------------------------------|
+| /api/administrator/subscriptions/refunds-count  |
+| RETURNS-----------------------------------------|
+| integer (29427ms)                               |
+|-------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/reset-customer-coupon                                      |
+| RECEIVES-------------------------| EXCEPTIONS-----------------------------------------------|
+| required querystring customerid  | invalid-customerid                                       |
+| object (1175ms)                  |  * missing querystring customerid                        |
+|                                  |  * invalid querystring customerid (205ms)                |
+|                                  | invalid-customeir                                        |
+|                                  |  * invalid querystring customer has no discount (242ms)  |
+|----------------------------------|----------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/reset-subscription-coupon                                                                 |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------------|
+| required querystring subscriptionid  | object (8428ms)  | invalid-subscriptionid                                           |
+|                                      |                  |  * missing querystring subscriptionid                            |
+|                                      |                  |  * invalid querystring subscriptionid (166ms)                    |
+|                                      |                  | invalid-subscription                                             |
+|                                      |                  |  * ineligible querystring subscription has no discount (6927ms)  |
+|--------------------------------------|------------------|------------------------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-charge-flagged                                                             |
+| RECEIVES---------------------| RETURNS----------| EXCEPTIONS----------------------------------------------------|
+| required querystring charge  | object (6996ms)  | invalid-chargeid                                              |
+|                              |                  |  * missing querystring charge                                 |
+|                              |                  |  * invalid querystring charge (158ms)                         |
+|                              |                  | invalid-charge                                                |
+|                              |                  |  * ineligible querystring charge is already flagged (7047ms)  |
+|------------------------------|------------------|---------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-coupon-published                                                       |
+| RECEIVES-----------------------| RETURNS---------| EXCEPTIONS-----------------------------------------------|
+| required querystring couponid  | object (514ms)  | invalid-couponid                                         |
+|                                |                 |  * missing querystring couponid                          |
+|                                |                 |  * invalid querystring couponid (143ms)                  |
+|                                |                 | invalid-coupon                                           |
+|                                |                 |  * ineligible querystring coupon is published (340ms)    |
+|                                |                 |  * ineligible querystring coupon is unpublished (316ms)  |
+|--------------------------------|-----------------|----------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-coupon-unpublished                                                             |
+| RECEIVES-----------------------| RETURNS---------| EXCEPTIONS-------------------------------------------------------|
+| required querystring couponid  | object (520ms)  | invalid-couponid                                                 |
+|                                |                 |  * missing querystring couponid                                  |
+|                                |                 |  * invalid querystring couponid (144ms)                          |
+|                                |                 | invalid-coupon                                                   |
+|                                |                 |  * ineligible querystring coupon is not published (336ms)        |
+|                                |                 |  * ineligible querystring coupon is already unpublished (543ms)  |
+|--------------------------------|-----------------|------------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-invoice-uncollectible                                                                    |
+| RECEIVES--------------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------------|
+| required querystring invoiceid (137ms)  | object (4375ms)  | invalid-invoiceid                                                |
+|                                         |                  |  * missing querystring invoiceid (137ms)                         |
+|                                         |                  |  * invalid querystring invoiceid (146ms)                         |
+|                                         |                  | invalid-invoice                                                  |
+|                                         |                  |  * invalid querystring invoice is paid (7980ms)                  |
+|                                         |                  |  * invalid querystring invoice is marked uncollectable (5230ms)  |
+|-----------------------------------------|------------------|------------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-plan-published                                                   |
+| RECEIVES---------------------| RETURNS---------| EXCEPTIONS-------------------------------------------|
+| required querystring planid  | object (890ms)  | invalid-planid                                       |
+|                              |                 |  * missing querystring planid                        |
+|                              |                 |  * invalid querystring planid (160ms)                |
+|                              |                 | invalid-plan                                         |
+|                              |                 |  * ineligible querystring plan is published (651ms)  |
+|------------------------------|-----------------|------------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-plan-unpublished                                                           |
+| RECEIVES---------------------| RETURNS---------| EXCEPTIONS-----------------------------------------------------|
+| required querystring planid  | object (914ms)  | invalid-planid                                                 |
+|                              |                 |  * missing querystring planid                                  |
+|                              |                 |  * invalid querystring planid (175ms)                          |
+|                              |                 | invalid-plan                                                   |
+|                              |                 |  * ineligible querystring plan is not published (632ms)        |
+|                              |                 |  * ineligible querystring plan is already unpublished (897ms)  |
+|------------------------------|-----------------|----------------------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-product-published                                                                   |
+| RECEIVES--------------------------------| RETURNS---------| EXCEPTIONS---------------------------------------------------|
+| required querystring productid (555ms)  | object (670ms)  | invalid-productid                                            |
+|                                         |                 |  * missing querystring productid (555ms)                     |
+|                                         |                 |  * invalid querystring productid (308ms)                     |
+|                                         |                 | invalid-product                                              |
+|                                         |                 |  * invalid querystring product is already published (495ms)  |
+|-----------------------------------------|-----------------|--------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-product-unpublished                                                                      |
+| RECEIVES--------------------------------| RETURNS---------| EXCEPTIONS--------------------------------------------------------|
+| required querystring productid (207ms)  | object (518ms)  | invalid-productid                                                 |
+|                                         |                 |  * missing querystring productid (207ms)                          |
+|                                         |                 |  * invalid querystring productid (323ms)                          |
+|                                         |                 | invalid-product                                                   |
+|                                         |                 |  * ineligible querystring product is not published (471ms)        |
+|                                         |                 |  * ineligible querystring product is already unpublished (552ms)  |
+|-----------------------------------------|-----------------|-------------------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-refund-request-denied                                                                |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS------------------------------------------------------------|
+| required querystring chargeid  | object (7648ms)  | invalid-chargeid                                                      |
+|                                |                  |  * missing querystring chargeid                                       |
+|                                |                  |  * invalid querystring chargeid (163ms)                               |
+|                                |                  | invalid-charge                                                        |
+|                                |                  |  * ineligible querystring charge has no refund request (7478ms)       |
+|                                |                  |  * ineligible querystring charge has denied request already (8013ms)  |
+|--------------------------------|------------------|-----------------------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-subscription-canceled                                                                |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS------------------------------------------------------|
+| required querystring subscriptionid  | object (9207ms)  | invalid-subscriptionid                                          |
+|                                      |                  |  * missing querystring subscriptionid                           |
+|                                      |                  |  * invalid querystring subscriptionid (143ms)                   |
+|                                      |                  | invalid-subscription                                            |
+|                                      |                  |  * ineligible querystring subscription is not active (10799ms)  |
+|--------------------------------------|------------------|-----------------------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/set-subscription-coupon                                                         |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS---------------------------------------------|
+| required posted couponid (7609ms)    | object (8822ms)  | invalid-subscriptionid                                 |
+| required querystring subscriptionid  |                  |  * missing querystring subscriptionid                  |
+|                                      |                  |  * invalid querystring subscriptionid                  |
+|                                      |                  | invalid-subscription                                   |
+|                                      |                  |  * ineligible subscription is canceling (8275ms)       |
+|                                      |                  |  * ineligible subscription has coupon (8077ms)         |
+|                                      |                  | invalid-couponid                                       |
+|                                      |                  |  * missing posted couponid (7609ms)                    |
+|                                      |                  |  * invalid posted couponid (6918ms)                    |
+|                                      |                  | invalid-coupon                                         |
+|                                      |                  |  * ineligible posted coupon is not published (6873ms)  |
+|                                      |                  |  * ineligible posted coupon is unpublished (7555ms)    |
+|--------------------------------------|------------------|--------------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/setup-intent                                                  |
+| RECEIVES----------------------------| RETURNS----------| EXCEPTIONS----------------------------|
+| required querystring setupintentid  | object (2636ms)  | invalid-setupintentid                 |
+|                                     |                  |  * missing querystring setupintentid  |
+|                                     |                  |  * invalid querystring setupintentid  |
+|-------------------------------------|------------------|---------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/setup-intents                             |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-------------------------------------------------------|
+| /api/administrator/subscriptions/setup-intents-count  |
+| RETURNS-----------------------------------------------|
+| integer (3872ms)                                      |
+|-------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/subscription                                                            |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-------------------------------------|
+| required querystring subscriptionid  | object (7449ms)  | invalid-subscriptionid                         |
+|                                      |                  |  * missing querystring subscriptionid          |
+|                                      |                  |  * invalid querystring subscriptionid (162ms)  |
+|--------------------------------------|------------------|------------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/administrator/subscriptions/subscriptions                             |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|-------------------------------------------------------|
+| /api/administrator/subscriptions/subscriptions-count  |
+| RETURNS-----------------------------------------------|
+| integer (23596ms)                                     |
+|-------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/update-coupon                                                              |
+| RECEIVES-----------------------| RETURNS---------| EXCEPTIONS-----------------------------------------------|
+| required posted name (342ms)   | object (556ms)  | invalid-couponid                                         |
+| required querystring couponid  |                 |  * missing querystring couponid                          |
+| required posted name (502ms)   |                 |  * invalid querystring couponid (149ms)                  |
+|                                |                 | invalid-coupon                                           |
+|                                |                 |  * ineligible querystring coupon is unpublished (526ms)  |
+|                                |                 | invalid-name                                             |
+|                                |                 |  * missing posted name (342ms)                           |
+|                                |                 |  * invalid posted name (320ms)                           |
+|--------------------------------|-----------------|----------------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/update-plan                                                                                               |
+| RECEIVES---------------------------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------------|
+| required querystring planid                          | object (1165ms)  | invalid-planid                                                   |
+| optional posted trial_period_days (integer) (898ms)  |                  |  * missing querystring planid                                    |
+|                                                      |                  |  * invalid querystring planid (153ms)                            |
+|                                                      |                  | invalid-plan                                                     |
+|                                                      |                  |  * ineligible querystring plan is unpublished (1242ms)           |
+|                                                      |                  | invalid-productid                                                |
+|                                                      |                  |  * invalid posted productid (831ms)                              |
+|                                                      |                  | invalid-product                                                  |
+|                                                      |                  |  * ineligible posted product is not published (953ms)            |
+|                                                      |                  |  * ineligible posted product is unpublished (1127ms)             |
+|                                                      |                  | invalid-trial_period_days                                        |
+|                                                      |                  |  * invalid posted trial_period_days (981ms)                      |
+|                                                      |                  |  * ineligible posted trial_period_days is negative (1146ms)      |
+|                                                      |                  |  * ineligible posted trial_period_days greater than 365 (962ms)  |
+|------------------------------------------------------|------------------|------------------------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/update-product                                                                                                                                |
+| RECEIVES--------------------------------------| RETURNS---------| EXCEPTIONS------------------------------------------------| CONFIGURATION------------------------------------|
+| required posted unit_label (324ms)            | object (685ms)  | invalid-productid                                         | environment MINIMUM_PRODUCT_NAME_LENGTH (304ms)  |
+| required querystring productid (202ms)        |                 |  * missing querystring productid (202ms)                  | environment MAXIMUM_PRODUCT_NAME_LENGTH (342ms)  |
+| optional posted name (499ms)                  |                 |  * invalid querystring productid (316ms)                  |                                                  |
+| optional posted statement_descriptor (658ms)  |                 | invalid-product                                           |                                                  |
+| optional posted unit_label (475ms)            |                 |  * ineligible querystring product is unpublished (590ms)  |                                                  |
+|                                               |                 | invalid-name                                              |                                                  |
+|                                               |                 |  * invalid posted name (311ms)                            |                                                  |
+|                                               |                 | invalid-name-length                                       |                                                  |
+|                                               |                 |  * posted name too short (305ms)                          |                                                  |
+|                                               |                 |  * posted name too long (328ms)                           |                                                  |
+|                                               |                 | invalid-statement_descriptor                              |                                                  |
+|                                               |                 |  * invalid posted statement_descriptor (324ms)            |                                                  |
+|                                               |                 | invalid-statement_descriptor-length                       |                                                  |
+|                                               |                 |  * posted statement_descriptor too short (328ms)          |                                                  |
+|                                               |                 |  * posted statement_descriptor too long (316ms)           |                                                  |
+|                                               |                 | invalid-unit_label                                        |                                                  |
+|                                               |                 |  * missing posted unit_label (324ms)                      |                                                  |
+|-----------------------------------------------|-----------------|-----------------------------------------------------------|--------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/administrator/subscriptions/usage-record-summaries                                                                                     |
+| RECEIVES--------------------------------------| RETURNS---------------| EXCEPTIONS---------------------------------| CONFIGURATION----------|
+| required querystring subscriptionitemid       | stripe list response  | invalid-subscriptionitemid                 | environment PAGE_SIZE  |
+| optional querystring starting_after (string)  |                       |  * missing querystring subscriptionitemid  |                        |
+| optional querystring ending_before (string)   |                       |  * invalid querystring subscriptionitemid  |                        |
+| optional querystring limit (integer)          |                       |                                            |                        |
+|-----------------------------------------------|-----------------------|--------------------------------------------|------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/charge                                                                 |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS---------------------------------|
+| required querystring chargeid  | object (8387ms)  | invalid-chargeid                           |
+|                                |                  |  * missing querystring chargeid            |
+|                                |                  |  * invalid querystring chargeid            |
+|                                |                  | invalid-account                            |
+|                                |                  |  * ineligible accessing account (13891ms)  |
+|--------------------------------|------------------|--------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/charges                                                                                      |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (40ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|----------------------------------------|
+| /api/user/subscriptions/charges-count  |
+| RETURNS--------------------------------|
+| integer (18739ms)                      |
+|----------------------------------------|
+
+|------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-cancelation-refund                                                                            |
+| RECEIVES-----------------------------| RETURNS-----------| EXCEPTIONS--------------------------------------------------------|
+| required querystring subscriptionid  | object (10008ms)  | invalid-subscriptionid                                            |
+|                                      |                   |  * missing querystring subscriptionid                             |
+|                                      |                   |  * invalid querystring subscriptionid                             |
+|                                      |                   | invalid-account                                                   |
+|                                      |                   |  * ineligible accessing account (7075ms)                          |
+|                                      |                   | invalid-subscription                                              |
+|                                      |                   |  * ineligible querystring subscription is not active (8002ms)     |
+|                                      |                   |  * ineligible querystring subscription is free (6588ms)           |
+|                                      |                   |  * ineligible querystring subscription is in free trial (6164ms)  |
+|--------------------------------------|-------------------|-------------------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-customer                                                     |
+| RECEIVES------------------------| RETURNS---------| EXCEPTIONS------------------------------|
+| required querystring accountid  | object (231ms)  | invalid-accountid                       |
+|                                 |                 |  * missing querystring accountid        |
+|                                 |                 |  * invalid querystring accountid        |
+|                                 |                 | invalid-account                         |
+|                                 |                 |  * ineligible accessing account (42ms)  |
+|---------------------------------|-----------------|-----------------------------------------|
+
+|------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-payment-intent                                            |
+| RECEIVES---------------------------------| EXCEPTIONS------------------------------------|
+| required posted paymentmethodid (225ms)  | invalid-customerid                            |
+| required querystring customerid          |  * missing querystring customerid             |
+|                                          |  * invalid querystring customerid             |
+|                                          | invalid-account                               |
+|                                          |  * ineligible accessing account (1504ms)      |
+|                                          |  * ineligible posted payment method (1682ms)  |
+|                                          | invalid-paymentmethodid                       |
+|                                          |  * missing posted paymentmethodid (225ms)     |
+|                                          |  * invalid posted paymentmethodid (253ms)     |
+|                                          | object                                        |
+|                                          |  * object (1656ms)                            |
+|------------------------------------------|-----------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-payment-method                                                                                                |
+| RECEIVES--------------------------------------| RETURNS----------| EXCEPTIONS-------------------------------| CONFIGURATION------------------|
+| required querystring customerid               | object (1615ms)  | invalid-customerid                       | environment STRIPE_JS (262ms)  |
+| optionally-required posted name (236ms)       |                  |  * missing querystring customerid        |                                |
+| optionally-required posted cvc (380ms)        |                  |  * invalid querystring customerid        |                                |
+| optionally-required posted number (217ms)     |                  | invalid-account                          |                                |
+| optionally-required posted exp_month (240ms)  |                  |  * ineligible accessing account (249ms)  |                                |
+| optionally-required posted exp_year (213ms)   |                  |                                          |                                |
+| optionally-required posted token (229ms)      |                  |                                          |                                |
+|-----------------------------------------------|------------------|------------------------------------------|--------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-refund                                                                                                                                     |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS---------------------------------------------------------| CONFIGURATION------------------------------------|
+| required querystring chargeid  | object (8715ms)  | invalid-chargeid                                                   | environment SUBSCRIPTION_REFUND_PERIOD (8701ms)  |
+|                                |                  |  * missing querystring chargeid                                    |                                                  |
+|                                |                  |  * invalid querystring chargeid                                    |                                                  |
+|                                |                  | invalid-charge                                                     |                                                  |
+|                                |                  |  * ineligible querystring charge is refunded (10772ms)             |                                                  |
+|                                |                  |  * ineligible querystring charge is out of refund period (7772ms)  |                                                  |
+|                                |                  | invalid-account                                                    |                                                  |
+|                                |                  |  * ineligible accessing account (8934ms)                           |                                                  |
+|--------------------------------|------------------|--------------------------------------------------------------------|--------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-refund-request                                                                      |
+| RECEIVES-----------------------| RETURNS----------| EXCEPTIONS-----------------------------------------------------|
+| required querystring chargeid  | object (8130ms)  | invalid-chargeid                                               |
+|                                |                  |  * missing querystring chargeid                                |
+|                                |                  |  * invalid querystring chargeid                                |
+|                                |                  | invalid-charge                                                 |
+|                                |                  |  * ineligible querystring charge is refunded (13596ms)         |
+|                                |                  |  * ineligible querystring charge has refund request (10405ms)  |
+|                                |                  | invalid-account                                                |
+|                                |                  |  * ineligible accessing account (7101ms)                       |
+|--------------------------------|------------------|----------------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-setup-intent                                                              |
+| RECEIVES---------------------------------| RETURNS----------| EXCEPTIONS---------------------------------|
+| required posted paymentmethodid (210ms)  | object (1611ms)  | invalid-customerid                         |
+| required querystring customerid          |                  |  * missing querystring customerid          |
+|                                          |                  |  * invalid querystring customerid          |
+|                                          |                  | invalid-account                            |
+|                                          |                  |  * ineligible accessing account (1711ms)   |
+|                                          |                  | invalid-paymentmethodid                    |
+|                                          |                  |  * missing posted paymentmethodid (210ms)  |
+|                                          |                  |  * invalid posted paymentmethodid (224ms)  |
+|------------------------------------------|------------------|--------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-subscription                                                                                       |
+| RECEIVES---------------------------------| RETURNS----------| EXCEPTIONS----------------------------------------------------------|
+| required posted planid (1644ms)          | object (3881ms)  | invalid-customerid                                                  |
+| required querystring customerid (663ms)  |                  |  * missing querystring customerid (663ms)                           |
+|                                          |                  |  * invalid querystring customerid (651ms)                           |
+|                                          |                  | invalid-customer                                                    |
+|                                          |                  |  * ineligible querystring customer requires payment method (861ms)  |
+|                                          |                  | invalid-account                                                     |
+|                                          |                  |  * ineligible accessing account (936ms)                             |
+|                                          |                  | invalid-planid                                                      |
+|                                          |                  |  * missing posted planid (1644ms)                                   |
+|                                          |                  |  * invalid posted planid (1682ms)                                   |
+|                                          |                  | invalid-plan                                                        |
+|                                          |                  |  * ineligible posted plan is not published (2128ms)                 |
+|                                          |                  |  * ineligible posted plan is unpublished (2498ms)                   |
+|------------------------------------------|------------------|---------------------------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/create-usage-record                                                                                       |
+| RECEIVES-------------------------------------| RETURNS----------| EXCEPTIONS------------------------------------------------------|
+| required posted subscriptionitemid (7501ms)  | object (6476ms)  | invalid-subscriptionid                                          |
+| required posted action (5668ms)              |                  |  * missing querystring subscriptionid                           |
+| required querystring subscriptionid          |                  |  * invalid querystring subscriptionid                           |
+| required posted quantity (5909ms)            |                  | invalid-subscription                                            |
+| required posted action (5320ms)              |                  |  * invalid querystring subscription is not "metered" (17729ms)  |
+| required posted subscriptionitemid (6182ms)  |                  | invalid-account                                                 |
+|                                              |                  |  * ineligible accessing account (6350ms)                        |
+|                                              |                  | invalid-quantity                                                |
+|                                              |                  |  * invalid posted quantity is not integer (5529ms)              |
+|                                              |                  |  * invalid posted quantity is negative (5589ms)                 |
+|                                              |                  | invalid-action                                                  |
+|                                              |                  |  * missing posted action (5668ms)                               |
+|                                              |                  |  * invalid posted action (5910ms)                               |
+|                                              |                  | invalid-subscriptionitemid                                      |
+|                                              |                  |  * missing posted subscriptionitemid (7501ms)                   |
+|                                              |                  |  * invalid posted subscriptionitemid (6281ms)                   |
+|----------------------------------------------|------------------|-----------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/customer                                                                |
+| RECEIVES-------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring customerid  | object (1604ms)  | invalid-customerid                        |
+|                                  |                  |  * missing querystring customerid         |
+|                                  |                  |  * invalid querystring customerid         |
+|                                  |                  | invalid-account                           |
+|                                  |                  |  * ineligible accessing account (1454ms)  |
+|----------------------------------|------------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/customers                                                                                    |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (43ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/delete-customer                                                        |
+| RECEIVES-------------------------| RETURNS----------| EXCEPTIONS-------------------------------|
+| required querystring customerid  | boolean (413ms)  | invalid-customerid                       |
+|                                  |                  |  * missing querystring customerid        |
+|                                  |                  |  * invalid querystring customerid        |
+|                                  |                  | invalid-account                          |
+|                                  |                  |  * ineligible accessing account (235ms)  |
+|----------------------------------|------------------|------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/delete-subscription                                                                               |
+| RECEIVES-----------------------------| RETURNS-----------| EXCEPTIONS-----------------------------------------------------|
+| required querystring subscriptionid  | boolean (8938ms)  | invalid-subscriptionid                                         |
+|                                      |                   |  * missing querystring subscriptionid                          |
+|                                      |                   |  * invalid querystring subscriptionid                          |
+|                                      |                   | invalid-account                                                |
+|                                      |                   |  * ineligible accessing account (10226ms)                      |
+|                                      |                   | invalid-subscription                                           |
+|                                      |                   |  * ineligible querystring subscription is not active (8625ms)  |
+|--------------------------------------|-------------------|----------------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/invoice                                                                 |
+| RECEIVES------------------------| RETURNS----------| EXCEPTIONS---------------------------------|
+| required querystring invoiceid  | object (7773ms)  | invalid-invoiceid                          |
+|                                 |                  |  * missing querystring invoiceid           |
+|                                 |                  |  * invalid querystring invoiceid           |
+|                                 |                  | invalid-account                            |
+|                                 |                  |  * ineligible accessing account (10162ms)  |
+|---------------------------------|------------------|--------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/invoices                                                                                     |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (47ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|-----------------------------------------|
+| /api/user/subscriptions/invoices-count  |
+| RETURNS---------------------------------|
+| integer (19431ms)                       |
+|-----------------------------------------|
+
+|----------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/payment-intent                                                       |
+| RECEIVES----------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring invalid  | object (1918ms)  | invalid-paymentintentid                   |
+|                               |                  |  * missing querystring invalid            |
+|                               |                  |  * invalid querystring invalid            |
+|                               |                  | invalid-account                           |
+|                               |                  |  * ineligible accessing account (1673ms)  |
+|-------------------------------|------------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/payment-intents                                                                              |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (42ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|------------------------------------------------|
+| /api/user/subscriptions/payment-intents-count  |
+| RETURNS----------------------------------------|
+| integer (5358ms)                               |
+|------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/payment-method                                                               |
+| RECEIVES------------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring paymentmethodid  | object (1440ms)  | invalid-paymentmethodid                   |
+|                                       |                  |  * missing querystring paymentmethodid    |
+|                                       |                  |  * invalid querystring paymentmethodid    |
+|                                       |                  | invalid-account                           |
+|                                       |                  |  * ineligible accessing account (1686ms)  |
+|---------------------------------------|------------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/payment-methods                                                                              |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (45ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|------------------------------------------------|
+| /api/user/subscriptions/payment-methods-count  |
+| RETURNS----------------------------------------|
+| integer (3889ms)                               |
+|------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/published-plan                                                                     |
+| RECEIVES---------------------| RETURNS----------| EXCEPTIONS-----------------------------------------------|
+| required querystring planid  | object (1033ms)  | invalid-planid                                           |
+|                              |                  |  * missing querystring planid                            |
+|                              |                  |  * invalid querystring planid (136ms)                    |
+|                              |                  | invalid-plan                                             |
+|                              |                  |  * ineligible querystring plan is not published (738ms)  |
+|------------------------------|------------------|----------------------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/user/subscriptions/published-plans                                    |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|------------------------------------------------|
+| /api/user/subscriptions/published-plans-count  |
+| RETURNS----------------------------------------|
+| integer (1146ms)                               |
+|------------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/published-product                                                                       |
+| RECEIVES------------------------| RETURNS---------| EXCEPTIONS--------------------------------------------------|
+| required querystring productid  | object (359ms)  | invalid-productid                                           |
+|                                 |                 |  * missing querystring productid                            |
+|                                 |                 |  * invalid querystring productid (125ms)                    |
+|                                 |                 | invalid-product                                             |
+|                                 |                 |  * ineligible querystring product is not published (498ms)  |
+|---------------------------------|-----------------|-------------------------------------------------------------|
+
+|----------------------------------------------------------------------------|
+| /api/user/subscriptions/published-products                                 |
+| RECEIVES-------------------------------| RETURNS--| CONFIGURATION----------|
+| optional querystring offset (integer)  | array    | environment PAGE_SIZE  |
+| optional querystring limit (integer)   |          |                        |
+| optional querystring all (boolean)     |          |                        |
+|----------------------------------------|----------|------------------------|
+
+|---------------------------------------------------|
+| /api/user/subscriptions/published-products-count  |
+| RETURNS-------------------------------------------|
+| integer (446ms)                                   |
+|---------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/refund                                                                        |
+| RECEIVES-------------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring refundid (643ms)  | object (8955ms)  | invalid-refundid                          |
+|                                        |                  |  * missing querystring refundid (643ms)   |
+|                                        |                  |  * invalid querystring refundid (752ms)   |
+|                                        |                  | invalid-account                           |
+|                                        |                  |  * ineligible accessing account (9122ms)  |
+|----------------------------------------|------------------|-------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/refunds                                                                                      |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (39ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|----------------------------------------|
+| /api/user/subscriptions/refunds-count  |
+| RETURNS--------------------------------|
+| integer (23888ms)                      |
+|----------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/reset-subscription-canceling                                                               |
+| RECEIVES-----------------------------| RETURNS-----------| EXCEPTIONS----------------------------------------------|
+| required querystring subscriptionid  | object (11807ms)  | invalid-subscriptionid                                  |
+|                                      |                   |  * missing querystring subscriptionid                   |
+|                                      |                   |  * invalid querystring subscriptionid                   |
+|                                      |                   | invalid-subscription                                    |
+|                                      |                   |  * invalid querystring subscription is active (8306ms)  |
+|                                      |                   | invalid-account                                         |
+|                                      |                   |  * ineligible accessing account (7455ms)                |
+|--------------------------------------|-------------------|---------------------------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-customer-coupon                                                                       |
+| RECEIVES---------------------------------| RETURNS---------| EXCEPTIONS-------------------------------------------|
+| required posted couponid (218ms)         | object (817ms)  | invalid-customerid                                   |
+| required querystring customerid (235ms)  |                 |  * missing querystring customerid (235ms)            |
+|                                          |                 |  * invalid querystring customerid (248ms)            |
+|                                          |                 | invalid-customer                                     |
+|                                          |                 |  * invalid querystring customer has coupon (1030ms)  |
+|                                          |                 | invalid-account                                      |
+|                                          |                 |  * ineligible account accessing (463ms)              |
+|                                          |                 | invalid-couponid                                     |
+|                                          |                 |  * missing posted couponid (218ms)                   |
+|                                          |                 |  * invalid posted couponid (218ms)                   |
+|                                          |                 | invalid-coupon                                       |
+|                                          |                 |  * invalid posted coupon is not published (556ms)    |
+|                                          |                 |  * invalid posted coupon is unpublished (920ms)      |
+|------------------------------------------|-----------------|------------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-invoice-paid                                                                                        |
+| RECEIVES----------------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------------|
+| required posted paymentmethodid (2976ms)  | object (6471ms)  | invalid-invoiceid                                                |
+| required querystring invoiceid            |                  |  * missing querystring invoiceid                                 |
+|                                           |                  |  * invalid querystring invoiceid                                 |
+|                                           |                  | invalid-account                                                  |
+|                                           |                  |  * ineligible accessing account (2434ms)                         |
+|                                           |                  |  * ineligible posted payment method (7450ms)                     |
+|                                           |                  | invalid-invoice                                                  |
+|                                           |                  |  * invalid querystring invoice is paid (7177ms)                  |
+|                                           |                  |  * invalid querystring invoice is marked uncollectable (6973ms)  |
+|                                           |                  | invalid-paymentmethodid                                          |
+|                                           |                  |  * missing posted paymentmethodid (2976ms)                       |
+|                                           |                  |  * invalid posted paymentmethodid (2488ms)                       |
+|-------------------------------------------|------------------|------------------------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-payment-intent-canceled                                                  |
+| RECEIVES------------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring paymentintentid  | object (2137ms)  | invalid-paymentintentid                   |
+|                                       |                  |  * missing querystring paymentintentid    |
+|                                       |                  |  * invalid querystring paymentintentid    |
+|                                       |                  | invalid-account                           |
+|                                       |                  |  * ineligible accessing account (1930ms)  |
+|---------------------------------------|------------------|-------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-payment-method-detached                                                                   |
+| RECEIVES------------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------|
+| required querystring paymentmethodid  | object (3132ms)  | invalid-paymentmethodid                                    |
+|                                       |                  |  * missing querystring paymentmethodid                     |
+|                                       |                  |  * invalid querystring paymentmethodid                     |
+|                                       |                  | invalid-account                                            |
+|                                       |                  |  * ineligible accessing account (1749ms)                   |
+|                                       |                  | invalid-paymentmethod                                      |
+|                                       |                  |  * invalid querystring payment method is default (1646ms)  |
+|---------------------------------------|------------------|------------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-setup-intent-canceled                                                  |
+| RECEIVES----------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring setupintentid  | object (5532ms)  | invalid-setupintentid                     |
+|                                     |                  |  * missing querystring setupintentid      |
+|                                     |                  |  * invalid querystring setupintentid      |
+|                                     |                  | invalid-account                           |
+|                                     |                  |  * ineligible accessing account (6055ms)  |
+|-------------------------------------|------------------|-------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-subscription-canceled                                                                        |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-----------------------------------------------------|
+| required querystring subscriptionid  | object (8737ms)  | invalid-subscriptionid                                         |
+|                                      |                  |  * missing querystring subscriptionid                          |
+|                                      |                  |  * invalid querystring subscriptionid                          |
+|                                      |                  | invalid-account                                                |
+|                                      |                  |  * ineligible accessing account (8066ms)                       |
+|                                      |                  | invalid-subscription                                           |
+|                                      |                  |  * ineligible querystring subscription is not active (8246ms)  |
+|--------------------------------------|------------------|----------------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-subscription-coupon                                                                      |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------------|
+| required posted couponid (9613ms)    | object (9608ms)  | invalid-subscriptionid                                     |
+| required querystring subscriptionid  |                  |  * missing querystring subscriptionid                      |
+|                                      |                  |  * invalid querystring subscriptionid                      |
+|                                      |                  | invalid-subscription                                       |
+|                                      |                  |  * invalid querystring subscription has coupon (10037ms)   |
+|                                      |                  |  * invalid querystring subscription is canceling (9122ms)  |
+|                                      |                  | invalid-account                                            |
+|                                      |                  |  * ineligible accessing account (7609ms)                   |
+|                                      |                  | invalid-couponid                                           |
+|                                      |                  |  * missing posted couponid (9613ms)                        |
+|                                      |                  |  * invalid posted couponid (9705ms)                        |
+|                                      |                  | invalid-coupon                                             |
+|                                      |                  |  * invalid posted coupon is not published (8032ms)         |
+|                                      |                  |  * invalid posted coupon is unpublished (8107ms)           |
+|                                      |                  |  * invalid posted coupon is other currency (8952ms)        |
+|--------------------------------------|------------------|------------------------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-subscription-plan                                                                    |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS---------------------------------------------|
+| required posted planid (7293ms)      | object (9516ms)  | invalid-subscriptionid                                 |
+| required querystring subscriptionid  |                  |  * missing querystring subscriptionid                  |
+|                                      |                  |  * invalid querystring subscriptionid                  |
+|                                      |                  | invalid-account                                        |
+|                                      |                  |  * ineligible accessing account (14700ms)              |
+|                                      |                  | invalid-planid                                         |
+|                                      |                  |  * missing posted planid (7293ms)                      |
+|                                      |                  |  * invalid posted planid (8131ms)                      |
+|                                      |                  | invalid-plan                                           |
+|                                      |                  |  * invalid posted plan is not published (9445ms)       |
+|                                      |                  |  * invalid posted plan is unpublished (8442ms)         |
+|                                      |                  |  * invalid posted plan is unchanged (7940ms)           |
+|                                      |                  | invalid-paymentmethodid                                |
+|                                      |                  |  * invalid customer requires payments method (7227ms)  |
+|--------------------------------------|------------------|--------------------------------------------------------|
+
+|--------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-subscription-quantity                                                            |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-----------------------------------------|
+| required querystring subscriptionid  | object (8293ms)  | invalid-subscriptionid                             |
+|                                      |                  |  * missing querystring subscriptionid              |
+|                                      |                  |  * invalid querystring subscriptionid              |
+|                                      |                  | invalid-account                                    |
+|                                      |                  |  * ineligible accessing account (7437ms)           |
+|                                      |                  | invalid-quantity                                   |
+|                                      |                  |  * invalid posted quantity (8383ms)                |
+|                                      |                  |  * invalid posted quantity is unchanged (10189ms)  |
+|                                      |                  |  * invalid posted quantity is negative (8188ms)    |
+|                                      |                  |  * invalid posted quantity is zero (7903ms)        |
+|--------------------------------------|------------------|----------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/set-subscription-tax-percent                                                           |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS-------------------------------------------|
+| required querystring subscriptionid  | object (9500ms)  | invalid-subscriptionid                               |
+|                                      |                  |  * missing querystring subscriptionid                |
+|                                      |                  |  * invalid querystring subscriptionid                |
+|                                      |                  | invalid-account                                      |
+|                                      |                  |  * ineligible accessing account (8491ms)             |
+|                                      |                  | invalid-tax_percent                                  |
+|                                      |                  |  * invalid posted tax_percent (7856ms)               |
+|                                      |                  |  * invalid posted tax_percent is unchanged (9341ms)  |
+|                                      |                  |  * invalid posted tax_percent is negative (6958ms)   |
+|--------------------------------------|------------------|------------------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/setup-intent                                                               |
+| RECEIVES----------------------------| RETURNS----------| EXCEPTIONS--------------------------------|
+| required querystring setupintentid  | object (3208ms)  | invalid-setupintentid                     |
+|                                     |                  |  * missing querystring setupintentid      |
+|                                     |                  |  * invalid querystring setupintentid      |
+|                                     |                  | invalid-account                           |
+|                                     |                  |  * ineligible accessing account (3927ms)  |
+|-------------------------------------|------------------|-------------------------------------------|
+
+|-----------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/setup-intents                                                                     |
+| RECEIVES-------------------------------| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     | invalid-account                         |                        |
+|                                        |  * ineligible accessing account (42ms)  |                        |
+|----------------------------------------|-----------------------------------------|------------------------|
+
+|----------------------------------------------|
+| /api/user/subscriptions/setup-intents-count  |
+| RETURNS--------------------------------------|
+| integer (4181ms)                             |
+|----------------------------------------------|
+
+|------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/subscription                                                                 |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS---------------------------------|
+| required querystring subscriptionid  | object (8114ms)  | invalid-subscriptionid                     |
+|                                      |                  |  * missing querystring subscriptionid      |
+|                                      |                  |  * invalid querystring subscriptionid      |
+|                                      |                  | invalid-account                            |
+|                                      |                  |  * ineligible accessing account (14335ms)  |
+|--------------------------------------|------------------|--------------------------------------------|
+
+|----------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/subscriptions                                                                                |
+| RECEIVES-------------------------------| RETURNS--| EXCEPTIONS------------------------------| CONFIGURATION----------|
+| required querystring accountid         | array    | invalid-accountid                       | environment PAGE_SIZE  |
+| optional querystring offset (integer)  |          |  * missing querystring accountid        |                        |
+| optional querystring limit (integer)   |          |  * invalid querystring accountid        |                        |
+| optional querystring all (boolean)     |          | invalid-account                         |                        |
+|                                        |          |  * ineligible accessing account (42ms)  |                        |
+|----------------------------------------|----------|-----------------------------------------|------------------------|
+
+|------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/subscriptions-count                                                    |
+| RECEIVES------------------------| RETURNS------------| EXCEPTIONS------------------------------|
+| required querystring accountid  | integer (13576ms)  | invalid-accountid                       |
+|                                 |                    |  * missing querystring accountid        |
+|                                 |                    |  * invalid querystring accountid        |
+|                                 |                    | invalid-account                         |
+|                                 |                    |  * ineligible accessing account (43ms)  |
+|---------------------------------|--------------------|-----------------------------------------|
+
+|-------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/upcoming-invoice                                                                    |
+| RECEIVES-----------------------------| RETURNS----------| EXCEPTIONS----------------------------------------|
+| required querystring subscriptionid  | object (7687ms)  | invalid-subscriptionid                            |
+|                                      |                  |  * missing querystring subscriptionid             |
+|                                      |                  |  * invalid querystring subscriptionid             |
+|                                      |                  | invalid-account                                   |
+|                                      |                  |  * ineligible accessing account (14766ms)         |
+|                                      |                  | invalid-subscription                              |
+|                                      |                  |  * ineligible querystring subscription (18347ms)  |
+|--------------------------------------|------------------|---------------------------------------------------|
+
+|---------------------------------------------------------------------------------------------------------------------------------------------|
+| /api/user/subscriptions/usage-record-summaries                                                                                              |
+| RECEIVES--------------------------------------| RETURNS---------------| EXCEPTIONS---------------------------------| CONFIGURATION----------|
+| required querystring subscriptionitemid       | stripe list response  | invalid-subscriptionitemid                 | environment PAGE_SIZE  |
+| optional querystring starting_after (string)  |                       |  * missing querystring subscriptionitemid  |                        |
+| optional querystring ending_before (string)   |                       |  * invalid querystring subscriptionitemid  |                        |
+| optional querystring limit (integer)          |                       |                                            |                        |
+|-----------------------------------------------|-----------------------|--------------------------------------------|------------------------|

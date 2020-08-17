@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Imbuyiselo ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Imbuyiselo ${charge.id}</h1>
+  <p translate="yes">Oku kuya kubuyisela imali kwiakhawunti yokuqala kwiintsuku ezingama-5 ukuya kweli-10.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/refund-charge?chargeid=${charge.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="amount" translate="yes">Inani</label>
+      <input required="" id="amount" name="amount" type="text" size="5">
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Refund charge</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Impumelelo! Intlawulo ibuyiselwe
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Impazamo! Impazamo yenzekile ekubuyiselweni kwemali
+    </div>
+  </template>
+  <template id="invalid-amount">
+    <div class="error message" translate="yes">
+      Impazamo! Ixabiso lokubuyisa alinakuba limbi okanye lidlule imali eseleyo
+    </div>
+  </template>
+</body>
+</html>

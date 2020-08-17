@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Hana i ka huahana</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Hana i ka huahana</h1>
+  <p translate="yes">Ua wehewehe nā huahana i nā manaʻo o nā hoʻolālā.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Tagu inoa</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Papa inoa (e hoʻohālike, ka hui, ka noho)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Hoʻolaha ka wehewehe ma nā waihona kālā</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      ʻAno. Inoa inoa huahana ʻole
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      ʻAno. ʻO ka inoa ʻo ka huahana paha e pōkole a lōʻihi paha
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      ʻAno. ʻO ka wehewehe hoʻohālikelike hewa ʻole
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      ʻAno. Hōʻailona a nalowale ʻole e hoʻohana ʻia
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kōleʻa! Ua hana ʻia ka huahana
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      ʻAno. Ua hewa kekahi manawa e waiho ana i ka huahana
+    </div>
+  </template>
+</body>
+</html>

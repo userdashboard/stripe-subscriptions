@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-customer.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Sheba ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Sheba ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/customer?customerid=${customer.id}">${customer.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Lengolo la bareki</th>
+        <td>
+          <a href="mailto:${customer.email}">${customer.email}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Tokomane ea Ak'haonte</th>
+        <td>
+          <a href="/administrator/account?accountid=${customer.metadata.accountid}">${customer.metadata.accountid}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">Ak'haonte</th>
+        <td>${customer.account.firstName} ${customer.account.lastName}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Lengolo-tsoibila la ak'haonte</th>
+        <td>
+          <a href="mailto:${customer.account.email}">${customer.account.email}</a>
+        </td>
+      </tr>
+      <tr id="discount">
+        <th translate="yes">Theolelo</th>
+        <td>${customer.discount.coupon.id}</td>
+      </tr>
+      <tr id="account-balance">
+        <th translate="yes">Tekanyetso ea ak'haonte</th>
+        <td>${customer.account_balanceFormatted}</td>
+      </tr>
+      <tr id="delinquent-amount">
+        <th translate="yes">Chelete ea mokelikeli</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">E thehiloe</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="subscriptions-container">
+    <h2 translate="yes">Ngoliso</h2>
+    <table id="subscriptions-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Moreki</th>
+          <th translate="yes">Nako ea hajoale</th>
+          <th translate="yes">Theolelo</th>
+          <th translate="yes">Morero</th>
+          <th translate="yes">Boemo</th>
+          <th translate="yes">E thehiloe</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div id="invoices-container">
+    <h2 translate="yes">Invoice</h2>
+    <table id="invoices-table" class="pure-table pure-table-striped list-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th translate="yes">Moreki</th>
+          <th translate="yes">Ngoliso</th>
+          <th translate="yes">Nako ea litefiso</th>
+          <th translate="yes">Kakaretso</th>
+          <th translate="yes">Letsatsi</th>
+          <th translate="yes">Boemo</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <template id="invoice-row">
+    <tr id="${invoice.id}">
+      <td>
+        <a href="/administrator/subscriptions/invoice?invoiceid=${invoice.id}">${invoice.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${invoice.customer}">${invoice.customer}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${invoice.subscription}">${invoice.subscription}</a>
+      </td>
+      <td>${invoice.lines.data[invoice.lines.data.length - 1].period.startFormatted} - ${invoice.lines.data[invoice.lines.data.length - 1].period.endFormatted}</td>
+      <td>${invoice.totalFormatted}</td>
+      <td>${invoice.createdFormatted}</td>
+      <td id="paid-${invoice.id}">Paid</td>
+      <td id="open-${invoice.id}">Waiting payment</td>
+    </tr>
+  </template>
+  <template id="subscription-row">
+    <tr id="${subscription.id}">
+      <td>
+        <a href="/administrator/subscriptions/subscription?subscriptionid=${subscription.id}">${subscription.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${subscription.customer.id || subscription.customer}">${subscription.customer.id || subscription.customer}</a>
+      </td>
+      <td>${subscription.current_period_startFormatted} - ${subscription.current_period_endFormatted}</td>
+      <td>${subscription.discount}</td>
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${subscription.plan}">${subscription.plan.id}</a>
+      </td>
+      <td id="active-subscription-${subscription.id}">Active</td>
+      <td id="canceling-subscription-${subscription.id}">Active (canceling)</td>
+      <td id="trialing-subscription-${subscription.id}">Trial ending ${subscription.trial_endFormatted}</td>
+      <td id="past_due-subscription-${subscription.id}">Past due</td>
+      <td id="canceled-subscription-${subscription.id}">Canceled</td>
+      <td id="unpaid-subscription-${subscription.id}">Unpaid</td>
+      <td>${subscription.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

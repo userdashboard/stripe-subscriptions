@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-setup-intents.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Inaki ni kena vakadaberi</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Inaki ni kena vakadaberi</h1>
+  <div id="message-container"></div>
+  <div id="no-setup-intents">
+    <p translate="yes">E sega ni sa tauyavutaki e dua na inaki ni vakadaberi tale.</p>
+  </div>
+  <table id="setup-intents-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Kasitama</th>
+        <th translate="yes">Ilavo</th>
+        <th translate="yes">Ituvaki</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/setup-intents?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="setup-intent-row">
+    <tr id="${setup_intent.id}">
+      <td>
+        <a href="/administrator/subscriptions/setup-intent?setupintentid=${setup_intent.id}">${setup_intent.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${setup_intent.customer}">${setup_intent.stripeid}</a>
+      </td>
+      <td>${setup_intent.amountFormatted} ${setup_intent.currency}</td>
+      <td id="${setup_intent.id}-status"></td>
+    </tr>
+  </template>
+  <template id="requires_payment_method">
+    <span translate="yes">Gadrevi na iwalewale ni sausaumi</span>
+  </template>
+  <template id="requires_confirmation">
+    <span translate="yes">Gadrevi na veivakadeitaki</span>
+  </template>
+  <template id="requires_action">
+    <span translate="yes">Gadrevi na cakacaka</span>
+  </template>
+  <template id="processing">
+    <span translate="yes">Ni</span>
+  </template>
+  <template id="canceled">
+    <span translate="yes">Bokoci</span>
+  </template>
+  <template id="succeeded">
+    <span translate="yes">Sosomitaki</span>
+  </template>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-charge.html">
+<head>
+  <meta charset="utf-8" />
+  <title translate="yes">Кире кайтаруны кире кага ${charge.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Кире кайтаруны кире кага ${charge.id}</h1>
+  <p translate="yes">Кулланучы, сез үзегезне хата дип санаса, моны үз банкы белән арттырырга мөмкин.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/deny-refund?chargeid=${charge.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="reason" translate="yes">Сәбәп</label>
+      <input required="" id="reason" name="reason" type="text" maxlength="200">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Deny refund</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Уңыш! Кире кайтару кире кагылды
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Хата! Кире кайтаруны җибәрүдә хата килеп чыкты
+    </div>
+  </template>
+</body>
+</html>

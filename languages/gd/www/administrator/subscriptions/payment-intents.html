@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-payment-intents.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Rùn pàighidh</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Rùn pàighidh</h1>
+  <div id="message-container"></div>
+  <div id="no-payment-intents">
+    <p translate="yes">Cha deach rùintean pàighidh a chruthachadh fhathast.</p>
+  </div>
+  <table id="payment-intents-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">Neach-ceannach</th>
+        <th translate="yes">Meud</th>
+        <th translate="yes">Inbhe</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/payment-intents?offset=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="payment-intent-row">
+    <tr id="${payment_intent.id}">
+      <td>
+        <a href="/administrator/subscriptions/payment-intent?paymentintentid=${payment_intent.id}">${payment_intent.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/customer?customerid=${payment_intent.customer}">${payment_intent.stripeid}</a>
+      </td>
+      <td>${payment_intent.amountFormatted} ${payment_intent.currency}</td>
+      <td id="${payment_intent.id}-status"></td>
+    </tr>
+  </template>
+  <template id="requires_payment_method">
+    <span translate="yes">Feumaidh dòigh pàighidh</span>
+  </template>
+  <template id="requires_confirmation">
+    <span translate="yes">Feumar dearbhadh</span>
+  </template>
+  <template id="requires_source">
+    <span translate="yes">Feum air stòr</span>
+  </template>
+  <template id="requires_action">
+    <span translate="yes">Feumaidh gnìomh</span>
+  </template>
+  <template id="processing">
+    <span translate="yes">Giullachd</span>
+  </template>
+  <template id="requires_capture">
+    <span translate="yes">Feum air captr</span>
+  </template>
+  <template id="canceled">
+    <span translate="yes">Air a chur dheth</span>
+  </template>
+  <template id="succeeded">
+    <span translate="yes">Shoirbhich leis</span>
+  </template>
+</body>
+</html>

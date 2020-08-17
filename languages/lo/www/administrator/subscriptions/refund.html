@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-refund.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ເບິ່ງ ${refund.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ເບິ່ງ ${refund.id}</h1>
+  <table id="refunds-table" class="pure-table data-table">
+    <tbody id="${refund.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/refund?refundid=${refund.id}">${refund.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">ຈໍານວນ</th>
+        <td>${refund.amountFormatted} ${refund.currency}</td>
+      </tr>
+      <tr>
+        <th translate="yes">ຮັບຜິດຊອບ</th>
+        <td>
+          <a href="/administrator/subscriptions/charge?chargeid=${refund.charge}">${refund.charge}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

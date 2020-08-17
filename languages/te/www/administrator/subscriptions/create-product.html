@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-products.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">ఉత్పత్తిని సృష్టించండి</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">ఉత్పత్తిని సృష్టించండి</h1>
+  <p translate="yes">ఉత్పత్తులు ప్రణాళికల విషయాలను వివరిస్తాయి.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/create-product" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">పేరు</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">యూనిట్ లేబుల్ (ఉదా. వ్యక్తి, జట్టు, సీటు)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">బ్యాంక్ స్టేట్మెంట్లలో ఛార్జ్ వివరణ</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="22">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Create product</button>
+    </div>
+  </form>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      లోపం! ఉత్పత్తి పేరు చెల్లదు
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      లోపం! ఉత్పత్తి పేరు చాలా చిన్నది లేదా చాలా పొడవుగా ఉంది
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      లోపం! చెల్లని ఛార్జ్ వివరణ
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      లోపం! యూనిట్ లేబుల్ చెల్లదు లేదా లేదు
+    </div>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      విజయం! ఉత్పత్తి సృష్టించబడింది
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      లోపం! ఉత్పత్తిని సమర్పించడంలో లోపం సంభవించింది
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plans.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">计划</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">计划</h1>
+  <p translate="yes">用户创建对已发布计划的订阅。</p>
+  <p><a href="/administrator/subscriptions/create-plan" class="pure-button pure-button-primary" translate="yes">建立计划</a></p>
+  <div id="no-plans">
+    <p translate="yes">尚未创建任何计划。</p>
+  </div>
+  <table id="plans-table" class="pure-table pure-table-striped list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th translate="yes">产品</th>
+        <th translate="yes">价钱</th>
+        <th translate="yes">试用版</th>
+        <th translate="yes">状态</th>
+        <th translate="yes">已建立</th>
+      </tr>
+    </thead>
+  </table>
+  <ul id="page-links" class="pagination"></ul>
+  <template id="page-link">
+    <li>
+      <a href="/administrator/subscriptions/charges?plans=${page.offset}" id="page-link-${page.pageNumber}">${page.pageNumber}</a>
+    </li>
+  </template>
+  <template id="plan-row">
+    <tr id="${plan.id}">
+      <td>
+        <a href="/administrator/subscriptions/plan?planid=${plan.id}">${plan.id}</a>
+      </td>
+      <td>
+        <a href="/administrator/subscriptions/product?productid=${plan.product}">${plan.product}</a>
+      </td>
+      <td>${plan.priceFormatted}</td>
+      <td>${plan.trialFormatted}</td>
+      <td id="draft-plan-${plan.id}">Draft</td>
+      <td id="published-plan-${plan.id}">Published</td>
+      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td>${plan.createdFormatted}</td>
+    </tr>
+  </template>
+</body>
+</html>

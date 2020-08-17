@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-coupon.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Tshaj tawm ${coupon.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Tshaj tawm ${coupon.id}</h1>
+  <p translate="yes">Daim coupon no yuav ua rau lwm tus neeg siv tsis tau tam sim ntawd.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/unpublish-coupon?couponid=${coupon.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Luam daim coupon tsis tau luam tawm</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Kev vam meej! Daim coupon no tsis tau muab tshaj tawm
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Yuam Kev! Ib qho yuam kev tshwm sim luam tawm daim coupon no
+    </div>
+  </template>
+</body>
+</html>

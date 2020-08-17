@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">வெளியிட வேண்டாம் ${product.id}</title>
+  <link href="/public/pure-min.css" rel="stylesheet">
+  <link href="/public/content.css" rel="stylesheet">
+  <link href="/public/content-additional.css" rel="stylesheet">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">வெளியிட வேண்டாம் ${product.id}</h1>
+  <p translate="yes">புதிய திட்டங்களால் தயாரிப்பு உடனடியாக பயன்படுத்த முடியாததாகிவிடும்.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/unpublish-product?productid=${product.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Unpublish product</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      வெற்றி! தயாரிப்பு வெளியிடப்படவில்லை
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      பிழை! தயாரிப்பை வெளியிடுவதில் பிழை ஏற்பட்டது
+    </div>
+  </template>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-customer.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Aplicar cupón u ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Aplicar cupón u ${customer.id}</h1>
+  <p translate="yes">Le cupón permanecerá ti' vigor tak u vencimiento wa eliminación.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-customer-coupon?customerid=${customer.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="couponid" translate="yes">Seleccione cupón</label>
+      <select id="couponid" name="couponid">
+        <option value="" translate="yes">
+          Seleccione cupón
+        </option>
+      </select>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+  </form>
+  <template id="coupon-option">
+    <option value="${coupon.id}">
+      ${coupon.id}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Éxito! Le cupón ku ts'o'ok aplicado
+    </div>
+  </template>
+  <template id="invalid-couponid">
+    <div class="error message" translate="yes">
+      Ba'alo'! Ts'áaj jump'éel cupón invlid
+    </div>
+  </template>
+  <template id="invalid-coupon">
+    <div class="error message" translate="yes">
+      Ba'alo'! Ts'áaj jump'éel cupón invlid
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Ba'alo'! U ts'o'ok producido jump'éel ba'alo' yaan u aplicar le cupón
+    </div>
+  </template>
+</body>
+</html>

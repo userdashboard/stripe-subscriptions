@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">మార్చు ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">మార్చు ${plan.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-plan?planid=${plan.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="productid" translate="yes">ఉత్పత్తి</label>
+      <select name="productid" id="productid">
+        <option value="" translate="yes">
+          ఉత్పత్తిని ఎంచుకోండి
+        </option>
+      </select>
+    </div>
+    <div class="pure-control-group">
+      <label for="trial_period_days" translate="yes">ఉచిత ట్రయల్ రోజులు (గరిష్టంగా 720)</label>
+      <input required="" id="trial_period_days" name="trial_period_days" type="text" maxlength="3" size="3">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update plan</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      విజయం! ప్రణాళిక నవీకరించబడింది
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      లోపం! ప్రణాళిక సమాచారాన్ని నవీకరించడంలో లోపం సంభవించింది
+    </div>
+  </template>
+  <template id="product-option-template">
+    <option value="${product.id}">
+      ${product.name}
+    </option>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      లోపం! పేరు విలువ చెల్లదు
+    </div>
+  </template>
+  <template id="invalid-productid">
+    <div class="error message" translate="yes">
+      లోపం! చెల్లని ఉత్పత్తి ID విలువ
+    </div>
+  </template>
+  <template id="invalid-product">
+    <div class="error message" translate="yes">
+      లోపం! చెల్లని, ప్రచురించని లేదా ఎప్పుడూ ప్రచురించని ఉత్పత్తి
+    </div>
+  </template>
+  <template id="invalid-trial_period_days">
+    <div class="error message" translate="yes">
+      లోపం! ట్రయల్ వ్యవధి విలువ చెల్లదు
+    </div>
+  </template>
+</body>
+</html>

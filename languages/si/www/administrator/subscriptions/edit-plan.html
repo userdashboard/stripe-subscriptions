@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">සංස්කරණය කරන්න ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">සංස්කරණය කරන්න ${plan.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-plan?planid=${plan.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="productid" translate="yes">නිෂ්පාදන</label>
+      <select name="productid" id="productid">
+        <option value="" translate="yes">
+          නිෂ්පාදිතය තෝරන්න
+        </option>
+      </select>
+    </div>
+    <div class="pure-control-group">
+      <label for="trial_period_days" translate="yes">නොමිලේ අත්හදා බැලීමේ දින (උපරිම 720)</label>
+      <input required="" id="trial_period_days" name="trial_period_days" type="text" maxlength="3" size="3">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update plan</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      සාර්ථකත්වය! සැලැස්ම යාවත්කාලීන කර ඇත
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      දෝෂයකි! සැලසුම් තොරතුරු යාවත්කාලීන කිරීමේදී දෝෂයක් ඇතිවිය
+    </div>
+  </template>
+  <template id="product-option-template">
+    <option value="${product.id}">
+      ${product.name}
+    </option>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      දෝෂයකි! වලංගු නොවන නම වටිනාකම
+    </div>
+  </template>
+  <template id="invalid-productid">
+    <div class="error message" translate="yes">
+      දෝෂයකි! වලංගු නොවන නිෂ්පාදන හැඳුනුම්පත් අගය
+    </div>
+  </template>
+  <template id="invalid-product">
+    <div class="error message" translate="yes">
+      දෝෂයකි! අවලංගු, ප්u200dරකාශයට පත් නොකළ හෝ කිසි විටෙකත් ප්u200dරකාශයට පත් නොකළ නිෂ්පාදනයක්
+    </div>
+  </template>
+  <template id="invalid-trial_period_days">
+    <div class="error message" translate="yes">
+      දෝෂයකි! අත්හදා බැලීමේ කාල සීමාව වලංගු නොවේ
+    </div>
+  </template>
+</body>
+</html>

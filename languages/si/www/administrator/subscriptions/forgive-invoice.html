@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">සමාව දෙන්න ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">සමාව දෙන්න ${invoice.id}</h1>
+  <p translate="yes">සමාව ලැබිය යුතු ඕනෑම මුදලක් සමඟ ඉන්වොයිසිය වසා දමනු ඇත.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/forgive-invoice?invoiceid=${invoice.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Forgive invoice</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      සාර්ථකත්වය! ඉන්වොයිසිය වෙනස් කළ නොහැකි ලෙස සලකුණු කර ඇත
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      දෝෂයකි! ඉන්වොයිසියට සමාව දීමේ දෝෂයක් ඇතිවිය
+    </div>
+  </template>
+</body>
+</html>

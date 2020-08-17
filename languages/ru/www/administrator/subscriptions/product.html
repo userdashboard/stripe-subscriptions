@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Посмотреть ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Посмотреть ${product.id}</h1>
+  <table id="products-table" class="pure-table data-table">
+    <tbody id="${product.id}">
+      <tr>
+        <th>ID</th>
+        <td>
+          <a href="/administrator/subscriptions/product?productid=${product.id}">${product.id}</a>
+        </td>
+      </tr>
+      <tr>
+        <th translate="yes">название</th>
+        <td>${product.name}</td>
+      </tr>
+      <tr>
+        <th translate="yes">утверждение</th>
+        <td>${product.statement_descriptor}</td>
+      </tr>
+      <tr>
+        <th translate="yes">Положение дел</th>
+        <td id="published" translated="yes">Published</td>
+        <td id="unpublished" translated="yes">Unpublished</td>
+        <td id="not-published" translated="yes">Not yet published</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

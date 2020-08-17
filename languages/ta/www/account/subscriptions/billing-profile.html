@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/account/subscriptions/navbar-billing-profile.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">காண்க ${customer.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">காண்க ${customer.id}</h1>
+  <table id="customers-table" class="pure-table data-table">
+    <tbody id="${customer.id}">
+      <tr>
+        <th translate="yes">மின்னஞ்சல்</th>
+        <td>${customer.email}</td>
+      </tr>
+      <tr>
+        <th translate="yes">தள்ளுபடி</th>
+        <td>${customer.discount}</td>
+      </tr>
+      <tr>
+        <th translate="yes">கணக்கு இருப்பு</th>
+        <td>${customer.accountBalanceFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">குற்றமற்ற தொகை</th>
+        <td>${customer.delinquentFormatted}</td>
+      </tr>
+      <tr>
+        <th translate="yes">சந்தாக்கள்</th>
+        <td>${customer.numSubscriptions}</td>
+      </tr>
+      <tr>
+        <th translate="yes">உருவாக்கப்பட்டது</th>
+        <td>${customer.createdFormatted}</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-product.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Editați | × ${product.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Editați | × ${product.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-product?productid=${product.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Nume</label>
+      <input type="text" id="name" name="name" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="unit_label" translate="yes">Eticheta unității (de exemplu, persoană, echipă, scaun)</label>
+      <input type="text" id="unit_label" name="unit_label" maxlength="50">
+    </div>
+    <div class="pure-control-group">
+      <label for="name" translate="yes">Descrierea taxei în extrasele bancare</label>
+      <input type="text" id="statement_descriptor" name="statement_descriptor" maxlength="50">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update product</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Succes! Produsul a fost actualizat
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      Eroare! A apărut o eroare la actualizarea informațiilor despre produs
+    </div>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      Eroare! Numele produsului este nevalid
+    </div>
+  </template>
+  <template id="invalid-product-name-length">
+    <div class="error message" translate="yes">
+      Eroare! Numele produsului este prea scurt sau prea lung
+    </div>
+  </template>
+  <template id="invalid-statement_descriptor">
+    <div class="error message" translate="yes">
+      Eroare! Descrierea taxei incorecte
+    </div>
+  </template>
+  <template id="invalid-unit_label">
+    <div class="error message" translate="yes">
+      Eroare! Etichetă unitar nevalidă sau lipsă
+    </div>
+  </template>
+</body>
+</html>

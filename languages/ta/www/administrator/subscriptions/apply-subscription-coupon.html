@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-subscription.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">இதற்கு கூப்பனைப் பயன்படுத்துங்கள் ${subscription.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">இதற்கு கூப்பனைப் பயன்படுத்துங்கள் ${subscription.id}</h1>
+  <p translate="yes">கூப்பன் அதன் காலாவதி அல்லது நீக்கும் வரை நடைமுறையில் இருக்கும்.</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-subscription-coupon?subscriptionid=${subscription.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="couponid" translate="yes">கூப்பனைத் தேர்ந்தெடுக்கவும்</label>
+      <select id="couponid" name="couponid">
+        <option value="" translate="yes">
+          கூப்பனைத் தேர்ந்தெடுக்கவும்
+        </option>
+      </select>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+  </form>
+  <template id="coupon-option">
+    <option value="${coupon.id}">
+      ${coupon.id}
+    </option>
+  </template>
+  <template id="success">
+    <div class="success message" translate="yes">
+      வெற்றி! கூப்பன் பயன்படுத்தப்பட்டது
+    </div>
+  </template>
+  <template id="invalid-couponid">
+    <div class="error message" translate="yes">
+      பிழை! தவறான கூப்பன் வழங்கப்பட்டது
+    </div>
+  </template>
+  <template id="invalid-coupon">
+    <div class="error message" translate="yes">
+      பிழை! தவறான கூப்பன் வழங்கப்பட்டது
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      பிழை! கூப்பனைப் பயன்படுத்துவதில் பிழை ஏற்பட்டது
+    </div>
+  </template>
+</body>
+</html>

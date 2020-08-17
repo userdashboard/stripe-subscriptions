@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">Whakatika ${plan.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">Whakatika ${plan.id}</h1>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/edit-plan?planid=${plan.id}" name="submit-form">
+    <div class="pure-control-group">
+      <label for="productid" translate="yes">Hua</label>
+      <select name="productid" id="productid">
+        <option value="" translate="yes">
+          Tīpakohia te hua
+        </option>
+      </select>
+    </div>
+    <div class="pure-control-group">
+      <label for="trial_period_days" translate="yes">Nga ra whakamātautau koreutu (teitei 720)</label>
+      <input required="" id="trial_period_days" name="trial_period_days" type="text" maxlength="3" size="3">
+    </div>
+    <div class="pure-controls spaced-buttons">
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Update plan</button>
+    </div>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      Ka angitu! Kua whakahoutia te mahere
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      He hapa! Kua puta he hapa ki te whakahou i nga korero mahere
+    </div>
+  </template>
+  <template id="product-option-template">
+    <option value="${product.id}">
+      ${product.name}
+    </option>
+  </template>
+  <template id="invalid-name">
+    <div class="error message" translate="yes">
+      He hapa! Uara ingoa kore
+    </div>
+  </template>
+  <template id="invalid-productid">
+    <div class="error message" translate="yes">
+      He hapa! Ko te wariu ID hua kore
+    </div>
+  </template>
+  <template id="invalid-product">
+    <div class="error message" translate="yes">
+      He hapa! Huakore, kaore i whakaputaina kaore ano ranei i whakaputaina
+    </div>
+  </template>
+  <template id="invalid-trial_period_days">
+    <div class="error message" translate="yes">
+      He hapa! Te uara kore mo te waa whakawa
+    </div>
+  </template>
+</body>
+</html>

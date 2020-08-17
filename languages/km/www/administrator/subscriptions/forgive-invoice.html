@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" data-navbar="/administrator/subscriptions/navbar-invoice.html">
+<head>
+  <meta charset="utf-8" /> 
+  <title translate="yes">អត់ទោស ${invoice.id}</title>
+  <link rel="stylesheet" href="/public/pure-min.css">
+  <link rel="stylesheet" href="/public/content.css">
+  <link rel="stylesheet" href="/public/content-additional.css">
+  <base href="/" target="_top">
+</head>
+<body>
+  <h1 translate="yes">អត់ទោស ${invoice.id}</h1>
+  <p translate="yes">នេះនឹងបិទវិក័យប័ត្រជាមួយនឹងចំនួនទឹកប្រាក់ជំពាក់ណាមួយដែលត្រូវបានលើកលែង។</p>
+  <div id="message-container"></div>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/forgive-invoice?invoiceid=${invoice.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Forgive invoice</button>
+  </form>
+  <template id="success">
+    <div class="success message" translate="yes">
+      ជោគជ័យ! វិក័យប័ត្រត្រូវបានសម្គាល់ថាមិនអាចឆ្លុះបញ្ចាំងបាន
+    </div>
+  </template>
+  <template id="unknown-error">
+    <div class="error message" translate="yes">
+      កំហុស! កំហុសមួយបានកើតឡើងការអភ័យទោសវិក័យប័ត្រ
+    </div>
+  </template>
+</body>
+</html>

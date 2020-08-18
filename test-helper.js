@@ -2,6 +2,19 @@
 global.applicationPath = global.applicationPath || __dirname
 global.stripeAPIVersion = '2020-03-02'
 global.maximumStripeRetries = 0
+global.testConfiguration = global.testConfiguration || {}
+global.testConfiguration.requireSubscription = false
+global.testConfiguration.requirePayment = false
+global.testConfiguration.requirePaymentConfirmation = false
+global.testConfiguration.stripeJS = false
+global.testConfiguration.startSubscriptionPath = '/account/subscriptions/start-subscription'
+global.testConfiguration.subscriptionRefundPeriod = 7 * 24 * 60 * 60
+global.testConfiguration.minimumCouponLength = 1
+global.testConfiguration.maximumCouponLength = 100
+global.testConfiguration.minimumPlanIDLength = 1
+global.testConfiguration.maximumPlanIDLength = 100
+global.testConfiguration.minimumProductNameLength = 1
+global.testConfiguration.maximumProductNameLength = 100
 
 const fs = require('fs')
 const Log = require('@userdashboard/dashboard/src/log.js')('stripe-subscriptions')
@@ -19,18 +32,6 @@ stripe.setAppInfo({
 })
 const util = require('util')
 const TestHelper = require('@userdashboard/dashboard/test-helper.js')
-global.defaultConfiguration.requireSubscription = false
-global.defaultConfiguration.requirePayment = false
-global.defaultConfiguration.requirePaymentConfirmation = false
-global.defaultConfiguration.stripeJS = false
-global.defaultConfiguration.startSubscriptionPath = '/account/subscriptions/start-subscription'
-global.defaultConfiguration.subscriptionRefundPeriod = 7 * 24 * 60 * 60
-global.defaultConfiguration.minimumCouponLength = 1
-global.defaultConfiguration.maximumCouponLength = 100
-global.defaultConfiguration.minimumPlanIDLength = 1
-global.defaultConfiguration.maximumPlanIDLength = 100
-global.defaultConfiguration.minimumProductNameLength = 1
-global.defaultConfiguration.maximumProductNameLength = 100
 
 let eventFolderPath = `${__dirname}/src/www/webhooks/subscriptions/stripe-webhooks`
 if (!fs.existsSync(eventFolderPath)) {

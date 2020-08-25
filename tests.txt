@@ -41,53 +41,53 @@
 
   server/bind-stripekey
     after
-      ✓ should bind data to req (50ms)
+      ✓ should bind data to req (57ms)
 
   server/require-payment-confirmation
     after
       ✓ should ignore guests
-      ✓ should ignore user with pending confirmations requesting account pages (6443ms)
-      ✓ should ignore administrators with pending confirmations requesting administration pages (6693ms)
-      ✓ should ignore user without pending confirmation (8778ms)
-      ✓ should require user confirm payment (6711ms)
+      ✓ should ignore user with pending confirmations requesting account pages (6184ms)
+      ✓ should ignore administrators with pending confirmations requesting administration pages (6634ms)
+      ✓ should ignore user without pending confirmation (7008ms)
+      ✓ should require user confirm payment (5986ms)
 
   server/require-payment
     after
       ✓ should ignore guests
-      ✓ should ignore user with amount owed requesting account pages (2587ms)
-      ✓ should ignore administrator with amount owed requesting administration pages (2112ms)
+      ✓ should ignore user with amount owed requesting account pages (2022ms)
+      ✓ should ignore administrator with amount owed requesting administration pages (2151ms)
       ✓ should ignore user without amount owed
-      ✓ should ignore user with open but not overdue invoice (5963ms)
-      ✓ should require user pay overdue invoice (4946ms)
+      ✓ should ignore user with open but not overdue invoice (5670ms)
+      ✓ should require user pay overdue invoice (6052ms)
 
   server/require-subscription
     after
       ✓ should ignore guests
       ✓ should ignore user without subscription requesting account pages
       ✓ should ignore administrator without subscription requesting administration pages
-      ✓ should ignore user with active subscription (7052ms)
-      ✓ should require user create subscription (55ms)
+      ✓ should ignore user with active subscription (7803ms)
+      ✓ should require user create subscription (49ms)
 
   /account/subscriptions/add-payment-method
     view
-      ✓ should present the form for no stripe.js (973ms)
-      ✓ should present the form for stripe.js v3 (1600ms)
+      ✓ should present the form for no stripe.js (2842ms)
+      ✓ should present the form for stripe.js v3 (2265ms)
     submit
-      ✓ should require name for no stripe.js (6114ms)
-      ✓ should require CVC for no stripe.js (6163ms)
-      ✓ should require card number for no stripe.js (5814ms)
-      ✓ should require expiration month for no stripe.js (6124ms)
-      ✓ should require expiration year for no stripe.js (6122ms)
-      ✓ should add payment information no stripe.js (screenshots) (131916ms)
-      ✓ should add payment information stripe.js v3 (21062ms)
+      ✓ should require name for no stripe.js (6122ms)
+      ✓ should require CVC for no stripe.js (6207ms)
+      ✓ should require card number for no stripe.js (5880ms)
+      ✓ should require expiration month for no stripe.js (6205ms)
+      ✓ should require expiration year for no stripe.js (6199ms)
+      ✓ should add payment information no stripe.js (screenshots) (132602ms)
+      ✓ should add payment information stripe.js v3 (21363ms)
 
   /account/subscriptions/billing-profile
     before
-      ✓ should reject invalid customer (236ms)
-      ✓ should reject other account's customer (263ms)
-      ✓ should bind data to req (236ms)
+      ✓ should reject invalid customer (249ms)
+      ✓ should reject other account's customer (270ms)
+      ✓ should bind data to req (230ms)
     view
-      ✓ should have row for customer (screenshots) (38508ms)
+      ✓ should have row for customer (screenshots) (39255ms)
 
   /account/subscriptions/billing-profiles
     before
@@ -131,13 +131,13 @@
 
   /account/subscriptions/confirm-payment
     before
-      ✓ should bind data to req (7571ms)
+      ✓ should bind data to req (7649ms)
     view
       ✓ should display stripe.js confirmation
 
   /account/subscriptions/confirm-subscription
     exceptions
-      ✓ invalid-planid (182ms)
+      ✓ invalid-planid (160ms)
       ✓ invalid-plan
     before
       ✓ should bind data to req
@@ -150,20 +150,20 @@
 
   /account/subscriptions/create-billing-profile
     view
-      ✓ should present the form for no stripe.js (623ms)
-      ✓ should present the form for stripe.js v3 (1327ms)
+      ✓ should present the form for no stripe.js (668ms)
+      ✓ should present the form for stripe.js v3 (1451ms)
     submit
-      ✓ should require description for no stripe.js (6739ms)
-      ✓ should require email for no stripe.js (6581ms)
-      ✓ should require name for no stripe.js (6845ms)
-      ✓ should require CVC for no stripe.js (7265ms)
-      ✓ should require card number for no stripe.js (6625ms)
-      ✓ should require expiration month for no stripe.js (7169ms)
-      ✓ should require expiration year for no stripe.js (6975ms)
-      ✓ should require description for stripe.js v3 (19013ms)
-      ✓ should require email for stripe.js v3 (18661ms)
-      ✓ should create billing profile for no stripe.js (8776ms)
-      ✓ should create billing profile for stripe.js v3 (screenshots) (217009ms)
+      ✓ should require description for no stripe.js (6804ms)
+      ✓ should require email for no stripe.js (6497ms)
+      ✓ should require name for no stripe.js (6585ms)
+      ✓ should require CVC for no stripe.js (7233ms)
+      ✓ should require card number for no stripe.js (6611ms)
+      ✓ should require expiration month for no stripe.js (7009ms)
+      ✓ should require expiration year for no stripe.js (6940ms)
+      ✓ should require description for stripe.js v3 (18475ms)
+      ✓ should require email for stripe.js v3 (18196ms)
+      ✓ should create billing profile for no stripe.js (8767ms)
+      ✓ should create billing profile for stripe.js v3 (screenshots) (212583ms)
 
   /account/subscriptions/delete-billing-profile
     exceptions
@@ -215,12 +215,12 @@
 
   /account/subscriptions/plan
     before
-      ✓ should reject invalid plan (152ms)
-      ✓ should reject never published plan (686ms)
-      ✓ should reject unpublished plan (1202ms)
-      ✓ should bind data to req (691ms)
+      ✓ should reject invalid plan (156ms)
+      ✓ should reject never published plan (672ms)
+      ✓ should reject unpublished plan (859ms)
+      ✓ should bind data to req (675ms)
     view
-      ✓ should have row for plan (screenshots) (37408ms)
+      ✓ should have row for plan (screenshots) (38203ms)
 
   /account/subscriptions/plans
     before
@@ -262,7 +262,7 @@
 
   /account/subscriptions/subscription
     exceptions
-      ✓ invalid-subscriptionid (671ms)
+      ✓ invalid-subscriptionid (572ms)
       ✓ invalid-account
     before
       ✓ should bind data to req
@@ -279,34 +279,34 @@
 
   /administrator/subscriptions/apply-customer-coupon
     exceptions
-      ✓ should reject invalid customer (152ms)
-      ✓ should reject customer with coupon (2184ms)
+      ✓ should reject invalid customer (149ms)
+      ✓ should reject customer with coupon (2503ms)
     before
-      ✓ should bind data to req (834ms)
+      ✓ should bind data to req (897ms)
     view
-      ✓ should present the form (1544ms)
+      ✓ should present the form (1267ms)
     submit
-      ✓ should apply coupon (screenshots) (69363ms)
+      ✓ should apply coupon (screenshots) (71864ms)
 
   /administrator/subscriptions/apply-subscription-coupon
     exceptions
-      ✓ should reject invalid subscription (147ms)
-      ✓ should reject canceling subscription (9623ms)
-      ✓ should reject free subscription (5629ms)
-      ✓ should reject subscription with coupon (8921ms)
+      ✓ should reject invalid subscription (163ms)
+      ✓ should reject canceling subscription (8151ms)
+      ✓ should reject free subscription (6077ms)
+      ✓ should reject subscription with coupon (8924ms)
     before
-      ✓ should bind data to req (8114ms)
+      ✓ should bind data to req (7831ms)
     view
-      ✓ should present the form (9053ms)
+      ✓ should present the form (8197ms)
     submit
-      ✓ should apply coupon (screenshots) (76478ms)
+      ✓ should apply coupon (screenshots) (77736ms)
 
   /administrator/subscriptions/charge
     before
-      ✓ should reject invalid charge (1517ms)
-      ✓ should bind data to req (9626ms)
+      ✓ should reject invalid charge (975ms)
+      ✓ should bind data to req (7902ms)
     view
-      ✓ should present the charge table (screenshots) (52070ms)
+      ✓ should present the charge table (screenshots) (53205ms)
 
   /administrator/subscriptions/charges
     before
@@ -318,10 +318,10 @@
 
   /administrator/subscriptions/coupon
     before
-      ✓ should reject invalid coupon (145ms)
-      ✓ should bind data to req (327ms)
+      ✓ should reject invalid coupon (144ms)
+      ✓ should bind data to req (306ms)
     view
-      ✓ should present the coupon table (screenshots) (44969ms)
+      ✓ should present the coupon table (screenshots) (45428ms)
 
   /administrator/subscriptions/coupons
     before
@@ -333,56 +333,56 @@
 
   /administrator/subscriptions/create-coupon
     view
-      ✓ should present the form (547ms)
+      ✓ should present the form (688ms)
     submit
-      ✓ should reject missing couponid (1259ms)
-      ✓ should enforce couponid length (2194ms)
-      ✓ should reject duplicate couponid (2025ms)
-      ✓ should reject missing duration (1749ms)
-      ✓ should enforce invalid duration (1701ms)
-      ✓ should require valid amount off (1794ms)
-      ✓ should require valid percent off (1688ms)
-      ✓ should require valid max redemptions (1815ms)
-      ✓ should require amount or percent off (1545ms)
-      ✓ should require valid duration in months if repeating (1837ms)
-      ✓ should require valid redeem_by if provided (2053ms)
-      ✓ should create coupon (screenshots) (57230ms)
+      ✓ should reject missing couponid (1336ms)
+      ✓ should enforce couponid length (2250ms)
+      ✓ should reject duplicate couponid (2083ms)
+      ✓ should reject missing duration (1751ms)
+      ✓ should enforce invalid duration (1777ms)
+      ✓ should require valid amount off (1826ms)
+      ✓ should require valid percent off (1711ms)
+      ✓ should require valid max redemptions (1794ms)
+      ✓ should require amount or percent off (1598ms)
+      ✓ should require valid duration in months if repeating (1887ms)
+      ✓ should require valid redeem_by if provided (2054ms)
+      ✓ should create coupon (screenshots) (58271ms)
 
   /administrator/subscriptions/create-plan
     view
-      ✓ should present the form (807ms)
+      ✓ should present the form (891ms)
     submit
-      ✓ should reject missing planid (1722ms)
-      ✓ should enforce planid length (2588ms)
-      ✓ should reject missing productid (1695ms)
-      ✓ should reject never published product (2070ms)
-      ✓ should reject unpublished product (2136ms)
-      ✓ should reject missing currency (2074ms)
-      ✓ should reject invalid currency (2104ms)
-      ✓ should reject missing usage_type (2094ms)
-      ✓ should reject missing amount (1975ms)
-      ✓ should reject invalid amount (2049ms)
-      ✓ should reject missing interval (2054ms)
-      ✓ should reject invalid interval (2046ms)
-      ✓ should reject invalid interval_count (2087ms)
-      ✓ should reject invalid trial_period_days (2201ms)
-      ✓ should create plan (screenshots) (57323ms)
+      ✓ should reject missing planid (1799ms)
+      ✓ should enforce planid length (2640ms)
+      ✓ should reject missing productid (1658ms)
+      ✓ should reject never published product (2458ms)
+      ✓ should reject unpublished product (2528ms)
+      ✓ should reject missing currency (2187ms)
+      ✓ should reject invalid currency (2113ms)
+      ✓ should reject missing usage_type (2098ms)
+      ✓ should reject missing amount (2076ms)
+      ✓ should reject invalid amount (2146ms)
+      ✓ should reject missing interval (2372ms)
+      ✓ should reject invalid interval (2317ms)
+      ✓ should reject invalid interval_count (2131ms)
+      ✓ should reject invalid trial_period_days (2287ms)
+      ✓ should create plan (screenshots) (58971ms)
 
   /administrator/subscriptions/create-product
     view
-      ✓ should present the form (472ms)
+      ✓ should present the form (487ms)
     submit
-      ✓ should reject missing name (1294ms)
-      ✓ should enforce name length (2229ms)
-      ✓ should reject missing statement_descriptor (1199ms)
-      ✓ should create product (screenshots) (56454ms)
+      ✓ should reject missing name (1315ms)
+      ✓ should enforce name length (2222ms)
+      ✓ should reject missing statement_descriptor (1205ms)
+      ✓ should create product (screenshots) (57937ms)
 
   /administrator/subscriptions/customer
     before
-      ✓ should reject invalid customer (397ms)
-      ✓ should bind data to req (240ms)
+      ✓ should reject invalid customer (405ms)
+      ✓ should bind data to req (675ms)
     view
-      ✓ should present the customer table (screenshots) (36856ms)
+      ✓ should present the customer table (screenshots) (38614ms)
 
   /administrator/subscriptions/customers
     before
@@ -394,33 +394,33 @@
 
   /administrator/subscriptions/delete-coupon
     exceptions
-      ✓ should reject invalid couponid (158ms)
+      ✓ should reject invalid couponid (170ms)
     before
-      ✓ should bind data to req (323ms)
+      ✓ should bind data to req (299ms)
     view
-      ✓ should present the form (763ms)
+      ✓ should present the form (783ms)
     submit
-      ✓ should delete coupon (screenshots) (67428ms)
+      ✓ should delete coupon (screenshots) (70565ms)
 
   /administrator/subscriptions/delete-plan
     exceptions
-      ✓ should reject invalid planid (170ms)
+      ✓ should reject invalid planid (157ms)
     before
-      ✓ should bind data to req (708ms)
+      ✓ should bind data to req (692ms)
     view
-      ✓ should present the form (1457ms)
+      ✓ should present the form (1123ms)
     submit
-      ✓ should delete plan (screenshots) (68353ms)
+      ✓ should delete plan (screenshots) (70402ms)
 
   /administrator/subscriptions/delete-product
     exceptions
       ✓ should reject invalid productid (159ms)
     before
-      ✓ should bind data to req (378ms)
+      ✓ should bind data to req (346ms)
     view
-      ✓ should present the form (1090ms)
+      ✓ should present the form (810ms)
     submit
-      ✓ should delete product (screenshots) (64942ms)
+      ✓ should delete product (screenshots) (67139ms)
 
   /administrator/subscriptions/delete-subscription
     exceptions
@@ -435,7 +435,7 @@
       ✓ should show fields for free trial cancelations
       ✓ should show fields for cancelation with credit or refund
     submit
-      ✓ should cancel free subscription immediately (screenshots) (6329ms)
+      ✓ should cancel free subscription immediately (screenshots) (5029ms)
       ✓ should cancel free subscription at period end
       ✓ should cancel free trial immediately
       ✓ should cancel free trial at period end
@@ -444,56 +444,56 @@
 
   /administrator/subscriptions/deny-refund
     exceptions
-      ✓ should reject invalid chargeid (332ms)
-      ✓ should reject charge without refund request (8021ms)
-      ✓ should reject denied refund (8442ms)
+      ✓ should reject invalid chargeid (215ms)
+      ✓ should reject charge without refund request (8074ms)
+      ✓ should reject denied refund (7906ms)
     before
-      ✓ should bind data to req (9050ms)
+      ✓ should bind data to req (8381ms)
     view
-      ✓ should present the form (10508ms)
+      ✓ should present the form (8401ms)
     submit
-      ✓ should deny refund (screenshots) (86752ms)
+      ✓ should deny refund (screenshots) (90107ms)
 
   /administrator/subscriptions/edit-coupon
     before
       ✓ should reject invalid couponid
-      ✓ should reject unpublished coupon (562ms)
-      ✓ should bind data to req (332ms)
+      ✓ should reject unpublished coupon (670ms)
+      ✓ should bind data to req (321ms)
     view
-      ✓ should present the form (767ms)
+      ✓ should present the form (753ms)
     submit
-      ✓ should reject missing name (1272ms)
-      ✓ should update coupon (screenshots) (68462ms)
+      ✓ should reject missing name (1252ms)
+      ✓ should update coupon (screenshots) (70703ms)
 
   /administrator/subscriptions/edit-plan
     before
-      ✓ should reject invalid planid (159ms)
-      ✓ should reject unpublished plan (905ms)
-      ✓ should bind data to req (870ms)
+      ✓ should reject invalid planid (155ms)
+      ✓ should reject unpublished plan (919ms)
+      ✓ should bind data to req (916ms)
     view
-      ✓ should present the form (1216ms)
+      ✓ should present the form (1277ms)
     submit
-      ✓ should reject missing productid (1962ms)
-      ✓ should reject invalid trial period (2549ms)
-      ✓ should update plan (screenshots) (70930ms)
+      ✓ should reject missing productid (1947ms)
+      ✓ should reject invalid trial period (2495ms)
+      ✓ should update plan (screenshots) (72765ms)
 
   /administrator/subscriptions/edit-product
     before
-      ✓ should reject invalid productid (147ms)
-      ✓ should reject unpublished product (492ms)
-      ✓ should bind data to req (278ms)
+      ✓ should reject invalid productid (145ms)
+      ✓ should reject unpublished product (480ms)
+      ✓ should bind data to req (293ms)
     view
-      ✓ should present the form (742ms)
+      ✓ should present the form (850ms)
     submit
-      ✓ should reject missing name (1507ms)
-      ✓ should enforce name length (2434ms)
-      ✓ should reject missing statement_descriptor (1425ms)
-      ✓ should reject invalid unit_label (1824ms)
-      ✓ should update product (screenshots) (73910ms)
+      ✓ should reject missing name (1535ms)
+      ✓ should enforce name length (2471ms)
+      ✓ should reject missing statement_descriptor (1463ms)
+      ✓ should reject invalid unit_label (1835ms)
+      ✓ should update product (screenshots) (75675ms)
 
   /administrator/subscriptions/flag-charge
     exceptions
-      ✓ should reject invalid chargeid (145ms)
+      ✓ should reject invalid chargeid (149ms)
       ✓ should reject flagged charge
     before
       ✓ should bind data to req
@@ -504,30 +504,30 @@
 
   /administrator/subscriptions/forgive-invoice
     exceptions
-      ✓ should reject invalid invoiceid (139ms)
-      ✓ should reject paid invoice (9774ms)
-      ✓ should reject uncollectible invoice (3460ms)
+      ✓ should reject invalid invoiceid (149ms)
+      ✓ should reject paid invoice (7271ms)
+      ✓ should reject uncollectible invoice (2592ms)
     before
-      ✓ should bind data to req (2358ms)
+      ✓ should bind data to req (2647ms)
     view
-      ✓ should present the form (2822ms)
+      ✓ should present the form (3816ms)
     submit
-      ✓ should forgive invoice (screenshots) (66574ms)
+      ✓ should forgive invoice (screenshots) (66935ms)
 
   /administrator/subscriptions
     before
-      ✓ should bind data to req (8291ms)
+      ✓ should bind data to req (7961ms)
     view
-      ✓ should have row for each plan (1613ms)
-      ✓ should have row for each coupon (1115ms)
-      ✓ should have row for each subscription (screenshots) (34132ms)
+      ✓ should have row for each plan (1789ms)
+      ✓ should have row for each coupon (1290ms)
+      ✓ should have row for each subscription (screenshots) (33185ms)
 
   /administrator/subscriptions/invoice
     before
-      ✓ should reject invalid invoiceid (178ms)
-      ✓ should bind data to req (9111ms)
+      ✓ should reject invalid invoiceid (143ms)
+      ✓ should bind data to req (7944ms)
     view
-      ✓ should present the invoice table (screenshots) (51474ms)
+      ✓ should present the invoice table (screenshots) (52296ms)
 
   /administrator/subscriptions/invoices
     before
@@ -540,9 +540,9 @@
   /administrator/subscriptions/payment-intent
     before
       ✓ should reject invalid paymentintentid
-      ✓ should bind data to req (1728ms)
+      ✓ should bind data to req (2067ms)
     view
-      ✓ should have row for payment intent (screenshots) (46441ms)
+      ✓ should have row for payment intent (screenshots) (46940ms)
 
   /administrator/subscriptions/payment-intents
     before
@@ -555,9 +555,9 @@
   /administrator/subscriptions/payment-method
     before
       ✓ should reject invalid paymentmethodid
-      ✓ should bind data to req (1597ms)
+      ✓ should bind data to req (1539ms)
     view
-      ✓ should have row for payment method (screenshots) (46133ms)
+      ✓ should have row for payment method (screenshots) (47437ms)
 
   /administrator/subscriptions/payment-methods
     before
@@ -569,14 +569,14 @@
 
   /administrator/subscriptions/payout
     before
-      ✓ should reject invalid payoutid (169ms)
+      ✓ should reject invalid payoutid (158ms)
 
   /administrator/subscriptions/plan
     before
-      ✓ should reject invalid planid (146ms)
-      ✓ should bind data to req (686ms)
+      ✓ should reject invalid planid (143ms)
+      ✓ should bind data to req (672ms)
     view
-      ✓ should present the plan table (screenshots) (44921ms)
+      ✓ should present the plan table (screenshots) (46024ms)
 
   /administrator/subscriptions/plans
     before
@@ -588,10 +588,10 @@
 
   /administrator/subscriptions/product
     before
-      ✓ should reject invalid productid (155ms)
-      ✓ should bind data to req (518ms)
+      ✓ should reject invalid productid (140ms)
+      ✓ should bind data to req (319ms)
     view
-      ✓ should have row for product (screenshots) (42654ms)
+      ✓ should have row for product (screenshots) (43359ms)
 
   /administrator/subscriptions/products
     before
@@ -603,40 +603,40 @@
 
   /administrator/subscriptions/publish-coupon
     exceptions
-      ✓ should reject invalid couponid (137ms)
-      ✓ should reject published coupon (311ms)
+      ✓ should reject invalid couponid (152ms)
+      ✓ should reject published coupon (348ms)
     before
       ✓ should bind data to req (312ms)
     view
-      ✓ should present the form (770ms)
+      ✓ should present the form (799ms)
     submit
-      ✓ should publish coupon (screenshots) (67568ms)
+      ✓ should publish coupon (screenshots) (69441ms)
 
   /administrator/subscriptions/publish-plan
     exceptions
-      ✓ should reject invalid planid (149ms)
-      ✓ should reject published plan (648ms)
+      ✓ should reject invalid planid (165ms)
+      ✓ should reject published plan (649ms)
     before
-      ✓ should bind data to req (680ms)
+      ✓ should bind data to req (646ms)
     view
-      ✓ should present the form (1127ms)
+      ✓ should present the form (1158ms)
     submit
-      ✓ should publish plan (screenshots) (68743ms)
+      ✓ should publish plan (screenshots) (69378ms)
 
   /administrator/subscriptions/publish-product
     exceptions
-      ✓ should reject invalid productid (210ms)
-      ✓ should reject published product (373ms)
+      ✓ should reject invalid productid (147ms)
+      ✓ should reject published product (326ms)
     before
-      ✓ should bind data to req (378ms)
+      ✓ should bind data to req (321ms)
     view
-      ✓ should present the form (755ms)
+      ✓ should present the form (807ms)
     submit
-      ✓ should publish product (screenshots) (65790ms)
+      ✓ should publish product (screenshots) (66341ms)
 
   /administrator/subscriptions/refund-charge
     exceptions
-      ✓ should reject invalid chargeid (172ms)
+      ✓ should reject invalid chargeid (145ms)
       ✓ should reject refunded charge
     before
       ✓ should bind data to req
@@ -655,10 +655,10 @@
 
   /administrator/subscriptions/refund
     before
-      ✓ should reject invalid refundid (161ms)
-      ✓ should bind data to req (9364ms)
+      ✓ should reject invalid refundid (158ms)
+      ✓ should bind data to req (8874ms)
     view
-      ✓ should have row for refund (screenshots) (54716ms)
+      ✓ should have row for refund (screenshots) (56577ms)
 
   /administrator/subscriptions/refunds
     before
@@ -670,32 +670,32 @@
 
   /administrator/subscriptions/revoke-customer-coupon
     exceptions
-      ✓ should reject invalid customer (139ms)
-      ✓ should reject customer without discount (959ms)
+      ✓ should reject invalid customer (167ms)
+      ✓ should reject customer without discount (1092ms)
     before
-      ✓ should bind data to req (1358ms)
+      ✓ should bind data to req (1372ms)
     view
-      ✓ should present the form (1916ms)
+      ✓ should present the form (1901ms)
     submit
-      ✓ should remove coupon (screenshots) (63884ms)
+      ✓ should remove coupon (screenshots) (65389ms)
 
   /administrator/subscriptions/revoke-subscription-coupon
     exceptions
-      ✓ should reject invalid subscription (328ms)
-      ✓ should reject subscription without discount (8918ms)
+      ✓ should reject invalid subscription (154ms)
+      ✓ should reject subscription without discount (8250ms)
     before
-      ✓ should bind data to req (9402ms)
+      ✓ should bind data to req (8734ms)
     view
-      ✓ should present the form (9108ms)
+      ✓ should present the form (9496ms)
     submit
-      ✓ should remove coupon (screenshots) (75935ms)
+      ✓ should remove coupon (screenshots) (80453ms)
 
   /administrator/subscriptions/setup-intent
     before
       ✓ should reject invalid setupintentid
-      ✓ should bind data to req (3606ms)
+      ✓ should bind data to req (3015ms)
     view
-      ✓ should have row for setup intent (screenshots) (48178ms)
+      ✓ should have row for setup intent (screenshots) (49107ms)
 
   /administrator/subscriptions/setup-intents
     before
@@ -707,10 +707,10 @@
 
   /administrator/subscriptions/subscription
     before
-      ✓ should reject invalid subscriptionid (147ms)
-      ✓ should bind data to req (8722ms)
+      ✓ should reject invalid subscriptionid (154ms)
+      ✓ should bind data to req (7205ms)
     view
-      ✓ should present the subscription table (screenshots) (50716ms)
+      ✓ should present the subscription table (screenshots) (52267ms)
 
   /administrator/subscriptions/subscriptions
     before
@@ -722,51 +722,51 @@
 
   /administrator/subscriptions/unpublish-coupon
     exceptions
-      ✓ should reject invalid couponid (152ms)
-      ✓ should reject never published coupon (304ms)
-      ✓ should reject unpublished coupon (722ms)
+      ✓ should reject invalid couponid (157ms)
+      ✓ should reject never published coupon (325ms)
+      ✓ should reject unpublished coupon (514ms)
     before
-      ✓ should bind data to req (316ms)
+      ✓ should bind data to req (510ms)
     view
-      ✓ should present the form (770ms)
+      ✓ should present the form (797ms)
     submit
-      ✓ should unpublish coupon (screenshots) (67129ms)
+      ✓ should unpublish coupon (screenshots) (69148ms)
 
   /administrator/subscriptions/unpublish-plan
     exceptions
-      ✓ should reject invalid planid (248ms)
-      ✓ should never published plan (836ms)
-      ✓ should reject unpublished plan (869ms)
+      ✓ should reject invalid planid (161ms)
+      ✓ should never published plan (662ms)
+      ✓ should reject unpublished plan (879ms)
     before
-      ✓ should bind data to req (810ms)
+      ✓ should bind data to req (698ms)
     view
-      ✓ should present the form (1120ms)
+      ✓ should present the form (1150ms)
     submit
-      ✓ should unpublish plan (screenshots) (68250ms)
+      ✓ should unpublish plan (screenshots) (69537ms)
 
   /administrator/subscriptions/unpublish-product
     exceptions
-      ✓ should reject invalid productid (147ms)
-      ✓ should never published product (548ms)
-      ✓ should reject unpublished product (470ms)
+      ✓ should reject invalid productid (196ms)
+      ✓ should never published product (316ms)
+      ✓ should reject unpublished product (498ms)
     before
-      ✓ should bind data to req (296ms)
+      ✓ should bind data to req (309ms)
     view
-      ✓ should present the form (759ms)
+      ✓ should present the form (786ms)
     submit
-      ✓ should unpublish product (screenshots) (65743ms)
+      ✓ should unpublish product (screenshots) (66485ms)
 
   /api/administrator/subscriptions/charge
     exceptions
       invalid-chargeid
         ✓ missing querystring chargeid
-        ✓ invalid querystring chargeid (148ms)
+        ✓ invalid querystring chargeid (166ms)
     returns
-      ✓ object (8564ms)
+      ✓ object (6990ms)
 
   /api/administrator/subscriptions/charges-count
     returns
-      ✓ integer (35219ms)
+      ✓ integer (24802ms)
 
   /api/administrator/subscriptions/charges
     receives
@@ -782,13 +782,13 @@
     exceptions
       invalid-couponid
         ✓ missing querystring couponid
-        ✓ invalid querystring couponid (164ms)
+        ✓ invalid querystring couponid (145ms)
     returns
-      ✓ object (334ms)
+      ✓ object (350ms)
 
   /api/administrator/subscriptions/coupons-count
     returns
-      ✓ integer (548ms)
+      ✓ integer (523ms)
 
   /api/administrator/subscriptions/coupons
     receives
@@ -804,11 +804,11 @@
     exceptions
       invalid-subscriptionid
         ✓ missing querystring subscriptionid
-        ✓ invalid querystring subscriptionid (149ms)
+        ✓ invalid querystring subscriptionid (144ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (8446ms)
+        ✓ ineligible querystring subscription is not active (9463ms)
     returns
-      ✓ object (8404ms)
+      ✓ object (8961ms)
 
   /api/administrator/subscriptions/create-coupon
     exceptions
@@ -840,45 +840,45 @@
       ✓ optionally-required posted expire date 
       ✓ optionally-required posted duration_in_months
     returns
-      ✓ object (200ms)
+      ✓ object (178ms)
 
   /api/administrator/subscriptions/create-plan
     exceptions
       invalid-planid
-        ✓ invalid posted planid is not alphanumeric_ (171ms)
+        ✓ invalid posted planid is not alphanumeric_ (184ms)
       invalid-planid-length
-        ✓ posted planid is too short (198ms)
-        ✓ posted planid is too long (178ms)
+        ✓ posted planid is too short (184ms)
+        ✓ posted planid is too long (183ms)
       invalid-productid
-        ✓ missing posted productid (187ms)
-        ✓ invalid posted productid (309ms)
+        ✓ missing posted productid (202ms)
+        ✓ invalid posted productid (307ms)
       invalid-product
-        ✓ ineligible posted product is not published (314ms)
+        ✓ ineligible posted product is not published (300ms)
       invalid-amount
-        ✓ missing posted amount (324ms)
-        ✓ invalid posted amount (337ms)
+        ✓ missing posted amount (317ms)
+        ✓ invalid posted amount (328ms)
       invalid-currency
-        ✓ missing posted currency (181ms)
-        ✓ invalid posted currency (194ms)
+        ✓ missing posted currency (174ms)
+        ✓ invalid posted currency (203ms)
       invalid-interval
-        ✓ missing posted interval (329ms)
-        ✓ invalid posted interval (317ms)
+        ✓ missing posted interval (306ms)
+        ✓ invalid posted interval (519ms)
       invalid-interval-count
-        ✓ missing posted interval_count (306ms)
-        ✓ invalid posted interval_count (308ms)
+        ✓ missing posted interval_count (312ms)
+        ✓ invalid posted interval_count (294ms)
       invalid-trial_period
-        ✓ invalid posted trial_period (310ms)
+        ✓ invalid posted trial_period (302ms)
       invalid-usage_type
         ✓ invalid posted usage_type (306ms)
     receives
-      ✓ optional posted published (boolean) (512ms)
-      ✓ optional posted trial_period_days (integer) (549ms)
-      ✓ optional posted usage_type (licensed|metered) (547ms)
+      ✓ optional posted published (boolean) (534ms)
+      ✓ optional posted trial_period_days (integer) (543ms)
+      ✓ optional posted usage_type (licensed|metered) (550ms)
     returns
-      ✓ object (814ms)
+      ✓ object (534ms)
     configuration
-      ✓ environment MINIMUM_PLANID_LENGTH (172ms)
-      ✓ environment MAXIMUM_PLANID_LENGTH (207ms)
+      ✓ environment MINIMUM_PLANID_LENGTH (194ms)
+      ✓ environment MAXIMUM_PLANID_LENGTH (178ms)
 
   /api/administrator/subscriptions/create-product
     exceptions
@@ -890,9 +890,9 @@
       invalid-statement_descriptor
         ✓ missing posted statement_descriptor
     receives
-      ✓ optional posted published (boolean) (364ms)
+      ✓ optional posted published (boolean) (355ms)
     returns
-      ✓ object (376ms)
+      ✓ object (375ms)
     configuration
       ✓ environment MINIMUM_PRODUCT_NAME_LENGTH
       ✓ environment MAXIMUM_PRODUCT_NAME_LENGTH
@@ -901,7 +901,7 @@
     exceptions
       invalid-chargeid
         ✓ missing querystring chargeid
-        ✓ invalid querystring chargeid (187ms)
+        ✓ invalid querystring chargeid (155ms)
       invalid-amount
         ✓ missing posted amount
         ✓ invalid posted amount
@@ -914,13 +914,13 @@
     exceptions
       invalid-customerid
         ✓ missing querystring customerid
-        ✓ invalid querystring customerid (139ms)
+        ✓ invalid querystring customerid (142ms)
     returns
-      ✓ object (2845ms)
+      ✓ object (3117ms)
 
   /api/administrator/subscriptions/customers-count
     returns
-      ✓ integer (471ms)
+      ✓ integer (522ms)
 
   /api/administrator/subscriptions/customers
     receives
@@ -936,47 +936,47 @@
     exceptions
       invalid-couponid
         ✓ missing querystring couponid
-        ✓ invalid querystring couponid (141ms)
+        ✓ invalid querystring couponid (149ms)
     returns
-      ✓ boolean (500ms)
+      ✓ boolean (488ms)
 
   /api/administrator/subscriptions/delete-plan
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (146ms)
+        ✓ invalid querystring planid (150ms)
     returns
-      ✓ boolean (857ms)
+      ✓ boolean (868ms)
 
   /api/administrator/subscriptions/delete-product
     exceptions
       invalid-productid
         ✓ missing querystring productid
-        ✓ invalid querystring productid (135ms)
+        ✓ invalid querystring productid (151ms)
     returns
-      ✓ boolean (477ms)
+      ✓ boolean (508ms)
 
   /api/administrator/subscriptions/delete-subscription
     exceptions
       invalid-subscriptionid
         ✓ missing querystring subscriptionid
-        ✓ invalid querystring subscriptionid (163ms)
+        ✓ invalid querystring subscriptionid (159ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (11766ms)
+        ✓ ineligible querystring subscription is not active (8284ms)
     returns
-      ✓ boolean (8433ms)
+      ✓ boolean (8822ms)
 
   /api/administrator/subscriptions/invoice
     exceptions
       invalid-invoiceid
         ✓ missing querystring invoiceid
-        ✓ invalid querystring invoiceid (158ms)
+        ✓ invalid querystring invoiceid (153ms)
     returns
-      ✓ object (8085ms)
+      ✓ object (8648ms)
 
   /api/administrator/subscriptions/invoices-count
     returns
-      ✓ integer (35393ms)
+      ✓ integer (32437ms)
 
   /api/administrator/subscriptions/invoices
     receives
@@ -994,11 +994,11 @@
         ✓ missing querystring paymentintentid
         ✓ invalid querystring paymentintentid
     returns
-      ✓ object (2048ms)
+      ✓ object (1888ms)
 
   /api/administrator/subscriptions/payment-intents-count
     returns
-      ✓ integer (6448ms)
+      ✓ integer (5575ms)
 
   /api/administrator/subscriptions/payment-intents
     receives
@@ -1015,11 +1015,11 @@
         ✓ missing querystring paymentmethodid
         ✓ invalid querystring paymentmethodid
     returns
-      ✓ object (1730ms)
+      ✓ object (1763ms)
 
   /api/administrator/subscriptions/payment-methods-count
     returns
-      ✓ integer (4779ms)
+      ✓ integer (4212ms)
 
   /api/administrator/subscriptions/payment-methods
     receives
@@ -1035,13 +1035,13 @@
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (151ms)
+        ✓ invalid querystring planid (157ms)
     returns
-      ✓ object (690ms)
+      ✓ object (672ms)
 
   /api/administrator/subscriptions/plans-count
     returns
-      ✓ integer (1687ms)
+      ✓ integer (1217ms)
 
   /api/administrator/subscriptions/plans
     receives
@@ -1057,13 +1057,13 @@
     exceptions
       invalid-productid
         ✓ missing querystring productid
-        ✓ invalid querystring productid (138ms)
+        ✓ invalid querystring productid (148ms)
     returns
-      ✓ object (468ms)
+      ✓ object (336ms)
 
   /api/administrator/subscriptions/products-count
     returns
-      ✓ integer (563ms)
+      ✓ integer (502ms)
 
   /api/administrator/subscriptions/products
     receives
@@ -1077,7 +1077,7 @@
 
   /api/administrator/subscriptions/refund-requests-count
     returns
-      ✓ integer (29277ms)
+      ✓ integer (24743ms)
 
   /api/administrator/subscriptions/refund-requests
     receives
@@ -1092,13 +1092,13 @@
   /api/administrator/subscriptions/refund
     exceptions
       ✓ invalid querystring refundid
-      ✓ missing querystring refundid (168ms)
+      ✓ missing querystring refundid (154ms)
     returns
-      ✓ object (11057ms)
+      ✓ object (8854ms)
 
   /api/administrator/subscriptions/refunds-count
     returns
-      ✓ integer (32189ms)
+      ✓ integer (27712ms)
 
   /api/administrator/subscriptions/refunds
     receives
@@ -1114,9 +1114,9 @@
     exceptions
       invalid-customerid
         ✓ missing querystring customerid
-        ✓ invalid querystring customerid (164ms)
+        ✓ invalid querystring customerid (145ms)
       invalid-customeir
-        ✓ invalid querystring customer has no discount (237ms)
+        ✓ invalid querystring customer has no discount (235ms)
     receives
       ✓ object (1055ms)
 
@@ -1126,115 +1126,115 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid (155ms)
       invalid-subscription
-        ✓ ineligible querystring subscription has no discount (8629ms)
+        ✓ ineligible querystring subscription has no discount (7475ms)
     returns
-      ✓ object (10812ms)
+      ✓ object (11749ms)
 
   /api/administrator/subscriptions/set-charge-flagged
     exceptions
       invalid-chargeid
         ✓ missing querystring charge
-        ✓ invalid querystring charge (158ms)
+        ✓ invalid querystring charge (168ms)
       invalid-charge
-        ✓ ineligible querystring charge is already flagged (8922ms)
+        ✓ ineligible querystring charge is already flagged (8304ms)
     returns
-      ✓ object (8217ms)
+      ✓ object (8090ms)
 
   /api/administrator/subscriptions/set-coupon-published
     exceptions
       invalid-couponid
         ✓ missing querystring couponid
-        ✓ invalid querystring couponid (170ms)
+        ✓ invalid querystring couponid (147ms)
       invalid-coupon
-        ✓ ineligible querystring coupon is published (318ms)
-        ✓ ineligible querystring coupon is unpublished (339ms)
+        ✓ ineligible querystring coupon is published (308ms)
+        ✓ ineligible querystring coupon is unpublished (333ms)
     returns
-      ✓ object (500ms)
+      ✓ object (485ms)
 
   /api/administrator/subscriptions/set-coupon-unpublished
     exceptions
       invalid-couponid
         ✓ missing querystring couponid
-        ✓ invalid querystring couponid (148ms)
+        ✓ invalid querystring couponid (150ms)
       invalid-coupon
-        ✓ ineligible querystring coupon is not published (309ms)
-        ✓ ineligible querystring coupon is already unpublished (487ms)
+        ✓ ineligible querystring coupon is not published (321ms)
+        ✓ ineligible querystring coupon is already unpublished (516ms)
     returns
-      ✓ object (496ms)
+      ✓ object (520ms)
 
   /api/administrator/subscriptions/set-invoice-uncollectible
     exceptions
       invalid-invoiceid
-        ✓ missing querystring invoiceid (142ms)
-        ✓ invalid querystring invoiceid (151ms)
+        ✓ missing querystring invoiceid (156ms)
+        ✓ invalid querystring invoiceid (156ms)
       invalid-invoice
-        ✓ invalid querystring invoice is paid (8448ms)
-        ✓ invalid querystring invoice is marked uncollectable (5007ms)
+        ✓ invalid querystring invoice is paid (8101ms)
+        ✓ invalid querystring invoice is marked uncollectable (5649ms)
     returns
-      ✓ object (5075ms)
+      ✓ object (5395ms)
 
   /api/administrator/subscriptions/set-plan-published
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (169ms)
+        ✓ invalid querystring planid (161ms)
       invalid-plan
-        ✓ ineligible querystring plan is published (698ms)
+        ✓ ineligible querystring plan is published (705ms)
     returns
-      ✓ object (906ms)
+      ✓ object (901ms)
 
   /api/administrator/subscriptions/set-plan-unpublished
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (163ms)
+        ✓ invalid querystring planid (171ms)
       invalid-plan
-        ✓ ineligible querystring plan is not published (690ms)
-        ✓ ineligible querystring plan is already unpublished (914ms)
+        ✓ ineligible querystring plan is not published (852ms)
+        ✓ ineligible querystring plan is already unpublished (1130ms)
     returns
-      ✓ object (898ms)
+      ✓ object (940ms)
 
   /api/administrator/subscriptions/set-product-published
     exceptions
       invalid-productid
-        ✓ missing querystring productid (323ms)
-        ✓ invalid querystring productid (312ms)
+        ✓ missing querystring productid (311ms)
+        ✓ invalid querystring productid (333ms)
       invalid-product
-        ✓ invalid querystring product is already published (295ms)
+        ✓ invalid querystring product is already published (298ms)
     returns
-      ✓ object (528ms)
+      ✓ object (562ms)
 
   /api/administrator/subscriptions/set-product-unpublished
     exceptions
       invalid-productid
-        ✓ missing querystring productid (182ms)
-        ✓ invalid querystring productid (309ms)
+        ✓ missing querystring productid (183ms)
+        ✓ invalid querystring productid (318ms)
       invalid-product
-        ✓ ineligible querystring product is not published (517ms)
-        ✓ ineligible querystring product is already unpublished (494ms)
+        ✓ ineligible querystring product is not published (314ms)
+        ✓ ineligible querystring product is already unpublished (529ms)
     returns
-      ✓ object (487ms)
+      ✓ object (502ms)
 
   /api/administrator/subscriptions/set-refund-request-denied
     exceptions
       invalid-chargeid
         ✓ missing querystring chargeid
-        ✓ invalid querystring chargeid (164ms)
+        ✓ invalid querystring chargeid (148ms)
       invalid-charge
-        ✓ ineligible querystring charge has no refund request (9199ms)
-        ✓ ineligible querystring charge has denied request already (12289ms)
+        ✓ ineligible querystring charge has no refund request (8031ms)
+        ✓ ineligible querystring charge has denied request already (8079ms)
     returns
-      ✓ object (8594ms)
+      ✓ object (8826ms)
 
   /api/administrator/subscriptions/set-subscription-canceled
     exceptions
       invalid-subscriptionid
         ✓ missing querystring subscriptionid
-        ✓ invalid querystring subscriptionid (146ms)
+        ✓ invalid querystring subscriptionid (156ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (8485ms)
+        ✓ ineligible querystring subscription is not active (8416ms)
     returns
-      ✓ object (7959ms)
+      ✓ object (8394ms)
 
   /api/administrator/subscriptions/set-subscription-coupon
     exceptions
@@ -1242,16 +1242,16 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-subscription
-        ✓ ineligible subscription is canceling (8828ms)
-        ✓ ineligible subscription has coupon (8758ms)
+        ✓ ineligible subscription is canceling (9195ms)
+        ✓ ineligible subscription has coupon (9118ms)
       invalid-couponid
-        ✓ missing posted couponid (7235ms)
-        ✓ invalid posted couponid (7928ms)
+        ✓ missing posted couponid (7631ms)
+        ✓ invalid posted couponid (7912ms)
       invalid-coupon
-        ✓ ineligible posted coupon is not published (8162ms)
-        ✓ ineligible posted coupon is unpublished (19850ms)
+        ✓ ineligible posted coupon is not published (7531ms)
+        ✓ ineligible posted coupon is unpublished (8278ms)
     returns
-      ✓ object (8942ms)
+      ✓ object (8753ms)
 
   /api/administrator/subscriptions/setup-intent
     exceptions
@@ -1259,11 +1259,11 @@
         ✓ missing querystring setupintentid
         ✓ invalid querystring setupintentid
     returns
-      ✓ object (2899ms)
+      ✓ object (3021ms)
 
   /api/administrator/subscriptions/setup-intents-count
     returns
-      ✓ integer (4625ms)
+      ✓ integer (4583ms)
 
   /api/administrator/subscriptions/setup-intents
     receives
@@ -1279,13 +1279,13 @@
     exceptions
       invalid-subscriptionid
         ✓ missing querystring subscriptionid
-        ✓ invalid querystring subscriptionid (148ms)
+        ✓ invalid querystring subscriptionid (154ms)
     returns
-      ✓ object (7719ms)
+      ✓ object (7480ms)
 
   /api/administrator/subscriptions/subscriptions-count
     returns
-      ✓ integer (23634ms)
+      ✓ integer (24075ms)
 
   /api/administrator/subscriptions/subscriptions
     receives
@@ -1301,66 +1301,66 @@
     exceptions
       invalid-couponid
         ✓ missing querystring couponid
-        ✓ invalid querystring couponid (145ms)
+        ✓ invalid querystring couponid (154ms)
       invalid-coupon
-        ✓ ineligible querystring coupon is unpublished (521ms)
+        ✓ ineligible querystring coupon is unpublished (501ms)
       invalid-name
-        ✓ missing posted name (336ms)
-        ✓ invalid posted name (515ms)
+        ✓ missing posted name (327ms)
+        ✓ invalid posted name (340ms)
     receives
-      ✓ required posted name (699ms)
+      ✓ required posted name (525ms)
     returns
-      ✓ object (490ms)
+      ✓ object (689ms)
 
   /api/administrator/subscriptions/update-plan
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (154ms)
+        ✓ invalid querystring planid (161ms)
       invalid-plan
-        ✓ ineligible querystring plan is unpublished (1043ms)
+        ✓ ineligible querystring plan is unpublished (1018ms)
       invalid-productid
-        ✓ invalid posted productid (842ms)
+        ✓ invalid posted productid (869ms)
       invalid-product
-        ✓ ineligible posted product is not published (990ms)
-        ✓ ineligible posted product is unpublished (1148ms)
+        ✓ ineligible posted product is not published (938ms)
+        ✓ ineligible posted product is unpublished (1535ms)
       invalid-trial_period_days
-        ✓ invalid posted trial_period_days (987ms)
-        ✓ ineligible posted trial_period_days is negative (1339ms)
-        ✓ ineligible posted trial_period_days greater than 365 (1127ms)
+        ✓ invalid posted trial_period_days (972ms)
+        ✓ ineligible posted trial_period_days is negative (1157ms)
+        ✓ ineligible posted trial_period_days greater than 365 (905ms)
     receives
-      ✓ optional posted trial_period_days (integer) (1020ms)
+      ✓ optional posted trial_period_days (integer) (950ms)
     returns
-      ✓ object (1193ms)
+      ✓ object (1152ms)
 
   /api/administrator/subscriptions/update-product
     exceptions
       invalid-productid
-        ✓ missing querystring productid (250ms)
-        ✓ invalid querystring productid (314ms)
+        ✓ missing querystring productid (355ms)
+        ✓ invalid querystring productid (343ms)
       invalid-product
-        ✓ ineligible querystring product is unpublished (508ms)
+        ✓ ineligible querystring product is unpublished (499ms)
       invalid-name
-        ✓ invalid posted name (306ms)
+        ✓ invalid posted name (328ms)
       invalid-name-length
-        ✓ posted name too short (334ms)
-        ✓ posted name too long (307ms)
+        ✓ posted name too short (305ms)
+        ✓ posted name too long (328ms)
       invalid-statement_descriptor
-        ✓ invalid posted statement_descriptor (309ms)
+        ✓ invalid posted statement_descriptor (316ms)
       invalid-statement_descriptor-length
-        ✓ posted statement_descriptor too short (315ms)
-        ✓ posted statement_descriptor too long (470ms)
+        ✓ posted statement_descriptor too short (326ms)
+        ✓ posted statement_descriptor too long (303ms)
       invalid-unit_label
-        ✓ missing posted unit_label (343ms)
+        ✓ missing posted unit_label (337ms)
     receives
-      ✓ optional posted name (502ms)
-      ✓ optional posted statement_descriptor (499ms)
-      ✓ optional posted unit_label (476ms)
+      ✓ optional posted name (480ms)
+      ✓ optional posted statement_descriptor (477ms)
+      ✓ optional posted unit_label (827ms)
     returns
-      ✓ object (515ms)
+      ✓ object (476ms)
     configuration
-      ✓ environment MINIMUM_PRODUCT_NAME_LENGTH (310ms)
-      ✓ environment MAXIMUM_PRODUCT_NAME_LENGTH (304ms)
+      ✓ environment MINIMUM_PRODUCT_NAME_LENGTH (316ms)
+      ✓ environment MAXIMUM_PRODUCT_NAME_LENGTH (307ms)
 
   /api/administrator/subscriptions/usage-record-summaries
     exceptions
@@ -1382,13 +1382,13 @@
         ✓ missing querystring chargeid
         ✓ invalid querystring chargeid
       invalid-account
-        ✓ ineligible accessing account (13566ms)
+        ✓ ineligible accessing account (13972ms)
     returns
-      ✓ object (7176ms)
+      ✓ object (6836ms)
 
   /api/user/subscriptions/charges-count
     returns
-      ✓ integer (17451ms)
+      ✓ integer (18025ms)
 
   /api/user/subscriptions/charges
     exceptions
@@ -1396,7 +1396,7 @@
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account
+        ✓ ineligible accessing account (43ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1412,13 +1412,13 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (9165ms)
+        ✓ ineligible accessing account (8281ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (8873ms)
-        ✓ ineligible querystring subscription is free (7604ms)
-        ✓ ineligible querystring subscription is in free trial (6741ms)
+        ✓ ineligible querystring subscription is not active (9708ms)
+        ✓ ineligible querystring subscription is free (6287ms)
+        ✓ ineligible querystring subscription is in free trial (8626ms)
     returns
-      ✓ object (11002ms)
+      ✓ object (10328ms)
 
   /api/user/subscriptions/create-customer
     exceptions
@@ -1426,9 +1426,9 @@
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account (40ms)
+        ✓ ineligible accessing account
     returns
-      ✓ object (214ms)
+      ✓ object (233ms)
 
   /api/user/subscriptions/create-payment-intent
     exceptions
@@ -1436,13 +1436,13 @@
         ✓ missing querystring customerid
         ✓ invalid querystring customerid
       invalid-account
-        ✓ ineligible accessing account (1482ms)
-        ✓ ineligible posted payment method (1821ms)
+        ✓ ineligible accessing account (1581ms)
+        ✓ ineligible posted payment method (1814ms)
       invalid-paymentmethodid
-        ✓ missing posted paymentmethodid (236ms)
-        ✓ invalid posted paymentmethodid (223ms)
+        ✓ missing posted paymentmethodid (225ms)
+        ✓ invalid posted paymentmethodid (235ms)
     object
-      ✓ object (2012ms)
+      ✓ object (1776ms)
 
   /api/user/subscriptions/create-payment-method
     exceptions
@@ -1450,18 +1450,18 @@
         ✓ missing querystring customerid
         ✓ invalid querystring customerid
       invalid-account
-        ✓ ineligible accessing account (304ms)
+        ✓ ineligible accessing account (242ms)
     receives
-      ✓ optionally-required posted name (228ms)
-      ✓ optionally-required posted cvc (240ms)
-      ✓ optionally-required posted number (270ms)
-      ✓ optionally-required posted exp_month (245ms)
-      ✓ optionally-required posted exp_year (227ms)
-      ✓ optionally-required posted token (231ms)
+      ✓ optionally-required posted name (414ms)
+      ✓ optionally-required posted cvc (213ms)
+      ✓ optionally-required posted number (243ms)
+      ✓ optionally-required posted exp_month (223ms)
+      ✓ optionally-required posted exp_year (233ms)
+      ✓ optionally-required posted token (237ms)
     returns
-      ✓ object (1674ms)
+      ✓ object (1764ms)
     configuration
-      ✓ environment STRIPE_JS (230ms)
+      ✓ environment STRIPE_JS (246ms)
 
   /api/user/subscriptions/create-refund-request
     exceptions
@@ -1469,12 +1469,12 @@
         ✓ missing querystring chargeid
         ✓ invalid querystring chargeid
       invalid-charge
-        ✓ ineligible querystring charge is refunded (9090ms)
-        ✓ ineligible querystring charge has refund request (8389ms)
+        ✓ ineligible querystring charge is refunded (10689ms)
+        ✓ ineligible querystring charge has refund request (10697ms)
       invalid-account
-        ✓ ineligible accessing account (9640ms)
+        ✓ ineligible accessing account (7900ms)
     returns
-      ✓ object (8410ms)
+      ✓ object (8941ms)
 
   /api/user/subscriptions/create-refund
     exceptions
@@ -1482,14 +1482,14 @@
         ✓ missing querystring chargeid
         ✓ invalid querystring chargeid
       invalid-charge
-        ✓ ineligible querystring charge is refunded (11053ms)
-        ✓ ineligible querystring charge is out of refund period (7698ms)
+        ✓ ineligible querystring charge is refunded (9363ms)
+        ✓ ineligible querystring charge is out of refund period (7889ms)
       invalid-account
-        ✓ ineligible accessing account (8468ms)
+        ✓ ineligible accessing account (12309ms)
     returns
-      ✓ object (8018ms)
+      ✓ object (8514ms)
     configuration
-      ✓ environment SUBSCRIPTION_REFUND_PERIOD (9207ms)
+      ✓ environment SUBSCRIPTION_REFUND_PERIOD (8841ms)
 
   /api/user/subscriptions/create-setup-intent
     exceptions
@@ -1497,30 +1497,30 @@
         ✓ missing querystring customerid
         ✓ invalid querystring customerid
       invalid-account
-        ✓ ineligible accessing account (1492ms)
+        ✓ ineligible accessing account (1630ms)
       invalid-paymentmethodid
-        ✓ missing posted paymentmethodid (239ms)
-        ✓ invalid posted paymentmethodid (223ms)
+        ✓ missing posted paymentmethodid (238ms)
+        ✓ invalid posted paymentmethodid (222ms)
     returns
-      ✓ object (1943ms)
+      ✓ object (1731ms)
 
   /api/user/subscriptions/create-subscription
     exceptions
       invalid-customerid
-        ✓ missing querystring customerid (517ms)
-        ✓ invalid querystring customerid (883ms)
+        ✓ missing querystring customerid (537ms)
+        ✓ invalid querystring customerid (886ms)
       invalid-customer
-        ✓ ineligible querystring customer requires payment method (892ms)
+        ✓ ineligible querystring customer requires payment method (899ms)
       invalid-account
-        ✓ ineligible accessing account (917ms)
+        ✓ ineligible accessing account (1092ms)
       invalid-planid
-        ✓ missing posted planid (1814ms)
-        ✓ invalid posted planid (1693ms)
+        ✓ missing posted planid (1784ms)
+        ✓ invalid posted planid (1668ms)
       invalid-plan
-        ✓ ineligible posted plan is not published (2202ms)
-        ✓ ineligible posted plan is unpublished (2524ms)
+        ✓ ineligible posted plan is not published (2334ms)
+        ✓ ineligible posted plan is unpublished (2885ms)
     returns
-      ✓ object (4107ms)
+      ✓ object (4368ms)
 
   /api/user/subscriptions/create-usage-record
     exceptions
@@ -1528,24 +1528,24 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-subscription
-        ✓ invalid querystring subscription is not "metered" (9504ms)
+        ✓ invalid querystring subscription is not "metered" (7559ms)
       invalid-account
-        ✓ ineligible accessing account (5176ms)
+        ✓ ineligible accessing account (5456ms)
       invalid-quantity
-        ✓ invalid posted quantity is not integer (5807ms)
-        ✓ invalid posted quantity is negative (5700ms)
+        ✓ invalid posted quantity is not integer (5513ms)
+        ✓ invalid posted quantity is negative (5343ms)
       invalid-action
-        ✓ missing posted action (6003ms)
-        ✓ invalid posted action (6582ms)
+        ✓ missing posted action (5411ms)
+        ✓ invalid posted action (5735ms)
       invalid-subscriptionitemid
-        ✓ missing posted subscriptionitemid (5731ms)
-        ✓ invalid posted subscriptionitemid (5161ms)
+        ✓ missing posted subscriptionitemid (5570ms)
+        ✓ invalid posted subscriptionitemid (5254ms)
     receives
-      ✓ required posted quantity (6752ms)
-      ✓ required posted action (6155ms)
-      ✓ required posted subscriptionitemid (7441ms)
+      ✓ required posted quantity (6823ms)
+      ✓ required posted action (5827ms)
+      ✓ required posted subscriptionitemid (6294ms)
     returns
-      ✓ object (6650ms)
+      ✓ object (6124ms)
 
   /api/user/subscriptions/customer
     exceptions
@@ -1553,9 +1553,9 @@
         ✓ missing querystring customerid
         ✓ invalid querystring customerid
       invalid-account
-        ✓ ineligible accessing account (2674ms)
+        ✓ ineligible accessing account (2326ms)
     returns
-      ✓ object (1889ms)
+      ✓ object (1931ms)
 
   /api/user/subscriptions/customers
     exceptions
@@ -1563,7 +1563,7 @@
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account
+        ✓ ineligible accessing account (40ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1579,9 +1579,9 @@
         ✓ missing querystring customerid
         ✓ invalid querystring customerid
       invalid-account
-        ✓ ineligible accessing account (282ms)
+        ✓ ineligible accessing account (287ms)
     returns
-      ✓ boolean (468ms)
+      ✓ boolean (458ms)
 
   /api/user/subscriptions/delete-subscription
     exceptions
@@ -1589,11 +1589,11 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (10026ms)
+        ✓ ineligible accessing account (7354ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (9416ms)
+        ✓ ineligible querystring subscription is not active (9481ms)
     returns
-      ✓ boolean (7916ms)
+      ✓ boolean (7951ms)
 
   /api/user/subscriptions/invoice
     exceptions
@@ -1601,13 +1601,13 @@
         ✓ missing querystring invoiceid
         ✓ invalid querystring invoiceid
       invalid-account
-        ✓ ineligible accessing account (10698ms)
+        ✓ ineligible accessing account (7989ms)
     returns
-      ✓ object (8495ms)
+      ✓ object (8286ms)
 
   /api/user/subscriptions/invoices-count
     returns
-      ✓ integer (19537ms)
+      ✓ integer (20781ms)
 
   /api/user/subscriptions/invoices
     exceptions
@@ -1631,13 +1631,13 @@
         ✓ missing querystring invalid
         ✓ invalid querystring invalid
       invalid-account
-        ✓ ineligible accessing account (1751ms)
+        ✓ ineligible accessing account (2938ms)
     returns
-      ✓ object (1856ms)
+      ✓ object (1911ms)
 
   /api/user/subscriptions/payment-intents-count
     returns
-      ✓ integer (5945ms)
+      ✓ integer (6873ms)
 
   /api/user/subscriptions/payment-intents
     exceptions
@@ -1645,7 +1645,7 @@
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account
+        ✓ ineligible accessing account (44ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1661,13 +1661,13 @@
         ✓ missing querystring paymentmethodid
         ✓ invalid querystring paymentmethodid
       invalid-account
-        ✓ ineligible accessing account (1803ms)
+        ✓ ineligible accessing account (2455ms)
     returns
-      ✓ object (1648ms)
+      ✓ object (1723ms)
 
   /api/user/subscriptions/payment-methods-count
     returns
-      ✓ integer (4658ms)
+      ✓ integer (5378ms)
 
   /api/user/subscriptions/payment-methods
     exceptions
@@ -1689,15 +1689,15 @@
     exceptions
       invalid-planid
         ✓ missing querystring planid
-        ✓ invalid querystring planid (138ms)
+        ✓ invalid querystring planid (316ms)
       invalid-plan
-        ✓ ineligible querystring plan is not published (678ms)
+        ✓ ineligible querystring plan is not published (904ms)
     returns
-      ✓ object (672ms)
+      ✓ object (838ms)
 
   /api/user/subscriptions/published-plans-count
     returns
-      ✓ integer (1232ms)
+      ✓ integer (1301ms)
 
   /api/user/subscriptions/published-plans
     receives
@@ -1713,15 +1713,15 @@
     exceptions
       invalid-productid
         ✓ missing querystring productid
-        ✓ invalid querystring productid (123ms)
+        ✓ invalid querystring productid (124ms)
       invalid-product
-        ✓ ineligible querystring product is not published (352ms)
+        ✓ ineligible querystring product is not published (340ms)
     returns
-      ✓ object (330ms)
+      ✓ object (337ms)
 
   /api/user/subscriptions/published-products-count
     returns
-      ✓ integer (592ms)
+      ✓ integer (567ms)
 
   /api/user/subscriptions/published-products
     receives
@@ -1736,16 +1736,16 @@
   /api/user/subscriptions/refund
     exceptions
       invalid-refundid
-        ✓ missing querystring refundid (981ms)
-        ✓ invalid querystring refundid (668ms)
+        ✓ missing querystring refundid (730ms)
+        ✓ invalid querystring refundid (646ms)
       invalid-account
-        ✓ ineligible accessing account (10198ms)
+        ✓ ineligible accessing account (11483ms)
     returns
-      ✓ object (9570ms)
+      ✓ object (9446ms)
 
   /api/user/subscriptions/refunds-count
     returns
-      ✓ integer (25309ms)
+      ✓ integer (25868ms)
 
   /api/user/subscriptions/refunds
     exceptions
@@ -1769,29 +1769,29 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-subscription
-        ✓ invalid querystring subscription is active (8991ms)
+        ✓ invalid querystring subscription is active (7322ms)
       invalid-account
-        ✓ ineligible accessing account (8487ms)
+        ✓ ineligible accessing account (8293ms)
     returns
-      ✓ object (10184ms)
+      ✓ object (9184ms)
 
   /api/user/subscriptions/set-customer-coupon
     exceptions
       invalid-customerid
-        ✓ missing querystring customerid (216ms)
-        ✓ invalid querystring customerid (219ms)
+        ✓ missing querystring customerid (219ms)
+        ✓ invalid querystring customerid (211ms)
       invalid-customer
-        ✓ invalid querystring customer has coupon (1020ms)
+        ✓ invalid querystring customer has coupon (1206ms)
       invalid-account
-        ✓ ineligible account accessing (609ms)
+        ✓ ineligible account accessing (433ms)
       invalid-couponid
-        ✓ missing posted couponid (239ms)
-        ✓ invalid posted couponid (247ms)
+        ✓ missing posted couponid (241ms)
+        ✓ invalid posted couponid (239ms)
       invalid-coupon
-        ✓ invalid posted coupon is not published (550ms)
-        ✓ invalid posted coupon is unpublished (733ms)
+        ✓ invalid posted coupon is not published (743ms)
+        ✓ invalid posted coupon is unpublished (757ms)
     returns
-      ✓ object (838ms)
+      ✓ object (839ms)
 
   /api/user/subscriptions/set-invoice-paid
     exceptions
@@ -1799,14 +1799,14 @@
         ✓ missing querystring invoiceid
         ✓ invalid querystring invoiceid
       invalid-account
-        ✓ ineligible accessing account (2157ms)
-        ✓ ineligible posted payment method (7599ms)
+        ✓ ineligible accessing account (2443ms)
+        ✓ ineligible posted payment method (7431ms)
       invalid-invoice
-        ✓ invalid querystring invoice is paid (7868ms)
-        ✓ invalid querystring invoice is marked uncollectable (5596ms)
+        ✓ invalid querystring invoice is paid (8108ms)
+        ✓ invalid querystring invoice is marked uncollectable (5370ms)
       invalid-paymentmethodid
-        ✓ missing posted paymentmethodid (2480ms)
-        ✓ invalid posted paymentmethodid (2388ms)
+        ✓ missing posted paymentmethodid (2282ms)
+        ✓ invalid posted paymentmethodid (2566ms)
     returns
       ✓ object (6263ms)
 
@@ -1816,9 +1816,9 @@
         ✓ missing querystring paymentintentid
         ✓ invalid querystring paymentintentid
       invalid-account
-        ✓ ineligible accessing account (1856ms)
+        ✓ ineligible accessing account (1942ms)
     returns
-      ✓ object (1867ms)
+      ✓ object (2161ms)
 
   /api/user/subscriptions/set-payment-method-detached
     exceptions
@@ -1826,11 +1826,11 @@
         ✓ missing querystring paymentmethodid
         ✓ invalid querystring paymentmethodid
       invalid-account
-        ✓ ineligible accessing account (1677ms)
+        ✓ ineligible accessing account (1741ms)
       invalid-paymentmethod
-        ✓ invalid querystring payment method is default (2155ms)
+        ✓ invalid querystring payment method is default (1726ms)
     returns
-      ✓ object (3007ms)
+      ✓ object (3330ms)
 
   /api/user/subscriptions/set-setup-intent-canceled
     exceptions
@@ -1838,9 +1838,9 @@
         ✓ missing querystring setupintentid
         ✓ invalid querystring setupintentid
       invalid-account
-        ✓ ineligible accessing account (3181ms)
+        ✓ ineligible accessing account (3059ms)
     returns
-      ✓ object (3192ms)
+      ✓ object (3120ms)
 
   /api/user/subscriptions/set-subscription-canceled
     exceptions
@@ -1848,11 +1848,11 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (7183ms)
+        ✓ ineligible accessing account (9565ms)
       invalid-subscription
-        ✓ ineligible querystring subscription is not active (8917ms)
+        ✓ ineligible querystring subscription is not active (9237ms)
     returns
-      ✓ object (8207ms)
+      ✓ object (7575ms)
 
   /api/user/subscriptions/set-subscription-coupon
     exceptions
@@ -1860,19 +1860,19 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-subscription
-        ✓ invalid querystring subscription has coupon (8602ms)
-        ✓ invalid querystring subscription is canceling (9272ms)
+        ✓ invalid querystring subscription has coupon (8632ms)
+        ✓ invalid querystring subscription is canceling (8639ms)
       invalid-account
-        ✓ ineligible accessing account (7670ms)
+        ✓ ineligible accessing account (7361ms)
       invalid-couponid
-        ✓ missing posted couponid (7850ms)
-        ✓ invalid posted couponid (8033ms)
+        ✓ missing posted couponid (8002ms)
+        ✓ invalid posted couponid (9160ms)
       invalid-coupon
-        ✓ invalid posted coupon is not published (7917ms)
-        ✓ invalid posted coupon is unpublished (8068ms)
-        ✓ invalid posted coupon is other currency (7806ms)
+        ✓ invalid posted coupon is not published (7600ms)
+        ✓ invalid posted coupon is unpublished (8510ms)
+        ✓ invalid posted coupon is other currency (9111ms)
     returns
-      ✓ object (7807ms)
+      ✓ object (7978ms)
 
   /api/user/subscriptions/set-subscription-plan
     exceptions
@@ -1880,18 +1880,18 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (15269ms)
+        ✓ ineligible accessing account (14532ms)
       invalid-planid
-        ✓ missing posted planid (7082ms)
-        ✓ invalid posted planid (8334ms)
+        ✓ missing posted planid (7204ms)
+        ✓ invalid posted planid (7780ms)
       invalid-plan
-        ✓ invalid posted plan is not published (11030ms)
-        ✓ invalid posted plan is unpublished (8592ms)
-        ✓ invalid posted plan is unchanged (7525ms)
+        ✓ invalid posted plan is not published (8345ms)
+        ✓ invalid posted plan is unpublished (8408ms)
+        ✓ invalid posted plan is unchanged (7496ms)
     invalid-paymentmethodid
-      ✓ invalid customer requires payments method (6424ms)
+      ✓ invalid customer requires payments method (6860ms)
     returns
-      ✓ object (9139ms)
+      ✓ object (10073ms)
 
   /api/user/subscriptions/set-subscription-quantity
     exceptions
@@ -1899,14 +1899,14 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (7392ms)
+        ✓ ineligible accessing account (7400ms)
       invalid-quantity
-        ✓ invalid posted quantity (7881ms)
-        ✓ invalid posted quantity is unchanged (7682ms)
-        ✓ invalid posted quantity is negative (8049ms)
-        ✓ invalid posted quantity is zero (9714ms)
+        ✓ invalid posted quantity (7613ms)
+        ✓ invalid posted quantity is unchanged (6669ms)
+        ✓ invalid posted quantity is negative (7997ms)
+        ✓ invalid posted quantity is zero (7331ms)
     returns
-      ✓ object (8548ms)
+      ✓ object (7947ms)
 
   /api/user/subscriptions/set-subscription-tax-percent
     exceptions
@@ -1914,13 +1914,13 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (8095ms)
+        ✓ ineligible accessing account (7558ms)
       invalid-tax_percent
-        ✓ invalid posted tax_percent (7175ms)
-        ✓ invalid posted tax_percent is unchanged (7576ms)
-        ✓ invalid posted tax_percent is negative (7943ms)
+        ✓ invalid posted tax_percent (6923ms)
+        ✓ invalid posted tax_percent is unchanged (7672ms)
+        ✓ invalid posted tax_percent is negative (6966ms)
     returns
-      ✓ object (8141ms)
+      ✓ object (8239ms)
 
   /api/user/subscriptions/setup-intent
     exceptions
@@ -1928,13 +1928,13 @@
         ✓ missing querystring setupintentid
         ✓ invalid querystring setupintentid
       invalid-account
-        ✓ ineligible accessing account (4034ms)
+        ✓ ineligible accessing account (3521ms)
     returns
-      ✓ object (2572ms)
+      ✓ object (2798ms)
 
   /api/user/subscriptions/setup-intents-count
     returns
-      ✓ integer (4196ms)
+      ✓ integer (4503ms)
 
   /api/user/subscriptions/setup-intents
     exceptions
@@ -1956,9 +1956,9 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (14834ms)
+        ✓ ineligible accessing account (13465ms)
     returns
-      ✓ object (7232ms)
+      ✓ object (7120ms)
 
   /api/user/subscriptions/subscriptions-count
     exceptions
@@ -1968,7 +1968,7 @@
       invalid-account
         ✓ ineligible accessing account
     returns
-      ✓ integer (13574ms)
+      ✓ integer (12905ms)
 
   /api/user/subscriptions/subscriptions
     exceptions
@@ -1976,7 +1976,7 @@
         ✓ missing querystring accountid
         ✓ invalid querystring accountid
       invalid-account
-        ✓ ineligible accessing account
+        ✓ ineligible accessing account (40ms)
     receives
       ✓ optional querystring offset (integer)
       ✓ optional querystring limit (integer)
@@ -1992,11 +1992,11 @@
         ✓ missing querystring subscriptionid
         ✓ invalid querystring subscriptionid
       invalid-account
-        ✓ ineligible accessing account (14852ms)
+        ✓ ineligible accessing account (15113ms)
       invalid-subscription
-        ✓ ineligible querystring subscription (14471ms)
+        ✓ ineligible querystring subscription (14641ms)
     returns
-      ✓ object (7981ms)
+      ✓ object (8002ms)
 
   /api/user/subscriptions/usage-record-summaries
     exceptions

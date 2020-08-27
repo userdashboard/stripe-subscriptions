@@ -69,9 +69,9 @@ You can use links for users to create a subscription to a specific plan:
 
     /account/subscriptions/start-subscription?planid=X
 
-### Request Subscription data from your application server
+### Request Subscription data from your Dashboard server
 
-Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  This example uses NodeJS to fetch the user's organizations from the Dashboard server, your application server can be in any language.
+Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  This example uses NodeJS to fetch the user's invoices from the Dashboard server, your application server can be in any language.
 
 You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/stripe-subscriptions-api).
 

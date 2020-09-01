@@ -29,8 +29,8 @@ Edit your `package.json` to activate the module:
 
 By default this module will share whatever storage you use for Dashboard.  You can specify a Dashboard storage module to use instead.
 
-        SUBSCRIPTIONS_STORAGE=@userdashboard/storage-postgresql
-        SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions
+    SUBSCRIPTIONS_STORAGE=@userdashboard/storage-postgresql
+    SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions
 
 ## Setting up your Stripe credentials
 
@@ -49,8 +49,8 @@ Environment variables are documented in Dashboard and each module's `/start-dev.
 
 You can require subscriptions and no overdue invoices through environment variables:
 
-        REQUIRE_SUBSCRIPTION=true
-        REQUIRE_PAYMENT=true
+    REQUIRE_SUBSCRIPTION=true
+    REQUIRE_PAYMENT=true
 
 ### Configuring your products and plans
 
@@ -58,12 +58,12 @@ This module adds a complete interface for creating products and plans.  Stripe's
 
 Users subscribe to plans and plans must be built from products.  Additionally, this module imposes a 'publish' status on products and plans that controls access to them by users.
 
-    1.  Create product
-    2.  Publish product
-    3.  Create plan
-    4.  Publish plan
-    5.  User selects plan from published plans
-    6.  User creates subscription optionally with payment
+1.  Administrator creates product
+2.  Administrator publishes product
+3.  Administrator creates plan
+4.  Administrator publishes plan
+5.  User selects plan from published plans
+6.  User creates subscription optionally with payment
 
 You can use links for users to create a subscription to a specific plan:
 
@@ -75,34 +75,34 @@ Dashboard and official modules are completely API-driven and you can access the 
 
 You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/stripe-subscriptions-api).
 
-        const requestOptions = {
-            host: 'dashboard.example.com',
-            path: `/api/user/subscriptions/invoices?accountid=${accountid}`,
-            port: '443',
-            method: 'GET',
-            headers: {
-                'x-application-server': 'application.example.com',
-                'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
-            }
+    const requestOptions = {
+        host: 'dashboard.example.com',
+        path: `/api/user/subscriptions/invoices?accountid=${accountid}`,
+        port: '443',
+        method: 'GET',
+        headers: {
+            'x-application-server': 'application.example.com',
+            'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
         }
-        if (accountid) {
-            requestOptions.headers['x-accountid'] = accountid
-            requestOptions.headers['x-sessionid'] = sessionid
-        }
-        const invoicesArray = await proxy(requestOptions)
+    }
+    if (accountid) {
+        requestOptions.headers['x-accountid'] = accountid
+        requestOptions.headers['x-sessionid'] = sessionid
+    }
+    const invoicesArray = await proxy(requestOptions)
 
-        function proxy = util.promisify((requestOptions, callback) => {
-          const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
-              let body = ''
-              proxyResponse.on('data', (chunk) => {
-                  body += chunk
-              })
-              return proxyResponse.on('end', () => {
-                  return callback(null, JSON.parse(body))
-              })
-          })
-          proxyRequest.on('error', (error) => {
-              return callback(error)
-          })
-          return proxyRequest.end()
+    function proxy = util.promisify((requestOptions, callback) => {
+        const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
+            let body = ''
+            proxyResponse.on('data', (chunk) => {
+                body += chunk
+            })
+            return proxyResponse.on('end', () => {
+                return callback(null, JSON.parse(body))
+            })
         })
+        proxyRequest.on('error', (error) => {
+            return callback(error)
+        })
+        return proxyRequest.end()
+    })

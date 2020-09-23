@@ -1,15 +1,38 @@
-# Stripe Subscriptions module for Dashboard
-![Test suite status](https://github.com/userdashboard/stripe-subscriptions/workflows/test-and-publish/badge.svg?branch=master)
+# Documentation for Stripe Connect
+
+#### Index
+
+- [Introduction](#stripe-subscriptions-module)
+- [Module contents](#module-contents)
+- [Import this module](#import-this-module)
+- [Setting up your Stripe credentials](#setting-up-your-stripe-credentials)
+- [Configuring your products and plans](#configuring-your-products-and-plans)
+- [Storage engine](#storage-engine)
+- [Access the API](#access-the-api)
+- [Github repository](https://github.com/userdashboard/stripe-subscriptions)
+- [NPM package](https://npmjs.org/userdashboard/stripe-subscriptions)
+
+# Introduction
 
 Dashboard bundles everything a web app needs, all the "boilerplate" like signing in and changing passwords, into a parallel server so you can write a much smaller web app.
 
 The Stripe Subscriptions module adds a complete interface for creating and managing your Stripe products, plans, subscriptions etc and a complete interface for users to subscribe to plans.
 
-Users can self-cancel their subscriptions at any time and you can nominate an n-day-period allowing users to refund themselves too.
+Users can self-cancel their subscriptions at any time and you can nominate a 0+ day period allowing users to refund themselves too.  You can optionally require a subscription and/or no unpaid invoices from all users outside of the `/account/` and `/administrator/` content.
 
-You can optionally require a subscription and/or no unpaid invoices from all users outside of the `/account/` and `/administrator/` content.
+# Module contents 
 
-Environment configuration variables are documented in `start-dev.sh`.  You can view API documentation in `api.txt`, or in more detail on the [documentation site](https://userdashboard.github.io/).  Join the freenode IRC #userdashboard chatroom for support - [Web IRC client](https://kiwiirc.com/nextclient/).
+Dashboard modules can add pages and API routes.  For more details check the `sitemap.txt` and `api.txt` or the online documentation.
+
+| Content type             |     |
+|--------------------------|-----|
+| Proxy scripts            |     |
+| Server scripts           | Yes |
+| Content scripts          |     |
+| User pages               | Yes |
+| User API routes          | Yes | 
+| Administrator pages      | Yes |
+| Administrator API routes | Yes | 
 
 ## Import this module
 
@@ -24,13 +47,6 @@ Edit your `package.json` to activate the module:
         "@userdashboard/stripe-subscriptions"
       ]
     }
-
-## Storage engine
-
-By default this module will share whatever storage you use for Dashboard.  You can specify a Dashboard storage module to use instead.
-
-    SUBSCRIPTIONS_STORAGE=@userdashboard/storage-postgresql
-    SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions
 
 ## Setting up your Stripe credentials
 
@@ -69,29 +85,36 @@ You can use links for users to create a subscription to a specific plan:
 
     /account/subscriptions/start-subscription?planid=X
 
-### Request Subscription data from your Dashboard server
+## Storage engine
 
-Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  This example uses NodeJS to fetch the user's invoices from the Dashboard server, your application server can be in any language.
+By default this module will share whatever storage you use for Dashboard.  You can specify an alternate storage module to use instead, or the same module with a separate database.
 
-You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/stripe-subscriptions-api).
+    SUBSCRIPTIONS_STORAGE=@userdashboard/storage-postgresql
+    SUBSCRIPTIONS_DATABASE_URL=postgres://localhost:5432/subscriptions
 
-    const requestOptions = {
-        host: 'dashboard.example.com',
-        path: `/api/user/subscriptions/invoices?accountid=${accountid}`,
-        port: '443',
-        method: 'GET',
-        headers: {
-            'x-application-server': 'application.example.com',
-            'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
+### Access the API
+
+Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  This example fetches the user's subscriptions using NodeJS, you can do this with any language:
+
+You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/organizations-api).
+
+    const subscriptions = await proxy(`/api/user/subscriptions/subscriptions?accountid=${accountid}&all=true`, accountid, sessionid)
+
+    const proxy = util.promisify((path, accountid, sessionid, callback) => {
+        const requestOptions = {
+            host: 'dashboard.example.com',
+            path: path,
+            port: '443',
+            method: 'GET',
+            headers: {
+                'x-application-server': 'application.example.com',
+                'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
+            }
         }
-    }
-    if (accountid) {
-        requestOptions.headers['x-accountid'] = accountid
-        requestOptions.headers['x-sessionid'] = sessionid
-    }
-    const invoicesArray = await proxy(requestOptions)
-
-    function proxy = util.promisify((requestOptions, callback) => {
+        if (accountid) {
+            requestOptions.headers['x-accountid'] = accountid
+            requestOptions.headers['x-sessionid'] = sessionid
+        }
         const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
             let body = ''
             proxyResponse.on('data', (chunk) => {
@@ -105,4 +128,5 @@ You can view API documentation within the NodeJS modules' `api.txt` files, or on
             return callback(error)
         })
         return proxyRequest.end()
-    })
+      })
+    }

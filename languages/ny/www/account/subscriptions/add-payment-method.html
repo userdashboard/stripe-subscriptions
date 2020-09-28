@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-template="false">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">Onjezani njira yolipira</title>
   <link href="/public/pure-min.css" rel="stylesheet">
   <link href="/public/content.css" rel="stylesheet">
@@ -15,10 +16,12 @@
   <script id="common-v3" src="/public/subscriptions/subscriptions.js"></script>
   <script id="handler-v3" src="/public/subscriptions/stripe-v3-add-payment-method.js"></script>
 </head>
+
 <body>
   <h1 translate="yes">Onjezani njira yolipira</h1>
   <div id="message-container"></div>
-  <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-stripejs-v3">
+  <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked"
+    action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-stripejs-v3">
     <input type="hidden" name="token" id="token">
     <div id="card-errors"></div>
     <div class="pure-control-group">
@@ -28,7 +31,7 @@
           <div class="adjacent" id="card-container"></div>
         </div>
         <div class="pure-u-5-24">
-          <label for="cvc" >CVC</label>
+          <label for="cvc">CVC</label>
           <div id="cvc-container" class="adjacent"></div>
         </div>
         <div class="pure-u-6-24">
@@ -80,11 +83,13 @@
       </select>
     </div>
     <div class="pure-controls">
-      <button id="submit-button" class="adjacent pure-button pure-button-primary" type="submit">Save profile</button>
-      <button class="pure-button" type="submit" name="refresh" value="true">Change country</button>
+      <button id="submit-button" class="adjacent pure-button pure-button-primary" type="submit" translate="yes">Save
+        profile</button>
+      <button class="pure-button" type="submit" name="refresh" value="true" translate="yes">Change country</button>
     </div>
   </form>
-  <form id="form-nojs" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-nojs">
+  <form id="form-nojs" method="post" class="pure-form pure-form-stacked"
+    action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-nojs">
     <div class="pure-control-group">
       <label for="description" translate="yes">Mafotokozedwe azambiri</label>
       <input required="" id="description" name="description" type="text" maxlength="100">
@@ -102,7 +107,7 @@
           </div>
         </div>
         <div class="pure-u-4-24">
-          <label for="cvc" >CVC</label>
+          <label for="cvc">CVC</label>
           <div class="adjacent">
             <input name="cvc" required="" id="cvc" type="text" maxlength="3">
           </div>
@@ -152,7 +157,7 @@
         </div>
         <div class="pure-u-1-3">
           <div id="zip-container" class="pure-control-group">
-            <label for="address_zip" >ZIP</label>
+            <label for="address_zip">ZIP</label>
             <input id="address_zip" name="address_zip" type="text" maxlength="1000">
           </div>
         </div>
@@ -167,8 +172,9 @@
       </select>
     </div>
     <div class="pure-controls">
-      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Save profile</button>
-      <button class="pure-button" type="submit" name="refresh" value="true">Change country</button>
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Save
+        profile</button>
+      <button class="pure-button" type="submit" name="refresh" value="true" translate="yes">Change country</button>
     </div>
   </form>
   <template id="country-option">
@@ -183,7 +189,7 @@
   </template>
   <template id="invalid-token">
     <div class="error message" translate="yes">
-      Zolakwika! Panali vuto posunga khadi yanu
+      Error! An error occurred saving your card
     </div>
   </template>
   <template id="invalid-name">
@@ -222,4 +228,5 @@
     </div>
   </template>
 </body>
+
 </html>

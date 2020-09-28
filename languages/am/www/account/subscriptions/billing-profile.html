@@ -2,18 +2,18 @@
 <html lang="en" data-navbar="/account/subscriptions/navbar-billing-profile.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">ይመልከቱ ${customer.id}</title>
+  <title translate="yes">አሳይ ${customer.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
 <body>
-  <h1 translate="yes">ይመልከቱ ${customer.id}</h1>
+  <h1 translate="yes">አሳይ ${customer.id}</h1>
   <table id="customers-table" class="pure-table data-table">
     <tbody id="${customer.id}">
       <tr>
-        <th translate="yes">ኢሜይል</th>
+        <th translate="yes">ኢሜል</th>
         <td>${customer.email}</td>
       </tr>
       <tr>
@@ -33,7 +33,7 @@
         <td>${customer.numSubscriptions}</td>
       </tr>
       <tr>
-        <th translate="yes">ተፈጠረ</th>
+        <th translate="yes">ተፈጥሯል</th>
         <td>${customer.createdFormatted}</td>
       </tr>
     </tbody>

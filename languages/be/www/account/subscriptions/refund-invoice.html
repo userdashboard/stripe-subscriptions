@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">Вяртанне сродкаў ${invoice.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
+
 <body>
   <h1 translate="yes">Вяртанне сродкаў ${invoice.id}</h1>
   <p translate="yes">Гэта адразу скончыць ваш доступ да падпіскі.</p>
   <div id="message-container"></div>
-  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/refund-invoice?invoiceid=${invoice.id}" name="submit-form">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked"
+    action="/account/subscriptions/refund-invoice?invoiceid=${invoice.id}" name="submit-form">
     <div id="refund-container">
       <div class="pure-control-group">
         <label translate="yes">Вяртанне сродкаў</label>
@@ -21,7 +24,8 @@
       </div>
     </div>
     <div class="pure-controls spaced-buttons">
-      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Refund invoice</button>
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Refund
+        invoice</button>
     </div>
   </form>
   <template id="refund-template">
@@ -39,8 +43,9 @@
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Памылка! Адбылася памылка пры вяртанні рахунку
+      Error! An error occurred refunding the invoice
     </div>
   </template>
 </body>
+
 </html>

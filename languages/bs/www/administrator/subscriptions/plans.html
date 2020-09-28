@@ -23,7 +23,7 @@
         <th translate="yes">Cijena</th>
         <th translate="yes">Probni rad</th>
         <th translate="yes">Status</th>
-        <th translate="yes">Napravljeno</th>
+        <th translate="yes">Stvoreno</th>
       </tr>
     </thead>
   </table>
@@ -43,9 +43,9 @@
       </td>
       <td>${plan.priceFormatted}</td>
       <td>${plan.trialFormatted}</td>
-      <td id="draft-plan-${plan.id}">Draft</td>
-      <td id="published-plan-${plan.id}">Published</td>
-      <td id="unpublished-plan-${plan.id}">Unpublished</td>
+      <td id="draft-plan-${plan.id}" translate="yes">Nacrt</td>
+      <td id="published-plan-${plan.id}" translate="yes">Objavljeno</td>
+      <td id="unpublished-plan-${plan.id}" translate="yes">Neobjavljeno</td>
       <td>${plan.createdFormatted}</td>
     </tr>
   </template>

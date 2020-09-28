@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/subscriptions/navbar-plan.html">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">Удалить ${plan.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
+
 <body>
   <h1 translate="yes">Удалить ${plan.id}</h1>
   <p translate="yes">План будет удален немедленно и не может быть восстановлен.</p>
@@ -34,8 +36,10 @@
       <td>${plan.interval_count} ${plan.interval}(s)</td>
     </tr>
   </table>
-  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/delete-plan?planid=${plan.id}" name="submit-form">
-    <button id="submit-button" class="pure-button pure-button-primary" type="submit">Delete plan</button>
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked"
+    action="/administrator/subscriptions/delete-plan?planid=${plan.id}" name="submit-form">
+    <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Delete
+      plan</button>
   </form>
   <template id="success">
     <div class="success message" translate="yes">
@@ -44,8 +48,9 @@
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Ошибка! Произошла ошибка при удалении плана
+      Error! An error occurred deleting the plan
     </div>
   </template>
 </body>
+
 </html>

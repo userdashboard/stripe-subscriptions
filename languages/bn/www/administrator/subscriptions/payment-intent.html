@@ -2,14 +2,14 @@
 <html lang="en" data-navbar="/administrator/subscriptions/navbar-payment-intent.html">
 <head>
   <meta charset="utf-8" /> 
-  <title translate="yes">দৃশ্য ${payment_intent.id}</title>
+  <title translate="yes">দেখুন ${payment_intent.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
 <body>
-  <h1 translate="yes">দৃশ্য ${payment_intent.id}</h1>
+  <h1 translate="yes">দেখুন ${payment_intent.id}</h1>
   <table id="payment_intents-table" class="pure-table data-table">
     <tbody id="${payment_intent.id}">
       <tr>
@@ -40,14 +40,14 @@
       </tr>
       <tr>
         <th translate="yes">অবস্থা</th>
-        <td id="requires_payment_method" translated="yes">Requires payment method</td>
-        <td id="requires_confirmation" translated="yes">Requires confirmation</td>
-        <td id="requires_action" translated="yes">Requires action</td>
-        <td id="requires_source" translated="yes">Requires source</td>
-        <td id="processing" translated="yes">Processing</td>
-        <td id="requires_capture" translated="yes">Requires capture</td>
-        <td id="canceled" translated="yes">Canceled</td>
-        <td id="succeeded" translated="yes">Succeeded</td>
+        <td id="requires_payment_method" translate="yes">পেমেন্ট পদ্ধতি প্রয়োজন</td>
+        <td id="requires_confirmation" translate="yes">নিশ্চিতকরণ প্রয়োজন</td>
+        <td id="requires_action" translate="yes">পদক্ষেপের প্রয়োজন</td>
+        <td id="requires_source" translate="yes">উত্স প্রয়োজন</td>
+        <td id="processing" translate="yes">প্রসেসিং</td>
+        <td id="requires_capture" translate="yes">ক্যাপচার প্রয়োজন</td>
+        <td id="canceled" translate="yes">বাতিল করা হয়েছে</td>
+        <td id="succeeded" translate="yes">অনুসৃত</td>
       </tr>
     </tbody>
   </table>

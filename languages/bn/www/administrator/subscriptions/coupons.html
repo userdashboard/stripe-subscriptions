@@ -22,7 +22,7 @@
         <th>ID</th>
         <th translate="yes">ডিসকাউন্ট</th>
         <th translate="yes">অবস্থা</th>
-        <th translate="yes">নির্মিত</th>
+        <th translate="yes">তৈরি হয়েছে</th>
       </tr>
     </thead>
   </table>
@@ -39,9 +39,9 @@
       </td>
       <td id="amount_off-${coupon.id}">${coupon.amount_offFormatted} ${coupon.currency}</td>
       <td id="percent_off-${coupon.id}">${coupon.percent_off}%</td>
-      <td id="draft-coupon-${coupon.id}">Draft</td>
-      <td id="published-coupon-${coupon.id}">Published</td>
-      <td id="unpublished-coupon-${coupon.id}">Unpublished</td>
+      <td id="draft-coupon-${coupon.id}" translate="yes">খসড়া</td>
+      <td id="published-coupon-${coupon.id}" translate="yes">প্রকাশিত</td>
+      <td id="unpublished-coupon-${coupon.id}" translate="yes">অপ্রকাশিত</td>
       <td>${coupon.createdFormatted}</td>
     </tr>
   </template>

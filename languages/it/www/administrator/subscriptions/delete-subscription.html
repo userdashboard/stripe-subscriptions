@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/subscriptions/navbar-subscription.html">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">Annulla ${subscription.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
+
 <body>
   <h1 translate="yes">Annulla ${subscription.id}</h1>
   <div id="message-container"></div>
-  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/delete-subscription?subscriptionid=${subscription.id}" name="submit-form">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked"
+    action="/administrator/subscriptions/delete-subscription?subscriptionid=${subscription.id}" name="submit-form">
     <div id="refund-container">
       <label translate="yes">Annulla opzioni</label>
       <div class="pure-checkbox">
         <div class="pure-checkbox">
           <label id="delay-label">
             <input id="delay-checkbox" name="refund" value="at_period_end" type="radio">
-            After current billing period
-          </label> 
+            <span translate="yes">After current billing period</span>
+          </label>
           <label id="immediate-label">
             <input id="immediate-checkbox" name="refund" value="immediate" type="radio">
-            Cancel immediately
-          </label> 
+            <span translate="yes">Cancel immediately</span>
+          </label>
           <label id="credit-label">
             <input id="credit-checkbox" name="refund" value="credit" type="radio">
-            Credit unused balance for future payments
+            <span translate="yes">Credit unused balance for future payments</span>
           </label>
           <label id="refund-label">
             <input id="refund-checkbox" name="refund" value="refund" type="radio">
-            Refund unused balance to original card
+            <span translate="yes">Refund unused balance to original card</span>
           </label>
         </div>
       </div>
     </div>
     <div class="pure-controls spaced-buttons">
-      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Delete subscription</button>
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Delete
+        subscription</button>
     </div>
   </form>
   <template id="success">
@@ -46,17 +50,17 @@
   </template>
   <template id="success-refund">
     <div class="success message" translate="yes">
-      Successo! L'abbonamento è stato cancellato and refunded
+      Successo! L'abbonamento è stato annullato e rimborsato
     </div>
   </template>
   <template id="success-credit">
     <div class="success message" translate="yes">
-      Successo! L'abbonamento è stato cancellato and your account credited
+      Successo! L'abbonamento è stato annullato e il tuo account è stato accreditato
     </div>
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Errore! Si è verificato un errore durante l'annullamento dell'abbonamento
+      Error! An error occurred canceling the subscription
     </div>
   </template>
   <template id="invalid subscription">
@@ -65,4 +69,5 @@
     </div>
   </template>
 </body>
+
 </html>

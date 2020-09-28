@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/account/subscriptions/navbar-invoice.html">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">ഇതിനായി റീഫണ്ട് അഭ്യർത്ഥിക്കുക ${invoice.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
+
 <body>
   <h1 translate="yes">ഇതിനായി റീഫണ്ട് അഭ്യർത്ഥിക്കുക ${invoice.id}</h1>
   <p translate="yes">റീഫണ്ടുകൾ അവലോകനത്തിന് വിധേയമാണ്, ചെലവുകൾ അനുസരിച്ച് അവ അനുവദിക്കുകയോ നിരസിക്കുകയോ ചെയ്യാം.</p>
   <div id="message-container"></div>
-  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked"
+    action="/account/subscriptions/request-refund?invoiceid=${invoice.id}" name="submit-form">
     <div class="pure-control-group">
       <label for="reason" translate="yes">കാരണം</label>
       <input required="" id="reason" name="reason" type="text" maxlength="200">
     </div>
     <div class="pure-controls spaced-buttons">
-      <button id="submit-button" class="pure-button pure-button-primary" type="submit">Request refund</button>
+      <button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Request
+        refund</button>
     </div>
   </form>
   <template id="refund-requested">
@@ -42,7 +46,7 @@
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      പിശക്! റീഫണ്ട് അഭ്യർത്ഥിക്കുന്നതിൽ ഒരു പിശക് സംഭവിച്ചു
+      Error! An error occurred requesting a refund
     </div>
   </template>
   <template id="invalid-chargeid">
@@ -56,4 +60,5 @@
     </div>
   </template>
 </body>
+
 </html>

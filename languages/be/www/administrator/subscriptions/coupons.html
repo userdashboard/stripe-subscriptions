@@ -22,7 +22,7 @@
         <th>ID</th>
         <th translate="yes">Зніжка</th>
         <th translate="yes">Статус</th>
-        <th translate="yes">Створаны</th>
+        <th translate="yes">Створана</th>
       </tr>
     </thead>
   </table>
@@ -39,9 +39,9 @@
       </td>
       <td id="amount_off-${coupon.id}">${coupon.amount_offFormatted} ${coupon.currency}</td>
       <td id="percent_off-${coupon.id}">${coupon.percent_off}%</td>
-      <td id="draft-coupon-${coupon.id}">Draft</td>
-      <td id="published-coupon-${coupon.id}">Published</td>
-      <td id="unpublished-coupon-${coupon.id}">Unpublished</td>
+      <td id="draft-coupon-${coupon.id}" translate="yes">Чарнавік</td>
+      <td id="published-coupon-${coupon.id}" translate="yes">Апублікавана</td>
+      <td id="unpublished-coupon-${coupon.id}" translate="yes">Неапублікавана</td>
       <td>${coupon.createdFormatted}</td>
     </tr>
   </template>

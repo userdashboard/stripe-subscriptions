@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" data-navbar="/administrator/subscriptions/navbar-customer.html">
+
 <head>
-  <meta charset="utf-8" /> 
+  <meta charset="utf-8" />
   <title translate="yes">Tillämpa kupong till ${customer.id}</title>
   <link rel="stylesheet" href="/public/pure-min.css">
   <link rel="stylesheet" href="/public/content.css">
   <link rel="stylesheet" href="/public/content-additional.css">
   <base href="/" target="_top">
 </head>
+
 <body>
   <h1 translate="yes">Tillämpa kupong till ${customer.id}</h1>
   <p translate="yes">Kupongen kommer att gälla tills dess utgång eller borttagning.</p>
   <div id="message-container"></div>
-  <form id="submit-form" method="post" class="pure-form pure-form-stacked" action="/administrator/subscriptions/apply-customer-coupon?customerid=${customer.id}" name="submit-form">
+  <form id="submit-form" method="post" class="pure-form pure-form-stacked"
+    action="/administrator/subscriptions/apply-customer-coupon?customerid=${customer.id}" name="submit-form">
     <div class="pure-control-group">
       <label for="couponid" translate="yes">Välj kupong</label>
       <select id="couponid" name="couponid">
@@ -20,7 +23,8 @@
           Välj kupong
         </option>
       </select>
-    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit">Apply discount</button>
+    </div><button id="submit-button" class="pure-button pure-button-primary" type="submit" translate="yes">Apply
+      discount</button>
   </form>
   <template id="coupon-option">
     <option value="${coupon.id}">
@@ -44,8 +48,9 @@
   </template>
   <template id="unknown-error">
     <div class="error message" translate="yes">
-      Fel! Ett fel uppstod vid tillämpning av kupongen
+      Error! An error occurred applying the coupon
     </div>
   </template>
 </body>
+
 </html>

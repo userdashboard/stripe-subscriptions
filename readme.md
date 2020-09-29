@@ -16,9 +16,7 @@
 
 Dashboard bundles everything a web app needs, all the "boilerplate" like signing in and changing passwords, into a parallel server so you can write a much smaller web app.
 
-The Stripe Subscriptions module adds a complete interface for creating and managing your Stripe products, plans, subscriptions etc and a complete interface for users to subscribe to plans.
-
-Users can self-cancel their subscriptions at any time and you can nominate a 0+ day period allowing users to refund themselves too.  You can optionally require a subscription and/or no unpaid invoices from all users outside of the `/account/` and `/administrator/` content.
+The Stripe Subscriptions module adds a complete interface for creating and managing your Stripe products, plans, subscriptions etc and a complete interface for users to subscribe to plans.  Users can self-cancel their subscriptions at any time and you can nominate a 0+ day period allowing users to refund themselves too.  You can optionally require a subscription and/or no unpaid invoices from all users outside of the `/account/` and `/administrator/` content.  The [Stripe API documentation](https://stripe.com/docs/api) supplements this documentation.
 
 # Module contents 
 
@@ -52,12 +50,12 @@ Edit your `package.json` to activate the module:
 
 You will need to retrieve various keys from [Stripe](https://stripe.com).  During development your webhook will be created automatically, but in production with multiple dashboard server instances they share a configured webhook:
 
-- create your Stripe account and find your API keys
-- create a webhook for https://your_domain/webhooks/subscriptions/index-subscription-data 
-- environment STRIPE_JS=3|2|false
-- environment STRIPE_KEY=sk_test_xxxxxxx
-- environment STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxx
-- environment SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET=whsec_xxxxxxxx
+    - create your Stripe account and find your API keys
+    - create a webhook for https://your_domain/webhooks/subscriptions/index-subscription-data 
+    - environment STRIPE_JS=3|2|false
+    - environment STRIPE_KEY=sk_test_xxxxxxx
+    - environment STRIPE_PUBLISHABLE_KEY=pk_test_xxxxxxx
+    - environment SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET=whsec_xxxxxxxx
 
 ## Requiring subscriptions
 

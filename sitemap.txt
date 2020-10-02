@@ -1,4 +1,4 @@
-@userdashboard/dashboard 1.0.325
+@userdashboard/dashboard 1.0.327
 http://localhost:9000
 
 Administrator menu:
@@ -15,12 +15,13 @@ Special HTML files:
 @userdashboard/dashboard/src/redirect.html
 
 Dashboard modules:
-@userdashboard/maxmind-geoip (1.0.58)
+@userdashboard/maxmind-geoip (1.0.82)
 
 Content handlers:
 /src/content/content-security-policy.js
 
 Server handlers:
+@userdashboard/maxmind-geoip/src/server/bind-country.js
 /src/server/bind-stripekey.js
 /src/server/require-payment-confirmation.js
 /src/server/require-payment.js

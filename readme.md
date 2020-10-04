@@ -94,7 +94,7 @@ By default this module will share whatever storage you use for Dashboard.  You c
 
 Dashboard and official modules are completely API-driven and you can access the same APIs on behalf of the user making requests.  You perform `GET`, `POST`, `PATCH`, and `DELETE` HTTP requests against the API endpoints to fetch or modify data.  This example fetches the user's subscriptions using NodeJS, you can do this with any language:
 
-You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/organizations-api).
+You can view API documentation within the NodeJS modules' `api.txt` files, or on the [documentation site](https://userdashboard.github.io/stripe-subscriptions-api).
 
     const subscriptions = await proxy(`/api/user/subscriptions/subscriptions?accountid=${accountid}&all=true`, accountid, sessionid)
 
@@ -106,12 +106,10 @@ You can view API documentation within the NodeJS modules' `api.txt` files, or on
             method: 'GET',
             headers: {
                 'x-application-server': 'application.example.com',
-                'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN
+                'x-application-server-token': process.env.APPLICATION_SERVER_TOKEN,
+                'x-accountid': accountid,
+                'x-sessionid': sessionid
             }
-        }
-        if (accountid) {
-            requestOptions.headers['x-accountid'] = accountid
-            requestOptions.headers['x-sessionid'] = sessionid
         }
         const proxyRequest = require('https').request(requestOptions, (proxyResponse) => {
             let body = ''

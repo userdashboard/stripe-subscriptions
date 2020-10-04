@@ -2,7 +2,7 @@
 
 #### Index
 
-- [Introduction](#stripe-subscriptions-module)
+- [Introduction](#introduction)
 - [Module contents](#module-contents)
 - [Import this module](#import-this-module)
 - [Setting up your Stripe credentials](#setting-up-your-stripe-credentials)
@@ -20,7 +20,7 @@ The Stripe Subscriptions module adds a complete interface for creating and manag
 
 # Module contents 
 
-Dashboard modules can add pages and API routes.  For more details check the `sitemap.txt` and `api.txt` or the online documentation.
+Dashboard modules can add pages and API routes.  For more details check the `sitemap.txt` and `api.txt` or `env.txt` also contained in the online documentation.
 
 | Content type             |     |
 |--------------------------|-----|

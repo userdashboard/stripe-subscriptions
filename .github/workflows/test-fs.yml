@@ -23,10 +23,8 @@ jobs:
         npm install -g mocha
         rm node_modules/@userdashboard/stripe-subscriptions/*.js
         rm -rf node_modules/@userdashboard/stripe-subscriptions/src
-        rm -rf node_modules/@userdashboard/stripe-subscriptions/languages
         cp /home/runner/work/stripe-subscriptions/stripe-subscriptions/*.js node_modules/@userdashboard/stripe-subscriptions
         cp -R /home/runner/work/stripe-subscriptions/stripe-subscriptions/src/ node_modules/@userdashboard/stripe-subscriptions/src/
-        cp -R /home/runner/work/stripe-subscriptions/stripe-subscriptions/languages/ node_modules/@userdashboard/stripe-subscriptions/languages/
         echo "global.applicationPath = __dirname" > main.js
         PACKAGE=`cat package.json`
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}

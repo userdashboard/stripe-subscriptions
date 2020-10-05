@@ -2,11 +2,11 @@
 http://localhost:9000
 
 Administrator menu:
-stripe-subscriptions/src/www/administrator/subscriptions "Stripe Subscriptions <span translate="yes">module</span>"
+@userdashboard/stripe-subscriptions/src/www/administrator/subscriptions "Stripe Subscriptions <span translate="yes">module</span>"
 /administrator "Dashboard administration"
 
 Account menu:
-stripe-subscriptions/src/www/account/subscriptions "Subscriptions and billing"
+@userdashboard/stripe-subscriptions/src/www/account/subscriptions "Subscriptions and billing"
 /account "My account"
 
 Special HTML files:

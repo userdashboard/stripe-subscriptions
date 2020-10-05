@@ -1,6 +1,6 @@
 {
   "name": "@userdashboard/stripe-subscriptions",
-  "version": "1.0.88",
+  "version": "1.0.87",
   "main": "index.js",
   "description": "Stripe Subscription module for Dashboard",
   "engine": {
@@ -21,7 +21,7 @@
     "stripe": "^7.15.0"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "Stripe Subscriptions module",
     "modules": [
       "@userdashboard/maxmind-geoip"
     ],

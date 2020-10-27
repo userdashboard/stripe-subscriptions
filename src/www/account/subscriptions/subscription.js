@@ -43,7 +43,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res) {
   const removeElements = []
-  const doc = dashboard.HTML.parse(req.route.html, req.data.subscription, 'subscription', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.subscription, 'subscription', req.language)
   navbar.setup(doc, req.data.subscription)
   if (req.data.subscription.status === 'trialing') {
     removeElements.push(`canceled-subscription-${req.data.subscription.id}`, `past_due-subscription-${req.data.subscription.id}`, `unpaid-subscription-${req.data.subscription.id}`, `canceling-subscription-${req.data.subscription.id}`, `active-subscription-${req.data.subscription.id}`)

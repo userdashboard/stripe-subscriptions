@@ -12,10 +12,10 @@ async function renderPage (req, res, messageTemplate) {
   let doc
   const unusedVersions = []
   if (global.stripeJS === false) {
-    doc = dashboard.HTML.parse(req.route.html, {}, 'dashboard')
+    doc = dashboard.HTML.parse(req.html || req.route.html, {}, 'dashboard')
     unusedVersions.push('stripe-v3', 'subscriptions-v3', 'handler-v3', 'client-v3', 'form-stripejs-v3')
   } else if (global.stripeJS === 3) {
-    doc = dashboard.HTML.parse(req.route.html, { stripePublishableKey: global.stripePublishableKey }, 'dashboard')
+    doc = dashboard.HTML.parse(req.html || req.route.html, { stripePublishableKey: global.stripePublishableKey }, 'dashboard')
     unusedVersions.push('form-no-js')
     res.setHeader('content-security-policy',
       'default-src * \'unsafe-inline\'; ' +

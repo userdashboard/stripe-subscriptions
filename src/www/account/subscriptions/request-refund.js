@@ -28,7 +28,7 @@ async function beforeRequest (req) {
 
 async function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
-  const doc = dashboard.HTML.parse(req.route.html, req.data.invoice, 'invoice', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invoice, 'invoice', req.language)
   if (req.data.charge.refundRequested && messageTemplate !== 'success') {
     messageTemplate = 'refund-requested'
     if (req.data.charge.refundDenied) {

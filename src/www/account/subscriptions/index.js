@@ -58,7 +58,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, null, null, req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, null, null, req.language)
   let allFree = true
   const removeElements = []
   if (req.data.subscriptions && req.data.subscriptions.length) {

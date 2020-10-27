@@ -26,7 +26,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, req.data.paymentIntent, 'payment_intent')
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.paymentIntent, 'payment_intent')
   res.setHeader('content-security-policy',
     'default-src * \'unsafe-inline\'; ' +
   `style-src https://m.stripe.com/ https://m.stripe.network/ https://js.stripe.com/v2/ ${global.dashboardServer}/public/ 'unsafe-inline'; ` +

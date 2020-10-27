@@ -16,7 +16,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, req.data.setupIntent, 'setup_intent')
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.setupIntent, 'setup_intent')
   const removeElements = []
   for (const status of ['requires_setup_method', 'requires_confirmation', 'requires_action', 'processing', 'requires_capture', 'canceled', 'succeeded']) {
     if (req.data.setupIntent.status !== status) {

@@ -16,6 +16,6 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.route.html, req.data.paymentMethod, 'payment_method')
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.paymentMethod, 'payment_method')
   return dashboard.Response.end(req, res, doc)
 }

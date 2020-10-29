@@ -20,7 +20,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, null, null, req.language)
+  const doc = dashboard.HML.parse(req.html || req.route.html)
   if (req.data.plans && req.data.plans.length) {
     dashboard.HTML.renderTable(doc, req.data.plans, 'plan-row', 'plans-table')
     for (const plan of req.data.plans) {

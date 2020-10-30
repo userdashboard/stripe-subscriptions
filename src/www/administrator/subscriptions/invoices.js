@@ -21,7 +21,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HML.parse(req.html || req.route.html)
+  const doc = dashboard.HTML.parse(req.html || req.route.html)
   if (req.data.invoices && req.data.invoices.length) {
     dashboard.HTML.renderTable(doc, req.data.invoices, 'invoice-row', 'invoices-table')
     for (const invoice of req.data.invoices) {

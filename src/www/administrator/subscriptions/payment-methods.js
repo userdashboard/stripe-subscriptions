@@ -19,7 +19,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HML.parse(req.html || req.route.html)
+  const doc = dashboard.HTML.parse(req.html || req.route.html)
   if (req.data.paymentMethods && req.data.paymentMethods.length) {
     dashboard.HTML.renderTable(doc, req.data.paymentMethods, 'payment-method-row', 'payment-methods-table')
     if (req.data.total <= global.pageSize) {

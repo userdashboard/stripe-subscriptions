@@ -1,7 +1,8 @@
 (async () => {
   if (!process.env.SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET) {
     const fs = require('fs')
-    const events = fs.readdirSync(`${__dirname}/src/www/webhooks/subscriptions/stripe-webhooks`)
+    const path = require('path')
+    const events = fs.readdirSync(path.join(__dirname, '/src/www/webhooks/subscriptions/stripe-webhooks'))
     const eventList = []
     for (const event of events) {
       eventList.push(event.substring(0, event.indexOf('.js')))

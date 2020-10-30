@@ -233,7 +233,7 @@ describe('/account/subscriptions/add-payment-method', function () {
         while (true) {
           try {
             const loaded = await page.evaluate(() => {
-              var container = document.getElementById('message-container')
+              const container = document.getElementById('message-container')
               return container && container.children && container.children.length
             })
             if (loaded) {

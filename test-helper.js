@@ -20,6 +20,7 @@ const fs = require('fs')
 const Log = require('@userdashboard/dashboard/src/log.js')('stripe-subscriptions')
 Log.info('embedding test helper')
 const packageJSON = require('./package.json')
+const path = require('path')
 const stripe = require('stripe')()
 stripe.setApiVersion(global.stripeAPIVersion)
 if (global.maxmimumStripeRetries) {
@@ -33,9 +34,9 @@ stripe.setAppInfo({
 const util = require('util')
 const TestHelper = require('@userdashboard/dashboard/test-helper.js')
 
-let eventFolderPath = `${__dirname}/src/www/webhooks/subscriptions/stripe-webhooks`
+let eventFolderPath = path.join(__dirname, '/src/www/webhooks/subscriptions/stripe-webhooks')
 if (!fs.existsSync(eventFolderPath)) {
-  eventFolderPath = `${__dirname}/node_modules/@userdashboard/stripe-subscriptions/src/www/webhooks/subscriptions/stripe-webhooks`
+  eventFolderPath = path.join(__dirname, '/node_modules/@userdashboard/stripe-subscriptions/src/www/webhooks/subscriptions/stripe-webhook')
 }
 const events = fs.readdirSync(eventFolderPath)
 const eventList = []

@@ -1,9 +1,9 @@
-name: test-node-cache
+name: test-postgresql-storage
 
 on: [push]
 
 jobs:
-  test-node-cache:
+  test-postgresql-storage:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -42,21 +42,20 @@ jobs:
           alias npm=`find /opt/hostedtoolcache/node/ -maxdepth 4 -name npm`
         fi
         npm init -y
-        npm install "$HERE" @userdashboard/dashboard @userdashboard/storage-node-cache ngrok faker puppeteer mocha
+        npm install "$HERE" @userdashboard/dashboard @userdashboard/storage-postgresql ngrok faker puppeteer mocha
         echo "global.applicationPath = __dirname" > main.js
         PACKAGE=`cat package.json`
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
         echo $PACKAGE > package.json
-    - name: Test NodeJS caching with encrypted data
+    - name: Test encrypted PostgreSQL storage
       run: ./node_modules/.bin/mocha --file main.js --bail --exit --recursive --timeout 90000000 $(find ./node_modules/@userdashboard/*/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /)
       working-directory: /tmp/project
       env:
         NODE_ENV: testing
         STORAGE: "@userdashboard/storage-postgresql"
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
-        CACHE: node
-        STRIPE_KEY: ${{ secrets.STRIPE_KEY_5 }}
-        STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_5 }}
+        STRIPE_KEY: ${{ secrets.STRIPE_KEY_6 }}
+        STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_6 }}
         STRIPE_JS: false
         SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: "replaced-at-runtime"
         NGROK: true

@@ -38,10 +38,11 @@ jobs:
         fi
         npm init -y
         npm install "$HERE" @userdashboard/dashboard @userdashboard/storage-s3 ngrok faker puppeteer mocha
-        echo "global.applicationPath = __dirname" > main.js
         PACKAGE=`cat package.json`
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
         echo $PACKAGE > package.json
+        echo "global.applicationPath = __dirname" > main.js
+        echo "require('@userdashboard/stripe-subscriptions/test-helper.js')" >> main.js
         aws --endpoint-url=http://localhost:4566 s3 mb s3://testing
       env:
         AWS_SECRET_ACCESS_KEY: using-mock-aws-s3

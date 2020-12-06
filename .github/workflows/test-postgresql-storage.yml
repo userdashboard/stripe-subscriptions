@@ -43,10 +43,11 @@ jobs:
         fi
         npm init -y
         npm install "$HERE" @userdashboard/dashboard @userdashboard/storage-postgresql ngrok faker puppeteer mocha
-        echo "global.applicationPath = __dirname" > main.js
         PACKAGE=`cat package.json`
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
         echo $PACKAGE > package.json
+        echo "global.applicationPath = __dirname" > main.js
+        echo "require('@userdashboard/stripe-subscriptions/test-helper.js')" >> main.js
     - name: Test encrypted PostgreSQL storage
       run: ./node_modules/.bin/mocha --file main.js --bail --exit --recursive --timeout 90000000 $(find ./node_modules/@userdashboard/*/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /)
       working-directory: /tmp/project

@@ -15,9 +15,11 @@
     ]
   },
   "dependencies": {
-    "@userdashboard/dashboard": ">=1",
     "@userdashboard/maxmind-geoip": ">=1",
     "stripe": "^8.127.0"
+  },
+  "peerDependencies": {
+    "@userdashboard/dashboard": ">=1"
   },
   "description": "Stripe Subscription module for Dashboard",
   "engine": {

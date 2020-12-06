@@ -1,25 +1,4 @@
 {
-  "name": "@userdashboard/stripe-subscriptions",
-  "version": "1.0.88",
-  "main": "index.js",
-  "description": "Stripe Subscription module for Dashboard",
-  "engine": {
-    "node": "12.18.4",
-    "npm": "6.14.6"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/userdashboard/stripe-subscriptions.git"
-  },
-  "license": "MIT",
-  "scripts": {
-    "start": "node main.js",
-    "test": "mocha --retries 2 --exit --inline-diffs --full-trace --async-only --recursive --timeout 900000 --slow 900000 './{,!(public|node_modules)/**}/*.test.js'"
-  },
-  "dependencies": {
-    "@userdashboard/maxmind-geoip": "^1.0.58",
-    "stripe": "^7.15.0"
-  },
   "dashboard": {
     "title": "Stripe Subscriptions module",
     "modules": [
@@ -35,5 +14,26 @@
       "/src/content/content-security-policy.js"
     ]
   },
-  "devDependencies": {}
+  "dependencies": {
+    "@userdashboard/dashboard": ">=1",
+    "@userdashboard/maxmind-geoip": ">=1",
+    "stripe": "^8.127.0"
+  },
+  "description": "Stripe Subscription module for Dashboard",
+  "engine": {
+    "node": ">=14",
+    "npm": ">=6"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@userdashboard/stripe-subscriptions",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/userdashboard/stripe-subscriptions.git"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "act -j test-fs-storage"
+  },
+  "version": "1.0.88"
 }

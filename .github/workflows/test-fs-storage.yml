@@ -30,7 +30,7 @@ jobs:
           alias npm=`find /opt/hostedtoolcache/node/ -maxdepth 4 -name npm`
         fi
         npm init -y
-        npm install "$HERE" @userdashboard/dashboard ngrok faker puppeteer mocha
+        npm install "$HERE" @userdashboard/dashboard faker puppeteer mocha
         PACKAGE=`cat package.json`
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
         echo $PACKAGE > package.json
@@ -44,8 +44,9 @@ jobs:
         STRIPE_KEY: ${{ secrets.STRIPE_KEY_2 }}
         STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_2 }}
         STRIPE_JS: false
-        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: "replaced-at-runtime"
+        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: replaced-at-runtime
         NGROK: true
         ENCRYPTION_SECRET: abc45678901234567890123456789012
         ENCRYPTION_SECRET_IV: abc4123412341234
-        DISABLE_PAYOUT_TESTS: "true"
+        DISABLE_PAYOUT_TESTS: true
+        NODE_OPTIONS: --preserve-symlinks --trace-warnings

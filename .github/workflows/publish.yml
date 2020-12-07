@@ -59,7 +59,7 @@ jobs:
         PACKAGE=${PACKAGE/\"description\"\: \"\"/\"dashboard\": \{ \"modules\"\: \[\"@userdashboard/stripe-subscriptions\"\] \}}
         echo $PACKAGE > package.json
         echo "global.applicationPath = __dirname" > main.js
-        echo "require('@userdashboard/stripe-subscriptions/test-helper.js')" >> main.js
+        echo "require('@userdashboard/stripe-subscriptions/test-helper.js')" >> main.jsact -
     - name: Generate UI screenshots and API responses
       run: |
         HERE=`pwd`
@@ -79,9 +79,9 @@ jobs:
         STRIPE_KEY: ${{ secrets.STRIPE_KEY_1 }}
         STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_1 }}
         STRIPE_JS: false
-        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: "replaced-at-runtime"
+        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: replaced-at-runtime
         NGROK: true
-        DISABLE_PAYOUT_TESTS: "true"
+        DISABLE_PAYOUT_TESTS: true
         GENERATE_RESPONSE: true
         GENERATE_SCREENSHOTS: true
         SCREENSHOT_LANGUAGES: en
@@ -95,9 +95,9 @@ jobs:
         STRIPE_KEY: ${{ secrets.STRIPE_KEY_1 }}
         STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY_1 }}
         STRIPE_JS: false
-        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: "replaced-at-runtime"
+        SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: replaced-at-runtime
         NGROK: true
-        DISABLE_PAYOUT_TESTS: "true"
+        DISABLE_PAYOUT_TESTS: true
     - name: Publish to Github
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:

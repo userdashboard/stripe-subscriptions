@@ -8,6 +8,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
+      with:
+        node-version: 14
     - name: Lint JavaScript source with standard.js
       run: |
         if [ ! -z "$NPM_PROXY" ]; then
@@ -66,12 +68,11 @@ jobs:
         cd /tmp/project
         export RESPONSE_PATH="$HERE/documentation"
         export SCREENSHOT_PATH="$HERE/documentation/screenshots"
-        ./node_modules/.bin/mocha --file main.js --bail --exit --recursive --timeout 90000000 $(find ./node_modules/@userdashboard/*/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /) | tee $HERE/tests.txt
+        ./node_modules/.bin/mocha --file main.js --bail --exit --recursive --timeout 90000000 $(find ./node_modules/@userdashboard/stripe-subscriptions/ -name "*.test.js" | grep -i -v [a-z0-9]/node_modules | sort -k5.1,8.1 -t /) | tee $HERE/tests.txt
         TESTS=`cat $HERE/tests.txt`
         if [[ "$TESTS" == *" 1)"* ]]; then
           exit 1
         fi'
-      working-directory: '/tmp/project'
       env:
         NODE_ENV: testing
         STORAGE: "@userdashboard/storage-redis"

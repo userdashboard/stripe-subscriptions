@@ -85,6 +85,7 @@ jobs:
         GENERATE_RESPONSE: true
         GENERATE_SCREENSHOTS: true
         SCREENSHOT_LANGUAGES: en
+        NODE_OPTIONS: --preserve-symlinks
     - name: Generate supporting texts
       run: |
         npm install @userdashboard/dashboard --no-save
@@ -98,6 +99,7 @@ jobs:
         SUBSCRIPTION_WEBHOOK_ENDPOINT_SECRET: replaced-at-runtime
         NGROK: true
         DISABLE_PAYOUT_TESTS: true
+        NODE_OPTIONS: --preserve-symlinks
     - name: Publish to Github
       uses: stefanzweifel/git-auto-commit-action@v4.1.6
       with:

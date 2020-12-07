@@ -8,10 +8,11 @@
       eventList.push(event.substring(0, event.indexOf('.js')))
     }
     const stripeKey = {
-      api_key: process.env.STRIPE_KEY
+      apiKey: process.env.STRIPE_KEY
     }
-    const stripe = require('stripe')()
-    stripe.setApiVersion(global.stripeAPIVersion)
+    const stripe = require('stripe')({
+      apiVersion: global.stripeAPIVersion
+    })
     if (global.maxmimumStripeRetries) {
       stripe.setMaxNetworkRetries(global.maximumStripeRetries)
     }
@@ -25,7 +26,7 @@
       url: `${process.env.DASHBOARD_SERVER}/webhooks/subscriptions/index-subscription-data`,
       enabled_events: eventList
     }, {
-      api_key: process.env.STRIPE_KEY
+      apiKey: process.env.STRIPE_KEY
     })
     global.subscriptionWebhookEndPointSecret = webhook.secret
   }

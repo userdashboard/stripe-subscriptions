@@ -2,10 +2,10 @@
 const assert = require('assert')
 const dashboard = require('@userdashboard/dashboard')
 const RequirePayment = require('./require-payment.js')
-const TestHelper = require('../../test-helper.js')
-const TestStripeAccounts = require('../../test-stripe-accounts.js')
+const TestHelper = require('../../../test-helper.js')
+const TestStripeAccounts = require('../../../test-stripe-accounts.js')
 
-describe('server/require-payment', () => {
+describe('server/stripe-subscriptions/require-payment', () => {
   describe('after', function () {
     this.timeout(60 * 60 * 1000)
     afterEach(TestHelper.deleteOldWebhooks)

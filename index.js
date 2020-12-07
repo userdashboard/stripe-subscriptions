@@ -34,15 +34,15 @@ if (global.stripeJS !== false && global.stripeJS !== 2 && global.stripeJS !== 3)
   throw new Error('invalid-stripe-js-version')
 }
 const packageJSON = require('./package.json')
-const stripe = require('stripe')()
-stripe.setApiVersion(global.stripeAPIVersion)
-if (global.maxmimumStripeRetries) {
-  stripe.setMaxNetworkRetries(global.maximumStripeRetries)
-}
-stripe.setAppInfo({
-  version: packageJSON.version,
-  name: '@userdashboard/stripe-subscriptions',
-  url: 'https://github.com/userdashboard/stripe-subscriptions'
+require('stripe')({
+  apiVersion: global.stripeAPIVersion,
+  telemetry: false,
+  maxNetworkRetries: global.maximumStripeRetries || 0,
+  appInfo: {
+    version: packageJSON.version,
+    name: '@userdashboard/stripe-subscriptions',
+    url: 'https://github.com/userdashboard/stripe-subscriptions'
+  }
 })
 
 module.exports = {

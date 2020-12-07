@@ -5,21 +5,27 @@
       "@userdashboard/maxmind-geoip"
     ],
     "server": [
-      "/src/server/bind-stripekey.js",
-      "/src/server/require-payment-confirmation.js",
-      "/src/server/require-payment.js",
-      "/src/server/require-subscription.js"
+      "/src/server/stripe-subscriptions/bind-stripekey.js",
+      "/src/server/stripe-subscriptions/require-payment-confirmation.js",
+      "/src/server/stripe-subscriptions/require-payment.js",
+      "/src/server/stripe-subscriptions/require-subscription.js"
     ],
     "content": [
       "/src/content/content-security-policy.js"
     ]
   },
   "dependencies": {
-    "@userdashboard/maxmind-geoip": ">=1",
+    "@userdashboard/maxmind-geoip": "latest",
     "stripe": "^8.127.0"
   },
   "peerDependencies": {
-    "@userdashboard/dashboard": ">=1"
+    "@userdashboard/dashboard": "1.0.0 - 9999.9999.9999",
+    "faker": "1.0.0 - 9999.9999.9999"
+  },
+  "optionalDependencies": {
+    "ngrok": "latest",
+    "public-ip": "latest",
+    "localtunnel": "latest"
   },
   "description": "Stripe Subscription module for Dashboard",
   "engine": {

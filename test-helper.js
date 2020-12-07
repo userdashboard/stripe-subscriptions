@@ -18,18 +18,17 @@ global.testConfiguration.maximumProductNameLength = 100
 
 const fs = require('fs')
 const Log = require('@userdashboard/dashboard/src/log.js')('stripe-subscriptions')
-Log.info('embedding test helper')
 const packageJSON = require('./package.json')
 const path = require('path')
-const stripe = require('stripe')()
-stripe.setApiVersion(global.stripeAPIVersion)
-if (global.maxmimumStripeRetries) {
-  stripe.setMaxNetworkRetries(global.maximumStripeRetries)
-}
-stripe.setAppInfo({
-  version: packageJSON.version,
-  name: '@userdashboard/stripe-subscriptions (test suite)',
-  url: 'https://github.com/userdashboard/stripe-subscriptions'
+const stripe = require('stripe')({
+  apiVersion: global.stripeAPIVersion,
+  telemetry: false,
+  maxNetworkRetries: global.maximumStripeRetries || 0,
+  appInfo: {
+    version: packageJSON.version,
+    name: '@userdashboard/stripe-subscriptions (test suite)',
+    url: 'https://github.com/userdashboard/stripe-subscriptions'
+  }
 })
 const util = require('util')
 const TestHelper = require('@userdashboard/dashboard/test-helper.js')
@@ -49,14 +48,13 @@ if (process.env.NGROK) {
   ngrok = require('ngrok')
 } else if (process.env.PUBLIC_IP) {
   publicIP = require('public-ip')
-} else if (process.env.LOCAL_TUNNEL) {
+} else if (process.env.LOCALTUNNEL) {
   localTunnel = require('localtunnel')
 }
 
 const stripeKey = {
-  api_key: process.env.STRIPE_KEY
+  apiKey: process.env.STRIPE_KEY
 }
-
 const wait = util.promisify((time, callback) => {
   if (time && !callback) {
     callback = time
@@ -162,7 +160,6 @@ let tunnel, webhook, data
 
 // direct webhook access is set up before the tests a single time
 async function setupBefore () {
-  Log.info('setting up before')
   await deleteOldWebhooks()
   const helperRoutes = require('./test-helper-routes.js')
   global.sitemap['/api/create-fake-payout'] = helperRoutes.createFakePayout
@@ -178,7 +175,6 @@ async function setupBefore () {
 }
 
 async function setupWebhook () {
-  Log.info('Setting up webhook')
   if (webhook) {
     return
   }
@@ -206,7 +202,7 @@ async function setupWebhook () {
   } else if (process.env.PUBLIC_IP) {
     const ip = await publicIP.v4()
     newAddress = `http://${ip}:${global.port}`
-  } else if (process.env.LOCAL_TUNNEL) {
+  } else if (process.env.LOCALTUNNEL) {
     if (tunnel) {
       tunnel.close()
     }
@@ -260,7 +256,7 @@ after(async () => {
     if (ngrok) {
       ngrok.kill()
     }
-  } else if (process.env.LOCAL_TUNNEL) {
+  } else if (process.env.LOCALTUNNEL) {
     if (tunnel) {
       tunnel.close()
     }
@@ -400,6 +396,7 @@ async function createPlan (administrator, properties) {
   }
   if (properties) {
     for (const property in properties) {
+      console.log(property, properties[property])
       req.body[property] = properties[property].toString()
     }
   }

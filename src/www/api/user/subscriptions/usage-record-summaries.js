@@ -1,10 +1,15 @@
+const packageJSON = require('../../../../../package.json')
 const subscriptions = require('../../../../../index.js')
-const stripe = require('stripe')()
-stripe.setApiVersion(global.stripeAPIVersion)
-if (global.maxmimumStripeRetries) {
-  stripe.setMaxNetworkRetries(global.maximumStripeRetries)
-}
-stripe.setTelemetryEnabled(false)
+const stripe = require('stripe')({
+  apiVersion: global.stripeAPIVersion,
+  telemetry: false,
+  maxNetworkRetries: global.maximumStripeRetries || 0,
+  appInfo: {
+    version: packageJSON.version,
+    name: '@userdashboard/stripe-subscriptions',
+    url: 'https://github.com/userdashboard/stripe-subscriptions'
+  }
+})
 
 module.exports = {
   // TODO: the usage records get aggregated into these summaries

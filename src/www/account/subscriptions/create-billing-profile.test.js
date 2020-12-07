@@ -212,7 +212,7 @@ describe('/account/subscriptions/create-billing-profile', function () {
             }
           } catch (error) {
           }
-          await page.waitFor(100)
+          await page.waitForTimeout(100)
         }
       }
       req.account = user.account
@@ -255,7 +255,7 @@ describe('/account/subscriptions/create-billing-profile', function () {
             }
           } catch (error) {
           }
-          await page.waitFor(100)
+          await page.waitForTimeout(100)
         }
       }
       req.body = {
@@ -335,7 +335,7 @@ describe('/account/subscriptions/create-billing-profile', function () {
                 }
               } catch (error) {
               }
-              await page.waitFor(100)
+              await page.waitForTimeout(100)
             }
           }
         }

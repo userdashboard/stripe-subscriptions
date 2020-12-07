@@ -226,7 +226,7 @@ describe('/account/subscriptions/add-payment-method', function () {
           if (loaded) {
             break
           }
-          await page.waitFor(100)
+          await page.waitForTimeout(100)
         }
       }
       req.waitAfter = async (page) => {
@@ -241,7 +241,7 @@ describe('/account/subscriptions/add-payment-method', function () {
             }
           } catch (error) {
           }
-          await page.waitFor(100)
+          await page.waitForTimeout(100)
         }
       }
       req.body = {

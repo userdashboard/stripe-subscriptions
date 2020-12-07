@@ -17,6 +17,8 @@ global.testConfiguration.minimumProductNameLength = 1
 global.testConfiguration.maximumProductNameLength = 100
 
 const fs = require('fs')
+const util = require('util')
+const TestHelper = require('@userdashboard/dashboard/test-helper.js')
 const Log = require('@userdashboard/dashboard/src/log.js')('stripe-subscriptions')
 const packageJSON = require('./package.json')
 const path = require('path')
@@ -30,8 +32,6 @@ const stripe = require('stripe')({
     url: 'https://github.com/userdashboard/stripe-subscriptions'
   }
 })
-const util = require('util')
-const TestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 let eventFolderPath = path.join(__dirname, '/src/www/webhooks/subscriptions/stripe-webhooks')
 if (!fs.existsSync(eventFolderPath)) {

@@ -29,7 +29,6 @@ module.exports = {
     if (req.body.published) {
       productInfo.metadata.published = dashboard.Timestamp.now
     }
-    console.log('creating product', productInfo)
     const product = await stripeCache.execute('products', 'create', productInfo, req.stripeKey)
     const indexing = {
       [`${req.appid}/products`]: product.id

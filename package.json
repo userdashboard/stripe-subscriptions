@@ -19,10 +19,11 @@
     "stripe": "^8.127.0"
   },
   "peerDependencies": {
-    "@userdashboard/dashboard": "1.0.0 - 9999.9999.9999",
-    "faker": "1.0.0 - 9999.9999.9999"
+    "@userdashboard/dashboard": "1.x - latest",
+    "faker": "1.x - latest"
   },
   "optionalDependencies": {
+    "@userdashboard/dashboard": "1.x - latest",
     "ngrok": "latest",
     "public-ip": "latest",
     "localtunnel": "latest"

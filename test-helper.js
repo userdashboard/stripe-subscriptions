@@ -35,7 +35,7 @@ const stripe = require('stripe')({
 
 let eventFolderPath = path.join(__dirname, '/src/www/webhooks/subscriptions/stripe-webhooks')
 if (!fs.existsSync(eventFolderPath)) {
-  eventFolderPath = path.join(__dirname, '/node_modules/@userdashboard/stripe-subscriptions/src/www/webhooks/subscriptions/stripe-webhook')
+  eventFolderPath = require.resolve('@userdashboard/stripe-subscriptions/src/www/webhooks/subscriptions/stripe-webhook')
 }
 const events = fs.readdirSync(eventFolderPath)
 const eventList = []
@@ -202,6 +202,8 @@ async function setupWebhook () {
   } else if (process.env.PUBLIC_IP) {
     const ip = await publicIP.v4()
     newAddress = `http://${ip}:${global.port}`
+    global.testConfiguration.dashboardServer = newAddress
+    global.testConfiguration.domain = ip
   } else if (process.env.LOCALTUNNEL) {
     if (tunnel) {
       tunnel.close()
@@ -266,7 +268,6 @@ after(async () => {
       localhostRun.kill()
     }
   }
-  delete (global.rootPath)
   delete (global.packageJSON)
   delete (global.sitemap)
   delete (global.api)
@@ -396,7 +397,6 @@ async function createPlan (administrator, properties) {
   }
   if (properties) {
     for (const property in properties) {
-      console.log(property, properties[property])
       req.body[property] = properties[property].toString()
     }
   }

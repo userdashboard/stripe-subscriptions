@@ -15,15 +15,14 @@
     ]
   },
   "dependencies": {
-    "@userdashboard/maxmind-geoip": "latest",
+    "@userdashboard/maxmind-geoip": "1.x - latest",
     "stripe": "^8.127.0"
   },
   "peerDependencies": {
-    "@userdashboard/dashboard": "1.x - latest",
-    "faker": "1.x - latest"
+    "@userdashboard/dashboard": "1.x - latest"
   },
   "optionalDependencies": {
-    "@userdashboard/dashboard": "1.x - latest",
+    "faker": "latest",
     "ngrok": "latest",
     "public-ip": "latest",
     "localtunnel": "latest"

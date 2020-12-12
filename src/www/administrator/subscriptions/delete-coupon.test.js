@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/delete-coupon', function () {
-  this.timeout(60 * 60 * 1000)
   describe('exceptions', () => {
     it('should reject invalid couponid', async () => {
       const administrator = await TestHelper.createOwner()

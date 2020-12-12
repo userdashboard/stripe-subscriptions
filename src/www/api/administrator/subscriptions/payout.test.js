@@ -4,7 +4,6 @@ const TestHelper = require('../../../../../test-helper.js')
 
 describe('/api/administrator/subscriptions/payout', function () {
   if (!process.env.DISABLE_PAYOUT_TESTS) {
-    this.timeout(60 * 60 * 1000)
     after(TestHelper.deleteOldWebhooks)
     before(TestHelper.setupWebhook)
     describe('exceptions', () => {

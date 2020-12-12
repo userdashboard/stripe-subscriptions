@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/create-coupon', function () {
-  this.timeout(60 * 60 * 1000)
   describe('view', () => {
     it('should present the form', async () => {
       const administrator = await TestHelper.createOwner()

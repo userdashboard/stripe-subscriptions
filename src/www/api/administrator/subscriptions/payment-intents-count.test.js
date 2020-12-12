@@ -4,7 +4,6 @@ const TestHelper = require('../../../../../test-helper.js')
 const TestStripeAccounts = require('../../../../../test-stripe-accounts.js')
 
 describe('/api/administrator/subscriptions/payment-intents-count', function () {
-  this.timeout(60 * 60 * 1000)
   describe('returns', () => {
     it('integer', async () => {
       const administrator = await TestHelper.createOwner()

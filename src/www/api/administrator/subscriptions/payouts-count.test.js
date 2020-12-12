@@ -5,7 +5,6 @@ const TestHelper = require('../../../../../test-helper.js')
 describe('/api/administrator/subscriptions/payouts-count', () => {
   if (!process.env.DISABLE_PAYOUT_TESTS) {
     describe('returns', function () {
-      this.timeout(60 * 60 * 1000)
       after(TestHelper.deleteOldWebhooks)
       before(TestHelper.setupWebhook)
       it('integer', async () => {

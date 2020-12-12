@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../../test-helper')
 
 describe('/api/administrator/subscriptions/reset-customer-coupon', function () {
-  this.timeout(60 * 60 * 1000)
   describe('exceptions', () => {
     describe('invalid-customerid', () => {
       it('missing querystring customerid', async () => {

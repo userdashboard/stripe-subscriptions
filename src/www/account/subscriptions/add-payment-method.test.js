@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/account/subscriptions/add-payment-method', function () {
-  this.timeout(60 * 60 * 10000)
   describe('view', () => {
     it('should present the form for no stripe.js', async () => {
       global.stripeJS = false

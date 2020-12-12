@@ -4,7 +4,6 @@ const TestHelper = require('../../../../../test-helper.js')
 const TestStripeAccounts = require('../../../../../test-stripe-accounts.js')
 
 describe('/api/user/subscriptions/set-subscription-canceled', function () {
-  this.timeout(20 * 60 * 1000)
   afterEach(TestHelper.deleteOldWebhooks)
   beforeEach(TestHelper.setupWebhook)
   describe('exceptions', () => {

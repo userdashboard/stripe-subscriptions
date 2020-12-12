@@ -5,7 +5,6 @@ const DashboardTestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 describe('/api/administrator/subscriptions/payouts', function () {
   if (!process.env.DISABLE_PAYOUT_TESTS) {
-    this.timeout(60 * 60 * 1000)
     const cachedResponses = {}
     const cachedPayouts = []
     after(TestHelper.deleteOldWebhooks)

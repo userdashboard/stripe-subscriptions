@@ -4,7 +4,6 @@ const TestHelper = require('../../../../../test-helper.js')
 const DashboardTestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 describe('/api/user/subscriptions/published-plans', function () {
-  this.timeout(60 * 60 * 1000)
   const cachedResponses = {}
   const cachedPlans = []
   before(async () => {

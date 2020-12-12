@@ -5,7 +5,6 @@ const TestStripeAccounts = require('../../../../../test-stripe-accounts.js')
 const DashboardTestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 describe('/api/administrator/subscriptions/refund-requests-count', function () {
-  this.timeout(60 * 60 * 1000)
   before(TestHelper.setupWebhook)
   after(TestHelper.deleteOldWebhooks)
   describe('returns', () => {

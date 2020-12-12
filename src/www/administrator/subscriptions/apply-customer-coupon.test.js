@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/apply-customer-coupon', function () {
-  this.timeout(60 * 60 * 1000)
   afterEach(TestHelper.deleteOldWebhooks)
   beforeEach(TestHelper.setupWebhook)
   describe('exceptions', () => {

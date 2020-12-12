@@ -4,7 +4,6 @@ const TestHelper = require('../../../../test-helper.js')
 const DashboardTestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 describe('/account/subscriptions/delete-billing-profile', function () {
-  this.timeout(60 * 60 * 1000)
   const cachedResponses = {}
   let cachedCustomer
   before(async () => {

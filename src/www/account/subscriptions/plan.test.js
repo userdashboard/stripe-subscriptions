@@ -4,7 +4,6 @@ const TestHelper = require('../../../../test-helper.js')
 const TestStripeAccounts = require('../../../../test-stripe-accounts.js')
 
 describe('/account/subscriptions/plan', function () {
-  this.timeout(60 * 60 * 1000)
   describe('before', () => {
     it('should reject invalid plan', async () => {
       const user = await TestHelper.createUser()

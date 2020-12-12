@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/account/subscriptions/billing-profile', function () {
-  this.timeout(60 * 60 * 10000)
   describe('before', () => {
     it('should reject invalid customer', async () => {
       const user = await TestHelper.createUser()

@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/payout', function () {
-  this.timeout(60 * 60 * 1000)
   after(TestHelper.deleteOldWebhooks)
   before(TestHelper.setupWebhook)
   describe('before', () => {

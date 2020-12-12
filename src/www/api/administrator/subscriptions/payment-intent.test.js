@@ -4,7 +4,6 @@ const TestHelper = require('../../../../../test-helper.js')
 const TestStripeAccounts = require('../../../../../test-stripe-accounts.js')
 
 describe('/api/administrator/subscriptions/payment-intent', function () {
-  this.timeout(60 * 60 * 1000)
   describe('exceptions', () => {
     describe('invalid-paymentintentid', () => {
       it('missing querystring paymentintentid', async () => {

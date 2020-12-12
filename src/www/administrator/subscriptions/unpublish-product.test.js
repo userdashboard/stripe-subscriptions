@@ -3,7 +3,6 @@ const assert = require('assert')
 const TestHelper = require('../../../../test-helper.js')
 
 describe('/administrator/subscriptions/unpublish-product', function () {
-  this.timeout(60 * 60 * 1000)
   describe('exceptions', () => {
     it('should reject invalid productid', async () => {
       const administrator = await TestHelper.createOwner()

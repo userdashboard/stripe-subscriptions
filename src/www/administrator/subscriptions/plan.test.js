@@ -4,7 +4,6 @@ const TestHelper = require('../../../../test-helper.js')
 const TestStripeAccounts = require('../../../../test-stripe-accounts.js')
 
 describe('/administrator/subscriptions/plan', function () {
-  this.timeout(60 * 60 * 1000)
   describe('before', () => {
     it('should reject invalid planid', async () => {
       const administrator = await TestHelper.createOwner()

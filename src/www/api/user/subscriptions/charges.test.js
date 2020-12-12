@@ -5,7 +5,6 @@ const TestStripeAccounts = require('../../../../../test-stripe-accounts.js')
 const DashboardTestHelper = require('@userdashboard/dashboard/test-helper.js')
 
 describe('/api/user/subscriptions/charges', function () {
-  this.timeout(60 * 60 * 1000)
   const cachedResponses = {}
   const cachedCharges = []
   after(TestHelper.deleteOldWebhooks)

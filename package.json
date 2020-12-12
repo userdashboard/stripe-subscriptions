@@ -9,9 +9,6 @@
       "/src/server/stripe-subscriptions/require-payment-confirmation.js",
       "/src/server/stripe-subscriptions/require-payment.js",
       "/src/server/stripe-subscriptions/require-subscription.js"
-    ],
-    "content": [
-      "/src/content/content-security-policy.js"
     ]
   },
   "dependencies": {

@@ -16,6 +16,8 @@ async function renderPage (req, res, messageTemplate) {
     unusedVersions.push('stripe-v3', 'subscriptions-v3', 'handler-v3', 'client-v3', 'form-stripejs-v3')
   } else if (global.stripeJS === 3) {
     doc = dashboard.HTML.parse(req.html || req.route.html, { stripePublishableKey: global.stripePublishableKey }, 'dashboard')
+    const stripePublishableKey = doc.getElementById('stripe-publishable-key')
+    stripePublishableKey.setAttribute('value', global.stripePublishableKey)
     unusedVersions.push('form-no-js')
     res.setHeader('content-security-policy',
       'default-src * \'unsafe-inline\'; ' +

@@ -10,9 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <base href="/" target="_top">
   <script id="stripe-v3" src="https://js.stripe.com/v3/"></script>
-  <script id="client-v3">
-    window.stripePublishableKey = '${dashboard.stripePublishableKey}'
-  </script>
   <script id="common-v3" src="/public/subscriptions/subscriptions.js"></script>
   <script id="handler-v3" src="/public/subscriptions/stripe-v3-add-payment-method.js"></script>
 </head>
@@ -22,6 +19,7 @@
   <div id="message-container"></div>
   <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked"
     action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-stripejs-v3">
+    <input type="hidden" id="stripe-publishable-key" />
     <input type="hidden" name="token" id="token">
     <div id="card-errors"></div>
     <div class="pure-control-group">

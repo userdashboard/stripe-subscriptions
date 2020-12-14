@@ -12,9 +12,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script id="stripe-v3" src="https://js.stripe.com/v3/"></script>
   <script id="subscriptions-v3" src="/public/subscriptions/subscriptions.js"></script>
-  <script id="client-v3">
-    window.stripePublishableKey = "${dashboard.stripePublishableKey}"
-  </script>
   <script id="handler-v3" src="/public/subscriptions/stripe-v3-create-billing-profile.js"></script>
   <style>
     form {
@@ -52,6 +49,7 @@
 <body class="entry">
   <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked entry-form"
     action="/account/subscriptions/create-billing-profile" name="form-stripejs-v3">
+    <input type="hidden" id="stripe-publishable-key" />
     <h1 translate="yes">Create billing profile</h1><input type="hidden" name="token" id="token">
     <div id="message-container"></div>
     <div class="pure-control-group">

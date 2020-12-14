@@ -2,7 +2,8 @@ let cardNumber
 let stripe
 const stripeElements = []
 window.onload = function () {
-  stripe = window.Stripe(window.stripePublishableKey)
+  const stripePublishableKey = document.getElementById('stripe-publishable-key')
+  stripe = window.Stripe(stripePublishableKey.value)
   const elements = stripe.elements()
   const style = {
     base: {

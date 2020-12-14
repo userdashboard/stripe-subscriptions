@@ -24,6 +24,8 @@ async function renderPage (req, res, messageTemplate) {
     doc = dashboard.HTML.parse(req.html || req.route.html, { customerid: req.query.customerid }, 'dashboard')
     removeElements.push('stripe-v3', 'common-v3', 'client-v3', 'handler-v3', 'form-stripejs-v3')
   } else if (global.stripeJS === 3) {
+    const stripePublishableKey = doc.getElementById('stripe-publishable-key')
+    stripePublishableKey.setAttribute('value', global.stripePublishableKey)
     doc = dashboard.HTML.parse(req.html || req.route.html, { customerid: req.query.customerid, dashboardServer: global.dashboardServer, stripePublishableKey: global.stripePublishableKey }, 'dashboard')
     removeElements.push('form-nojs')
     res.setHeader('content-security-policy',

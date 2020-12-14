@@ -88,6 +88,7 @@
   </form>
   <form id="form-nojs" method="post" class="pure-form pure-form-stacked"
     action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-nojs">
+    <input type="hidden" id="stripe-publishable-key" />
     <div class="pure-control-group">
       <label for="description" translate="yes">Profile description</label>
       <input required="" id="description" name="description" type="text" maxlength="100">

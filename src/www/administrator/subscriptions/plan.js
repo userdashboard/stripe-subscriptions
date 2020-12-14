@@ -18,7 +18,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.plan, 'plan', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.plan, 'plan')
   navbar.setup(doc, req.data.plan)
   if (req.data.plan.metadata.unpublished) {
     const published = doc.getElementById('published')

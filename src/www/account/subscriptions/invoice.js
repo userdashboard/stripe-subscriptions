@@ -49,7 +49,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invoice, 'invoice', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.invoice, 'invoice')
   await navbar.setup(doc, req.data.invoice)
   dashboard.HTML.renderTable(doc, req.data.invoice.lines.data, 'line_item-row', 'line_items-table')
   if (req.data.charge) {

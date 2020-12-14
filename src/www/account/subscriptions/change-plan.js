@@ -58,7 +58,7 @@ async function renderPage (req, res, messageTemplate) {
   if (!req.data.plans || !req.data.plans.length) {
     messageTemplate = 'no-plans'
   }
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.subscription, 'subscription', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.subscription, 'subscription')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')
     if (messageTemplate === 'success' || messageTemplate === 'no-plans') {

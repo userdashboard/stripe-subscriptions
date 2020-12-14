@@ -32,7 +32,7 @@ async function beforeRequest (req) {
 }
 
 function renderPage (req, res, messageTemplate) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.plan, 'plan', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.plan, 'plan')
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, {}, messageTemplate, 'message-container')
   }

@@ -54,7 +54,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.customer, 'customer', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.customer, 'customer')
   navbar.setup(doc, req.data.customer)
   const removeElements = []
   if (!req.data.customer.delinquent) {

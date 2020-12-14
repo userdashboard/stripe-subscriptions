@@ -40,7 +40,7 @@ async function beforeRequest (req) {
 
 function renderPage (req, res, messageTemplate) {
   messageTemplate = messageTemplate || (req.query ? req.query.message : null)
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.customer, 'customer', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.customer, 'customer')
   navbar.setup(doc, req.data.customer)
   if (messageTemplate) {
     dashboard.HTML.renderTemplate(doc, null, messageTemplate, 'message-container')

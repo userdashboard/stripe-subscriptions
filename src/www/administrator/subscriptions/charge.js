@@ -18,7 +18,7 @@ async function beforeRequest (req) {
 }
 
 async function renderPage (req, res) {
-  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.charge, 'charge', req.language)
+  const doc = dashboard.HTML.parse(req.html || req.route.html, req.data.charge, 'charge')
   navbar.setup(doc, req.data.charge)
   return dashboard.Response.end(req, res, doc)
 }

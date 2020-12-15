@@ -152,7 +152,9 @@ const stripeCache = module.exports = {
     if (string) {
       return JSON.parse(string)
     }
-    return stripeCache.execute(group, 'retrieve', id, stripeKey)
+    const object = await stripeCache.execute(group, 'retrieve', id, stripeKey)
+    await subscriptions.Storage.write(`stripe/${id}`, JSON.stringify(object))
+    return object
   },
   retrievePerson: async (stripeid, personid, stripeKey) => {
     if (global.testEnded) {

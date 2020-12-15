@@ -13,7 +13,7 @@ async function renderPage (req, res, messageTemplate) {
   const unusedVersions = []
   if (global.stripeJS === false) {
     doc = dashboard.HTML.parse(req.html || req.route.html, {}, 'dashboard')
-    unusedVersions.push('stripe-v3', 'subscriptions-v3', 'handler-v3', 'client-v3', 'form-stripejs-v3')
+    unusedVersions.push('stripe-v3', 'subscriptions-v3', 'handler-v3', 'form-stripejs-v3')
   } else if (global.stripeJS === 3) {
     doc = dashboard.HTML.parse(req.html || req.route.html, { stripePublishableKey: global.stripePublishableKey }, 'dashboard')
     const stripePublishableKey = doc.getElementById('stripe-publishable-key')

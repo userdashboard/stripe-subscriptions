@@ -17,8 +17,7 @@
 <body>
   <h1 translate="yes">Add payment method</h1>
   <div id="message-container"></div>
-  <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked"
-    action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-stripejs-v3">
+  <form id="form-stripejs-v3" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-stripejs-v3">
     <input type="hidden" id="stripe-publishable-key" />
     <input type="hidden" name="token" id="token">
     <div id="card-errors"></div>
@@ -86,8 +85,7 @@
       <button class="pure-button" type="submit" name="refresh" value="true" translate="yes">Change country</button>
     </div>
   </form>
-  <form id="form-nojs" method="post" class="pure-form pure-form-stacked"
-    action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-nojs">
+  <form id="form-nojs" method="post" class="pure-form pure-form-stacked" action="/account/subscriptions/add-payment-method?customerid=${dashboard.customerid}" name="form-nojs">
     <input type="hidden" id="stripe-publishable-key" />
     <div class="pure-control-group">
       <label for="description" translate="yes">Profile description</label>

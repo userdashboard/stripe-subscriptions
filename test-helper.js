@@ -142,7 +142,8 @@ module.exports = {
   requestRefund,
   waitForWebhook,
   setupWebhook,
-  setupBefore
+  setupBefore,
+  setupBeforeEach
 }
 
 for (const x in TestHelper) {
@@ -174,6 +175,10 @@ async function setupBefore () {
   }
 }
 
+async function setupBeforeEach () {
+  global.webhooks = []
+}
+
 async function setupWebhook () {
   if (webhook) {
     return
@@ -202,8 +207,6 @@ async function setupWebhook () {
   } else if (process.env.PUBLIC_IP) {
     const ip = await publicIP.v4()
     newAddress = `http://${ip}:${global.port}`
-    global.testConfiguration.dashboardServer = newAddress
-    global.testConfiguration.domain = ip
   } else if (process.env.LOCALTUNNEL) {
     if (tunnel) {
       tunnel.close()
@@ -237,6 +240,7 @@ async function setupWebhook () {
 
 before(deleteOldData)
 before(setupBefore)
+beforeEach(setupBeforeEach)
 
 afterEach(async () => {
   if (data) {
